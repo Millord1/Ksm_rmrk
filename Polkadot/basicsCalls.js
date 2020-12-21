@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var api_1 = require("@polkadot/api");
+var util_1 = require("@polkadot/util");
 // KSM address
 var MILLORD = 'GeZVQ6R7mSZUZxBqq5PDUXrx64KXroVDwqjmAjaeXdF54Xd';
 var getDatas = /** @class */ (function () {
@@ -135,7 +136,9 @@ var getDatas = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
-                                    blockRmrks.push(remark);
+                                    var uri = util_1.hexToString(remark);
+                                    var lisibleUri = decodeURI(uri);
+                                    blockRmrks.push(lisibleUri);
                                 }
                             }
                         });

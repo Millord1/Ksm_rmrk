@@ -1,4 +1,5 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
+import { stringToHex,hexToString } from "@polkadot/util";
 
 // KSM address
 const MILLORD = 'GeZVQ6R7mSZUZxBqq5PDUXrx64KXroVDwqjmAjaeXdF54Xd';
@@ -75,7 +76,9 @@ class getDatas{
 
                 const remark = args.toString();
                 if(remark.indexOf("") === 0){
-                    blockRmrks.push(remark);
+                    const uri = hexToString(remark);
+                    const lisibleUri = decodeURI(uri);
+                    blockRmrks.push(lisibleUri);
                 }
             }
 
