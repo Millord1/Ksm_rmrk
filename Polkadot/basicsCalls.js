@@ -115,10 +115,46 @@ var getDatas = /** @class */ (function () {
             });
         });
     };
+    getDatas.prototype.getRmrks = function (blockNumber) {
+        return __awaiter(this, void 0, void 0, function () {
+            var api, blockHash, block, blockRmrks;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getApi()];
+                    case 1:
+                        api = _a.sent();
+                        return [4 /*yield*/, api.rpc.chain.getBlockHash(blockNumber)];
+                    case 2:
+                        blockHash = _a.sent();
+                        return [4 /*yield*/, api.rpc.chain.getBlock(blockHash)];
+                    case 3:
+                        block = _a.sent();
+                        blockRmrks = [];
+                        block.block.extrinsics.forEach(function (ex) {
+                            var _a = ex.method, arg = _a.arg, method = _a.method, section = _a.section;
+                            if (section === "system" && method === "remark") {
+                                var remark = arg.toString();
+                                if (remark.indexOf("") === 0) {
+                                    blockRmrks.push(remark);
+                                }
+                            }
+                        });
+                        console.log(blockRmrks);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return getDatas;
 }());
+function getRandomInt(max) {
+    var number = Math.floor(Math.random() * Math.floor(max));
+    console.log("Block #" + number);
+    return number;
+}
 var myAddr = new getDatas(MILLORD);
 // myAddr.balance();
 // myAddr.basicDatas();
-myAddr.allAccountDatas();
+// myAddr.allAccountDatas();
+myAddr.getRmrks(getRandomInt(5432266));
 //# sourceMappingURL=basicsCalls.js.map

@@ -58,9 +58,42 @@ class getDatas{
     }
 
 
+    public async getRmrks(blockNumber: number){
+
+        const api = await this.getApi();
+        const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+        const block = await api.rpc.chain.getBlock(blockHash);
+        const blockRmrks : string[] = [];
+
+        block.block.extrinsics.forEach((ex) => {
+            const {
+                method: {arg, method, section},
+            } = ex;
+
+            if(section === "system" && method === "remark"){
+                const remark = arg.toString();
+                if(remark.indexOf("") === 0){
+                    blockRmrks.push(remark);
+                }
+            }
+        })
+
+        console.log(blockRmrks);
+    }
+
+
+}
+
+function getRandomInt(max) {
+
+    const number = Math.floor(Math.random() * Math.floor(max));
+    console.log(`Block #${number}`);
+    return number;
 }
 
 const myAddr = new getDatas(MILLORD);
 // myAddr.balance();
 // myAddr.basicDatas();
-myAddr.allAccountDatas();
+// myAddr.allAccountDatas();
+
+myAddr.getRmrks(getRandomInt(5432266))
