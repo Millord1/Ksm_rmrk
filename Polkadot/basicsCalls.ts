@@ -66,16 +66,19 @@ class getDatas{
         const blockRmrks : string[] = [];
 
         block.block.extrinsics.forEach((ex) => {
+
             const {
-                method: {arg, method, section},
+                method: {args, method, section},
             } = ex;
 
             if(section === "system" && method === "remark"){
-                const remark = arg.toString();
+
+                const remark = args.toString();
                 if(remark.indexOf("") === 0){
                     blockRmrks.push(remark);
                 }
             }
+
         })
 
         console.log(blockRmrks);
@@ -96,4 +99,5 @@ const myAddr = new getDatas(MILLORD);
 // myAddr.basicDatas();
 // myAddr.allAccountDatas();
 
-myAddr.getRmrks(getRandomInt(5432266))
+// myAddr.getRmrks(getRandomInt(5432266))
+myAddr.getRmrks(4892957);

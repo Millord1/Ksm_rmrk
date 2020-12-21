@@ -131,9 +131,9 @@ var getDatas = /** @class */ (function () {
                         block = _a.sent();
                         blockRmrks = [];
                         block.block.extrinsics.forEach(function (ex) {
-                            var _a = ex.method, arg = _a.arg, method = _a.method, section = _a.section;
+                            var _a = ex.method, args = _a.args, method = _a.method, section = _a.section;
                             if (section === "system" && method === "remark") {
-                                var remark = arg.toString();
+                                var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
                                     blockRmrks.push(remark);
                                 }
@@ -156,5 +156,6 @@ var myAddr = new getDatas(MILLORD);
 // myAddr.balance();
 // myAddr.basicDatas();
 // myAddr.allAccountDatas();
-myAddr.getRmrks(getRandomInt(5432266));
+// myAddr.getRmrks(getRandomInt(5432266))
+myAddr.getRmrks(4892957);
 //# sourceMappingURL=basicsCalls.js.map
