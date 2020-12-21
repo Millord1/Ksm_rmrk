@@ -43,13 +43,33 @@ var getDatas = /** @class */ (function () {
     function getDatas(addr) {
         this.wsProvider = new api_1.WsProvider('wss://kusama-rpc.polkadot.io/');
         this.addr = addr;
+        this.getApi();
     }
+    getDatas.prototype.getApi = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var myApi;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(typeof this.api === 'undefined')) return [3 /*break*/, 2];
+                        return [4 /*yield*/, api_1.ApiPromise.create({ provider: this.wsProvider })];
+                    case 1:
+                        myApi = _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        myApi = this.api;
+                        _a.label = 3;
+                    case 3: return [2 /*return*/, myApi];
+                }
+            });
+        });
+    };
     getDatas.prototype.basicDatas = function () {
         return __awaiter(this, void 0, void 0, function () {
             var api;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, api_1.ApiPromise.create({ provider: this.wsProvider })];
+                    case 0: return [4 /*yield*/, this.getApi()];
                     case 1:
                         api = _a.sent();
                         console.log("Genesis hash #" + api.genesisHash.toHex());
@@ -66,7 +86,7 @@ var getDatas = /** @class */ (function () {
             var api, _a, nonce, balance;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, api_1.ApiPromise.create({ provider: this.wsProvider })];
+                    case 0: return [4 /*yield*/, this.getApi()];
                     case 1:
                         api = _b.sent();
                         return [4 /*yield*/, api.query.system.account(this.addr)];
@@ -78,9 +98,27 @@ var getDatas = /** @class */ (function () {
             });
         });
     };
+    getDatas.prototype.allAccountDatas = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var api, datas;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getApi()];
+                    case 1:
+                        api = _a.sent();
+                        return [4 /*yield*/, api.query.system.account(this.addr)];
+                    case 2:
+                        datas = _a.sent();
+                        console.log(datas);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return getDatas;
 }());
 var myAddr = new getDatas(MILLORD);
-myAddr.balance();
-myAddr.basicDatas();
+// myAddr.balance();
+// myAddr.basicDatas();
+myAddr.allAccountDatas();
 //# sourceMappingURL=basicsCalls.js.map
