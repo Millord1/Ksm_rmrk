@@ -64,7 +64,8 @@ class getDatas{
         const api = await this.getApi();
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const block = await api.rpc.chain.getBlock(blockHash);
-        const blockRmrks : string[] = [];
+
+        const blockRmrks = [];
 
         block.block.extrinsics.forEach((ex) => {
 
@@ -75,10 +76,16 @@ class getDatas{
             if(section === "system" && method === "remark"){
 
                 const remark = args.toString();
+
                 if(remark.indexOf("") === 0){
+
                     const uri = hexToString(remark);
                     const lisibleUri = decodeURI(uri);
-                    blockRmrks.push(lisibleUri);
+
+                    blockRmrks.push({
+                        block : blockNumber,
+                        Rmrk : lisibleUri
+                    });
                 }
             }
 

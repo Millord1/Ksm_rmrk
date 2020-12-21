@@ -138,7 +138,10 @@ var getDatas = /** @class */ (function () {
                                 if (remark.indexOf("") === 0) {
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURI(uri);
-                                    blockRmrks.push(lisibleUri);
+                                    blockRmrks.push({
+                                        block: blockNumber,
+                                        Rmrk: lisibleUri
+                                    });
                                 }
                             }
                         });
