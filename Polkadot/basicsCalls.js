@@ -154,9 +154,7 @@ var getDatas = /** @class */ (function () {
     return getDatas;
 }());
 function getRandomInt(max) {
-    var number = Math.floor(Math.random() * Math.floor(max));
-    console.log("Block #" + number);
-    return number;
+    return Math.floor(Math.random() * Math.floor(max));
 }
 var myAddr = new getDatas(MILLORD);
 // myAddr.balance();

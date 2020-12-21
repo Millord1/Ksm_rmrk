@@ -1,5 +1,5 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
-import { stringToHex,hexToString } from "@polkadot/util";
+import { stringToHex, hexToString } from "@polkadot/util";
 
 // KSM address
 const MILLORD = 'GeZVQ6R7mSZUZxBqq5PDUXrx64KXroVDwqjmAjaeXdF54Xd';
@@ -98,10 +98,7 @@ class getDatas{
 }
 
 function getRandomInt(max) {
-
-    const number = Math.floor(Math.random() * Math.floor(max));
-    console.log(`Block #${number}`);
-    return number;
+    return Math.floor(Math.random() * Math.floor(max));
 }
 
 const myAddr = new getDatas(MILLORD);
