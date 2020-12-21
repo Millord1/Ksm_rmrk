@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="tsconfig.json" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ljYaIMDZXVEqqi4Zsy96NyJg43" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Test.ts" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="ts.external.directory.path" value="K:\Program Files\PhpStorm 2020.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\EDS\RMRK" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="run" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Node.js.basicsCalls.js">
+    <configuration name="Addresses.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Blockchain/Addresses.js" working-dir="$PROJECT_DIR$/Blockchain">
+      <method v="2" />
+    </configuration>
+    <configuration name="Basics.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Polkadot/Basics.js" working-dir="$PROJECT_DIR$/Polkadot">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" path-to-js-file="$PROJECT_DIR$/Test.ts">
+      <method v="2" />
+    </configuration>
+    <configuration name="basicsCalls.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Polkadot/basicsCalls.js" working-dir="$PROJECT_DIR$/Polkadot">
+      <method v="2" />
+    </configuration>
+    <configuration name="Basics.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
+      <module name="RMRK" />
+      <option name="interpreterRef" value="project" />
+      <option name="interpreterOptions" value="" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/Polkadot" />
+      <option name="tsconfigFile" value="" />
+      <option name="extraTypeScriptOptions" value="" />
+      <option name="scriptName" value="$PROJECT_DIR$/Polkadot/Basics.ts" />
+      <option name="programParameters" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="basicsCalls.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
+      <module name="RMRK" />
+      <option name="interpreterRef" value="project" />
+      <option name="interpreterOptions" value="" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/Polkadot" />
+      <option name="tsconfigFile" value="" />
+      <option name="extraTypeScriptOptions" value="" />
+      <option name="scriptName" value="$PROJECT_DIR$/Polkadot/basicsCalls.ts" />
+      <option name="programParameters" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.Addresses.js" />
+      <item itemvalue="Node.js.Basics.js" />
+      <item itemvalue="TypeScript.Basics.ts" />
+      <item itemvalue="Node.js.basicsCalls.js" />
+      <item itemvalue="TypeScript.basicsCalls.ts" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.basicsCalls.js" />
+        <item itemvalue="TypeScript.basicsCalls.ts" />
+        <item itemvalue="Node.js.Basics.js" />
+        <item itemvalue="TypeScript.Basics.ts" />
+        <item itemvalue="Node.js.Addresses.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="" />
+      <created>1608112030736</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608112030736</updated>
+      <workItem from="1608112032500" duration="5399000" />
+      <workItem from="1608125043782" duration="4335000" />
+      <workItem from="1608543653751" duration="6897000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Blockchain/Blockchain.js" />
+        <option value="$PROJECT_DIR$/Blockchain/Blockchain.js.map" />
+        <option value="$PROJECT_DIR$/Blockchain/Addresses.js.map" />
+        <option value="$PROJECT_DIR$/Blockchain/Addresses.js" />
+        <option value="$PROJECT_DIR$/Polkadot/basicsCalls.js" />
+        <option value="$PROJECT_DIR$/Polkadot/basicsCalls.js.map" />
+      </list>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2334" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608113564049">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2334" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113564049" />
+    <state x="58" y="90" width="1736" height="856" key="DiffContextDialog" timestamp="1608548734680">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="58" y="90" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608548734680" />
+    <state x="2660" y="283" key="FileChooserDialogImpl" timestamp="1608113517614">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2660" y="283" key="FileChooserDialogImpl/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113517614" />
+    <state width="1877" height="140" key="GridCell.Tab.0.bottom" timestamp="1608550997188">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="181" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888372" />
+    <state width="1877" height="140" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608550997188" />
+    <state width="1877" height="140" key="GridCell.Tab.0.center" timestamp="1608550997188">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="181" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
+    <state width="1877" height="140" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608550997188" />
+    <state width="1877" height="140" key="GridCell.Tab.0.left" timestamp="1608550997188">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="181" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
+    <state width="1877" height="140" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608550997188" />
+    <state width="1877" height="140" key="GridCell.Tab.0.right" timestamp="1608550997188">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="181" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
+    <state width="1877" height="140" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608550997188" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608120234201">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234201" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1608120234201">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234201" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1608120234201">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234201" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1608120234201">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234201" />
+    <state width="1877" height="348" key="GridCell.Tab.2.bottom" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.2.center" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.2.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.2.left" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.2.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.2.right" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.2.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.3.bottom" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.3.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.3.center" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.3.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.3.left" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.3.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state width="1877" height="348" key="GridCell.Tab.3.right" timestamp="1608120234202">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.3.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608120234202" />
+    <state x="2460" y="263" key="IDE.errors.dialog" timestamp="1608113150514">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2460" y="263" key="IDE.errors.dialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113150514" />
+    <state x="2381" y="173" key="SettingsEditor" timestamp="1608551065791">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2381" y="173" key="SettingsEditor/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608551065791" />
+    <state x="2012" y="100" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1608548607275">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2012" y="100" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608548607275" />
+    <state x="2536" y="244" key="run.anything.popup" timestamp="1608112893977">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2536" y="244" key="run.anything.popup/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608112893977" />
+  </component>
+</project>
