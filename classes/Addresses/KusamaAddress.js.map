@@ -1,1 +1,1 @@
-{"version":3,"file":"KusamaAddress.js","sourceRoot":"","sources":["KusamaAddress.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,yDAAsD;AACtD,gDAA6C;AAG7C;IAAmC,iCAAiB;IAGhD,uBAAY,IAAY;eACpB,kBAAM,IAAI,eAAM,EAAE,EAAE,IAAI,CAAC;IAC7B,CAAC;IAEL,oBAAC;AAAD,CAAC,AAPD,CAAmC,qCAAiB,GAOnD;AAPY,sCAAa"}
+{"version":3,"file":"KusamaAddress.js","sourceRoot":"","sources":["KusamaAddress.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,yDAAsD;AAItD;IAAmC,iCAAiB;IAGhD;eACI,iBAAO;IACX,CAAC;IAEL,oBAAC;AAAD,CAAC,AAPD,CAAmC,qCAAiB,GAOnD;AAPY,sCAAa"}

@@ -39,7 +39,7 @@ exports.__esModule = true;
 var api_1 = require("@polkadot/api");
 var util_1 = require("@polkadot/util");
 var Kusama_1 = require("../classes/Blockchains/Kusama");
-var Rmrk_1 = require("../classes/Rmrk");
+var RmrkReader_1 = require("./RmrkReader");
 var ScanBlock = /** @class */ (function () {
     function ScanBlock() {
         this.wsProvider = new api_1.WsProvider('wss://kusama-rpc.polkadot.io/');
@@ -85,16 +85,14 @@ var ScanBlock = /** @class */ (function () {
                                 if (remark.indexOf("") === 0) {
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
+                                    console.log(remark);
                                     // lisibleUri = lisibleUri.substring(12);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var rmrk = new Rmrk_1.Rmrk(lisibleUri, new Kusama_1.Kusama());
-                                    var myRmrk = rmrk.scanRmrk();
-                                    // console.log(myRmrk.issuer.address);
+                                    var reader = new RmrkReader_1.RmrkReader(new Kusama_1.Kusama());
+                                    var rmrkReader = reader.readRmrk(lisibleUri);
                                     blockRmrks.push({
                                         block: blockNumber,
                                         rmrk: lisibleUri,
-                                        type: myRmrk.constructor.name,
-                                        content: myRmrk
                                     });
                                 }
                             }

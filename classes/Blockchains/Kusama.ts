@@ -6,7 +6,7 @@ export class Kusama extends SubstrateChain
 {
 
     constructor(){
-        super("Kusama", "KSM", "", true);
+        super("Kusama", "KSM", "", true, new KusamaAddress());
     }
 
 }

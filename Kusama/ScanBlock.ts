@@ -2,6 +2,8 @@ import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
 import {Kusama} from "../classes/Blockchains/Kusama";
 import {Rmrk} from "../classes/Rmrk";
+import {Collection} from "../classes/Collection";
+import {RmrkReader} from "./RmrkReader";
 
 
 class ScanBlock
@@ -45,20 +47,18 @@ class ScanBlock
 
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
-
+                    console.log(remark);
                     // lisibleUri = lisibleUri.substring(12);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
-                    const rmrk = new Rmrk(lisibleUri, new Kusama());
-                    const myRmrk = rmrk.scanRmrk();
-
-                    // console.log(myRmrk.issuer.address);
+                    const reader = new RmrkReader(new Kusama());
+                    const rmrkReader = reader.readRmrk(lisibleUri);
 
                     blockRmrks.push({
                         block : blockNumber,
                         rmrk : lisibleUri,
-                        type : myRmrk.constructor.name,
-                        content : myRmrk
+                        // type : myRmrk.constructor.name,
+                        // content : myRmrk
                     });
                 }
             }
