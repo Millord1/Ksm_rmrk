@@ -1,21 +1,21 @@
 import {Blockchain} from "./Blockchains/Blockchain";
-import {Address} from "./Address";
+import {BlockchainAddress} from "./Addresses/BlockchainAddress";
 import {Token} from "./Token";
 
 
 export class Transaction
 {
     blockchain: Blockchain;
-    from: Address;
-    to: Address;
+    from: BlockchainAddress;
+    to: BlockchainAddress;
     token: Token
     time: number;
 
     constructor(
         blockchain: Blockchain,
         token: Token,
-        from: Address,
-        to: Address,
+        from: BlockchainAddress,
+        to: BlockchainAddress,
         time: number
     ){
         this.blockchain = blockchain;

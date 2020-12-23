@@ -2,7 +2,7 @@ import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
 import {Collection} from "../classes/Collection";
 import {Kusama} from "../classes/Blockchains/Kusama";
-import {Address} from "../classes/Address";
+import {BlockchainAddress} from "../classes/Addresses/BlockchainAddress";
 
 // KSM address
 const MILLORD = 'GeZVQ6R7mSZUZxBqq5PDUXrx64KXroVDwqjmAjaeXdF54Xd';
@@ -74,50 +74,6 @@ class getDatas{
     }
 
 
-
-    public async getRmrks(blockNumber: number){
-
-        const api = await this.getApi();
-        const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-        const block = await api.rpc.chain.getBlock(blockHash);
-
-        const blockRmrks = [];
-
-        block.block.extrinsics.forEach((ex) => {
-
-            const { method: {
-                args, method, section
-            }} = ex;
-
-            if(section === "system" && method === "remark"){
-
-                const remark = args.toString();
-
-                if(remark.indexOf("") === 0){
-
-                    const uri = hexToString(remark);
-                    let lisibleUri = decodeURIComponent(uri);
-                    console.log(lisibleUri);
-
-                    // lisibleUri = lisibleUri.substring(12);
-                    lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-
-                    const myCollection = this.rmrkToCollection(lisibleUri);
-
-                    blockRmrks.push({
-                        block : blockNumber,
-                        Rmrk : lisibleUri,
-                        collection : myCollection
-                    });
-                }
-            }
-
-        })
-        console.log(blockRmrks);
-        return blockRmrks;
-    }
-
-
     public async nft(blockNum: number){
 
         const api = await this.getApi();
@@ -140,53 +96,6 @@ class getDatas{
     }
 
 
-
-    public rmrkToCollection(rmrk: string){
-
-        const splitted = rmrk.split(',');
-
-        const obj = {
-            version: "",
-            name: "",
-            max: 0,
-            symbol: "",
-            id: "",
-            metadata: "",
-            issuer: ""
-        };
-
-        splitted.forEach((index) => {
-
-            const datas = index.split(':');
-
-            for(let i = 0; i < datas.length; i++){
-                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
-            }
-
-            if(datas[0] != "metadata"){
-                obj[datas[0]] = datas[1];
-            }else{
-                obj[datas[0]] = datas[2];
-            }
-
-        })
-
-        const kusama = new Kusama();
-        const collection = new Collection();
-
-        collection.version = obj.version;
-        collection.name = obj.name;
-        collection.max = obj.max;
-        collection.symbol = obj.symbol;
-        collection.id = obj.id;
-        collection.metadata = obj.metadata;
-        collection.blockchain = kusama;
-        collection.issuer = new Address(obj.issuer, kusama);
-
-        return collection;
-    }
-
-
 }
 
 function getRandomInt(max) {
@@ -200,6 +109,6 @@ const myAddr = new getDatas(OBXIUM);
 
 // myAddr.getRmrks(getRandomInt(5432266))
 // myAddr.getRmrks(5445689);
-myAddr.getRmrks(5445790);
+// myAddr.getRmrks(5445790);
 
 // myAddr.nft(2702139);

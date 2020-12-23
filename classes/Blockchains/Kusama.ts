@@ -1,9 +1,12 @@
-import {Blockchain} from "./Blockchain";
+import {SubstrateChain} from "./SubstrateChain";
+import {KusamaAddress} from "../Addresses/KusamaAddress";
 
 
-export class Kusama extends Blockchain
+export class Kusama extends SubstrateChain
 {
-    constructor() {
-        super('Kusama', 'KSM', '');
+
+    constructor(){
+        super("Kusama", "KSM", "", true);
     }
+
 }

@@ -1,0 +1,17 @@
+{
+
+  "Polkadot": [
+    {
+      "name": "Kusama",
+      "symbol": "KSM",
+      "prefix": ""
+    },
+    {
+      "name": "Kulupu",
+      "symbol": "KLP",
+      "prefix": ""
+    }
+  ]
+
+
+}
