@@ -37,10 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var api_1 = require("@polkadot/api");
-var util_1 = require("@polkadot/util");
-var Collection_1 = require("../classes/Collection");
-var Kusama_1 = require("../classes/Blockchains/Kusama");
-var Address_1 = require("../classes/Address");
 // KSM address
 var MILLORD = 'GeZVQ6R7mSZUZxBqq5PDUXrx64KXroVDwqjmAjaeXdF54Xd';
 var OBXIUM = 'DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby';
@@ -135,47 +131,6 @@ var getDatas = /** @class */ (function () {
             });
         });
     };
-    getDatas.prototype.getRmrks = function (blockNumber) {
-        return __awaiter(this, void 0, void 0, function () {
-            var api, blockHash, block, blockRmrks;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getApi()];
-                    case 1:
-                        api = _a.sent();
-                        return [4 /*yield*/, api.rpc.chain.getBlockHash(blockNumber)];
-                    case 2:
-                        blockHash = _a.sent();
-                        return [4 /*yield*/, api.rpc.chain.getBlock(blockHash)];
-                    case 3:
-                        block = _a.sent();
-                        blockRmrks = [];
-                        block.block.extrinsics.forEach(function (ex) {
-                            var _a = ex.method, args = _a.args, method = _a.method, section = _a.section;
-                            if (section === "system" && method === "remark") {
-                                var remark = args.toString();
-                                if (remark.indexOf("") === 0) {
-                                    var uri = util_1.hexToString(remark);
-                                    var lisibleUri = decodeURIComponent(uri);
-                                    console.log(lisibleUri);
-                                    // lisibleUri = lisibleUri.substring(12);
-                                    lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var myCollection = _this.rmrkToCollection(lisibleUri);
-                                    blockRmrks.push({
-                                        block: blockNumber,
-                                        Rmrk: lisibleUri,
-                                        collection: myCollection
-                                    });
-                                }
-                            }
-                        });
-                        console.log(blockRmrks);
-                        return [2 /*return*/, blockRmrks];
-                }
-            });
-        });
-    };
     getDatas.prototype.nft = function (blockNum) {
         return __awaiter(this, void 0, void 0, function () {
             var api, blockHash, block, _i, _a, ex, _b, args, method, section, Owner;
@@ -209,41 +164,6 @@ var getDatas = /** @class */ (function () {
             });
         });
     };
-    getDatas.prototype.rmrkToCollection = function (rmrk) {
-        var splitted = rmrk.split(',');
-        var obj = {
-            version: "",
-            name: "",
-            max: 0,
-            symbol: "",
-            id: "",
-            metadata: "",
-            issuer: ""
-        };
-        splitted.forEach(function (index) {
-            var datas = index.split(':');
-            for (var i = 0; i < datas.length; i++) {
-                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
-            }
-            if (datas[0] != "metadata") {
-                obj[datas[0]] = datas[1];
-            }
-            else {
-                obj[datas[0]] = datas[2];
-            }
-        });
-        var kusama = new Kusama_1.Kusama();
-        var collection = new Collection_1.Collection();
-        collection.version = obj.version;
-        collection.name = obj.name;
-        collection.max = obj.max;
-        collection.symbol = obj.symbol;
-        collection.id = obj.id;
-        collection.metadata = obj.metadata;
-        collection.blockchain = kusama;
-        collection.issuer = new Address_1.Address(obj.issuer, kusama);
-        return collection;
-    };
     return getDatas;
 }());
 function getRandomInt(max) {
@@ -255,6 +175,6 @@ var myAddr = new getDatas(OBXIUM);
 // myAddr.allAccountDatas();
 // myAddr.getRmrks(getRandomInt(5432266))
 // myAddr.getRmrks(5445689);
-myAddr.getRmrks(5445790);
+// myAddr.getRmrks(5445790);
 // myAddr.nft(2702139);
 //# sourceMappingURL=basicsCalls.js.map

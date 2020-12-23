@@ -1,8 +1,1 @@
-{
-    "version": "RMRK0.1",
-    "name": "test",
-    "max": 20,
-    "symbol": "Milltst",
-    "id": "Milltst-01",
-    "metadata": ""
-}
+{"version":"RMRK0.1","name":"test","max":20,"symbol":"Milltst","id":"Milltst-01","metadata":""}
