@@ -15,10 +15,11 @@ var __extends = (this && this.__extends) || (function () {
 exports.__esModule = true;
 exports.Kusama = void 0;
 var SubstrateChain_1 = require("./SubstrateChain");
+var KusamaAddress_1 = require("../Addresses/KusamaAddress");
 var Kusama = /** @class */ (function (_super) {
     __extends(Kusama, _super);
     function Kusama() {
-        return _super.call(this, "Kusama", "KSM", "", true) || this;
+        return _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_1.KusamaAddress()) || this;
     }
     return Kusama;
 }(SubstrateChain_1.SubstrateChain));

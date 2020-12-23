@@ -1,1 +1,1 @@
-{"version":3,"file":"BlockchainAddress.js","sourceRoot":"","sources":["BlockchainAddress.ts"],"names":[],"mappings":";;;AAGA;IAKI,2BAAY,UAAsB,EAAE,OAAO;QACvC,IAAI,CAAC,KAAK,GAAG,UAAU,CAAC;QACxB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;IAC3B,CAAC;IAEL,wBAAC;AAAD,CAAC,AAVD,IAUC;AAVY,8CAAiB"}
+{"version":3,"file":"BlockchainAddress.js","sourceRoot":"","sources":["BlockchainAddress.ts"],"names":[],"mappings":";;;AAGA;IAGI,mCAAmC;IACnC,EAAE;IACF,sDAAsD;IACtD,+BAA+B;IAC/B,IAAI;IAEJ;IACA,CAAC;IAEL,wBAAC;AAAD,CAAC,AAZD,IAYC;AAZY,8CAAiB"}

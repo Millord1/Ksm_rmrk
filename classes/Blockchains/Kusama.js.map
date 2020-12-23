@@ -1,1 +1,1 @@
-{"version":3,"file":"Kusama.js","sourceRoot":"","sources":["Kusama.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,mDAAgD;AAIhD;IAA4B,0BAAc;IAGtC;eACI,kBAAM,QAAQ,EAAE,KAAK,EAAE,EAAE,EAAE,IAAI,CAAC;IACpC,CAAC;IAEL,aAAC;AAAD,CAAC,AAPD,CAA4B,+BAAc,GAOzC;AAPY,wBAAM"}
+{"version":3,"file":"Kusama.js","sourceRoot":"","sources":["Kusama.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,mDAAgD;AAChD,4DAAyD;AAGzD;IAA4B,0BAAc;IAGtC;eACI,kBAAM,QAAQ,EAAE,KAAK,EAAE,EAAE,EAAE,IAAI,EAAE,IAAI,6BAAa,EAAE,CAAC;IACzD,CAAC;IAEL,aAAC;AAAD,CAAC,AAPD,CAA4B,+BAAc,GAOzC;AAPY,wBAAM"}

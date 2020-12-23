@@ -8,8 +8,8 @@ export class SubstrateChain extends Blockchain
 
     substrateOf;
 
-    constructor(name, symbol, prefix, isSubstrate) {
-        super(name, symbol, prefix, isSubstrate);
+    constructor(name, symbol, prefix, isSubstrate, addressClass) {
+        super(name, symbol, prefix, isSubstrate, addressClass);
         this.checkSubstrate();
     }
 

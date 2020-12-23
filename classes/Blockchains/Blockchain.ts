@@ -1,14 +1,6 @@
 import {Polkadot} from "./Polkadot";
 import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-
-interface BlockchainInterface
-{
-    name: string;
-    symbol: string;
-    prefix: string;
-    isSubstrate: boolean;
-
-}
+import {BlockchainInterface} from "../Rmrk/Interfaces";
 
 
 export class Blockchain implements BlockchainInterface
@@ -17,12 +9,18 @@ export class Blockchain implements BlockchainInterface
     symbol;
     prefix;
     isSubstrate;
+    addressClass: BlockchainAddress;
 
-    constructor(name, symbol, prefix, isSubstrate){
+    constructor(name, symbol, prefix, isSubstrate, addressClass){
         this.name = name;
         this.symbol = symbol;
         this.prefix = prefix;
         this.isSubstrate = isSubstrate;
+        this.addressClass = addressClass;
+    }
+
+    public getAddressClass(){
+        return this.addressClass;
     }
 
 }
