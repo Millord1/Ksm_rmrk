@@ -3,6 +3,8 @@ import {Nft} from "../classes/Nft";
 import {Collection} from "../classes/Collection";
 import {Send} from "../classes/Rmrk/Interactions/Send";
 import {MintNft} from "../classes/Rmrk/Interactions/MintNft";
+import {Mint} from "../classes/Rmrk/Interactions/Mint";
+import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer";
 
 
 export class RmrkReader
@@ -85,40 +87,20 @@ export class RmrkReader
 
             case 'mint':
 
+                // const collection = new Collection(rmrk, this.chain, null);
+                // interactObj = collection.createCollectionFromInteraction();
+
                 break;
 
             case 'changeissuer':
+
+                interactObj = new ChangeIssuer(rmrk, this.chain);
 
                 break;
 
             case 'mintnft':
 
-                splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-                const nftDatas = splitted[2].split(',');
-
-                const nftObj = {
-                    collection: null,
-                    name: null,
-                    transferable: null,
-                    sn: null,
-                    metadata: null
-                }
-
-                nftDatas.forEach((data)=>{
-                    const datas = data.split(':');
-
-                    if(datas.length > 2){
-                        if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
-                            nftObj[datas[0]] = datas[1] + ':' + datas[2];
-                        }
-                    }else{
-                        nftObj[datas[0]] = datas[1];
-                    }
-                })
-
-                const nft = new Nft(rmrk, this.chain, null);
-
-                interactObj = new MintNft(rmrk, nft, this.chain);
+                interactObj = new MintNft(rmrk, this.chain);
 
                 break;
 
@@ -126,6 +108,7 @@ export class RmrkReader
 
             case 'send' :
 
+                // TODO
                 this.interactionObj.type = splitted[0];
                 this.interactionObj.interaction = splitted[1];
                 this.interactionObj.version = splitted[2];

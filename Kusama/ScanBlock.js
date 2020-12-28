@@ -85,6 +85,8 @@ var ScanBlock = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
+                                    // const remrk = '0x726d726b3a3a4348414e47454953535545523a3a302e313a3a306166663638363562656433613636622d444c45503a3a4876694855536b4d35536b6e587a59755043536673743343584b34596736535765726f50365464545a425a4a625654';
+                                    // const uri = hexToString(remrk);
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
@@ -116,5 +118,5 @@ var scan = new ScanBlock(new Kusama_1.Kusama());
 // MintNft
 scan.getRmrks(5420541);
 // Mint
-// scan.getRmrks(5393445);
+// scan.getRmrks(5083411);
 //# sourceMappingURL=ScanBlock.js.map

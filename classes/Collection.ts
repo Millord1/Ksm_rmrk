@@ -10,7 +10,7 @@ export class Collection extends Entity
     name: string;
     contract: BlockchainContract;
 
-    constructor(rmrk: string, chain: Blockchain, version: string) {
+    constructor(rmrk: string, chain: Blockchain, version: string|null) {
         super(rmrk, Collection.constructor.name, chain, version);
     }
 
@@ -19,6 +19,7 @@ export class Collection extends Entity
 
         this.metadata = obj.metadata;
         this.name = obj.name;
+        this.version = obj.version;
 
         const address = this.chain.getAddressClass();
         address.address = obj.issuer;
@@ -31,5 +32,31 @@ export class Collection extends Entity
 
         return this;
     }
+
+
+    // public createCollectionFromInteraction(){
+
+        // const splitted = this.rmrk.split('::');
+
+        // splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
+        // const datas = splitted[2].split(',');
+        //
+        // console.log(splitted);
+
+        // datas.forEach((index)=>{
+        //     // const datas = index.split(':');
+        //
+        //     if(datas.length > 2){
+        //         if(datas[0] === 'metadata'){
+        //             this.obj[datas[0]] = datas[1] + ':' + datas[2];
+        //         }
+        //     }else{
+        //         this.obj[datas[0]] = datas[1];
+        //     }
+        //
+        // });
+    //
+    //     return this.rmrkToObject(this.obj);
+    // }
 
 }

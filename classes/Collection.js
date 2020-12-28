@@ -23,6 +23,7 @@ var Collection = /** @class */ (function (_super) {
     Collection.prototype.rmrkToObject = function (obj) {
         this.metadata = obj.metadata;
         this.name = obj.name;
+        this.version = obj.version;
         var address = this.chain.getAddressClass();
         address.address = obj.issuer;
         var myChain = this.chain.constructor;

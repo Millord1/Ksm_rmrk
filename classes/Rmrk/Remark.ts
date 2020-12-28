@@ -2,7 +2,7 @@ import {Blockchain} from "../Blockchains/Blockchain";
 
 export class Remark
 {
-    defaultVersion = '0.1';
+    private defaultVersion = '0.1';
 
     version;
     rmrk;

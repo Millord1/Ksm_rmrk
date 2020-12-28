@@ -1,7 +1,6 @@
 import {BlockchainAddress} from "../Addresses/BlockchainAddress";
 import {Collection} from "../Collection";
 import {Blockchain} from "../Blockchains/Blockchain";
-import {Entity} from "../Rmrk/Entity";
 
 export class BlockchainContract
 {
