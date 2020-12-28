@@ -17,8 +17,8 @@ exports.Nft = void 0;
 var Entity_1 = require("./Rmrk/Entity");
 var Nft = /** @class */ (function (_super) {
     __extends(Nft, _super);
-    function Nft(rmrk, chain) {
-        return _super.call(this, rmrk, Nft.constructor.name, chain) || this;
+    function Nft(rmrk, chain, version) {
+        return _super.call(this, rmrk, Nft.constructor.name, chain, version) || this;
     }
     Nft.prototype.rmrkToObject = function (obj) {
         this.collection = obj.collection;
@@ -26,8 +26,9 @@ var Nft = /** @class */ (function (_super) {
         this.transferable = obj.transferable;
         this.sn = obj.sn;
         this.metadata = obj.metadata;
-        // this.issuer = (obj.issuer === null) ? null : new KusamaAddress(obj.issuer);
-        // nft.issuer = this.chain.getAddressClass(obj.issuer);
+        if (typeof obj.issuer != 'undefined') {
+            this.issuer = (obj.issuer === null) ? null : this.collection.chain.getAddressClass();
+        }
         return this;
     };
     return Nft;

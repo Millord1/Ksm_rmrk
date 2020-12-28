@@ -17,22 +17,18 @@ exports.Collection = void 0;
 var Entity_1 = require("./Rmrk/Entity");
 var Collection = /** @class */ (function (_super) {
     __extends(Collection, _super);
-    function Collection(rmrk, chain) {
-        return _super.call(this, rmrk, Collection.constructor.name, chain) || this;
+    function Collection(rmrk, chain, version) {
+        return _super.call(this, rmrk, Collection.constructor.name, chain, version) || this;
     }
     Collection.prototype.rmrkToObject = function (obj) {
-        // console.log(this.chain.getAddressClass());
+        this.metadata = obj.metadata;
+        this.name = obj.name;
         var address = this.chain.getAddressClass();
         address.address = obj.issuer;
-        console.log(address);
-        this.version = obj.version;
-        this.name = obj.name;
-        this.max = obj.max;
-        this.symbol = obj.symbol;
-        this.id = obj.id;
-        this.metadata = obj.metadata;
-        this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass();
-        // collection.issuer = new KusamaAddress(obj.issuer);
+        var myChain = this.chain.constructor;
+        // @ts-ignore
+        this.contract = myChain.contractClass;
+        this.contract.createContract(obj, this.chain, this);
         return this;
     };
     return Collection;

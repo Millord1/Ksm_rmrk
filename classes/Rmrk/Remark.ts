@@ -2,16 +2,21 @@ import {Blockchain} from "../Blockchains/Blockchain";
 
 export class Remark
 {
-    type: string;
+    defaultVersion = '0.1';
+
     version;
     rmrk;
     chain: Blockchain;
 
-    constructor(type, version, rmrk, chain){
+    constructor(version, rmrk, chain){
         this.rmrk = rmrk;
-        this.version = version;
-        this.type = type;
         this.chain = chain;
+
+        if(version === null){
+            version = this.defaultVersion;
+        }
+
+        this.version = version;
     }
 
 }

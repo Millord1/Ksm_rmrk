@@ -1,6 +1,6 @@
 import {Polkadot} from "./Polkadot";
 import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-import {BlockchainInterface} from "../Rmrk/Interfaces";
+import {BlockchainInterface} from "../Interfaces";
 
 
 export class Blockchain implements BlockchainInterface

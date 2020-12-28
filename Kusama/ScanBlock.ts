@@ -1,15 +1,19 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
 import {Kusama} from "../classes/Blockchains/Kusama";
-import {Rmrk} from "../classes/Rmrk";
-import {Collection} from "../classes/Collection";
 import {RmrkReader} from "./RmrkReader";
+import {Blockchain} from "../classes/Blockchains/Blockchain";
 
 
 class ScanBlock
 {
     wsProvider = new WsProvider('wss://kusama-rpc.polkadot.io/');
     api;
+    chain: Blockchain;
+
+    constructor(chain: Blockchain){
+        this.chain = chain;
+    }
 
     private async getApi(){
 
@@ -51,8 +55,10 @@ class ScanBlock
                     // lisibleUri = lisibleUri.substring(12);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
-                    const reader = new RmrkReader(new Kusama());
+                    const reader = new RmrkReader(this.chain);
                     const rmrkReader = reader.readRmrk(lisibleUri);
+
+                    console.log(rmrkReader);
 
                     blockRmrks.push({
                         block : blockNumber,
@@ -73,7 +79,7 @@ class ScanBlock
 
 }
 
-const scan = new ScanBlock();
+const scan = new ScanBlock(new Kusama());
 
 
 // FAIL
@@ -82,5 +88,11 @@ const scan = new ScanBlock();
 // Human Json (file)
 // scan.getRmrks(5445689);
 
-// Machine Json (hex)
-scan.getRmrks(5456387);
+//Send
+// scan.getRmrks(5437975);
+
+// MintNft
+scan.getRmrks(5420541);
+
+// Mint
+// scan.getRmrks(5393445);
