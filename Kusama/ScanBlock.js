@@ -87,8 +87,6 @@ var ScanBlock = /** @class */ (function () {
                                 if (remark.indexOf("") === 0) {
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
-                                    console.log(remark);
-                                    // lisibleUri = lisibleUri.substring(12);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                                     var reader = new RmrkReader_1.RmrkReader(_this.chain);
                                     var rmrkReader = reader.readRmrk(lisibleUri);

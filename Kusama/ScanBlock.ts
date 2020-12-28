@@ -51,8 +51,6 @@ class ScanBlock
 
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
-                    console.log(remark);
-                    // lisibleUri = lisibleUri.substring(12);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
                     const reader = new RmrkReader(this.chain);
@@ -63,8 +61,6 @@ class ScanBlock
                     blockRmrks.push({
                         block : blockNumber,
                         rmrk : lisibleUri,
-                        // type : myRmrk.constructor.name,
-                        // content : myRmrk
                     });
                 }
             }

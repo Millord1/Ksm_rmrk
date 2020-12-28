@@ -8,7 +8,6 @@ export class MintNft extends Interaction
 
     constructor(rmrk: string, nft: Nft, chain: Blockchain){
         super(rmrk, MintNft.constructor.name, chain, null);
-
         this.nft = nft;
     }
 }
