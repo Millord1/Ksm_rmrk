@@ -7,8 +7,8 @@ export class Interaction extends Remark
 
     interaction;
 
-    constructor(rmrk: string, interaction:string, chain: Blockchain) {
-        super(Interaction.constructor.name, '0.1', rmrk, chain);
+    constructor(rmrk: string, interaction:string, chain: Blockchain, version) {
+        super(version, rmrk, chain);
         this.interaction = interaction
     }
 
