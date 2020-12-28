@@ -41,8 +41,9 @@ var util_1 = require("@polkadot/util");
 var Kusama_1 = require("../classes/Blockchains/Kusama");
 var RmrkReader_1 = require("./RmrkReader");
 var ScanBlock = /** @class */ (function () {
-    function ScanBlock() {
+    function ScanBlock(chain) {
         this.wsProvider = new api_1.WsProvider('wss://kusama-rpc.polkadot.io/');
+        this.chain = chain;
     }
     ScanBlock.prototype.getApi = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -66,6 +67,7 @@ var ScanBlock = /** @class */ (function () {
     ScanBlock.prototype.getRmrks = function (blockNumber) {
         return __awaiter(this, void 0, void 0, function () {
             var api, blockHash, block, blockRmrks;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getApi()];
@@ -83,13 +85,14 @@ var ScanBlock = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
+                                    // const remrk = '0x726d726b3a3a4348414e47454953535545523a3a302e313a3a306166663638363562656433613636622d444c45503a3a4876694855536b4d35536b6e587a59755043536673743343584b34596736535765726f50365464545a425a4a625654';
+                                    // const uri = hexToString(remrk);
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
-                                    console.log(remark);
-                                    // lisibleUri = lisibleUri.substring(12);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var reader = new RmrkReader_1.RmrkReader(new Kusama_1.Kusama());
+                                    var reader = new RmrkReader_1.RmrkReader(_this.chain);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
+                                    console.log(rmrkReader);
                                     blockRmrks.push({
                                         block: blockNumber,
                                         rmrk: lisibleUri,
@@ -105,11 +108,15 @@ var ScanBlock = /** @class */ (function () {
     };
     return ScanBlock;
 }());
-var scan = new ScanBlock();
+var scan = new ScanBlock(new Kusama_1.Kusama());
 // FAIL
 // scan.getRmrks(5445790);
 // Human Json (file)
 // scan.getRmrks(5445689);
-// Machine Json (hex)
-scan.getRmrks(5456387);
+//Send
+// scan.getRmrks(5437975);
+// MintNft
+scan.getRmrks(5420541);
+// Mint
+// scan.getRmrks(5083411);
 //# sourceMappingURL=ScanBlock.js.map

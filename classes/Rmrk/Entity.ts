@@ -7,8 +7,8 @@ export class Entity extends Remark
 
     standard;
 
-    constructor(rmrk: string, standard:string, chain: Blockchain) {
-        super(Entity.constructor.name, '0.1', rmrk, chain);
+    constructor(rmrk: string, standard: string, chain: Blockchain, version) {
+        super(version, rmrk, chain);
         this.standard = standard;
     }
 

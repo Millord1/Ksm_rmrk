@@ -20,25 +20,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kusama/ScanBlock.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Blockchains/substrates.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Nft.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Polkadot/basicsCalls.js" beforeDir="false" afterPath="$PROJECT_DIR$/Polkadot/basicsCalls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Polkadot/basicsCalls.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Polkadot/basicsCalls.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Polkadot/basicsCalls.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Polkadot/basicsCalls.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Address.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Collection.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Nft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Nft.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Nft.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Transaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Transaction.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Transaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmrk.json" beforeDir="false" afterPath="$PROJECT_DIR$/rmrk.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +79,13 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/FatalTio/Ksm_rmrk" />
+      </set>
+    </option>
+  </component>
   <component name="ProjectId" id="1ljYaIMDZXVEqqi4Zsy96NyJg43" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -77,12 +99,14 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="ts.external.directory.path" value="K:\Program Files\PhpStorm 2020.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="H:\EDS\RMRK\classes\Contract" />
+      <recent name="H:\EDS\RMRK\classes" />
       <recent name="H:\EDS\RMRK\classes\Addresses" />
       <recent name="H:\EDS\RMRK" />
     </key>
@@ -114,7 +138,6 @@
       <option name="extraTypeScriptOptions" value="" />
       <option name="scriptName" value="$PROJECT_DIR$/Kusama/ScanBlock.ts" />
       <option name="programParameters" value="" />
-      <option name="tsnodePackage" value="H:\EDS\RMRK\node_modules\ts-node" />
       <method v="2" />
     </configuration>
     <configuration name="basicsCalls.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
@@ -131,9 +154,9 @@
     <list>
       <item itemvalue="Node.js.Basics.js" />
       <item itemvalue="Node.js.basicsCalls.js" />
+      <item itemvalue="Node.js.ScanBlock.js" />
       <item itemvalue="TypeScript.basicsCalls.ts" />
       <item itemvalue="TypeScript.ScanBlock.ts" />
-      <item itemvalue="Node.js.ScanBlock.js" />
     </list>
     <recent_temporary>
       <list>
@@ -157,7 +180,9 @@
       <workItem from="1608125043782" duration="4335000" />
       <workItem from="1608543653751" duration="19660000" />
       <workItem from="1608624350196" duration="25251000" />
-      <workItem from="1608710586014" duration="10245000" />
+      <workItem from="1608710586014" duration="20598000" />
+      <workItem from="1608803324154" duration="4830000" />
+      <workItem from="1609142905596" duration="12990000" />
     </task>
     <task id="LOCAL-00001" summary="add objects">
       <created>1608657103500</created>
@@ -166,7 +191,21 @@
       <option name="project" value="LOCAL" />
       <updated>1608657103500</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="change architecture">
+      <created>1608722131848</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1608722131848</updated>
+    </task>
+    <task id="LOCAL-00003" summary="change architecture and treatment of rmrk Entities">
+      <created>1608735201920</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1608735201920</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,12 +222,8 @@
         <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" />
-        <option value="$PROJECT_DIR$/classes/Token.js.map" />
-        <option value="$PROJECT_DIR$/classes/Token.js" />
         <option value="$PROJECT_DIR$/Kusama/ScanBlock.js" />
         <option value="$PROJECT_DIR$/Kusama/ScanBlock.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk.js.map" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" />
         <option value="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" />
@@ -197,6 +232,30 @@
         <option value="$PROJECT_DIR$/classes/Nft.js.map" />
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" />
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" />
+        <option value="$PROJECT_DIR$/Kusama/RmrkReader.js" />
+        <option value="$PROJECT_DIR$/Kusama/RmrkReader.js.map" />
+        <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js" />
+        <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
       </list>
     </option>
   </component>
@@ -214,17 +273,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="add objects" />
+    <MESSAGE value="change architecture" />
+    <MESSAGE value="change architecture and treatment of rmrk Entities" />
+    <option name="LAST_COMMIT_MESSAGE" value="change architecture and treatment of rmrk Entities" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2334" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608113564049">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2334" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113564049" />
-    <state x="2668" y="283" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1608717132180">
+    <state x="2668" y="264" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1608729351131">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
-    <state x="2668" y="283" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608717132180" />
+    <state x="2668" y="264" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608729351131" />
     <state x="58" y="90" width="1736" height="856" key="DiffContextDialog" timestamp="1608548734680">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -233,26 +294,26 @@
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2660" y="283" key="FileChooserDialogImpl/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113517614" />
-    <state width="1877" height="291" key="GridCell.Tab.0.bottom" timestamp="1608722086056">
+    <state width="1877" height="215" key="GridCell.Tab.0.bottom" timestamp="1609158061097">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888372" />
-    <state width="1877" height="291" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608722086056" />
-    <state width="1877" height="291" key="GridCell.Tab.0.center" timestamp="1608722086056">
+    <state width="1877" height="215" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+    <state width="1877" height="215" key="GridCell.Tab.0.center" timestamp="1609158061097">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
-    <state width="1877" height="291" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608722086056" />
-    <state width="1877" height="291" key="GridCell.Tab.0.left" timestamp="1608722086056">
+    <state width="1877" height="215" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+    <state width="1877" height="215" key="GridCell.Tab.0.left" timestamp="1609158061097">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
-    <state width="1877" height="291" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608722086056" />
-    <state width="1877" height="291" key="GridCell.Tab.0.right" timestamp="1608722086056">
+    <state width="1877" height="215" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+    <state width="1877" height="215" key="GridCell.Tab.0.right" timestamp="1609158061097">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
-    <state width="1877" height="291" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608722086056" />
+    <state width="1877" height="215" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608120234201">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
@@ -305,14 +366,18 @@
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2460" y="263" key="IDE.errors.dialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608551286508" />
-    <state x="2381" y="173" key="SettingsEditor" timestamp="1608551065791">
+    <state x="2381" y="173" key="SettingsEditor" timestamp="1608722244798">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
-    <state x="2381" y="173" key="SettingsEditor/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608551065791" />
-    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1608657115649">
+    <state x="2381" y="173" key="SettingsEditor/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608722244798" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1608733548675">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
-    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608657115649" />
+    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608733548675" />
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1608735208525">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608735208525" />
     <state x="2012" y="100" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1608548607275">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>

@@ -1,1 +1,1 @@
-{"version":3,"file":"Polkadot.js","sourceRoot":"","sources":["Polkadot.ts"],"names":[],"mappings":";;AAGA,2CAA2C;AAC3C,IAAI;AACJ,sBAAsB;AACtB,+CAA+C;AAC/C,QAAQ;AACR,IAAI"}
+{"version":3,"file":"Polkadot.js","sourceRoot":"","sources":["Polkadot.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,2CAAwC;AACxC,4DAAyD;AAGzD;IAA8B,4BAAU;IAEpC;eACI,kBAAM,UAAU,EAAE,KAAK,EAAE,EAAE,EAAE,KAAK,EAAE,6BAAa,CAAC;IACtD,CAAC;IACL,eAAC;AAAD,CAAC,AALD,CAA8B,uBAAU,GAKvC;AALY,4BAAQ"}

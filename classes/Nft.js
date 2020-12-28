@@ -15,20 +15,53 @@ var __extends = (this && this.__extends) || (function () {
 exports.__esModule = true;
 exports.Nft = void 0;
 var Entity_1 = require("./Rmrk/Entity");
+var BlockchainContract_1 = require("./Contract/BlockchainContract");
 var Nft = /** @class */ (function (_super) {
     __extends(Nft, _super);
-    function Nft(rmrk, chain) {
-        return _super.call(this, rmrk, Nft.constructor.name, chain) || this;
+    function Nft(rmrk, chain, version) {
+        var _this = _super.call(this, rmrk, Nft.constructor.name, chain, version) || this;
+        _this.obj = {
+            collection: null,
+            name: null,
+            transferable: null,
+            sn: null,
+            metadata: null
+        };
+        return _this;
     }
     Nft.prototype.rmrkToObject = function (obj) {
-        this.collection = obj.collection;
+        if (obj.contract instanceof BlockchainContract_1.BlockchainContract) {
+            this.contract = obj.collection;
+        }
+        else {
+            this.contractId = obj.collection;
+        }
         this.name = obj.name;
         this.transferable = obj.transferable;
         this.sn = obj.sn;
         this.metadata = obj.metadata;
-        // this.issuer = (obj.issuer === null) ? null : new KusamaAddress(obj.issuer);
-        // nft.issuer = this.chain.getAddressClass(obj.issuer);
+        if (typeof obj.issuer != 'undefined') {
+            this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
+        }
         return this;
+    };
+    Nft.prototype.createNftFromInteraction = function () {
+        var _this = this;
+        var splitted = this.rmrk.split('::');
+        splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
+        var nftDatas = splitted[2].split(',');
+        nftDatas.forEach(function (data) {
+            var datas = data.split(':');
+            if (datas.length > 2) {
+                if (datas[0] === 'metadata' && datas[1] === 'ipfs') {
+                    _this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                }
+            }
+            else {
+                _this.obj[datas[0]] = datas[1];
+            }
+        });
+        return this.rmrkToObject(this.obj);
     };
     return Nft;
 }(Entity_1.Entity));

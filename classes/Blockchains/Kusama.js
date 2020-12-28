@@ -16,11 +16,13 @@ exports.__esModule = true;
 exports.Kusama = void 0;
 var SubstrateChain_1 = require("./SubstrateChain");
 var KusamaAddress_1 = require("../Addresses/KusamaAddress");
+var KusamaContract_1 = require("../Contract/KusamaContract");
 var Kusama = /** @class */ (function (_super) {
     __extends(Kusama, _super);
     function Kusama() {
         return _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_1.KusamaAddress()) || this;
     }
+    Kusama.contractClass = new KusamaContract_1.KusamaContract();
     return Kusama;
 }(SubstrateChain_1.SubstrateChain));
 exports.Kusama = Kusama;
