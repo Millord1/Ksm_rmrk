@@ -6,6 +6,16 @@ import {BlockchainContract} from "./Contract/BlockchainContract";
 export class Collection extends Entity
 {
 
+    private obj = {
+        version: null,
+        name: null,
+        max: null,
+        symbol: null,
+        id: null,
+        metadata: null,
+        issuer: null,
+    }
+
     metadata: string;
     name: string;
     contract: BlockchainContract;
@@ -34,29 +44,30 @@ export class Collection extends Entity
     }
 
 
-    // public createCollectionFromInteraction(){
+    public createCollectionFromInteraction(){
 
-        // const splitted = this.rmrk.split('::');
+        const splitted = this.rmrk.split('::');
 
-        // splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        // const datas = splitted[2].split(',');
-        //
-        // console.log(splitted);
+        splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
+        const datas = splitted[2].split(',');
 
-        // datas.forEach((index)=>{
-        //     // const datas = index.split(':');
-        //
-        //     if(datas.length > 2){
-        //         if(datas[0] === 'metadata'){
-        //             this.obj[datas[0]] = datas[1] + ':' + datas[2];
-        //         }
-        //     }else{
-        //         this.obj[datas[0]] = datas[1];
-        //     }
-        //
-        // });
-    //
-    //     return this.rmrkToObject(this.obj);
-    // }
+        datas.forEach((index)=>{
+
+            index = index.replace(/[&\/\\+_-]/g, ' ');
+
+            const datas = index.split(':');
+
+            if(datas.length > 2){
+                if(datas[0] === 'metadata'){
+                    this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                }
+            }else{
+                this.obj[datas[0]] = datas[1];
+            }
+
+        });
+
+        return this.rmrkToObject(this.obj);
+    }
 
 }

@@ -12,4 +12,8 @@ export class Interaction extends Remark
         this.interaction = interaction
     }
 
+    public rmrkToArray(){
+        return this.rmrk.split('::');
+    }
+
 }

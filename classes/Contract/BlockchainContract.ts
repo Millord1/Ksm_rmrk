@@ -12,13 +12,13 @@ export class BlockchainContract
     id: string;
 
     chain: Blockchain;
-    collection: Collection;
+    collection: string;
 
 
     public createContract(obj, chain: Blockchain, collection: Collection){
 
         this.chain = chain;
-        this.collection = collection;
+        this.collection = collection.name;
 
         this.version = obj.version;
         this.max = obj.max;

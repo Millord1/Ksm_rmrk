@@ -8,14 +8,17 @@ export class ChangeIssuer extends Interaction
     newIssuer: string;
 
     constructor(rmrk: string, chain: Blockchain){
-
-        const splitted = rmrk.split('::');
-
-        super(rmrk, splitted[1].toLowerCase(), chain, splitted[2]);
-
-        this.collectionId = splitted[3];
-        this.newIssuer = splitted[4];
+        super(rmrk, ChangeIssuer.constructor.name, chain, null);
     }
 
+    public createChangeIssuer(){
+        const splitted = this.rmrkToArray();
+
+        this.version = splitted[2];
+        this.collectionId = splitted[3];
+        this.newIssuer = splitted[4];
+
+        return this;
+    }
 
 }

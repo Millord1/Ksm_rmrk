@@ -5,6 +5,8 @@ import {Send} from "../classes/Rmrk/Interactions/Send";
 import {MintNft} from "../classes/Rmrk/Interactions/MintNft";
 import {Mint} from "../classes/Rmrk/Interactions/Mint";
 import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer";
+import {List} from "../classes/Rmrk/Interactions/List";
+import {Buy} from "../classes/Rmrk/Interactions/Buy";
 
 
 export class RmrkReader
@@ -22,14 +24,6 @@ export class RmrkReader
         sn: null,
         collection: null
     }
-
-    interactionObj = {
-        type: '',
-        interaction: '',
-        version: '',
-        nft: '',
-        address: ''
-    };
 
     chain;
 
@@ -87,43 +81,43 @@ export class RmrkReader
 
             case 'mint':
 
-                // const collection = new Collection(rmrk, this.chain, null);
-                // interactObj = collection.createCollectionFromInteraction();
+                const mint = new Mint(rmrk, this.chain);
+                interactObj = mint.createMint();
 
                 break;
 
             case 'changeissuer':
 
-                interactObj = new ChangeIssuer(rmrk, this.chain);
+                const changeIssuer = new ChangeIssuer(rmrk, this.chain);
+                interactObj = changeIssuer.createChangeIssuer();
 
                 break;
 
             case 'mintnft':
 
-                interactObj = new MintNft(rmrk, this.chain);
+                const mintNft = new MintNft(rmrk, this.chain);
+                interactObj = mintNft.createMintNft();
 
                 break;
 
-
-
             case 'send' :
 
-                // TODO
-                this.interactionObj.type = splitted[0];
-                this.interactionObj.interaction = splitted[1];
-                this.interactionObj.version = splitted[2];
-                this.interactionObj.nft = splitted[3];
-                this.interactionObj.address = splitted[4];
-
-                interactObj = new Send(rmrk, this.interactionObj, this.chain);
+                const send = new Send(rmrk, this.chain);
+                interactObj = send.createSend();
 
                 break;
 
             case ' list' :
 
+                const list = new List(rmrk, this.chain);
+                interactObj = list.createList();
+
                 break;
 
             case 'buy' :
+
+                const buy = new Buy(rmrk, this.chain);
+                interactObj = buy.createBuy();
 
                 break;
 

@@ -39,6 +39,8 @@ class ScanBlock
 
         block.block.extrinsics.forEach((ex) => {
 
+            // TODO find signer
+
             const { method: {
                 args, method, section
             }} = ex;
@@ -49,7 +51,7 @@ class ScanBlock
 
                 if(remark.indexOf("") === 0){
 
-                    // const remrk = '0x726d726b3a3a4348414e47454953535545523a3a302e313a3a306166663638363562656433613636622d444c45503a3a4876694855536b4d35536b6e587a59755043536673743343584b34596736535765726f50365464545a425a4a625654';
+                    // const remrk = '0x726d726b3a3a4255593a3a302e313a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d30303030303030303030303030303031';
                     // const uri = hexToString(remrk);
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
