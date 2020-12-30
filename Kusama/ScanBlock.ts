@@ -11,6 +11,11 @@ class ScanBlock
     wsProvider;
     api;
     chain: Blockchain;
+    toHide = [
+        'defaultVersion',
+        'nft',
+        'collection'
+    ];
 
     constructor(chain: Blockchain){
         this.chain = chain;
@@ -62,7 +67,9 @@ class ScanBlock
                     const reader = new RmrkReader(this.chain);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
-                    console.log(rmrkReader);
+                    const jason = JSON.stringify(rmrkReader);
+
+                    console.log(jason);
 
                     blockRmrks.push({
                         block : blockNumber,

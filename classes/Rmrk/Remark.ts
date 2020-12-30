@@ -4,6 +4,24 @@ export abstract class Remark
 {
     private defaultVersion = '0.1';
 
+    protected nft = {
+        collection: null,
+        name: null,
+        sn: null,
+        metadata: null,
+        transferable: null
+    };
+
+    protected collection = {
+        version: null,
+        name: null,
+        max: null,
+        symbol: null,
+        id: null,
+        metadata: null,
+        issuer: null,
+    }
+
     version;
     rmrk;
     chain: Blockchain;
@@ -18,5 +36,6 @@ export abstract class Remark
 
         this.version = version;
     }
+
 
 }

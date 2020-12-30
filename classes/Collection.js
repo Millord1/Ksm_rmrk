@@ -18,17 +18,7 @@ var Entity_1 = require("./Rmrk/Entity");
 var Collection = /** @class */ (function (_super) {
     __extends(Collection, _super);
     function Collection(rmrk, chain, version) {
-        var _this = _super.call(this, rmrk, Collection.constructor.name, chain, version) || this;
-        _this.obj = {
-            version: null,
-            name: null,
-            max: null,
-            symbol: null,
-            id: null,
-            metadata: null,
-            issuer: null,
-        };
-        return _this;
+        return _super.call(this, rmrk, Collection.constructor.name, chain, version) || this;
     }
     Collection.prototype.rmrkToObject = function (obj) {
         this.metadata = obj.metadata;
@@ -52,14 +42,14 @@ var Collection = /** @class */ (function (_super) {
             var datas = index.split(':');
             if (datas.length > 2) {
                 if (datas[0] === 'metadata') {
-                    _this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                    _this.collection[datas[0]] = datas[1] + ':' + datas[2];
                 }
             }
             else {
-                _this.obj[datas[0]] = datas[1];
+                _this.collection[datas[0]] = datas[1];
             }
         });
-        return this.rmrkToObject(this.obj);
+        return this.rmrkToObject(this.collection);
     };
     return Collection;
 }(Entity_1.Entity));

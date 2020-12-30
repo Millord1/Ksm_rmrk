@@ -7,14 +7,6 @@ import {BlockchainContract} from "./Contract/BlockchainContract";
 export class Nft extends Entity
 {
 
-    private obj = {
-        collection: null,
-        name: null,
-        transferable: null,
-        sn: null,
-        metadata: null
-    };
-
     contractId: string;
     contract: BlockchainContract;
     name: string;
@@ -62,15 +54,15 @@ export class Nft extends Entity
 
             if(datas.length > 2){
                 if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
-                    this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                    this.nft[datas[0]] = datas[1] + ':' + datas[2];
                 }
             }else{
-                this.obj[datas[0]] = datas[1];
+                this.nft[datas[0]] = datas[1];
             }
 
         });
 
-        return this.rmrkToObject(this.obj);
+        return this.rmrkToObject(this.nft);
     }
 
 
