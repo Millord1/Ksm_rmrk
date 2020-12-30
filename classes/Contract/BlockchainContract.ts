@@ -2,7 +2,7 @@ import {BlockchainAddress} from "../Addresses/BlockchainAddress";
 import {Collection} from "../Collection";
 import {Blockchain} from "../Blockchains/Blockchain";
 
-export class BlockchainContract
+export abstract class BlockchainContract
 {
 
     version: string;

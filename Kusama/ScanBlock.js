@@ -42,8 +42,8 @@ var Kusama_1 = require("../classes/Blockchains/Kusama");
 var RmrkReader_1 = require("./RmrkReader");
 var ScanBlock = /** @class */ (function () {
     function ScanBlock(chain) {
-        this.wsProvider = new api_1.WsProvider('wss://kusama-rpc.polkadot.io/');
         this.chain = chain;
+        this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
     }
     ScanBlock.prototype.getApi = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -86,7 +86,7 @@ var ScanBlock = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
-                                    // const remrk = '0x726d726b3a3a4255593a3a302e313a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d30303030303030303030303030303031';
+                                    // const remrk = '0x76616c68656c6c6f3a3a4845414c574954483a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d303030303030303030303030303030313a3a43706a734c4443314a467972686d3366744339477334516f79726b484b685a4b744b37597147545246745461666770';
                                     // const uri = hexToString(remrk);
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
@@ -110,14 +110,16 @@ var ScanBlock = /** @class */ (function () {
     return ScanBlock;
 }());
 var scan = new ScanBlock(new Kusama_1.Kusama());
+// const scan = new ScanBlock(new Polkadot());
 // FAIL
 // scan.getRmrks(5445790);
 // Human Json (file)
-// scan.getRmrks(5445689);
+// scan.getRmrks(5445790);
 //Send
 // scan.getRmrks(5437975);
 // MintNft
-scan.getRmrks(5420541);
+// scan.getRmrks(5420541);
 // Mint
 // scan.getRmrks(5083411);
+scan.getRmrks(5437975);
 //# sourceMappingURL=ScanBlock.js.map

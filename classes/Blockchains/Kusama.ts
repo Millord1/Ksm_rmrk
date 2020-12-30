@@ -10,6 +10,7 @@ export class Kusama extends SubstrateChain
 
     constructor(){
         super("Kusama", "KSM", "", true, new KusamaAddress());
+        this.wsProvider = 'wss://kusama-rpc.polkadot.io/';
     }
 
 }

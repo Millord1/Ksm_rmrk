@@ -20,7 +20,9 @@ var KusamaContract_1 = require("../Contract/KusamaContract");
 var Kusama = /** @class */ (function (_super) {
     __extends(Kusama, _super);
     function Kusama() {
-        return _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_1.KusamaAddress()) || this;
+        var _this = _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_1.KusamaAddress()) || this;
+        _this.wsProvider = 'wss://kusama-rpc.polkadot.io/';
+        return _this;
     }
     Kusama.contractClass = new KusamaContract_1.KusamaContract();
     return Kusama;

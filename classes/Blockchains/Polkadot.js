@@ -19,7 +19,9 @@ var KusamaAddress_1 = require("../Addresses/KusamaAddress");
 var Polkadot = /** @class */ (function (_super) {
     __extends(Polkadot, _super);
     function Polkadot() {
-        return _super.call(this, "Polkadot", "DOT", "", false, KusamaAddress_1.KusamaAddress) || this;
+        var _this = _super.call(this, "Polkadot", "DOT", "", false, KusamaAddress_1.KusamaAddress) || this;
+        _this.wsProvider = 'wss://rpc.polkadot.io';
+        return _this;
     }
     return Polkadot;
 }(Blockchain_1.Blockchain));

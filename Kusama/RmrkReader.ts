@@ -7,6 +7,7 @@ import {Mint} from "../classes/Rmrk/Interactions/Mint";
 import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer";
 import {List} from "../classes/Rmrk/Interactions/List";
 import {Buy} from "../classes/Rmrk/Interactions/Buy";
+import {Consume} from "../classes/Rmrk/Interactions/Consume";
 
 
 export class RmrkReader
@@ -31,14 +32,15 @@ export class RmrkReader
         this.chain = chain;
     }
 
+
     public readRmrk(rmrk: string){
 
-        const firstChars = rmrk.substring(0, 4);
+        const isInteraction = rmrk.includes('::');
 
-        if(firstChars.toLowerCase() === 'rmrk'){
-            this.readInteraction(rmrk);
+        if(isInteraction){
+            return this.readInteraction(rmrk);
         }else{
-            this.readEntity(rmrk);
+            return this.readEntity(rmrk);
         }
 
     }
@@ -122,13 +124,15 @@ export class RmrkReader
                 break;
 
             case 'consume' :
+            default :
+
+                const consume = new Consume(rmrk, this.chain);
+                interactObj = consume.createConsume();
 
                 break;
         }
 
-        console.log(interactObj);
         return interactObj;
-
     }
 
 

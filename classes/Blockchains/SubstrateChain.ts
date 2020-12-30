@@ -3,12 +3,12 @@ import {Polkadot} from "./Polkadot";
 const fs = require('fs');
 const path = require('path');
 
-export class SubstrateChain extends Blockchain
+export abstract class SubstrateChain extends Blockchain
 {
 
     substrateOf;
 
-    constructor(name, symbol, prefix, isSubstrate, addressClass) {
+    protected constructor(name, symbol, prefix, isSubstrate, addressClass) {
         super(name, symbol, prefix, isSubstrate, addressClass);
         this.checkSubstrate();
     }
