@@ -26,7 +26,7 @@ export class RmrkReader
         collection: null
     }
 
-    chain;
+    chain: Blockchain;
 
     constructor(chain: Blockchain){
         this.chain = chain;

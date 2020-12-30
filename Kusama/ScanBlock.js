@@ -42,6 +42,11 @@ var Kusama_1 = require("../classes/Blockchains/Kusama");
 var RmrkReader_1 = require("./RmrkReader");
 var ScanBlock = /** @class */ (function () {
     function ScanBlock(chain) {
+        this.toHide = [
+            'defaultVersion',
+            'nft',
+            'collection'
+        ];
         this.chain = chain;
         this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
     }
@@ -93,7 +98,8 @@ var ScanBlock = /** @class */ (function () {
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                                     var reader = new RmrkReader_1.RmrkReader(_this.chain);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
-                                    console.log(rmrkReader);
+                                    var jason = JSON.stringify(rmrkReader);
+                                    console.log(jason);
                                     blockRmrks.push({
                                         block: blockNumber,
                                         rmrk: lisibleUri,

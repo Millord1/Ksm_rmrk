@@ -6,16 +6,6 @@ import {BlockchainContract} from "./Contract/BlockchainContract";
 export class Collection extends Entity
 {
 
-    private obj = {
-        version: null,
-        name: null,
-        max: null,
-        symbol: null,
-        id: null,
-        metadata: null,
-        issuer: null,
-    }
-
     metadata: string;
     name: string;
     contract: BlockchainContract;
@@ -59,15 +49,15 @@ export class Collection extends Entity
 
             if(datas.length > 2){
                 if(datas[0] === 'metadata'){
-                    this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                    this.collection[datas[0]] = datas[1] + ':' + datas[2];
                 }
             }else{
-                this.obj[datas[0]] = datas[1];
+                this.collection[datas[0]] = datas[1];
             }
 
         });
 
-        return this.rmrkToObject(this.obj);
+        return this.rmrkToObject(this.collection);
     }
 
 }

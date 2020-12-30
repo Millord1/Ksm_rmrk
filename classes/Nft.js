@@ -19,15 +19,7 @@ var BlockchainContract_1 = require("./Contract/BlockchainContract");
 var Nft = /** @class */ (function (_super) {
     __extends(Nft, _super);
     function Nft(rmrk, chain, version) {
-        var _this = _super.call(this, rmrk, Nft.constructor.name, chain, version) || this;
-        _this.obj = {
-            collection: null,
-            name: null,
-            transferable: null,
-            sn: null,
-            metadata: null
-        };
-        return _this;
+        return _super.call(this, rmrk, Nft.constructor.name, chain, version) || this;
     }
     Nft.prototype.rmrkToObject = function (obj) {
         if (obj.contract instanceof BlockchainContract_1.BlockchainContract) {
@@ -54,14 +46,14 @@ var Nft = /** @class */ (function (_super) {
             var datas = data.split(':');
             if (datas.length > 2) {
                 if (datas[0] === 'metadata' && datas[1] === 'ipfs') {
-                    _this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                    _this.nft[datas[0]] = datas[1] + ':' + datas[2];
                 }
             }
             else {
-                _this.obj[datas[0]] = datas[1];
+                _this.nft[datas[0]] = datas[1];
             }
         });
-        return this.rmrkToObject(this.obj);
+        return this.rmrkToObject(this.nft);
     };
     return Nft;
 }(Entity_1.Entity));
