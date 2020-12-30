@@ -2,7 +2,7 @@ import {BlockchainAddress} from "../Addresses/BlockchainAddress";
 import {Collection} from "../Collection";
 import {Blockchain} from "../Blockchains/Blockchain";
 
-export class BlockchainContract
+export abstract class BlockchainContract
 {
 
     version: string;
@@ -12,13 +12,13 @@ export class BlockchainContract
     id: string;
 
     chain: Blockchain;
-    collection: Collection;
+    collection: string;
 
 
     public createContract(obj, chain: Blockchain, collection: Collection){
 
         this.chain = chain;
-        this.collection = collection;
+        this.collection = collection.name;
 
         this.version = obj.version;
         this.max = obj.max;

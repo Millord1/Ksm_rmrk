@@ -1,6 +1,6 @@
 import {Blockchain} from "../Blockchains/Blockchain";
 
-export class Remark
+export abstract class Remark
 {
     private defaultVersion = '0.1';
 
@@ -8,7 +8,7 @@ export class Remark
     rmrk;
     chain: Blockchain;
 
-    constructor(version, rmrk, chain){
+    protected constructor(version, rmrk, chain){
         this.rmrk = rmrk;
         this.chain = chain;
 

@@ -18,7 +18,17 @@ var Entity_1 = require("./Rmrk/Entity");
 var Collection = /** @class */ (function (_super) {
     __extends(Collection, _super);
     function Collection(rmrk, chain, version) {
-        return _super.call(this, rmrk, Collection.constructor.name, chain, version) || this;
+        var _this = _super.call(this, rmrk, Collection.constructor.name, chain, version) || this;
+        _this.obj = {
+            version: null,
+            name: null,
+            max: null,
+            symbol: null,
+            id: null,
+            metadata: null,
+            issuer: null,
+        };
+        return _this;
     }
     Collection.prototype.rmrkToObject = function (obj) {
         this.metadata = obj.metadata;
@@ -31,6 +41,25 @@ var Collection = /** @class */ (function (_super) {
         this.contract = myChain.contractClass;
         this.contract.createContract(obj, this.chain, this);
         return this;
+    };
+    Collection.prototype.createCollectionFromInteraction = function () {
+        var _this = this;
+        var splitted = this.rmrk.split('::');
+        splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
+        var datas = splitted[2].split(',');
+        datas.forEach(function (index) {
+            index = index.replace(/[&\/\\+_-]/g, ' ');
+            var datas = index.split(':');
+            if (datas.length > 2) {
+                if (datas[0] === 'metadata') {
+                    _this.obj[datas[0]] = datas[1] + ':' + datas[2];
+                }
+            }
+            else {
+                _this.obj[datas[0]] = datas[1];
+            }
+        });
+        return this.rmrkToObject(this.obj);
     };
     return Collection;
 }(Entity_1.Entity));
