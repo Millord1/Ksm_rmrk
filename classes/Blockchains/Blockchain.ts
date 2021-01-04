@@ -8,7 +8,7 @@ export abstract class Blockchain implements BlockchainInterface
     symbol;
     prefix;
     isSubstrate;
-    addressClass: BlockchainAddress;
+    address: BlockchainAddress;
     wsProvider;
 
     protected constructor(name, symbol, prefix, isSubstrate, addressClass){
@@ -16,11 +16,11 @@ export abstract class Blockchain implements BlockchainInterface
         this.symbol = symbol;
         this.prefix = prefix;
         this.isSubstrate = isSubstrate;
-        this.addressClass = addressClass;
+        this.address = addressClass;
     }
 
     public getAddressClass(){
-        return this.addressClass;
+        return this.address;
     }
 
 }
