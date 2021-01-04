@@ -6,7 +6,7 @@ import {Nft} from "../Nft";
 export abstract class Interaction extends Remark
 {
 
-    interaction;
+    interaction: string;
 
     protected constructor(rmrk: string, interaction:string, chain: Blockchain, version) {
         super(version, rmrk, chain);
@@ -21,7 +21,7 @@ export abstract class Interaction extends Remark
 
     public nftFromComputedId(computed){
 
-        const nftDatas = this.checkDatasLength(computed.split('-'), 3);
+        let nftDatas = this.checkDatasLength(computed.split('-'), 3);
 
         this.nft.collection = nftDatas[0];
         this.nft.name = nftDatas[1];
@@ -33,11 +33,42 @@ export abstract class Interaction extends Remark
 
 
     private checkDatasLength(datas: Array<string>, length: number){
+
         if(datas.length > length){
+
             const name = datas[0] + '-' + datas[1];
             datas.splice(0, 2);
-            datas.unshift(name);
+
+            const sn = datas[datas.length -1];
+
+            let isNumber = true;
+
+            for (let i=0; i < sn.length; i++ ){
+                if( isNaN(parseInt(sn[i])) ){
+                    isNumber = false;
+                }
+            }
+
+            if(isNumber){
+
+                const serialN = sn;
+                datas.pop();
+
+                let nftName = '';
+
+                for (let i=0; i < datas.length; i++){
+                    let first = (i === 0) ? '' : '-';
+                    nftName += first + datas[i];
+                }
+
+                datas = [];
+
+                datas.unshift(serialN);
+                datas.unshift(nftName);
+                datas.unshift(name);
+            }
         }
+
         return datas;
     }
 

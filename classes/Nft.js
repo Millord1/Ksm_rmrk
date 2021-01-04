@@ -19,7 +19,7 @@ var BlockchainContract_1 = require("./Contract/BlockchainContract");
 var Nft = /** @class */ (function (_super) {
     __extends(Nft, _super);
     function Nft(rmrk, chain, version) {
-        return _super.call(this, rmrk, Nft.constructor.name, chain, version) || this;
+        return _super.call(this, rmrk, Nft.name, chain, version) || this;
     }
     Nft.prototype.rmrkToObject = function (obj) {
         if (obj.contract instanceof BlockchainContract_1.BlockchainContract) {

@@ -19,9 +19,11 @@ var Kusama_1 = require("../Blockchains/Kusama");
 var KusamaAddress = /** @class */ (function (_super) {
     __extends(KusamaAddress, _super);
     function KusamaAddress() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        KusamaAddress.blockchain = Kusama_1.Kusama;
+        _this.blockchainName = KusamaAddress.blockchain.name;
+        return _this;
     }
-    KusamaAddress.blockchain = Kusama_1.Kusama;
     return KusamaAddress;
 }(BlockchainAddress_1.BlockchainAddress));
 exports.KusamaAddress = KusamaAddress;

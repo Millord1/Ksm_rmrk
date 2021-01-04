@@ -17,7 +17,7 @@ export class Nft extends Entity
 
 
     constructor(rmrk: string, chain: Blockchain, version: string|null) {
-        super(rmrk, Nft.constructor.name, chain, version);
+        super(rmrk, Nft.name, chain, version);
     }
 
 

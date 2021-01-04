@@ -11,7 +11,7 @@ export class Consume extends Interaction
     consumer: BlockchainAddress;
 
     constructor(rmrk: string, chain: Blockchain) {
-        super(rmrk, Consume.constructor.name, chain, null);
+        super(rmrk, Consume.name, chain, null);
     }
 
 
@@ -50,7 +50,5 @@ export class Consume extends Interaction
 
         return this;
     }
-
-
 
 }

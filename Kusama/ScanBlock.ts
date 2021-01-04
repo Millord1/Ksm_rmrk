@@ -4,6 +4,8 @@ import {Kusama} from "../classes/Blockchains/Kusama";
 import {RmrkReader} from "./RmrkReader";
 import {Blockchain} from "../classes/Blockchains/Blockchain";
 import {Polkadot} from "../classes/Blockchains/Polkadot";
+const fs = require('fs');
+const path = require('path');
 
 
 class ScanBlock
@@ -44,6 +46,8 @@ class ScanBlock
 
         const blockRmrks = [];
 
+        blockRmrks.push({block : blockNumber});
+
         block.block.extrinsics.forEach((ex) => {
 
             // TODO find signer
@@ -58,7 +62,7 @@ class ScanBlock
 
                 if(remark.indexOf("") === 0){
 
-                    // const remrk = '0x76616c68656c6c6f3a3a4845414c574954483a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d303030303030303030303030303030313a3a43706a734c4443314a467972686d3366744339477334516f79726b484b685a4b744b37597147545246745461666770';
+                    // const remrk = '0x726d726b3a3a4d494e544e46543a3a253742253232636f6c6c656374696f6e253232253341253232306166663638363562656433613636622d444c45502532322532432532326e616d65253232253341253232444c31352532322532432532327472616e7366657261626c6525323225334131253243253232736e253232253341253232303030303030303030303030303030312532322532432532326d657461646174612532322533412532326970667325334125324625324669706673253246516d61766f54566256486e4745557a746e425432703372696633714250654366797955453576345a376f467673342532322537440a';
                     // const uri = hexToString(remrk);
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
@@ -69,16 +73,18 @@ class ScanBlock
 
                     const jason = JSON.stringify(rmrkReader);
 
-                    console.log(jason);
+                    fs.writeFileSync(path.resolve(__dirname, "testJson.json"), jason);
+
+                    // console.log(jason);
 
                     blockRmrks.push({
-                        block : blockNumber,
-                        rmrk : lisibleUri,
+                        rmrk : rmrkReader,
                     });
                 }
             }
 
         })
+
         console.log(blockRmrks);
         return blockRmrks;
     }
