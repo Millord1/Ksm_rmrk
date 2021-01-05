@@ -1,12 +1,13 @@
 import {Interaction} from "../Interaction";
 import {Blockchain} from "../../Blockchains/Blockchain";
 import {BlockchainAddress} from "../../Addresses/BlockchainAddress";
+import {Nft} from "../../Nft";
 
 
 export class Send extends Interaction
 {
 
-    nftId;
+    nftId: Nft;
     recipient: BlockchainAddress;
 
     constructor(rmrk: string, chain: Blockchain){
@@ -30,6 +31,16 @@ export class Send extends Interaction
         this.recipient = blockchainAddress;
 
         return this;
+    }
+
+
+    public toJson(){
+
+        const json = this.toJsonSerialize();
+        json['nftId'] = this.nftId.toJson(false);
+        json['recipient'] = this.recipient;
+
+        return JSON.stringify(json);
     }
 
 }

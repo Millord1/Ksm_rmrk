@@ -1,5 +1,5 @@
 import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-import {BlockchainInterface} from "../Interfaces";
+import {BlockchainInterface, publicEntity} from "../Interfaces";
 
 
 export abstract class Blockchain implements BlockchainInterface
@@ -22,5 +22,15 @@ export abstract class Blockchain implements BlockchainInterface
     public getAddressClass(){
         return this.address;
     }
+
+
+    toJsonSerialize = () : BlockchainInterface => ({
+        name: this.name,
+        symbol: this.symbol,
+        prefix: this.prefix,
+        isSubstrate: this.isSubstrate,
+        // address: this.address
+    })
+
 
 }

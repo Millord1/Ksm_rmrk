@@ -1,4 +1,5 @@
 import {BlockchainAddress} from "./Addresses/BlockchainAddress";
+import {Blockchain} from "./Blockchains/Blockchain";
 
 
 export interface BlockchainInterface
@@ -7,9 +8,7 @@ export interface BlockchainInterface
     symbol: string;
     prefix: string;
     isSubstrate: boolean;
-
-    getAddressClass(): BlockchainAddress;
-
+    // address: BlockchainAddress
 }
 
 // export interface EntityInterface
@@ -20,3 +19,19 @@ export interface BlockchainInterface
     //
     // rmrkToObject(obj): this;
 // }
+
+export interface publicInteraction
+{
+    version: string;
+    rmrk: string;
+    chain: Blockchain;
+    interaction: string;
+}
+
+export interface publicEntity
+{
+    version: string;
+    rmrk: string;
+    chain: Blockchain;
+    standard: string
+}

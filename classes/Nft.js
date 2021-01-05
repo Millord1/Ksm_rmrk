@@ -55,6 +55,19 @@ var Nft = /** @class */ (function (_super) {
         });
         return this.rmrkToObject(this.nft);
     };
+    Nft.prototype.toJson = function (needStringify) {
+        if (needStringify === void 0) { needStringify = true; }
+        var json = this.toJsonSerialize();
+        json['chain'] = this.chain.toJson(needStringify);
+        json['contractId'] = this.contractId;
+        json['contract'] = this.contract;
+        json['name'] = this.name;
+        json['transferable'] = this.transferable;
+        json['sn'] = this.sn;
+        json['metadata'] = this.metadata;
+        json['issuer'] = this.issuer;
+        return (needStringify) ? JSON.stringify(json) : json;
+    };
     return Nft;
 }(Entity_1.Entity));
 exports.Nft = Nft;

@@ -51,4 +51,16 @@ export class Consume extends Interaction
         return this;
     }
 
+
+    public toJson(){
+
+        const json = this.toJsonSerialize();
+
+        json['nftToConsume'] = this.nftToConsume.toJson(false);
+        json['reason'] = this.reason;
+        json['consumer'] = this.consumer;
+
+        return JSON.stringify(json);
+    }
+
 }

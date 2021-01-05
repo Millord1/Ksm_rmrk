@@ -51,6 +51,15 @@ var Collection = /** @class */ (function (_super) {
         });
         return this.rmrkToObject(this.collection);
     };
+    Collection.prototype.toJson = function (needStringify) {
+        if (needStringify === void 0) { needStringify = true; }
+        var json = this.toJsonSerialize();
+        json['chain'] = this.chain.toJson(needStringify);
+        json['metadata'] = this.metadata;
+        json['name'] = this.name;
+        json['contract'] = this.contract;
+        return (needStringify) ? JSON.stringify(json) : json;
+    };
     return Collection;
 }(Entity_1.Entity));
 exports.Collection = Collection;

@@ -25,7 +25,7 @@ export abstract class Remark
 
     version;
     rmrk;
-    chain: Blockchain;
+    chain;
 
     protected constructor(version, rmrk, chain){
         this.rmrk = rmrk;

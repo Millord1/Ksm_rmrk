@@ -1,0 +1,39 @@
+{
+  "version": "0.1",
+  "rmrk": "valhello::HEALWITH::0aff6865bed3a66b-VALHELLO-POTION_HEAL-0000000000000001::CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp",
+  "chain": {
+    "name": "Kusama",
+    "symbol": "KSM",
+    "prefix": "",
+    "isSubstrate": true,
+    "substrateOf": {
+      "name": "Polkadot",
+      "symbol": "DOT",
+      "prefix": "",
+      "isSubstrate": false,
+      "wsProvider": "wss://rpc.polkadot.io"
+    }
+  },
+  "interaction": "Consume",
+  "nftToConsume": {
+    "version": "0.1",
+    "rmrk": "valhello::HEALWITH::0aff6865bed3a66b-VALHELLO-POTION_HEAL-0000000000000001::CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp",
+    "chain": {
+      "name": "Kusama",
+      "symbol": "KSM",
+      "prefix": "",
+      "isSubstrate": true
+    },
+    "standard": "Nft",
+    "contractId": "0aff6865bed3a66b-VALHELLO",
+    "name": "POTION_HEAL",
+    "transferable": null,
+    "sn": "0000000000000001",
+    "metadata": null
+  },
+  "reason": "HEALWITH",
+  "consumer": {
+    "blockchainName": "Kusama",
+    "address": "CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp"
+  }
+}

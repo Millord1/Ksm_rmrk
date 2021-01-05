@@ -24,6 +24,14 @@ var Kusama = /** @class */ (function (_super) {
         _this.wsProvider = 'wss://kusama-rpc.polkadot.io/';
         return _this;
     }
+    Kusama.prototype.toJson = function (needSubstrate) {
+        if (needSubstrate === void 0) { needSubstrate = true; }
+        var json = this.toJsonSerialize();
+        if (this.isSubstrate && needSubstrate) {
+            json['substrateOf'] = this.substrateOf;
+        }
+        return json;
+    };
     Kusama.contractClass = new KusamaContract_1.KusamaContract();
     return Kusama;
 }(SubstrateChain_1.SubstrateChain));

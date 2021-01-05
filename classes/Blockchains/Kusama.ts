@@ -13,4 +13,17 @@ export class Kusama extends SubstrateChain
         this.wsProvider = 'wss://kusama-rpc.polkadot.io/';
     }
 
+
+
+    public toJson(needSubstrate : boolean = true){
+
+        const json = this.toJsonSerialize();
+
+        if(this.isSubstrate && needSubstrate){
+            json['substrateOf'] = this.substrateOf
+        }
+
+        return json;
+    }
+
 }

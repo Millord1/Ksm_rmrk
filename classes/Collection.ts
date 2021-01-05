@@ -60,4 +60,19 @@ export class Collection extends Entity
         return this.rmrkToObject(this.collection);
     }
 
+
+
+    public toJson(needStringify: boolean = true){
+
+        const json = this.toJsonSerialize();
+
+        json['chain'] = this.chain.toJson(needStringify);
+
+        json['metadata'] = this.metadata;
+        json['name'] = this.name;
+        json['contract'] = this.contract;
+
+        return (needStringify) ? JSON.stringify(json) : json;
+    }
+
 }
