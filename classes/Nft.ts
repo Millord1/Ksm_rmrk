@@ -66,4 +66,23 @@ export class Nft extends Entity
     }
 
 
+
+    public toJson(needStringify : boolean = true){
+
+        const json = this.toJsonSerialize();
+
+        json['chain'] = this.chain.toJson(needStringify);
+
+        json['contractId'] = this.contractId;
+        json['contract'] = this.contract;
+        json['name'] = this.name;
+        json['transferable'] = this.transferable;
+        json['sn'] = this.sn;
+        json['metadata'] = this.metadata;
+        json['issuer'] = this.issuer;
+
+        return (needStringify) ? JSON.stringify(json) : json;
+    }
+
+
 }

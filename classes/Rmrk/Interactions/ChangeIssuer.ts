@@ -1,11 +1,12 @@
 import {Interaction} from "../Interaction";
 import {Blockchain} from "../../Blockchains/Blockchain";
+import {BlockchainAddress} from "../../Addresses/BlockchainAddress";
 
 export class ChangeIssuer extends Interaction
 {
 
     collectionId: string;
-    newIssuer: string;
+    newIssuer: BlockchainAddress;
 
     constructor(rmrk: string, chain: Blockchain){
         super(rmrk, ChangeIssuer.name, chain, null);
@@ -16,9 +17,21 @@ export class ChangeIssuer extends Interaction
 
         this.version = splitted[2];
         this.collectionId = splitted[3];
-        this.newIssuer = splitted[4];
+
+        const chainAddress = this.chain.getAddressClass();
+        chainAddress.address = splitted[4];
+        this.newIssuer = chainAddress;
 
         return this;
+    }
+
+
+    public toJson(){
+
+        const json = this.toJsonSerialize();
+        json['collectionId'] = this.collectionId;
+        json['newIssuer'] = this.newIssuer;
+        return JSON.stringify(json);
     }
 
 }

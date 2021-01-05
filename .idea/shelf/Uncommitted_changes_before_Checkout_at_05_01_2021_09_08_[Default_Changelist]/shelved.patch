@@ -1,0 +1,245 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"BranchesTreeState\">\r\n    <expand>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n    </expand>\r\n    <select />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"f8732dee-1c5c-4ee5-b3f2-77d0a9c35040\" name=\"Default Changelist\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Contract/BlockchainContract.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Contract/KusamaContract.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/List.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Send.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Kusama/RmrkReader.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Kusama/RmrkReader.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Kusama/ScanBlock.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Kusama/ScanBlock.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Kusama/ScanBlock.js.map\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Kusama/ScanBlock.js.map\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Kusama/ScanBlock.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Kusama/ScanBlock.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Blockchain.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Blockchain.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Kusama.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Kusama.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Kusama.js.map\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Kusama.js.map\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Kusama.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Kusama.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Collection.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Collection.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Collection.js.map\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Collection.js.map\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Collection.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Collection.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Nft.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Nft.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Nft.js.map\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Nft.js.map\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Nft.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Nft.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Rmrk/Entity.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Rmrk/Entity.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Rmrk/Interaction.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Rmrk/Interaction.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Rmrk/Interfaces.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Interfaces.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Rmrk/Remark.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Rmrk/Remark.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Transaction.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Transaction.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Transaction.js.map\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Transaction.js.map\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/classes/Transaction.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/classes/Transaction.ts\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\">\r\n    <execution />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"tsconfig.json\" />\r\n        <option value=\"TypeScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GithubPullRequestsUISettings\">\r\n    <option name=\"hiddenUrls\">\r\n      <set>\r\n        <option value=\"https://github.com/FatalTio/Ksm_rmrk\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1ljYaIMDZXVEqqi4Zsy96NyJg43\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/Test.ts\" />\r\n    <property name=\"node.js.detected.package.tslint\" value=\"true\" />\r\n    <property name=\"node.js.path.for.package.tslint\" value=\"project\" />\r\n    <property name=\"node.js.selected.package.tslint\" value=\"(autodetect)\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"vcs.Git\" />\r\n    <property name=\"ts.external.directory.path\" value=\"K:\\Program Files\\PhpStorm 2020.2.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"H:\\EDS\\RMRK\\classes\\Contract\" />\r\n      <recent name=\"H:\\EDS\\RMRK\\classes\" />\r\n      <recent name=\"H:\\EDS\\RMRK\\classes\\Addresses\" />\r\n      <recent name=\"H:\\EDS\\RMRK\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunAnythingCache\">\r\n    <option name=\"myCommands\">\r\n      <command value=\"run\" />\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Node.js.ScanBlock.js\">\r\n    <configuration name=\"Basics.js\" type=\"NodeJSConfigurationType\" temporary=\"true\" nameIsGenerated=\"true\" path-to-js-file=\"$PROJECT_DIR$/Polkadot/Basics.js\" working-dir=\"$PROJECT_DIR$/Polkadot\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"ScanBlock.js\" type=\"NodeJSConfigurationType\" temporary=\"true\" nameIsGenerated=\"true\" path-to-js-file=\"$PROJECT_DIR$/Kusama/ScanBlock.js\" working-dir=\"$PROJECT_DIR$/Kusama\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"NodeJSConfigurationType\" path-to-js-file=\"$PROJECT_DIR$/Test.ts\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"basicsCalls.js\" type=\"NodeJSConfigurationType\" temporary=\"true\" nameIsGenerated=\"true\" path-to-js-file=\"$PROJECT_DIR$/Polkadot/basicsCalls.js\" working-dir=\"$PROJECT_DIR$/Polkadot\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"ScanBlock.ts\" type=\"TypeScriptProgramRunner\" factoryName=\"TypeScript\" temporary=\"true\">\r\n      <module name=\"RMRK\" />\r\n      <option name=\"interpreterRef\" value=\"project\" />\r\n      <option name=\"interpreterOptions\" value=\"\" />\r\n      <option name=\"workingDirectory\" value=\"$PROJECT_DIR$/Kusama\" />\r\n      <option name=\"tsconfigFile\" value=\"\" />\r\n      <option name=\"extraTypeScriptOptions\" value=\"\" />\r\n      <option name=\"scriptName\" value=\"$PROJECT_DIR$/Kusama/ScanBlock.ts\" />\r\n      <option name=\"programParameters\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"basicsCalls.ts\" type=\"TypeScriptProgramRunner\" factoryName=\"TypeScript\" temporary=\"true\">\r\n      <module name=\"RMRK\" />\r\n      <option name=\"interpreterRef\" value=\"project\" />\r\n      <option name=\"interpreterOptions\" value=\"\" />\r\n      <option name=\"workingDirectory\" value=\"$PROJECT_DIR$/Polkadot\" />\r\n      <option name=\"tsconfigFile\" value=\"\" />\r\n      <option name=\"extraTypeScriptOptions\" value=\"\" />\r\n      <option name=\"scriptName\" value=\"$PROJECT_DIR$/Polkadot/basicsCalls.ts\" />\r\n      <option name=\"programParameters\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Node.js.Basics.js\" />\r\n      <item itemvalue=\"Node.js.basicsCalls.js\" />\r\n      <item itemvalue=\"Node.js.ScanBlock.js\" />\r\n      <item itemvalue=\"TypeScript.basicsCalls.ts\" />\r\n      <item itemvalue=\"TypeScript.ScanBlock.ts\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Node.js.ScanBlock.js\" />\r\n        <item itemvalue=\"TypeScript.ScanBlock.ts\" />\r\n        <item itemvalue=\"Node.js.basicsCalls.js\" />\r\n        <item itemvalue=\"TypeScript.basicsCalls.ts\" />\r\n        <item itemvalue=\"Node.js.Basics.js\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"f8732dee-1c5c-4ee5-b3f2-77d0a9c35040\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1608112030736</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1608112030736</updated>\r\n      <workItem from=\"1608112032500\" duration=\"5399000\" />\r\n      <workItem from=\"1608125043782\" duration=\"4335000\" />\r\n      <workItem from=\"1608543653751\" duration=\"19660000\" />\r\n      <workItem from=\"1608624350196\" duration=\"25251000\" />\r\n      <workItem from=\"1608710586014\" duration=\"20598000\" />\r\n      <workItem from=\"1608803324154\" duration=\"4830000\" />\r\n      <workItem from=\"1609142905596\" duration=\"12990000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"add objects\">\r\n      <created>1608657103500</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1608657103500</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"change architecture\">\r\n      <created>1608722131848</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1608722131848</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"change architecture and treatment of rmrk Entities\">\r\n      <created>1608735201920</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1608735201920</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n    <option name=\"exactExcludedFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/Polkadot/basicsCalls.js\" />\r\n        <option value=\"$PROJECT_DIR$/Polkadot/basicsCalls.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Collection.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Collection.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Transaction.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Transaction.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/Blockchain.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/Kusama.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/Kusama.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/Kusama/ScanBlock.js\" />\r\n        <option value=\"$PROJECT_DIR$/Kusama/ScanBlock.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Nft.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Nft.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Addresses/KusamaAddress.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Remark.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Remark.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Entity.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Entity.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interaction.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interaction.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/Kusama/RmrkReader.js\" />\r\n        <option value=\"$PROJECT_DIR$/Kusama/RmrkReader.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Contract/KusamaContract.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Contract/KusamaContract.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/List.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map\" />\r\n        <option value=\"$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"add objects\" />\r\n    <MESSAGE value=\"change architecture\" />\r\n    <MESSAGE value=\"change architecture and treatment of rmrk Entities\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"change architecture and treatment of rmrk Entities\" />\r\n  </component>\r\n  <component name=\"WindowStateProjectService\">\r\n    <state x=\"2334\" y=\"183\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog\" timestamp=\"1608113564049\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2334\" y=\"183\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608113564049\" />\r\n    <state x=\"2668\" y=\"264\" key=\"#com.intellij.refactoring.rename.AutomaticRenamingDialog\" timestamp=\"1608729351131\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2668\" y=\"264\" key=\"#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608729351131\" />\r\n    <state x=\"58\" y=\"90\" width=\"1736\" height=\"856\" key=\"DiffContextDialog\" timestamp=\"1608548734680\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"58\" y=\"90\" width=\"1736\" height=\"856\" key=\"DiffContextDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608548734680\" />\r\n    <state x=\"2660\" y=\"283\" key=\"FileChooserDialogImpl\" timestamp=\"1608113517614\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2660\" y=\"283\" key=\"FileChooserDialogImpl/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608113517614\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1609158061097\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"181\" key=\"GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040\" timestamp=\"1608143888372\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1609158061097\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.center\" timestamp=\"1609158061097\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"181\" key=\"GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040\" timestamp=\"1608143888371\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1609158061097\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.left\" timestamp=\"1609158061097\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"181\" key=\"GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040\" timestamp=\"1608143888371\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1609158061097\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.right\" timestamp=\"1609158061097\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"181\" key=\"GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040\" timestamp=\"1608143888371\" />\r\n    <state width=\"1877\" height=\"215\" key=\"GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1609158061097\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.bottom\" timestamp=\"1608120234201\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234201\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.center\" timestamp=\"1608120234201\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234201\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.left\" timestamp=\"1608120234201\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234201\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.right\" timestamp=\"1608120234201\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.1.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234201\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.bottom\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.center\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.left\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.right\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.2.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.bottom\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.center\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.left\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.right\" timestamp=\"1608120234202\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1877\" height=\"348\" key=\"GridCell.Tab.3.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608120234202\" />\r\n    <state x=\"2460\" y=\"263\" key=\"IDE.errors.dialog\" timestamp=\"1608551286508\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2460\" y=\"263\" key=\"IDE.errors.dialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608551286508\" />\r\n    <state x=\"2381\" y=\"173\" key=\"SettingsEditor\" timestamp=\"1608722244798\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2381\" y=\"173\" key=\"SettingsEditor/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608722244798\" />\r\n    <state width=\"498\" height=\"446\" key=\"SwitcherDM\" timestamp=\"1608733548675\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"498\" height=\"446\" key=\"SwitcherDM/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608733548675\" />\r\n    <state x=\"2472\" y=\"261\" key=\"Vcs.Push.Dialog.v2\" timestamp=\"1608735208525\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2472\" y=\"261\" key=\"Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608735208525\" />\r\n    <state x=\"2012\" y=\"100\" width=\"1736\" height=\"856\" key=\"com.intellij.history.integration.ui.views.DirectoryHistoryDialog\" timestamp=\"1608548607275\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2012\" y=\"100\" width=\"1736\" height=\"856\" key=\"com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608548607275\" />\r\n    <state x=\"2536\" y=\"244\" key=\"run.anything.popup\" timestamp=\"1608112893977\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2536\" y=\"244\" key=\"run.anything.popup/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608112893977\" />\r\n    <state x=\"2543\" y=\"233\" width=\"672\" height=\"678\" key=\"search.everywhere.popup\" timestamp=\"1608640140896\">\r\n      <screen x=\"1920\" y=\"8\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"2543\" y=\"233\" width=\"672\" height=\"678\" key=\"search.everywhere.popup/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040\" timestamp=\"1608640140896\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision aa0ca163a975799f4e56653cac852db6ec401ed9)
++++ .idea/workspace.xml	(date 1609834062410)
+@@ -20,40 +20,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="">
+-      <change afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.ts" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Collection.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js.map" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Nft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Nft.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js.map" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Nft.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Transaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Transaction.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.js.map" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/classes/Transaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.ts" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -183,6 +151,12 @@
+       <workItem from="1608710586014" duration="20598000" />
+       <workItem from="1608803324154" duration="4830000" />
+       <workItem from="1609142905596" duration="12990000" />
++      <workItem from="1609161271719" duration="6649000" />
++      <workItem from="1609229189827" duration="8988000" />
++      <workItem from="1609247034039" duration="2408000" />
++      <workItem from="1609315498816" duration="11338000" />
++      <workItem from="1609747490431" duration="18612000" />
++      <workItem from="1609833786244" duration="277000" />
+     </task>
+     <task id="LOCAL-00001" summary="add objects">
+       <created>1608657103500</created>
+@@ -205,7 +179,70 @@
+       <option name="project" value="LOCAL" />
+       <updated>1608735201920</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="add collection and contract for Sandra">
++      <created>1609161349855</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1609161349855</updated>
++    </task>
++    <task id="LOCAL-00005" summary="add rmrk interactions">
++      <created>1609161363400</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1609161363400</updated>
++    </task>
++    <task id="LOCAL-00006" summary="add rmrk interactions">
++      <created>1609161567727</created>
++      <option name="number" value="00006" />
++      <option name="presentableId" value="LOCAL-00006" />
++      <option name="project" value="LOCAL" />
++      <updated>1609161567727</updated>
++    </task>
++    <task id="LOCAL-00007" summary="change interactions">
++      <created>1609167911664</created>
++      <option name="number" value="00007" />
++      <option name="presentableId" value="LOCAL-00007" />
++      <option name="project" value="LOCAL" />
++      <updated>1609167911664</updated>
++    </task>
++    <task id="LOCAL-00008" summary="add interactions and change instanciation">
++      <created>1609239437294</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1609239437294</updated>
++    </task>
++    <task id="LOCAL-00009" summary="add consume and light modifs">
++      <created>1609321892046</created>
++      <option name="number" value="00009" />
++      <option name="presentableId" value="LOCAL-00009" />
++      <option name="project" value="LOCAL" />
++      <updated>1609321892046</updated>
++    </task>
++    <task id="LOCAL-00010" summary="add modification of abstract remark">
++      <created>1609327218847</created>
++      <option name="number" value="00010" />
++      <option name="presentableId" value="LOCAL-00010" />
++      <option name="project" value="LOCAL" />
++      <updated>1609327218847</updated>
++    </task>
++    <task id="LOCAL-00011" summary="modif interactions and prepare for serialization">
++      <created>1609777234718</created>
++      <option name="number" value="00011" />
++      <option name="presentableId" value="LOCAL-00011" />
++      <option name="project" value="LOCAL" />
++      <updated>1609777234718</updated>
++    </task>
++    <task id="LOCAL-00012" summary="change collection's metadata display">
++      <created>1609780419589</created>
++      <option name="number" value="00012" />
++      <option name="presentableId" value="LOCAL-00012" />
++      <option name="project" value="LOCAL" />
++      <updated>1609780419589</updated>
++    </task>
++    <option name="localTasksCounter" value="13" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -216,8 +253,6 @@
+         <option value="$PROJECT_DIR$/Polkadot/basicsCalls.js.map" />
+         <option value="$PROJECT_DIR$/classes/Collection.js" />
+         <option value="$PROJECT_DIR$/classes/Collection.js.map" />
+-        <option value="$PROJECT_DIR$/classes/Transaction.js.map" />
+-        <option value="$PROJECT_DIR$/classes/Transaction.js" />
+         <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" />
+         <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" />
+         <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js" />
+@@ -275,7 +310,15 @@
+     <MESSAGE value="add objects" />
+     <MESSAGE value="change architecture" />
+     <MESSAGE value="change architecture and treatment of rmrk Entities" />
+-    <option name="LAST_COMMIT_MESSAGE" value="change architecture and treatment of rmrk Entities" />
++    <MESSAGE value="add collection and contract for Sandra" />
++    <MESSAGE value="add rmrk interactions" />
++    <MESSAGE value="change interactions" />
++    <MESSAGE value="add interactions and change instanciation" />
++    <MESSAGE value="add consume and light modifs" />
++    <MESSAGE value="add modification of abstract remark" />
++    <MESSAGE value="modif interactions and prepare for serialization" />
++    <MESSAGE value="change collection's metadata display" />
++    <option name="LAST_COMMIT_MESSAGE" value="change collection's metadata display" />
+   </component>
+   <component name="WindowStateProjectService">
+     <state x="2334" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608113564049">
+@@ -294,26 +337,30 @@
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+     <state x="2660" y="283" key="FileChooserDialogImpl/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113517614" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.bottom" timestamp="1609158061097">
++    <state x="1920" y="23" key="FileDocumentManager.FileCacheConflict" timestamp="1609756119614">
++      <screen x="1920" y="8" width="1920" height="1040" />
++    </state>
++    <state x="1920" y="23" key="FileDocumentManager.FileCacheConflict/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609756119614" />
++    <state width="1877" height="269" key="GridCell.Tab.0.bottom" timestamp="1609780434548">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state width="1877" height="181" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888372" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.center" timestamp="1609158061097">
++    <state width="1877" height="171" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1609262329797" />
++    <state width="1877" height="269" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609780434548" />
++    <state width="1877" height="269" key="GridCell.Tab.0.center" timestamp="1609780434547">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state width="1877" height="181" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.left" timestamp="1609158061097">
++    <state width="1877" height="171" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1609262329796" />
++    <state width="1877" height="269" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609780434547" />
++    <state width="1877" height="269" key="GridCell.Tab.0.left" timestamp="1609780434547">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state width="1877" height="181" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.right" timestamp="1609158061097">
++    <state width="1877" height="171" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1609262329796" />
++    <state width="1877" height="269" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609780434547" />
++    <state width="1877" height="269" key="GridCell.Tab.0.right" timestamp="1609780434547">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state width="1877" height="181" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
+-    <state width="1877" height="215" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
++    <state width="1877" height="171" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1609262329796" />
++    <state width="1877" height="269" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609780434547" />
+     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608120234201">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+@@ -370,25 +417,33 @@
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+     <state x="2381" y="173" key="SettingsEditor/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608722244798" />
+-    <state width="498" height="446" key="SwitcherDM" timestamp="1608733548675">
++    <state width="498" height="446" key="SwitcherDM" timestamp="1609162674080">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608733548675" />
+-    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1608735208525">
++    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609162674080" />
++    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1609834008252">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608735208525" />
++    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609834008252" />
+     <state x="2012" y="100" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1608548607275">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+     <state x="2012" y="100" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608548607275" />
++    <state x="2011" y="8" width="850" height="768" key="dock-window-1" timestamp="1609162931860">
++      <screen x="1920" y="8" width="1920" height="1040" />
++    </state>
++    <state x="2011" y="8" width="850" height="768" key="dock-window-1/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609162931860" />
++    <state x="2660" y="241" key="git4idea.branch.GitSmartOperationDialog" timestamp="1609833946776">
++      <screen x="1920" y="8" width="1920" height="1040" />
++    </state>
++    <state x="2660" y="241" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609833946776" />
+     <state x="2536" y="244" key="run.anything.popup" timestamp="1608112893977">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+     <state x="2536" y="244" key="run.anything.popup/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608112893977" />
+-    <state x="2543" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1608640140896">
++    <state x="2543" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1609167969279">
+       <screen x="1920" y="8" width="1920" height="1040" />
+     </state>
+-    <state x="2543" y="233" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608640140896" />
++    <state x="2543" y="233" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609167969279" />
+   </component>
+ </project>
+\ No newline at end of file

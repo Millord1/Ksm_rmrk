@@ -16,4 +16,11 @@ export class Mint extends Interaction
         this.myCollection = myCollection.createCollectionFromInteraction();
         return this;
     }
+
+
+    public toJson(){
+        const json = this.myCollection.toJson(false);
+        json['interaction'] = this.interaction;
+        return JSON.stringify(json);
+    }
 }

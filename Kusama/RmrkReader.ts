@@ -121,7 +121,7 @@ export class RmrkReader
 
                 break;
 
-            case ' list' :
+            case 'list' :
 
                 const list = new List(rmrk, this.chain);
                 interactObj = list.createList();

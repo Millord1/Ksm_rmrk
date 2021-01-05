@@ -1,5 +1,4 @@
-import {Blockchain} from "../Blockchains/Blockchain";
-import {SubstrateChain} from "../Blockchains/SubstrateChain";
+
 
 export abstract class BlockchainAddress
 {
@@ -8,6 +7,10 @@ export abstract class BlockchainAddress
     public static blockchain;
 
     protected constructor(){
+    }
+
+    public toJson(){
+        return {blockchainName: this.blockchainName}
     }
 
 }

@@ -20,40 +20,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kusama/ScanBlock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/ScanBlock.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Collection.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Collection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Nft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Nft.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Nft.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Transaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Transaction.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Transaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Transaction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,10 +74,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="test_serializer" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GithubPullRequestsUISettings">
     <option name="hiddenUrls">
@@ -138,6 +139,7 @@
       <option name="extraTypeScriptOptions" value="" />
       <option name="scriptName" value="$PROJECT_DIR$/Kusama/ScanBlock.ts" />
       <option name="programParameters" value="" />
+      <option name="tsnodePackage" value="H:\EDS\RMRK\node_modules\ts-node" />
       <method v="2" />
     </configuration>
     <configuration name="basicsCalls.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
@@ -154,16 +156,16 @@
     <list>
       <item itemvalue="Node.js.Basics.js" />
       <item itemvalue="Node.js.basicsCalls.js" />
-      <item itemvalue="Node.js.ScanBlock.js" />
       <item itemvalue="TypeScript.basicsCalls.ts" />
+      <item itemvalue="Node.js.ScanBlock.js" />
       <item itemvalue="TypeScript.ScanBlock.ts" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.ScanBlock.js" />
         <item itemvalue="TypeScript.ScanBlock.ts" />
-        <item itemvalue="Node.js.basicsCalls.js" />
         <item itemvalue="TypeScript.basicsCalls.ts" />
+        <item itemvalue="Node.js.basicsCalls.js" />
         <item itemvalue="Node.js.Basics.js" />
       </list>
     </recent_temporary>
@@ -216,46 +218,82 @@
         <option value="$PROJECT_DIR$/Polkadot/basicsCalls.js.map" />
         <option value="$PROJECT_DIR$/classes/Collection.js" />
         <option value="$PROJECT_DIR$/classes/Collection.js.map" />
-        <option value="$PROJECT_DIR$/classes/Transaction.js.map" />
-        <option value="$PROJECT_DIR$/classes/Transaction.js" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js" />
         <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" />
-        <option value="$PROJECT_DIR$/Kusama/ScanBlock.js" />
-        <option value="$PROJECT_DIR$/Kusama/ScanBlock.js.map" />
-        <option value="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" />
-        <option value="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" />
-        <option value="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" />
-        <option value="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map" />
-        <option value="$PROJECT_DIR$/classes/Nft.js" />
-        <option value="$PROJECT_DIR$/classes/Nft.js.map" />
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" />
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" />
-        <option value="$PROJECT_DIR$/Kusama/RmrkReader.js" />
+        <option value="$PROJECT_DIR$/classes/Collection.js.map" />
+        <option value="$PROJECT_DIR$/classes/Collection.js" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" />
         <option value="$PROJECT_DIR$/Kusama/RmrkReader.js.map" />
-        <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js" />
+        <option value="$PROJECT_DIR$/Kusama/RmrkReader.js" />
+        <option value="$PROJECT_DIR$/Kusama/ScanBlock.js.map" />
+        <option value="$PROJECT_DIR$/Kusama/ScanBlock.js" />
+        <option value="$PROJECT_DIR$/classes/Nft.js.map" />
+        <option value="$PROJECT_DIR$/classes/Nft.js" />
+        <option value="$PROJECT_DIR$/classes/Interfaces.js.map" />
+        <option value="$PROJECT_DIR$/classes/Interfaces.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js" />
+        <option value="$PROJECT_DIR$/classes/Contract/BlockchainContract.js.map" />
+        <option value="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" />
         <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" />
-        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map" />
+        <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map" />
+        <option value="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" />
+        <option value="$PROJECT_DIR$/Kusama/RmrkReader.js" />
+        <option value="$PROJECT_DIR$/Kusama/RmrkReader.js.map" />
+        <option value="$PROJECT_DIR$/classes/Interfaces.js.map" />
+        <option value="$PROJECT_DIR$/classes/Interfaces.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js" />
+        <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js" />
+        <option value="$PROJECT_DIR$/classes/Contract/KusamaContract.js.map" />
+        <option value="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" />
+        <option value="$PROJECT_DIR$/classes/Contract/BlockchainContract.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map" />
+        <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" />
       </list>
     </option>
   </component>
@@ -294,26 +332,26 @@
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2660" y="283" key="FileChooserDialogImpl/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608113517614" />
-    <state width="1877" height="215" key="GridCell.Tab.0.bottom" timestamp="1609158061097">
+    <state width="1877" height="263" key="GridCell.Tab.0.bottom" timestamp="1609840197223">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888372" />
-    <state width="1877" height="215" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
-    <state width="1877" height="215" key="GridCell.Tab.0.center" timestamp="1609158061097">
+    <state width="1877" height="263" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609840197223" />
+    <state width="1877" height="263" key="GridCell.Tab.0.center" timestamp="1609840197222">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
-    <state width="1877" height="215" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
-    <state width="1877" height="215" key="GridCell.Tab.0.left" timestamp="1609158061097">
+    <state width="1877" height="263" key="GridCell.Tab.0.center/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609840197222" />
+    <state width="1877" height="263" key="GridCell.Tab.0.left" timestamp="1609840197222">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
-    <state width="1877" height="215" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
-    <state width="1877" height="215" key="GridCell.Tab.0.right" timestamp="1609158061097">
+    <state width="1877" height="263" key="GridCell.Tab.0.left/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609840197222" />
+    <state width="1877" height="263" key="GridCell.Tab.0.right" timestamp="1609840197223">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state width="1877" height="181" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@0.0.1920.1040" timestamp="1608143888371" />
-    <state width="1877" height="215" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609158061097" />
+    <state width="1877" height="263" key="GridCell.Tab.0.right/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609840197223" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608120234201">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
@@ -366,6 +404,10 @@
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2460" y="263" key="IDE.errors.dialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608551286508" />
+    <state x="2518" y="289" key="MultipleFileMergeDialog" timestamp="1609834327727">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2518" y="289" key="MultipleFileMergeDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609834327726" />
     <state x="2381" y="173" key="SettingsEditor" timestamp="1608722244798">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
@@ -382,6 +424,14 @@
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2012" y="100" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1608548607275" />
+    <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1609835314135">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609835314135" />
+    <state x="2396" y="8" width="786" height="821" key="dock-window-1" timestamp="1609837726601">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2396" y="8" width="786" height="821" key="dock-window-1/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1609837726601" />
     <state x="2536" y="244" key="run.anything.popup" timestamp="1608112893977">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>

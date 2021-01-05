@@ -1,9 +1,10 @@
 import {Remark} from "./Remark";
 import {Blockchain} from "../Blockchains/Blockchain";
 import {Nft} from "../Nft";
+import {publicInteraction} from "../Interfaces";
 
 
-export abstract class Interaction extends Remark
+export abstract class Interaction extends Remark implements publicInteraction
 {
 
     interaction: string;
@@ -71,5 +72,13 @@ export abstract class Interaction extends Remark
 
         return datas;
     }
+
+
+    toJsonSerialize = () : publicInteraction => ({
+       version : this.version,
+       rmrk: this.rmrk,
+       chain: this.chain.toJson(),
+       interaction: this.interaction
+    });
 
 }

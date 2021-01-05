@@ -44,11 +44,6 @@ var fs = require('fs');
 var path = require('path');
 var ScanBlock = /** @class */ (function () {
     function ScanBlock(chain) {
-        this.toHide = [
-            'defaultVersion',
-            'nft',
-            'collection'
-        ];
         this.chain = chain;
         this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
     }
@@ -94,14 +89,15 @@ var ScanBlock = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
-                                    // const remrk = '0x7b2276657273696f6e223a2022524d524b302e31222c226e616d65223a22446f74204c656170204561726c792050726f6d6f74657273222c226d6178223a3130302c22697373756572223a2243706a734c4443314a467972686d3366744339477334516f79726b484b685a4b744b37597147545246745461666770222c2273796d626f6c223a22444c4550222c226964223a2022306166663638363562656433613636622d444c4550222c226d65746164617461223a22697066733a2f2f697066732f516d5667733850346177685a704658686b6b676e437742703441644b526a3346394b35386d435a366678766e336a227d';
-                                    // const uri = hexToString(remrk);
-                                    var uri = util_1.hexToString(remark);
+                                    var remrk = '0x76616c68656c6c6f3a3a4845414c574954483a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d303030303030303030303030303030313a3a43706a734c4443314a467972686d3366744339477334516f79726b484b685a4b744b37597147545246745461666770';
+                                    var uri = util_1.hexToString(remrk);
+                                    // const uri = hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                                     var reader = new RmrkReader_1.RmrkReader(_this.chain);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
-                                    var jason = JSON.stringify(rmrkReader);
+                                    // const jason = JSON.stringify(rmrkReader);
+                                    var jason = rmrkReader.toJson();
                                     fs.writeFileSync(path.resolve(__dirname, "testJson.json"), jason);
                                     // console.log(jason);
                                     blockRmrks.push({
