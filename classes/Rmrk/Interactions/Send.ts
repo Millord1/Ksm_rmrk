@@ -6,11 +6,11 @@ import {BlockchainAddress} from "../../Addresses/BlockchainAddress";
 export class Send extends Interaction
 {
 
-    nft;
+    nftId;
     recipient: BlockchainAddress;
 
     constructor(rmrk: string, chain: Blockchain){
-        super(rmrk, Send.constructor.name, chain, null);
+        super(rmrk, Send.name, chain, null);
     }
 
     public createSend(){
@@ -18,7 +18,12 @@ export class Send extends Interaction
         const splitted = this.rmrkToArray();
 
         this.version = splitted[2];
-        this.nft = splitted[3];
+        // this.nftId = splitted[3];
+
+        this.nftId = this.nftFromComputedId(splitted[3]);
+
+        // const newNft = new Nft(this.rmrk, this.chain, this.version);
+        // this.nftId = newNft.createNftFromInteraction();
 
         const blockchainAddress = this.chain.getAddressClass();
         blockchainAddress.address = splitted[4];

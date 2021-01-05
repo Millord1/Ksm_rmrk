@@ -15,10 +15,11 @@ export abstract class Remark
     protected collection = {
         version: null,
         name: null,
+        metadata: null,
         max: null,
         symbol: null,
         id: null,
-        metadata: null,
+
         issuer: null,
     }
 

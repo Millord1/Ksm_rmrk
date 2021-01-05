@@ -5,15 +5,15 @@ import {Collection} from "../../Collection";
 export class Mint extends Interaction
 {
 
-    collection: Collection;
+    myCollection: Collection;
 
     constructor(rmrk: string, chain: Blockchain){
-        super(rmrk, Mint.constructor.name, chain, null);
+        super(rmrk, Mint.name, chain, null);
     }
 
     public createMint(){
         const myCollection = new Collection(this.rmrk, this.chain, null);
-        this.collection = myCollection.createCollectionFromInteraction();
+        this.myCollection = myCollection.createCollectionFromInteraction();
         return this;
     }
 }

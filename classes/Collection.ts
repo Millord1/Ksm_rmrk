@@ -11,7 +11,7 @@ export class Collection extends Entity
     contract: BlockchainContract;
 
     constructor(rmrk: string, chain: Blockchain, version: string|null) {
-        super(rmrk, Collection.constructor.name, chain, version);
+        super(rmrk, Collection.name, chain, version);
     }
 
 

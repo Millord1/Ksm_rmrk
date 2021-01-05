@@ -8,7 +8,7 @@ export class List extends Interaction
     price;
 
     constructor(rmrk: string, chain: Blockchain) {
-        super(rmrk, List.constructor.name, chain, null);
+        super(rmrk, List.name, chain, null);
     }
 
     public createList(){

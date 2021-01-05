@@ -8,7 +8,7 @@ export class ChangeIssuer extends Interaction
     newIssuer: string;
 
     constructor(rmrk: string, chain: Blockchain){
-        super(rmrk, ChangeIssuer.constructor.name, chain, null);
+        super(rmrk, ChangeIssuer.name, chain, null);
     }
 
     public createChangeIssuer(){

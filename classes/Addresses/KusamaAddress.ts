@@ -5,10 +5,10 @@ import {Kusama} from "../Blockchains/Kusama";
 export class KusamaAddress extends BlockchainAddress
 {
 
-    public static blockchain = Kusama;
-
     constructor(){
         super();
+        KusamaAddress.blockchain = Kusama;
+        this.blockchainName = KusamaAddress.blockchain.name;
     }
 
 }

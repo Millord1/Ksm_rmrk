@@ -58,6 +58,18 @@ export class RmrkReader
                 datas[i] = datas[i].replace(/[&\/\\"']/g, '');
             }
 
+            if(datas[0] === "metadata"){
+
+                if(datas[1] === "ipfs") {
+
+                    const ipfs = datas[2].slice(0, 4);
+                    const url = datas[2].slice(4);
+
+                    datas[2] = ipfs + '/' + url
+                }
+                datas[1] = datas[1] + '://' + datas[2];
+            }
+
             this.entityObj[datas[0]] = datas[1];
         })
 

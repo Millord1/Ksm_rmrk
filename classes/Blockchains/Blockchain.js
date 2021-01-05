@@ -7,10 +7,10 @@ var Blockchain = /** @class */ (function () {
         this.symbol = symbol;
         this.prefix = prefix;
         this.isSubstrate = isSubstrate;
-        this.addressClass = addressClass;
+        this.address = addressClass;
     }
     Blockchain.prototype.getAddressClass = function () {
-        return this.addressClass;
+        return this.address;
     };
     return Blockchain;
 }());
