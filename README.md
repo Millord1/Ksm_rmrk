@@ -1,6 +1,6 @@
 <pre>
     <code>
-        npm install --save @polkadot/api
-        npm install -g @polkadot/api-cli
+        npm install
+        composer require
     </code>
 </pre>
