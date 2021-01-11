@@ -37,7 +37,7 @@ export class Send extends Interaction
     public toJson(){
 
         const json = this.toJsonSerialize();
-        json['nftId'] = this.nftId.toJson(false);
+        json['nftId'] = this.nftId.toJson(false, false);
         json['recipient'] = this.recipient;
 
         return JSON.stringify(json);

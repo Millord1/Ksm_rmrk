@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -38,27 +38,29 @@ var Nft = /** @class */ (function (_super) {
         return this;
     };
     Nft.prototype.createNftFromInteraction = function () {
-        var _this = this;
         var splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         var nftDatas = splitted[2].split(',');
-        nftDatas.forEach(function (data) {
-            var datas = data.split(':');
-            if (datas.length > 2) {
-                if (datas[0] === 'metadata' && datas[1] === 'ipfs') {
-                    _this.nft[datas[0]] = datas[1] + ':' + datas[2];
-                }
-            }
-            else {
-                _this.nft[datas[0]] = datas[1];
-            }
-        });
+        Entity_1.Entity.dataTreatment(nftDatas, this.nft);
+        // nftDatas.forEach((data)=>{
+        //     const datas = data.split(':');
+        //
+        //     if(datas.length > 2){
+        //         if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
+        //             this.nft[datas[0]] = datas[1] + ':' + datas[2];
+        //         }
+        //     }else{
+        //         this.nft[datas[0]] = datas[1];
+        //     }
+        //
+        // });
         return this.rmrkToObject(this.nft);
     };
-    Nft.prototype.toJson = function (needStringify) {
+    Nft.prototype.toJson = function (needStringify, needSubstrate) {
         if (needStringify === void 0) { needStringify = true; }
+        if (needSubstrate === void 0) { needSubstrate = true; }
         var json = this.toJsonSerialize();
-        json['chain'] = this.chain.toJson(needStringify);
+        json['chain'] = this.chain.toJson(needSubstrate);
         json['contractId'] = this.contractId;
         json['contract'] = this.contract;
         json['name'] = this.name;

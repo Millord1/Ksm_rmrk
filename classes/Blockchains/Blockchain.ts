@@ -24,7 +24,7 @@ export abstract class Blockchain implements BlockchainInterface
     }
 
 
-    toJsonSerialize = () : BlockchainInterface => ({
+     toJsonSerialize = () : BlockchainInterface => ({
         name: this.name,
         symbol: this.symbol,
         prefix: this.prefix,

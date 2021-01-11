@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -28,6 +28,25 @@ var Entity = /** @class */ (function (_super) {
         _this.standard = standard;
         return _this;
     }
+    Entity.dataTreatment = function (splitted, obj) {
+        splitted.forEach(function (index) {
+            var datas = index.split(':');
+            for (var i = 0; i < datas.length; i++) {
+                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
+            }
+            if (datas[0] === "metadata") {
+                var ipfs = datas[2].slice(0, 4);
+                if (datas[1] === "ipfs") {
+                    var url = datas[2].slice(4);
+                    datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
+                }
+                var separator = (ipfs === "ipfs") ? '://' : ':';
+                datas[1] = datas[1] + separator + datas[2];
+            }
+            obj[datas[0]] = datas[1];
+        });
+        return obj;
+    };
     return Entity;
 }(Remark_1.Remark));
 exports.Entity = Entity;

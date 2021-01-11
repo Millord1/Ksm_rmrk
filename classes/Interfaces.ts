@@ -11,14 +11,6 @@ export interface BlockchainInterface
     // address: BlockchainAddress
 }
 
-// export interface EntityInterface
-// {
-    // name;
-    // metadata;
-    // issuer;
-    //
-    // rmrkToObject(obj): this;
-// }
 
 export interface publicInteraction
 {
