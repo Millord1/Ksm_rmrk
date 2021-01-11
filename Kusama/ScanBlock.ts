@@ -5,7 +5,6 @@ import {RmrkReader} from "./RmrkReader";
 import {Blockchain} from "../classes/Blockchains/Blockchain";
 import {Polkadot} from "../classes/Blockchains/Polkadot";
 import {Unique} from "../classes/Blockchains/Unique";
-import {Option} from "commander";
 const fs = require('fs');
 const path = require('path');
 

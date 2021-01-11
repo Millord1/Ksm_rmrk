@@ -8,7 +8,7 @@ import {BlockchainEvent} from "./CSCannon/BlockchainEvent.js";
 import {BlockchainAddress} from "./CSCannon/BlockchainAddress.js";
 import {BlockchainContract} from "./CSCannon/BlockchainContract.js";
 import {Blockchain} from "./CSCannon/Blockchain.js";
-import {CrystalSuiteConnector} from "../../alexandria/scripts/DataConnectors/CrystalSuiteConnector.js";
+import {CrystalSuiteConnector} from "../../CrystalSuiteConnector";
 import {EthereumBlockchain} from "./CSCannon/Ethereum/EthereumBlockchain";
 
 export class SandraManager {

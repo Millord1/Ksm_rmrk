@@ -24,7 +24,8 @@ export class Gossiper{
 
             let refMap:any = {}
             //Iterate over map entries
-            for (let [key, value] of how){
+            // @ts-ignore
+        for (let [key, value] of how){
 
                 refMap[key] = value;
             }
@@ -92,6 +93,7 @@ export class Gossiper{
 
         }
 
+        // @ts-ignore
         for (let triplet of entity.subjectConcept.triplets) {
 
             if (!myData.triplets) myData.triplets = {};
