@@ -19,7 +19,7 @@ export class MintNft extends Interaction
     }
 
     public toJson(){
-        const json = this.myNft.toJson(false);
+        const json = this.myNft.toJson(false, true);
         json['interaction'] = this.interaction;
         return JSON.stringify(json);
     }

@@ -12,5 +12,5 @@ export abstract class BlockchainAddress
     public toJson(){
         return {blockchainName: this.blockchainName}
     }
-
+ 
 }

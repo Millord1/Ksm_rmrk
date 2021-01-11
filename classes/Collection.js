@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -33,28 +33,17 @@ var Collection = /** @class */ (function (_super) {
         return this;
     };
     Collection.prototype.createCollectionFromInteraction = function () {
-        var _this = this;
         var splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        var datas = splitted[2].split(',');
-        datas.forEach(function (index) {
-            index = index.replace(/[&\/\\+_-]/g, ' ');
-            var datas = index.split(':');
-            if (datas.length > 2) {
-                if (datas[0] === 'metadata') {
-                    _this.collection[datas[0]] = datas[1] + ':' + datas[2];
-                }
-            }
-            else {
-                _this.collection[datas[0]] = datas[1];
-            }
-        });
+        // const datas = splitted[2].split(',');
+        Entity_1.Entity.dataTreatment(splitted, this.collection);
         return this.rmrkToObject(this.collection);
     };
-    Collection.prototype.toJson = function (needStringify) {
+    Collection.prototype.toJson = function (needStringify, needSubstrate) {
         if (needStringify === void 0) { needStringify = true; }
+        if (needSubstrate === void 0) { needSubstrate = true; }
         var json = this.toJsonSerialize();
-        json['chain'] = this.chain.toJson(needStringify);
+        json['chain'] = this.chain.toJson(needSubstrate);
         json['metadata'] = this.metadata;
         json['name'] = this.name;
         json['contract'] = this.contract;

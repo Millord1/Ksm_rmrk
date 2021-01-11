@@ -49,29 +49,31 @@ export class Nft extends Entity
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         const nftDatas = splitted[2].split(',');
 
-        nftDatas.forEach((data)=>{
-            const datas = data.split(':');
+        Entity.dataTreatment(nftDatas, this.nft);
 
-            if(datas.length > 2){
-                if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
-                    this.nft[datas[0]] = datas[1] + ':' + datas[2];
-                }
-            }else{
-                this.nft[datas[0]] = datas[1];
-            }
-
-        });
+        // nftDatas.forEach((data)=>{
+        //     const datas = data.split(':');
+        //
+        //     if(datas.length > 2){
+        //         if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
+        //             this.nft[datas[0]] = datas[1] + ':' + datas[2];
+        //         }
+        //     }else{
+        //         this.nft[datas[0]] = datas[1];
+        //     }
+        //
+        // });
 
         return this.rmrkToObject(this.nft);
     }
 
 
 
-    public toJson(needStringify : boolean = true){
+    public toJson(needStringify : boolean = true, needSubstrate: boolean = true){
 
         const json = this.toJsonSerialize();
 
-        json['chain'] = this.chain.toJson(needStringify);
+        json['chain'] = this.chain.toJson(needSubstrate);
 
         json['contractId'] = this.contractId;
         json['contract'] = this.contract;

@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.ScanBlock = void 0;
 var api_1 = require("@polkadot/api");
 var util_1 = require("@polkadot/util");
 var Kusama_1 = require("../classes/Blockchains/Kusama");
@@ -89,19 +90,18 @@ var ScanBlock = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 if (remark.indexOf("") === 0) {
-                                    var remrk = '0x76616c68656c6c6f3a3a4845414c574954483a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d303030303030303030303030303030313a3a43706a734c4443314a467972686d3366744339477334516f79726b484b685a4b744b37597147545246745461666770';
-                                    var uri = util_1.hexToString(remrk);
-                                    // const uri = hexToString(remark);
+                                    // const remrk = '0x726d726b3a3a4255593a3a302e313a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d30303030303030303030303030303031';
+                                    // const uri = hexToString(remrk);
+                                    var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                                     var reader = new RmrkReader_1.RmrkReader(_this.chain);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
-                                    // const jason = JSON.stringify(rmrkReader);
                                     var jason = rmrkReader.toJson();
                                     fs.writeFileSync(path.resolve(__dirname, "testJson.json"), jason);
-                                    // console.log(jason);
                                     blockRmrks.push({
                                         rmrk: rmrkReader,
+                                        content: jason
                                     });
                                 }
                             }
@@ -114,17 +114,20 @@ var ScanBlock = /** @class */ (function () {
     };
     return ScanBlock;
 }());
+exports.ScanBlock = ScanBlock;
 var scan = new ScanBlock(new Kusama_1.Kusama());
 // const scan = new ScanBlock(new Polkadot());
+// const scan = new ScanBlock(new Unique());
+// scan.getRmrks();
 // FAIL
 // scan.getRmrks(5445790);
 // Human Json (file)
 // scan.getRmrks(5445790);
 //Send
-// scan.getRmrks(5437975);
+scan.getRmrks(5437975);
 // MintNft
 // scan.getRmrks(5420541);
 // Mint
 // scan.getRmrks(5083411);
-scan.getRmrks(4960562);
+// scan.getRmrks(2176215);
 //# sourceMappingURL=ScanBlock.js.map

@@ -39,34 +39,20 @@ export class Collection extends Entity
         const splitted = this.rmrk.split('::');
 
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        const datas = splitted[2].split(',');
+        // const datas = splitted[2].split(',');
 
-        datas.forEach((index)=>{
-
-            index = index.replace(/[&\/\\+_-]/g, ' ');
-
-            const datas = index.split(':');
-
-            if(datas.length > 2){
-                if(datas[0] === 'metadata'){
-                    this.collection[datas[0]] = datas[1] + ':' + datas[2];
-                }
-            }else{
-                this.collection[datas[0]] = datas[1];
-            }
-
-        });
+        Entity.dataTreatment(splitted, this.collection);
 
         return this.rmrkToObject(this.collection);
     }
 
 
 
-    public toJson(needStringify: boolean = true){
+    public toJson(needStringify: boolean = true, needSubstrate: boolean = true){
 
         const json = this.toJsonSerialize();
 
-        json['chain'] = this.chain.toJson(needStringify);
+        json['chain'] = this.chain.toJson(needSubstrate);
 
         json['metadata'] = this.metadata;
         json['name'] = this.name;

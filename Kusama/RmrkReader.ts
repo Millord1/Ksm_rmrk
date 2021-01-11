@@ -8,6 +8,7 @@ import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer";
 import {List} from "../classes/Rmrk/Interactions/List";
 import {Buy} from "../classes/Rmrk/Interactions/Buy";
 import {Consume} from "../classes/Rmrk/Interactions/Consume";
+import {Entity} from "../classes/Rmrk/Entity";
 
 
 export class RmrkReader
@@ -50,28 +51,7 @@ export class RmrkReader
 
         const splitted = rmrk.split(',');
 
-        splitted.forEach((index) => {
-
-            const datas = index.split(':');
-
-            for(let i = 0; i < datas.length; i++){
-                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
-            }
-
-            if(datas[0] === "metadata"){
-
-                if(datas[1] === "ipfs") {
-
-                    const ipfs = datas[2].slice(0, 4);
-                    const url = datas[2].slice(4);
-
-                    datas[2] = ipfs + '/' + url
-                }
-                datas[1] = datas[1] + '://' + datas[2];
-            }
-
-            this.entityObj[datas[0]] = datas[1];
-        })
+        Entity.dataTreatment(splitted, this.entityObj);
 
         const myClass = (this.entityObj.id === null) ?
             new Nft(rmrk, this.chain, this.entityObj.version) :

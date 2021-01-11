@@ -10,6 +10,7 @@ var ChangeIssuer_1 = require("../classes/Rmrk/Interactions/ChangeIssuer");
 var List_1 = require("../classes/Rmrk/Interactions/List");
 var Buy_1 = require("../classes/Rmrk/Interactions/Buy");
 var Consume_1 = require("../classes/Rmrk/Interactions/Consume");
+var Entity_1 = require("../classes/Rmrk/Entity");
 var RmrkReader = /** @class */ (function () {
     function RmrkReader(chain) {
         this.entityObj = {
@@ -36,23 +37,8 @@ var RmrkReader = /** @class */ (function () {
         }
     };
     RmrkReader.prototype.readEntity = function (rmrk) {
-        var _this = this;
         var splitted = rmrk.split(',');
-        splitted.forEach(function (index) {
-            var datas = index.split(':');
-            for (var i = 0; i < datas.length; i++) {
-                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
-            }
-            if (datas[0] === "metadata") {
-                if (datas[1] === "ipfs") {
-                    var ipfs = datas[2].slice(0, 4);
-                    var url = datas[2].slice(4);
-                    datas[2] = ipfs + '/' + url;
-                }
-                datas[1] = datas[1] + '://' + datas[2];
-            }
-            _this.entityObj[datas[0]] = datas[1];
-        });
+        Entity_1.Entity.dataTreatment(splitted, this.entityObj);
         var myClass = (this.entityObj.id === null) ?
             new Nft_1.Nft(rmrk, this.chain, this.entityObj.version) :
             new Collection_1.Collection(rmrk, this.chain, this.entityObj.version);
