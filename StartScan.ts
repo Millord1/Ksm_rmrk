@@ -45,15 +45,13 @@ export const testScan = async (opts: Option) => {
         result => {
             result.forEach(value => {
 
-                // console.log(value.nftId.contractId);
-
                 if(value instanceof Send || Mint){
 
                     let sandra = new SandraManager();
                     let blockchain = new KusamaBlockchain(sandra);
 
-                    // TODO Signer
-                    const signer = '0x0000';
+                    // @ts-ignore
+                    const signer = value.signer;
                     let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 
                     // @ts-ignore

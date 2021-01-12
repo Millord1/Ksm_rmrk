@@ -8,8 +8,8 @@ export abstract class Entity extends Remark implements publicEntity
 
     standard;
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version) {
-        super(version, rmrk, chain);
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version, signer:string) {
+        super(version, rmrk, chain, signer);
         this.standard = standard;
     }
 

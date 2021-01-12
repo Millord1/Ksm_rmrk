@@ -51,14 +51,19 @@ export class ScanBlock
             if(section === "system" && method === "remark"){
 
                 const remark = args.toString();
+                const signer = ex.signer.toString();
 
                 if(remark.indexOf("") === 0){
+
+                    // const txId = ex.transactionHash;
+
+                    console.log(ex.transactionHash);
 
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
-                    const reader = new RmrkReader(this.chain);
+                    const reader = new RmrkReader(this.chain, signer);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
                     // console.log(rmrkReader);

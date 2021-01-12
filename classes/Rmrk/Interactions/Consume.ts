@@ -10,8 +10,8 @@ export class Consume extends Interaction
     reason: null;
     consumer: BlockchainAddress;
 
-    constructor(rmrk: string, chain: Blockchain) {
-        super(rmrk, Consume.name, chain, null);
+    constructor(rmrk: string, chain: Blockchain, signer: string) {
+        super(rmrk, Consume.name, chain, null, signer);
     }
 
 

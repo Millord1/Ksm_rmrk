@@ -85,11 +85,14 @@ var ScanBlock = /** @class */ (function () {
                             var _a = ex.method, args = _a.args, method = _a.method, section = _a.section;
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
+                                var signer = ex.signer.toString();
                                 if (remark.indexOf("") === 0) {
+                                    // const txId = ex.transactionHash;
+                                    console.log(ex.transactionHash);
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var reader = new RmrkReader_1.RmrkReader(_this.chain);
+                                    var reader = new RmrkReader_1.RmrkReader(_this.chain, signer);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
                                     // console.log(rmrkReader);
                                     blockRmrks.push(rmrkReader);

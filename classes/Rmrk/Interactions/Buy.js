@@ -17,8 +17,8 @@ exports.Buy = void 0;
 var Interaction_1 = require("../Interaction");
 var Buy = /** @class */ (function (_super) {
     __extends(Buy, _super);
-    function Buy(rmrk, chain) {
-        return _super.call(this, rmrk, Buy.name, chain, null) || this;
+    function Buy(rmrk, chain, signer) {
+        return _super.call(this, rmrk, Buy.name, chain, null, signer) || this;
     }
     Buy.prototype.createBuy = function () {
         var splitted = this.rmrkToArray();

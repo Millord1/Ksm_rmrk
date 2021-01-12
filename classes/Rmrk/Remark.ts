@@ -1,8 +1,11 @@
 import {Blockchain} from "../Blockchains/Blockchain";
+import {BlockchainAddress} from "../Addresses/BlockchainAddress";
 
 export abstract class Remark
 {
     private defaultVersion = '0.1';
+
+    protected signer: string;
 
     protected nft = {
         collection: null,
@@ -27,13 +30,16 @@ export abstract class Remark
     rmrk;
     chain;
 
-    protected constructor(version, rmrk, chain){
+    protected constructor(version, rmrk, chain, signer){
+
         this.rmrk = rmrk;
         this.chain = chain;
 
         if(version === null){
             version = this.defaultVersion;
         }
+
+        this.signer = signer;
 
         this.version = version;
     }

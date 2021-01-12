@@ -17,8 +17,8 @@ exports.Collection = void 0;
 var Entity_1 = require("./Rmrk/Entity");
 var Collection = /** @class */ (function (_super) {
     __extends(Collection, _super);
-    function Collection(rmrk, chain, version) {
-        return _super.call(this, rmrk, Collection.name, chain, version) || this;
+    function Collection(rmrk, chain, version, signer) {
+        return _super.call(this, rmrk, Collection.name, chain, version, signer) || this;
     }
     Collection.prototype.rmrkToObject = function (obj) {
         this.metadata = obj.metadata;

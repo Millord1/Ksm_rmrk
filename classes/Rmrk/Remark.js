@@ -2,7 +2,7 @@
 exports.__esModule = true;
 exports.Remark = void 0;
 var Remark = /** @class */ (function () {
-    function Remark(version, rmrk, chain) {
+    function Remark(version, rmrk, chain, signer) {
         this.defaultVersion = '0.1';
         this.nft = {
             collection: null,
@@ -25,6 +25,7 @@ var Remark = /** @class */ (function () {
         if (version === null) {
             version = this.defaultVersion;
         }
+        this.signer = signer;
         this.version = version;
     }
     return Remark;

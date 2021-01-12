@@ -18,11 +18,12 @@ var Interaction_1 = require("../Interaction");
 var Collection_1 = require("../../Collection");
 var Mint = /** @class */ (function (_super) {
     __extends(Mint, _super);
-    function Mint(rmrk, chain) {
-        return _super.call(this, rmrk, Mint.name, chain, null) || this;
+    function Mint(rmrk, chain, signer) {
+        return _super.call(this, rmrk, Mint.name, chain, null, signer) || this;
     }
     Mint.prototype.createMint = function () {
-        var myCollection = new Collection_1.Collection(this.rmrk, this.chain, null);
+        //@ts-ignore
+        var myCollection = new Collection_1.Collection(this.rmrk, this.chain, null, this.signer.address);
         this.myCollection = myCollection.createCollectionFromInteraction();
         return this;
     };

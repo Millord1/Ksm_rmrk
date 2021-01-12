@@ -17,8 +17,8 @@ exports.Consume = void 0;
 var Interaction_1 = require("../Interaction");
 var Consume = /** @class */ (function (_super) {
     __extends(Consume, _super);
-    function Consume(rmrk, chain) {
-        return _super.call(this, rmrk, Consume.name, chain, null) || this;
+    function Consume(rmrk, chain, signer) {
+        return _super.call(this, rmrk, Consume.name, chain, null, signer) || this;
     }
     Consume.prototype.createConsume = function () {
         var consume = this.rmrkToArray();

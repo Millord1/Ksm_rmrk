@@ -18,11 +18,12 @@ var Interaction_1 = require("../Interaction");
 var Nft_1 = require("../../Nft");
 var MintNft = /** @class */ (function (_super) {
     __extends(MintNft, _super);
-    function MintNft(rmrk, chain) {
-        return _super.call(this, rmrk, MintNft.name, chain, null) || this;
+    function MintNft(rmrk, chain, signer) {
+        return _super.call(this, rmrk, MintNft.name, chain, null, signer) || this;
     }
     MintNft.prototype.createMintNft = function () {
-        var myNft = new Nft_1.Nft(this.rmrk, this.chain, null);
+        // @ts-ignore
+        var myNft = new Nft_1.Nft(this.rmrk, this.chain, null, this.signer.address);
         this.myNft = myNft.createNftFromInteraction();
         return this;
     };
