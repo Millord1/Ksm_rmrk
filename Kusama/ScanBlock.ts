@@ -4,6 +4,7 @@ import {RmrkReader} from "./RmrkReader";
 import {Blockchain} from "../classes/Blockchains/Blockchain";
 import {Remark} from "../classes/Rmrk/Remark";
 
+//TODO rename class to RmrkJetski
 
 export class ScanBlock
 {
@@ -64,16 +65,11 @@ export class ScanBlock
                     const reader = new RmrkReader(this.chain, signer);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
-                    // console.log(rmrkReader);
-
                     blockRmrks.push(rmrkReader);
                 }
             }
 
         })
-
-        // console.log(blockRmrks);
-
         return blockRmrks;
     }
 

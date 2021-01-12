@@ -27,13 +27,15 @@ export class BlockchainEvent extends Entity {
 
     ) {
 
+
         if (factory == null)
             factory = new BlockchainEventFactory(blockchain,sandra)
 
-        let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
-
         super(factory,[txidRef]);
 
+
+
+        let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
         this.addReference(  new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME),timestamp));
         this.addReference(  new Reference(sandra.get(BlockchainEvent.QUANTITY),quantity));
 
