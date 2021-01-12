@@ -14,6 +14,7 @@ import {Gossiper} from "./sandra/src/Gossiper";
 const fs = require('fs');
 const path = require('path');
 
+import * as $ from "jquery/index";
 
 
 export const testScan = async (opts: Option) => {
@@ -62,22 +63,30 @@ export const testScan = async (opts: Option) => {
                     const collName = (typeof value.nftId.contractId !== 'undefined') ? value.nftId.contractId : value.nftId.contract.collection;
                     let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra);
 
-                    const txId = '0xId';
+                    const txId = '0x01';
 
                     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, sandra);
 
                     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                     const json = JSON.stringify(gossiper.exposeGossip());
 
-                    fs.writeFileSync(path.resolve(__dirname, "testJson.json"), json);
+                    // fs.writeFileSync(path.resolve(__dirname, "testJson.json"), json);
 
                     // let gossiper = new Gossiper(blockchainEventFactory,this.get(Blockchain.TXID_CONCEPT_NAME));
                     // JSON.stringify(gossiper.exposeGossip()),
+
+                    $.ajax({
+                        type: "POST",
+                        url: 'http://arkam.everdreamsoft.com/alex/gossipTest',
+                        data: json,
+                        dataType: 'json',
+                        success: () => {
+                            console.log("success")
+                        }
+                    })
                 }
 
             })
         }
     );
 }
-
-

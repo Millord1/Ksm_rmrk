@@ -55,9 +55,7 @@ export class ScanBlock
 
                 if(remark.indexOf("") === 0){
 
-                    // const txId = ex.transactionHash;
-
-                    console.log(ex.transactionHash);
+                    // const txId;
 
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);

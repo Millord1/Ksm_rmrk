@@ -87,8 +87,7 @@ var ScanBlock = /** @class */ (function () {
                                 var remark = args.toString();
                                 var signer = ex.signer.toString();
                                 if (remark.indexOf("") === 0) {
-                                    // const txId = ex.transactionHash;
-                                    console.log(ex.transactionHash);
+                                    // const txId;
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
