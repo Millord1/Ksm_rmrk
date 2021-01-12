@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "<pre>\r     <code>\r         npm install --save @polkadot/api\r     </code>\r </pre>",
   "main": "index.js",
+  "require": {
+    "everdreamsoft/crystal-spark-cannon": "dev-php8",
+    "everdreamsoft/sandra": "dev-php8"
+  },
   "dependencies": {
     "@polkadot/api": "^3.3.1",
     "commander": "^6.2.1",

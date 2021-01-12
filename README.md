@@ -1,6 +1,6 @@
 <pre>
     <code>
         npm install
-        composer require
+        yarn fetch --chain=myChainName --block=blockNumber
     </code>
 </pre>

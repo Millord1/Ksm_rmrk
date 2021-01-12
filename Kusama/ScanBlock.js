@@ -39,7 +39,6 @@ exports.__esModule = true;
 exports.ScanBlock = void 0;
 var api_1 = require("@polkadot/api");
 var util_1 = require("@polkadot/util");
-var Kusama_1 = require("../classes/Blockchains/Kusama");
 var RmrkReader_1 = require("./RmrkReader");
 var fs = require('fs');
 var path = require('path');
@@ -67,6 +66,7 @@ var ScanBlock = /** @class */ (function () {
             });
         });
     };
+    // @ts-ignore
     ScanBlock.prototype.getRmrks = function (blockNumber) {
         return __awaiter(this, void 0, void 0, function () {
             var api, blockHash, block, blockRmrks;
@@ -83,9 +83,10 @@ var ScanBlock = /** @class */ (function () {
                     case 3:
                         block = _a.sent();
                         blockRmrks = [];
-                        blockRmrks.push({ block: blockNumber });
+                        // blockRmrks.push({block : blockNumber});
                         block.block.extrinsics.forEach(function (ex) {
                             // TODO find signer
+                            // TODO Tx Id
                             var _a = ex.method, args = _a.args, method = _a.method, section = _a.section;
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
@@ -97,16 +98,12 @@ var ScanBlock = /** @class */ (function () {
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                                     var reader = new RmrkReader_1.RmrkReader(_this.chain);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
-                                    var jason = rmrkReader.toJson();
-                                    fs.writeFileSync(path.resolve(__dirname, "testJson.json"), jason);
-                                    blockRmrks.push({
-                                        rmrk: rmrkReader,
-                                        content: jason
-                                    });
+                                    // console.log(rmrkReader);
+                                    blockRmrks.push(rmrkReader);
                                 }
                             }
                         });
-                        console.log(blockRmrks);
+                        // console.log(blockRmrks);
                         return [2 /*return*/, blockRmrks];
                 }
             });
@@ -115,7 +112,7 @@ var ScanBlock = /** @class */ (function () {
     return ScanBlock;
 }());
 exports.ScanBlock = ScanBlock;
-var scan = new ScanBlock(new Kusama_1.Kusama());
+// const scan = new ScanBlock(new Kusama());
 // const scan = new ScanBlock(new Polkadot());
 // const scan = new ScanBlock(new Unique());
 // scan.getRmrks();
@@ -124,7 +121,45 @@ var scan = new ScanBlock(new Kusama_1.Kusama());
 // Human Json (file)
 // scan.getRmrks(5445790);
 //Send
-scan.getRmrks(5437975);
+// scan.getRmrks(5437975).then(
+//     result => {
+//         result.forEach(value => {
+//
+//             // console.log(value.nftId.contractId);
+//
+//             if(value instanceof Send || Mint){
+//
+//                 let sandra = new SandraManager();
+//                 let blockchain = new KusamaBlockchain(sandra);
+//
+//                 // TODO Signer
+//                 const signer = '0x0000';
+//                 let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
+//
+//                 // @ts-ignore
+//                 const recipient = value.recipient.address;
+//                 let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+//
+//                 // @ts-ignore
+//                 const collName = (typeof value.nftId.contractId !== 'undefined') ? value.nftId.contractId : value.nftId.contract.collection;
+//                 let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra);
+//
+//                 const txId = '0xId';
+//
+//                 let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, sandra);
+//
+//                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
+//                 const json = JSON.stringify(gossiper.exposeGossip());
+//
+//                 fs.writeFileSync(path.resolve(__dirname, "testJson.json"), json);
+//
+//                 // let gossiper = new Gossiper(blockchainEventFactory,this.get(Blockchain.TXID_CONCEPT_NAME));
+//                 // JSON.stringify(gossiper.exposeGossip()),
+//             }
+//
+//         })
+//     }
+// );
 // MintNft
 // scan.getRmrks(5420541);
 // Mint
