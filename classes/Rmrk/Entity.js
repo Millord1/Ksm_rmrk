@@ -17,8 +17,8 @@ exports.Entity = void 0;
 var Remark_1 = require("./Remark");
 var Entity = /** @class */ (function (_super) {
     __extends(Entity, _super);
-    function Entity(rmrk, standard, chain, version) {
-        var _this = _super.call(this, version, rmrk, chain) || this;
+    function Entity(rmrk, standard, chain, version, signer) {
+        var _this = _super.call(this, version, rmrk, chain, signer) || this;
         _this.toJsonSerialize = function () { return ({
             version: _this.version,
             rmrk: _this.rmrk,

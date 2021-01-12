@@ -13,8 +13,8 @@ export class EthereumBlockchain extends Blockchain {
       this.addressFactory.is_a = 'ethAddress';
       this.addressFactory.contained_in_file = 'ethAddressFile';
 
-      this.contractFactory.is_a = 'ethContract'
-        this.contractFactory.contained_in_file = 'ethContractFile'
+      this.contractFactory.is_a = 'ethContract';
+      this.contractFactory.contained_in_file = 'ethContractFile';
 
 
 

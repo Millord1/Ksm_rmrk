@@ -16,8 +16,8 @@ export class Nft extends Entity
     issuer: BlockchainAddress;
 
 
-    constructor(rmrk: string, chain: Blockchain, version: string|null) {
-        super(rmrk, Nft.name, chain, version);
+    constructor(rmrk: string, chain: Blockchain, version: string|null, signer: string) {
+        super(rmrk, Nft.name, chain, version, signer);
     }
 
 

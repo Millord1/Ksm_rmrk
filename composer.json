@@ -1,7 +1,0 @@
-{
-  "require": {
-    "php": "^7.3|^8.8",
-    "everdreamsoft/crystal-spark-cannon": "dev-php8",
-    "everdreamsoft/sandra": "dev-php8"
-  }
-}

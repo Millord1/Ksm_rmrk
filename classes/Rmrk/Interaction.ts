@@ -9,8 +9,8 @@ export abstract class Interaction extends Remark implements publicInteraction
 
     interaction: string;
 
-    protected constructor(rmrk: string, interaction:string, chain: Blockchain, version) {
-        super(version, rmrk, chain);
+    protected constructor(rmrk: string, interaction:string, chain: Blockchain, version, signer: string) {
+        super(version, rmrk, chain, signer);
         this.interaction = interaction
     }
 
@@ -28,7 +28,8 @@ export abstract class Interaction extends Remark implements publicInteraction
         this.nft.name = nftDatas[1];
         this.nft.sn = nftDatas[2];
 
-        const nft = new Nft(this.rmrk, this.chain, this.version);
+        // @ts-ignore
+        const nft = new Nft(this.rmrk, this.chain, this.version, this.signer.address);
         return nft.rmrkToObject(this.nft);
     }
 

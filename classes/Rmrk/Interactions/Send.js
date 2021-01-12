@@ -17,16 +17,13 @@ exports.Send = void 0;
 var Interaction_1 = require("../Interaction");
 var Send = /** @class */ (function (_super) {
     __extends(Send, _super);
-    function Send(rmrk, chain) {
-        return _super.call(this, rmrk, Send.name, chain, null) || this;
+    function Send(rmrk, chain, signer) {
+        return _super.call(this, rmrk, Send.name, chain, null, signer) || this;
     }
     Send.prototype.createSend = function () {
         var splitted = this.rmrkToArray();
         this.version = splitted[2];
-        // this.nftId = splitted[3];
         this.nftId = this.nftFromComputedId(splitted[3]);
-        // const newNft = new Nft(this.rmrk, this.chain, this.version);
-        // this.nftId = newNft.createNftFromInteraction();
         var blockchainAddress = this.chain.getAddressClass();
         blockchainAddress.address = splitted[4];
         this.recipient = blockchainAddress;

@@ -17,8 +17,8 @@ exports.ChangeIssuer = void 0;
 var Interaction_1 = require("../Interaction");
 var ChangeIssuer = /** @class */ (function (_super) {
     __extends(ChangeIssuer, _super);
-    function ChangeIssuer(rmrk, chain) {
-        return _super.call(this, rmrk, ChangeIssuer.name, chain, null) || this;
+    function ChangeIssuer(rmrk, chain, signer) {
+        return _super.call(this, rmrk, ChangeIssuer.name, chain, null, signer) || this;
     }
     ChangeIssuer.prototype.createChangeIssuer = function () {
         var splitted = this.rmrkToArray();

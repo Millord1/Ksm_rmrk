@@ -7,8 +7,8 @@ export class Buy extends Interaction
 
     nftId: Nft;
 
-    constructor(rmrk: string, chain: Blockchain) {
-        super(rmrk, Buy.name, chain, null);
+    constructor(rmrk: string, chain: Blockchain, signer: string) {
+        super(rmrk, Buy.name, chain, null, signer);
     }
 
     public createBuy(){

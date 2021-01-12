@@ -1,12 +1,8 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
-import {Kusama} from "../classes/Blockchains/Kusama";
 import {RmrkReader} from "./RmrkReader";
 import {Blockchain} from "../classes/Blockchains/Blockchain";
-import {Polkadot} from "../classes/Blockchains/Polkadot";
-import {Unique} from "../classes/Blockchains/Unique";
-const fs = require('fs');
-const path = require('path');
+import {Remark} from "../classes/Rmrk/Remark";
 
 //TODO rename class to RmrkJetski
 
@@ -37,7 +33,8 @@ export class ScanBlock
     }
 
 
-    public async getRmrks(blockNumber: number){
+    // @ts-ignore
+    public async getRmrks(blockNumber: number): Promise < Array<Remark> >{
 
 
         const api = await this.getApi();
@@ -46,11 +43,7 @@ export class ScanBlock
 
         const blockRmrks = [];
 
-        blockRmrks.push({block : blockNumber});
-
         block.block.extrinsics.forEach((ex) => {
-
-            // TODO find signer
 
             const { method: {
                 args, method, section
@@ -59,47 +52,31 @@ export class ScanBlock
             if(section === "system" && method === "remark"){
 
                 const remark = args.toString();
+                const signer = ex.signer.toString();
 
                 if(remark.indexOf("") === 0){
 
-                    // const remrk = '0x726d726b3a3a4255593a3a302e313a3a306166663638363562656433613636622d56414c48454c4c4f2d504f54494f4e5f4845414c2d30303030303030303030303030303031';
-                    // const uri = hexToString(remrk);
+                    // const txId;
 
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
-                    const reader = new RmrkReader(this.chain);
+                    const reader = new RmrkReader(this.chain, signer);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
-
-
-                    const jason = rmrkReader.toJson();
-
-                    fs.writeFileSync(path.resolve(__dirname, "testJson.json"), jason);
-
-                    blockRmrks.push({
-                        rmrk : rmrkReader,
-                        content: jason
-                    });
+                    blockRmrks.push(rmrkReader);
                 }
             }
 
         })
-
-
-        console.log(blockRmrks);
         return blockRmrks;
     }
 
 
 }
 
-const scan = new ScanBlock(new Kusama());
-// const scan = new ScanBlock(new Polkadot());
-// const scan = new ScanBlock(new Unique());
-
-// scan.getRmrks();
+// const scan = new ScanBlock(new Kusama());
 
 // FAIL
 // scan.getRmrks(5445790);
@@ -108,7 +85,8 @@ const scan = new ScanBlock(new Kusama());
 // scan.getRmrks(5445790);
 
 //Send
-scan.getRmrks(5437975);
+// scan.getRmrks(5437975)
+
 
 // MintNft
 // scan.getRmrks(5420541);

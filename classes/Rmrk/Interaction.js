@@ -18,8 +18,8 @@ var Remark_1 = require("./Remark");
 var Nft_1 = require("../Nft");
 var Interaction = /** @class */ (function (_super) {
     __extends(Interaction, _super);
-    function Interaction(rmrk, interaction, chain, version) {
-        var _this = _super.call(this, version, rmrk, chain) || this;
+    function Interaction(rmrk, interaction, chain, version, signer) {
+        var _this = _super.call(this, version, rmrk, chain, signer) || this;
         _this.toJsonSerialize = function () { return ({
             version: _this.version,
             rmrk: _this.rmrk,
@@ -37,7 +37,8 @@ var Interaction = /** @class */ (function (_super) {
         this.nft.collection = nftDatas[0];
         this.nft.name = nftDatas[1];
         this.nft.sn = nftDatas[2];
-        var nft = new Nft_1.Nft(this.rmrk, this.chain, this.version);
+        // @ts-ignore
+        var nft = new Nft_1.Nft(this.rmrk, this.chain, this.version, this.signer.address);
         return nft.rmrkToObject(this.nft);
     };
     Interaction.prototype.checkDatasLength = function (datas, length) {

@@ -17,8 +17,8 @@ exports.List = void 0;
 var Interaction_1 = require("../Interaction");
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
-    function List(rmrk, chain) {
-        return _super.call(this, rmrk, List.name, chain, null) || this;
+    function List(rmrk, chain, signer) {
+        return _super.call(this, rmrk, List.name, chain, null, signer) || this;
     }
     List.prototype.createList = function () {
         var splitted = this.rmrkToArray();

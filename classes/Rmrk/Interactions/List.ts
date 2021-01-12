@@ -8,8 +8,8 @@ export class List extends Interaction
     nftId: Nft;
     quantity;
 
-    constructor(rmrk: string, chain: Blockchain) {
-        super(rmrk, List.name, chain, null);
+    constructor(rmrk: string, chain: Blockchain, signer: string) {
+        super(rmrk, List.name, chain, null, signer);
     }
 
     public createList(){
