@@ -35,7 +35,7 @@ export class Entity{
 
     }
 
-    public joinEntity(entity:Entity,verb:string,sandraManager:SandraManager){
+    public joinEntity(verb:string,entity:Entity,sandraManager:SandraManager){
         this.subjectConcept.setTriplet(sandraManager.get(verb),entity.subjectConcept)
 
 

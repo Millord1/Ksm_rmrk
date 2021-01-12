@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.EntityFactory = void 0;
 var EntityFactory = /** @class */ (function () {
     function EntityFactory(isa, containedIn, sandraManager) {
         this.entityArray = [];
@@ -25,5 +22,4 @@ var EntityFactory = /** @class */ (function () {
     };
     return EntityFactory;
 }());
-exports.EntityFactory = EntityFactory;
-//# sourceMappingURL=EntityFactory.js.map
+export { EntityFactory };

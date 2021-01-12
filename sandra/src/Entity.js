@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.Entity = void 0;
 var Entity = /** @class */ (function () {
     function Entity(factory, references) {
         var _this = this;
@@ -19,10 +16,9 @@ var Entity = /** @class */ (function () {
         this.referenceArray.push(ref);
         return this;
     };
-    Entity.prototype.joinEntity = function (entity, verb, sandraManager) {
+    Entity.prototype.joinEntity = function (verb, entity, sandraManager) {
         this.subjectConcept.setTriplet(sandraManager.get(verb), entity.subjectConcept);
     };
     return Entity;
 }());
-exports.Entity = Entity;
-//# sourceMappingURL=Entity.js.map
+export { Entity };

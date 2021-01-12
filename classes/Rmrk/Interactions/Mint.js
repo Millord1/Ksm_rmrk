@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,10 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.Mint = void 0;
-var Interaction_1 = require("../Interaction");
-var Collection_1 = require("../../Collection");
+import { Interaction } from "../Interaction";
+import { Collection } from "../../Collection";
 var Mint = /** @class */ (function (_super) {
     __extends(Mint, _super);
     function Mint(rmrk, chain, signer) {
@@ -23,7 +20,7 @@ var Mint = /** @class */ (function (_super) {
     }
     Mint.prototype.createMint = function () {
         //@ts-ignore
-        var myCollection = new Collection_1.Collection(this.rmrk, this.chain, null, this.signer.address);
+        var myCollection = new Collection(this.rmrk, this.chain, null, this.signer.address);
         this.myCollection = myCollection.createCollectionFromInteraction();
         return this;
     };
@@ -33,6 +30,5 @@ var Mint = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return Mint;
-}(Interaction_1.Interaction));
-exports.Mint = Mint;
-//# sourceMappingURL=Mint.js.map
+}(Interaction));
+export { Mint };

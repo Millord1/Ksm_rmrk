@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,9 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.Collection = void 0;
-var Entity_1 = require("./Rmrk/Entity");
+import { Entity } from "./Rmrk/Entity";
 var Collection = /** @class */ (function (_super) {
     __extends(Collection, _super);
     function Collection(rmrk, chain, version, signer) {
@@ -36,7 +33,7 @@ var Collection = /** @class */ (function (_super) {
         var splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         // const datas = splitted[2].split(',');
-        Entity_1.Entity.dataTreatment(splitted, this.collection);
+        Entity.dataTreatment(splitted, this.collection);
         return this.rmrkToObject(this.collection);
     };
     Collection.prototype.toJson = function (needStringify, needSubstrate) {
@@ -50,6 +47,5 @@ var Collection = /** @class */ (function (_super) {
         return (needStringify) ? JSON.stringify(json) : json;
     };
     return Collection;
-}(Entity_1.Entity));
-exports.Collection = Collection;
-//# sourceMappingURL=Collection.js.map
+}(Entity));
+export { Collection };

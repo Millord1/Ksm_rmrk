@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,19 +11,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.KusamaAddress = void 0;
-var BlockchainAddress_1 = require("./BlockchainAddress");
-var Kusama_1 = require("../Blockchains/Kusama");
+import { BlockchainAddress } from "./BlockchainAddress";
+import { Kusama } from "../Blockchains/Kusama";
 var KusamaAddress = /** @class */ (function (_super) {
     __extends(KusamaAddress, _super);
     function KusamaAddress() {
         var _this = _super.call(this) || this;
-        KusamaAddress.blockchain = Kusama_1.Kusama;
+        KusamaAddress.blockchain = Kusama;
         _this.blockchainName = KusamaAddress.blockchain.name;
         return _this;
     }
     return KusamaAddress;
-}(BlockchainAddress_1.BlockchainAddress));
-exports.KusamaAddress = KusamaAddress;
-//# sourceMappingURL=KusamaAddress.js.map
+}(BlockchainAddress));
+export { KusamaAddress };

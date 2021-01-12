@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,9 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.Consume = void 0;
-var Interaction_1 = require("../Interaction");
+import { Interaction } from "../Interaction";
 var Consume = /** @class */ (function (_super) {
     __extends(Consume, _super);
     function Consume(rmrk, chain, signer) {
@@ -52,6 +49,5 @@ var Consume = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return Consume;
-}(Interaction_1.Interaction));
-exports.Consume = Consume;
-//# sourceMappingURL=Consume.js.map
+}(Interaction));
+export { Consume };

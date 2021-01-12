@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,23 +11,20 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.Polkadot = void 0;
-var Blockchain_1 = require("./Blockchain");
-var KusamaAddress_1 = require("../Addresses/KusamaAddress");
-var PolkadotContract_1 = require("../Contract/PolkadotContract");
+import { Blockchain } from "./Blockchain";
+import { KusamaAddress } from "../Addresses/KusamaAddress";
+import { PolkadotContract } from "../Contract/PolkadotContract";
 var Polkadot = /** @class */ (function (_super) {
     __extends(Polkadot, _super);
     function Polkadot() {
-        var _this = _super.call(this, "Polkadot", "DOT", "", false, KusamaAddress_1.KusamaAddress) || this;
+        var _this = _super.call(this, "Polkadot", "DOT", "", false, KusamaAddress) || this;
         _this.wsProvider = 'wss://rpc.polkadot.io';
         return _this;
     }
     Polkadot.prototype.toJson = function () {
         return this.toJsonSerialize();
     };
-    Polkadot.contractClass = PolkadotContract_1.PolkadotContract;
+    Polkadot.contractClass = PolkadotContract;
     return Polkadot;
-}(Blockchain_1.Blockchain));
-exports.Polkadot = Polkadot;
-//# sourceMappingURL=Polkadot.js.map
+}(Blockchain));
+export { Polkadot };

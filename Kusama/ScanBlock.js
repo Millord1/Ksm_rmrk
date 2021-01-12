@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,15 +34,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-exports.ScanBlock = void 0;
-var api_1 = require("@polkadot/api");
-var util_1 = require("@polkadot/util");
-var RmrkReader_1 = require("./RmrkReader");
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { hexToString } from "@polkadot/util";
+import { RmrkReader } from "./RmrkReader";
+//TODO rename class to RmrkJetski
 var ScanBlock = /** @class */ (function () {
     function ScanBlock(chain) {
         this.chain = chain;
-        this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
+        this.wsProvider = new WsProvider(this.chain.wsProvider);
     }
     ScanBlock.prototype.getApi = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -52,7 +50,7 @@ var ScanBlock = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!(typeof this.api === 'undefined')) return [3 /*break*/, 2];
-                        return [4 /*yield*/, api_1.ApiPromise.create({ provider: this.wsProvider })];
+                        return [4 /*yield*/, ApiPromise.create({ provider: this.wsProvider })];
                     case 1:
                         myApi = _a.sent();
                         return [3 /*break*/, 3];
@@ -88,17 +86,15 @@ var ScanBlock = /** @class */ (function () {
                                 var signer = ex.signer.toString();
                                 if (remark.indexOf("") === 0) {
                                     // const txId;
-                                    var uri = util_1.hexToString(remark);
+                                    var uri = hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var reader = new RmrkReader_1.RmrkReader(_this.chain, signer);
+                                    var reader = new RmrkReader(_this.chain, signer);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
-                                    // console.log(rmrkReader);
                                     blockRmrks.push(rmrkReader);
                                 }
                             }
                         });
-                        // console.log(blockRmrks);
                         return [2 /*return*/, blockRmrks];
                 }
             });
@@ -106,7 +102,7 @@ var ScanBlock = /** @class */ (function () {
     };
     return ScanBlock;
 }());
-exports.ScanBlock = ScanBlock;
+export { ScanBlock };
 // const scan = new ScanBlock(new Kusama());
 // FAIL
 // scan.getRmrks(5445790);
@@ -119,4 +115,3 @@ exports.ScanBlock = ScanBlock;
 // Mint
 // scan.getRmrks(5083411);
 // scan.getRmrks(2176215);
-//# sourceMappingURL=ScanBlock.js.map
