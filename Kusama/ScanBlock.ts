@@ -8,6 +8,7 @@ import {Unique} from "../classes/Blockchains/Unique";
 const fs = require('fs');
 const path = require('path');
 
+//TODO rename class to RmrkJetski
 
 export class ScanBlock
 {
@@ -71,6 +72,8 @@ export class ScanBlock
                     const reader = new RmrkReader(this.chain);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
+
+
                     const jason = rmrkReader.toJson();
 
                     fs.writeFileSync(path.resolve(__dirname, "testJson.json"), jason);
@@ -83,6 +86,7 @@ export class ScanBlock
             }
 
         })
+
 
         console.log(blockRmrks);
         return blockRmrks;
