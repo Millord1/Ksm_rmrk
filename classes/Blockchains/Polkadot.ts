@@ -9,7 +9,7 @@ export class Polkadot extends Blockchain
     static contractClass = PolkadotContract
 
     constructor() {
-        super("Polkadot", "DOT", "", false, new KusamaAddress(), 'wss://rpc.polkadot.io');
+        super("Polkadot", "DOT", "", false, 'wss://rpc.polkadot.io');
     }
 
     public toJson(){

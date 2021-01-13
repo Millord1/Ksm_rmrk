@@ -20,8 +20,8 @@ var KusamaAddress = /** @class */ (function (_super) {
     __extends(KusamaAddress, _super);
     function KusamaAddress() {
         var _this = _super.call(this) || this;
-        KusamaAddress.blockchain = new Kusama_js_1.Kusama();
-        _this.blockchainName = KusamaAddress.blockchain.name;
+        _this.blockchain = new Kusama_js_1.Kusama();
+        _this.blockchainName = _this.blockchain.name;
         return _this;
     }
     return KusamaAddress;

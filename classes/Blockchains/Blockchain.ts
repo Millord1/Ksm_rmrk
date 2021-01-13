@@ -8,30 +8,19 @@ export abstract class Blockchain implements BlockchainInterface
     symbol: string;
     prefix: string;
     isSubstrate: boolean;
-    address: BlockchainAddress;
     wsProvider: string;
-
-    protected constructor(name: string, symbol: string, prefix: string, isSubstrate: boolean, addressClass: BlockchainAddress, wsProvider: string){
+    protected constructor(name: string, symbol: string, prefix: string, isSubstrate: boolean, wsProvider: string){
         this.name = name;
         this.symbol = symbol;
         this.prefix = prefix;
         this.isSubstrate = isSubstrate;
-        this.address = addressClass;
         this.wsProvider = wsProvider;
     }
-
-    public getAddressClass(){
-        return this.address;
-    }
-
-
-     toJsonSerialize = () : BlockchainInterface => ({
+    toJsonSerialize = () : BlockchainInterface => ({
         name: this.name,
         symbol: this.symbol,
         prefix: this.prefix,
         isSubstrate: this.isSubstrate,
         // address: this.address
     })
-
-
 }

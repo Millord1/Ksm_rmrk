@@ -15,12 +15,11 @@ var __extends = (this && this.__extends) || (function () {
 exports.__esModule = true;
 exports.Polkadot = void 0;
 var Blockchain_js_1 = require("./Blockchain.js");
-var KusamaAddress_js_1 = require("../Addresses/KusamaAddress.js");
 var PolkadotContract_js_1 = require("../Contract/PolkadotContract.js");
 var Polkadot = /** @class */ (function (_super) {
     __extends(Polkadot, _super);
     function Polkadot() {
-        return _super.call(this, "Polkadot", "DOT", "", false, new KusamaAddress_js_1.KusamaAddress(), 'wss://rpc.polkadot.io') || this;
+        return _super.call(this, "Polkadot", "DOT", "", false, 'wss://rpc.polkadot.io') || this;
     }
     Polkadot.prototype.toJson = function () {
         return this.toJsonSerialize();

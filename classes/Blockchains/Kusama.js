@@ -20,8 +20,11 @@ var KusamaContract_js_1 = require("../Contract/KusamaContract.js");
 var Kusama = /** @class */ (function (_super) {
     __extends(Kusama, _super);
     function Kusama() {
-        return _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_js_1.KusamaAddress(), 'wss://kusama-rpc.polkadot.io/') || this;
+        return _super.call(this, "Kusama", "KSM", "", true, 'wss://kusama-rpc.polkadot.io/') || this;
     }
+    Kusama.getAddressClass = function () {
+        return new KusamaAddress_js_1.KusamaAddress();
+    };
     Kusama.prototype.toJson = function (needSubstrate) {
         if (needSubstrate === void 0) { needSubstrate = true; }
         var json = this.toJsonSerialize();
