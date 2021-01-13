@@ -12,6 +12,11 @@ export class BlockchainAddressFactory extends EntityFactory {
         super('blockchainAddress','blockchainAddressFile',sandra);
     }
 
+    public getOrCreate(address:string){
+
+
+    }
+
 
 
 

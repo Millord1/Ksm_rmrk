@@ -14,9 +14,11 @@ export class BlockchainEvent extends Entity {
     public static EVENT_BLOCK_TIME = 'timestamp';
     public static QUANTITY = 'quantity';
 
+    constructor(factory:BlockchainEventFactory,source:string,destination:string,contract:string,txid:string,timestamp:string,quantity:string,blockchain:Blockchain,sandra:SandraManager) ;
+
     public constructor(factory:BlockchainEventFactory|null,
 
-                       source:BlockchainAddress,
+                       source:BlockchainAddress|string,
                        destination:BlockchainAddress,
                        contract:BlockchainContract,
                        txid:string,
@@ -31,11 +33,16 @@ export class BlockchainEvent extends Entity {
         if (factory == null)
             factory = new BlockchainEventFactory(blockchain,sandra)
 
+        let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
+
         super(factory,[txidRef]);
 
+        if ( typeof source == "string"){
+            source = blockchain.addressFactory.getOrCreate()
+        }
 
 
-        let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
+
         this.addReference(  new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME),timestamp));
         this.addReference(  new Reference(sandra.get(BlockchainEvent.QUANTITY),quantity));
 
