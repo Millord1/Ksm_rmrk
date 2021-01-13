@@ -6,16 +6,16 @@ import {BlockchainContract} from "./Contract/BlockchainContract.js";
 export class Collection extends Entity
 {
 
-    metadata: string;
-    name: string;
-    contract: BlockchainContract;
+    metadata: string | undefined;
+    name: string | undefined;
+    contract: BlockchainContract | undefined;
 
     constructor(rmrk: string, chain: Blockchain, version: string|null, signer:string) {
         super(rmrk, Collection.name, chain, version, signer);
     }
 
 
-    public rmrkToObject(obj){
+    public rmrkToObject(obj: any){
 
         this.metadata = obj.metadata;
         this.name = obj.name;
@@ -28,6 +28,7 @@ export class Collection extends Entity
 
         // @ts-ignore
         this.contract = myChain.contractClass;
+        // @ts-ignore
         this.contract.createContract(obj, this.chain, this);
 
         return this;
@@ -52,10 +53,14 @@ export class Collection extends Entity
 
         const json = this.toJsonSerialize();
 
+        // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
 
+        // @ts-ignore
         json['metadata'] = this.metadata;
+        // @ts-ignore
         json['name'] = this.name;
+        // @ts-ignore
         json['contract'] = this.contract;
 
         return (needStringify) ? JSON.stringify(json) : json;

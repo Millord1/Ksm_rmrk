@@ -4,19 +4,20 @@ import {BlockchainInterface, publicEntity} from "../Interfaces.js";
 
 export abstract class Blockchain implements BlockchainInterface
 {
-    name;
-    symbol;
-    prefix;
-    isSubstrate;
+    name: string;
+    symbol: string;
+    prefix: string;
+    isSubstrate: boolean;
     address: BlockchainAddress;
-    wsProvider;
+    wsProvider: string;
 
-    protected constructor(name, symbol, prefix, isSubstrate, addressClass){
+    protected constructor(name: string, symbol: string, prefix: string, isSubstrate: boolean, addressClass: BlockchainAddress, wsProvider: string){
         this.name = name;
         this.symbol = symbol;
         this.prefix = prefix;
         this.isSubstrate = isSubstrate;
         this.address = addressClass;
+        this.wsProvider = wsProvider;
     }
 
     public getAddressClass(){

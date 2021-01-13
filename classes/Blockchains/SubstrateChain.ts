@@ -1,15 +1,16 @@
 import {Blockchain} from "./Blockchain.js";
 import {Polkadot} from "./Polkadot.js";
+import {BlockchainAddress} from "../Addresses/BlockchainAddress.js";
 const fs = require('fs');
 const path = require('path');
 
 export abstract class SubstrateChain extends Blockchain
 {
 
-    substrateOf;
+    substrateOf: Blockchain | undefined;
 
-    protected constructor(name, symbol, prefix, isSubstrate, addressClass) {
-        super(name, symbol, prefix, isSubstrate, addressClass);
+    protected constructor(name: string, symbol: string, prefix: string, isSubstrate: boolean, addressClass: BlockchainAddress, wsProvider: string) {
+        super(name, symbol, prefix, isSubstrate, addressClass, wsProvider);
         this.checkSubstrate();
     }
 

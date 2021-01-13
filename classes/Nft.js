@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,17 +11,15 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.Nft = void 0;
-var Entity_js_1 = require("./Rmrk/Entity.js");
-var BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
+import { Entity } from "./Rmrk/Entity.js";
+import { BlockchainContract } from "./Contract/BlockchainContract.js";
 var Nft = /** @class */ (function (_super) {
     __extends(Nft, _super);
     function Nft(rmrk, chain, version, signer) {
         return _super.call(this, rmrk, Nft.name, chain, version, signer) || this;
     }
     Nft.prototype.rmrkToObject = function (obj) {
-        if (obj.contract instanceof BlockchainContract_js_1.BlockchainContract) {
+        if (obj.contract instanceof BlockchainContract) {
             this.contract = obj.collection;
         }
         else {
@@ -33,6 +30,7 @@ var Nft = /** @class */ (function (_super) {
         this.sn = obj.sn;
         this.metadata = obj.metadata;
         if (typeof obj.issuer != 'undefined') {
+            // @ts-ignore
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
         return this;
@@ -41,36 +39,31 @@ var Nft = /** @class */ (function (_super) {
         var splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         var nftDatas = splitted[2].split(',');
-        Entity_js_1.Entity.dataTreatment(nftDatas, this.nft);
-        // nftDatas.forEach((data)=>{
-        //     const datas = data.split(':');
-        //
-        //     if(datas.length > 2){
-        //         if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
-        //             this.nft[datas[0]] = datas[1] + ':' + datas[2];
-        //         }
-        //     }else{
-        //         this.nft[datas[0]] = datas[1];
-        //     }
-        //
-        // });
+        Entity.dataTreatment(nftDatas, this.nft);
         return this.rmrkToObject(this.nft);
     };
     Nft.prototype.toJson = function (needStringify, needSubstrate) {
         if (needStringify === void 0) { needStringify = true; }
         if (needSubstrate === void 0) { needSubstrate = true; }
         var json = this.toJsonSerialize();
+        // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
+        // @ts-ignore
         json['contractId'] = this.contractId;
+        // @ts-ignore
         json['contract'] = this.contract;
+        // @ts-ignore
         json['name'] = this.name;
+        // @ts-ignore
         json['transferable'] = this.transferable;
+        // @ts-ignore
         json['sn'] = this.sn;
+        // @ts-ignore
         json['metadata'] = this.metadata;
+        // @ts-ignore
         json['issuer'] = this.issuer;
         return (needStringify) ? JSON.stringify(json) : json;
     };
     return Nft;
-}(Entity_js_1.Entity));
-exports.Nft = Nft;
-//# sourceMappingURL=Nft.js.map
+}(Entity));
+export { Nft };

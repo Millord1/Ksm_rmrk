@@ -1,10 +1,11 @@
+import {Blockchain} from "../Blockchains/Blockchain.js";
 
 
 export abstract class BlockchainAddress
 {
-    address: string;
-    blockchainName: string;
-    public static blockchain;
+    address: string | undefined;
+    blockchainName: string | undefined;
+    public static blockchain: Blockchain;
 
     protected constructor(){
     }

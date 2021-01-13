@@ -2,14 +2,11 @@ import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
 import {RmrkReader} from "./RmrkReader.js";
 import {Blockchain} from "../classes/Blockchains/Blockchain.js";
-import {Remark} from "../classes/Rmrk/Remark.js";
 
-//TODO rename class to RmrkJetski
-
-export class ScanBlock
+export class RmrkJetski
 {
-    wsProvider;
-    api;
+    wsProvider: WsProvider;
+    api: any;
     chain: Blockchain;
 
 
@@ -21,7 +18,7 @@ export class ScanBlock
 
     private async getApi(){
 
-        let myApi;
+        let myApi: any;
 
         if (typeof this.api === 'undefined'){
             myApi = await ApiPromise.create({ provider: this.wsProvider });
@@ -34,16 +31,16 @@ export class ScanBlock
 
 
     // @ts-ignore
-    public async getRmrks(blockNumber: number): Promise < Array<Remark> >{
+    public async getRmrks(blockNumber: number): Promise<Array<object>>{
 
 
         const api = await this.getApi();
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const block = await api.rpc.chain.getBlock(blockHash);
 
-        const blockRmrks = [];
+        const blockRmrks : Array<object> = [];
 
-        block.block.extrinsics.forEach((ex) => {
+        block.block.extrinsics.forEach((ex: any) => {
 
             const { method: {
                 args, method, section
@@ -76,7 +73,7 @@ export class ScanBlock
 
 }
 
-// const scan = new ScanBlock(new Kusama());
+// const scan = new RmrkJetski(new Kusama());
 
 // FAIL
 // scan.getRmrks(5445790);

@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.Entity = void 0;
 var Entity = /** @class */ (function () {
     function Entity(factory, references) {
         var _this = this;
@@ -24,5 +21,4 @@ var Entity = /** @class */ (function () {
     };
     return Entity;
 }());
-exports.Entity = Entity;
-//# sourceMappingURL=Entity.js.map
+export { Entity };

@@ -9,8 +9,7 @@ export class Kusama extends SubstrateChain
     static contractClass = new KusamaContract();
 
     constructor(){
-        super("Kusama", "KSM", "", true, new KusamaAddress());
-        this.wsProvider = 'wss://kusama-rpc.polkadot.io/';
+        super("Kusama", "KSM", "", true, new KusamaAddress(), 'wss://kusama-rpc.polkadot.io/');
     }
 
 
@@ -20,6 +19,7 @@ export class Kusama extends SubstrateChain
         const json = this.toJsonSerialize();
 
         if(this.isSubstrate && needSubstrate){
+            // @ts-ignore
             json['substrateOf'] = this.substrateOf
         }
 
