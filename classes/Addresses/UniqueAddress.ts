@@ -5,7 +5,7 @@ export class UniqueAddress extends BlockchainAddress
 {
     constructor() {
         super();
-        UniqueAddress.blockchain = Unique;
+        UniqueAddress.blockchain = new Unique();
         this.blockchainName = UniqueAddress.blockchain.name;
     }
 

@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,32 +11,76 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.SubstrateChain = void 0;
-var Blockchain_js_1 = require("./Blockchain.js");
-var Polkadot_js_1 = require("./Polkadot.js");
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+import { Blockchain } from "./Blockchain.js";
+import { Polkadot } from "./Polkadot.js";
 var fs = require('fs');
 var path = require('path');
 var SubstrateChain = /** @class */ (function (_super) {
     __extends(SubstrateChain, _super);
-    function SubstrateChain(name, symbol, prefix, isSubstrate, addressClass) {
-        var _this = _super.call(this, name, symbol, prefix, isSubstrate, addressClass) || this;
+    function SubstrateChain(name, symbol, prefix, isSubstrate, addressClass, wsProvider) {
+        var _this = _super.call(this, name, symbol, prefix, isSubstrate, addressClass, wsProvider) || this;
         _this.checkSubstrate();
         return _this;
     }
     SubstrateChain.prototype.checkSubstrate = function () {
+        var e_1, _a, e_2, _b;
         if (this.isSubstrate) {
             var chains = fs.readFileSync(path.resolve(__dirname, "substrates.json"));
             var blockchains = JSON.parse(chains);
-            for (var _i = 0, _a = Object.entries(blockchains); _i < _a.length; _i++) {
-                var _b = _a[_i], blockchain = _b[0], substrates = _b[1];
-                // @ts-ignore
-                for (var _c = 0, substrates_1 = substrates; _c < substrates_1.length; _c++) {
-                    var substrate = substrates_1[_c];
-                    if (substrate.name === this.name) {
-                        this.substrateOf = this.getClassFromString(blockchain);
+            try {
+                for (var _c = __values(Object.entries(blockchains)), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var _e = __read(_d.value, 2), blockchain = _e[0], substrates = _e[1];
+                    try {
+                        // @ts-ignore
+                        for (var substrates_1 = (e_2 = void 0, __values(substrates)), substrates_1_1 = substrates_1.next(); !substrates_1_1.done; substrates_1_1 = substrates_1.next()) {
+                            var substrate = substrates_1_1.value;
+                            if (substrate.name === this.name) {
+                                this.substrateOf = this.getClassFromString(blockchain);
+                            }
+                        }
+                    }
+                    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                    finally {
+                        try {
+                            if (substrates_1_1 && !substrates_1_1.done && (_b = substrates_1.return)) _b.call(substrates_1);
+                        }
+                        finally { if (e_2) throw e_2.error; }
                     }
                 }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
         }
     };
@@ -45,10 +88,9 @@ var SubstrateChain = /** @class */ (function (_super) {
         name = name.toLowerCase();
         switch (name) {
             case 'polkadot':
-                return new Polkadot_js_1.Polkadot();
+                return new Polkadot();
         }
     };
     return SubstrateChain;
-}(Blockchain_js_1.Blockchain));
-exports.SubstrateChain = SubstrateChain;
-//# sourceMappingURL=SubstrateChain.js.map
+}(Blockchain));
+export { SubstrateChain };

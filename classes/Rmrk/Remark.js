@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.Remark = void 0;
 var Remark = /** @class */ (function () {
     function Remark(version, rmrk, chain, signer) {
         this.defaultVersion = '0.1';
@@ -30,5 +27,4 @@ var Remark = /** @class */ (function () {
     }
     return Remark;
 }());
-exports.Remark = Remark;
-//# sourceMappingURL=Remark.js.map
+export { Remark };

@@ -8,7 +8,7 @@ export abstract class Entity extends Remark implements publicEntity
 
     standard;
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version, signer:string) {
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, signer:string) {
         super(version, rmrk, chain, signer);
         this.standard = standard;
     }
@@ -47,6 +47,7 @@ export abstract class Entity extends Remark implements publicEntity
                 datas[1] = datas[1] + separator + datas[2];
             }
 
+            // @ts-ignore
             obj[datas[0]] = datas[1];
         })
         return obj;

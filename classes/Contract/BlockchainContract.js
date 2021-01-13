@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.BlockchainContract = void 0;
 var BlockchainContract = /** @class */ (function () {
     function BlockchainContract() {
     }
@@ -11,9 +8,8 @@ var BlockchainContract = /** @class */ (function () {
         this.max = obj.max;
         this.symbol = obj.symbol;
         this.id = obj.id;
-        this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass();
+        this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
     };
     return BlockchainContract;
 }());
-exports.BlockchainContract = BlockchainContract;
-//# sourceMappingURL=BlockchainContract.js.map
+export { BlockchainContract };

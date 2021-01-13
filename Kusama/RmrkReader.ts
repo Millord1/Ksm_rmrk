@@ -79,51 +79,44 @@ export class RmrkReader
 
             case 'mint':
 
-                const mint = new Mint(rmrk, this.chain, this.signer);
-                interactObj = mint.createMint();
+                interactObj = new Mint(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'changeissuer':
 
-                const changeIssuer = new ChangeIssuer(rmrk, this.chain, this.signer);
-                interactObj = changeIssuer.createChangeIssuer();
+                interactObj = new ChangeIssuer(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'mintnft':
 
-                const mintNft = new MintNft(rmrk, this.chain, this.signer);
-                interactObj = mintNft.createMintNft();
+                interactObj = new MintNft(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'send' :
 
-                const send = new Send(rmrk, this.chain, this.signer);
-                interactObj = send.createSend();
+                interactObj = new Send(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'list' :
 
-                const list = new List(rmrk, this.chain, this.signer);
-                interactObj = list.createList();
+                interactObj = new List(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'buy' :
 
-                const buy = new Buy(rmrk, this.chain, this.signer);
-                interactObj = buy.createBuy();
+                interactObj = new Buy(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'consume' :
             default :
 
-                const consume = new Consume(rmrk, this.chain, this.signer);
-                interactObj = consume.createConsume();
+                interactObj = new Consume(rmrk, this.chain, this.signer);
 
                 break;
         }

@@ -7,7 +7,7 @@ export class KusamaAddress extends BlockchainAddress
 
     constructor(){
         super();
-        KusamaAddress.blockchain = Kusama;
+        KusamaAddress.blockchain = new Kusama();
         this.blockchainName = KusamaAddress.blockchain.name;
     }
 

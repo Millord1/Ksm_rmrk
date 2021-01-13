@@ -9,7 +9,7 @@ export abstract class Interaction extends Remark implements publicInteraction
 
     interaction: string;
 
-    protected constructor(rmrk: string, interaction:string, chain: Blockchain, version, signer: string) {
+    protected constructor(rmrk: string, interaction:string, chain: Blockchain, version: string|null, signer: string) {
         super(version, rmrk, chain, signer);
         this.interaction = interaction
     }
@@ -20,16 +20,19 @@ export abstract class Interaction extends Remark implements publicInteraction
     }
 
 
-    public nftFromComputedId(computed){
+    public nftFromComputedId(computed: string){
 
         let nftDatas = this.checkDatasLength(computed.split('-'), 3);
 
+        // @ts-ignore
         this.nft.collection = nftDatas[0];
+        // @ts-ignore
         this.nft.name = nftDatas[1];
+        // @ts-ignore
         this.nft.sn = nftDatas[2];
 
-        // @ts-ignore
-        const nft = new Nft(this.rmrk, this.chain, this.version, this.signer.address);
+
+        const nft = new Nft(this.rmrk, this.chain, this.version, this.signer);
         return nft.rmrkToObject(this.nft);
     }
 
@@ -78,6 +81,7 @@ export abstract class Interaction extends Remark implements publicInteraction
     toJsonSerialize = () : publicInteraction => ({
        version : this.version,
        rmrk: this.rmrk,
+       // @ts-ignore
        chain: this.chain.toJson(),
        interaction: this.interaction
     });

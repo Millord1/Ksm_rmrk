@@ -1,4 +1,4 @@
-import {ScanBlock} from "./Kusama/ScanBlock";
+import {RmrkJetski} from "./Kusama/RmrkJetski.js";
 import {testScan} from "./StartScan.js";
 
 const {program} = require('commander');

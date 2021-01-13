@@ -8,19 +8,23 @@ export class MintNft extends Interaction
 
     constructor(rmrk: string, chain: Blockchain, signer: string){
         super(rmrk, MintNft.name, chain, null, signer);
-    }
-
-    public createMintNft(){
-
         // @ts-ignore
         const myNft = new Nft(this.rmrk, this.chain, null, this.signer.address);
         this.myNft = myNft.createNftFromInteraction();
-
-        return this;
     }
+
+    // public createMintNft(){
+    //
+    //     // @ts-ignore
+    //     const myNft = new Nft(this.rmrk, this.chain, null, this.signer.address);
+    //     this.myNft = myNft.createNftFromInteraction();
+    //
+    //     return this;
+    // }
 
     public toJson(){
         const json = this.myNft.toJson(false, true);
+        // @ts-ignore
         json['interaction'] = this.interaction;
         return JSON.stringify(json);
     }

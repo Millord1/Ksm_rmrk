@@ -2,7 +2,7 @@ import {Option} from "commander";
 import {Polkadot} from "./classes/Blockchains/Polkadot.js";
 import {Unique} from "./classes/Blockchains/Unique.js";
 import {Kusama} from "./classes/Blockchains/Kusama.js";
-import {ScanBlock} from "./Kusama/ScanBlock.js";
+import {RmrkJetski} from "./Kusama/RmrkJetski.js";
 import {Send} from "./classes/Rmrk/Interactions/Send.js";
 import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
 import {SandraManager} from "./sandra/src/SandraManager.js";
@@ -12,8 +12,6 @@ import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
 
-const fs = require('fs');
-const path = require('path');
 
 // import * as $ from "jquery/JQuery.js";
 
@@ -40,7 +38,7 @@ export const testScan = async (opts: Option) => {
     }
 
 
-    const scan = new ScanBlock(blockchain);
+    const scan = new RmrkJetski(blockchain);
 
     // @ts-ignore
     scan.getRmrks(opts.block).then(
