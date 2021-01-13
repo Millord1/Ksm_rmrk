@@ -1,3 +1,6 @@
+"use strict";
+exports.__esModule = true;
+exports.Concept = void 0;
 var Concept = /** @class */ (function () {
     function Concept(unid, shortname) {
         this.unid = unid;
@@ -15,4 +18,5 @@ var Concept = /** @class */ (function () {
     };
     return Concept;
 }());
-export { Concept };
+exports.Concept = Concept;
+//# sourceMappingURL=Concept.js.map

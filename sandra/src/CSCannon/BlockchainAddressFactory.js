@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11,7 +12,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { EntityFactory } from "../EntityFactory.js";
+exports.__esModule = true;
+exports.BlockchainAddressFactory = void 0;
+var EntityFactory_js_1 = require("../EntityFactory.js");
 var BlockchainAddressFactory = /** @class */ (function (_super) {
     __extends(BlockchainAddressFactory, _super);
     function BlockchainAddressFactory(sandra) {
@@ -23,5 +26,6 @@ var BlockchainAddressFactory = /** @class */ (function (_super) {
     BlockchainAddressFactory.prototype.getOrCreate = function (address) {
     };
     return BlockchainAddressFactory;
-}(EntityFactory));
-export { BlockchainAddressFactory };
+}(EntityFactory_js_1.EntityFactory));
+exports.BlockchainAddressFactory = BlockchainAddressFactory;
+//# sourceMappingURL=BlockchainAddressFactory.js.map

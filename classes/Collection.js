@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11,7 +12,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Entity } from "./Rmrk/Entity.js";
+exports.__esModule = true;
+exports.Collection = void 0;
+var Entity_js_1 = require("./Rmrk/Entity.js");
 var Collection = /** @class */ (function (_super) {
     __extends(Collection, _super);
     function Collection(rmrk, chain, version, signer) {
@@ -34,7 +37,7 @@ var Collection = /** @class */ (function (_super) {
         var splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         // const datas = splitted[2].split(',');
-        Entity.dataTreatment(splitted, this.collection);
+        Entity_js_1.Entity.dataTreatment(splitted, this.collection);
         return this.rmrkToObject(this.collection);
     };
     Collection.prototype.toJson = function (needStringify, needSubstrate) {
@@ -52,5 +55,6 @@ var Collection = /** @class */ (function (_super) {
         return (needStringify) ? JSON.stringify(json) : json;
     };
     return Collection;
-}(Entity));
-export { Collection };
+}(Entity_js_1.Entity));
+exports.Collection = Collection;
+//# sourceMappingURL=Collection.js.map
