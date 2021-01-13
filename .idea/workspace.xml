@@ -156,15 +156,11 @@
     <list>
       <item itemvalue="Node.js.Basics.js" />
       <item itemvalue="Node.js.basicsCalls.js" />
-      <item itemvalue="TypeScript.basicsCalls.ts" />
       <item itemvalue="Node.js.ScanBlock.js" />
-      <item itemvalue="TypeScript.ScanBlock.ts" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.ScanBlock.js" />
-        <item itemvalue="TypeScript.ScanBlock.ts" />
-        <item itemvalue="TypeScript.basicsCalls.ts" />
         <item itemvalue="Node.js.basicsCalls.js" />
         <item itemvalue="Node.js.Basics.js" />
       </list>

@@ -25,9 +25,9 @@ var BlockchainEvent = /** @class */ (function (_super) {
         _this = _super.call(this, factory, [txidRef]) || this;
         _this.addReference(new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME), timestamp));
         _this.addReference(new Reference(sandra.get(BlockchainEvent.QUANTITY), quantity));
-        _this.joinEntity(source, BlockchainEvent.EVENT_SOURCE_ADDRESS, sandra);
-        _this.joinEntity(destination, BlockchainEvent.EVENT_DESTINATION_VERB, sandra);
-        _this.joinEntity(contract, BlockchainEvent.EVENT_SOURCE_CONTRACT, sandra);
+        _this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS, source, sandra);
+        _this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS, destination, sandra);
+        _this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT, contract, sandra);
         return _this;
     }
     BlockchainEvent.EVENT_SOURCE_ADDRESS = 'source';

@@ -41,9 +41,9 @@ export class BlockchainEvent extends Entity {
         this.addReference(  new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME),timestamp));
         this.addReference(  new Reference(sandra.get(BlockchainEvent.QUANTITY),quantity));
 
-        this.joinEntity(source,BlockchainEvent.EVENT_SOURCE_ADDRESS,sandra)
-        this.joinEntity(destination,BlockchainEvent.EVENT_DESTINATION_VERB,sandra)
-        this.joinEntity(contract,BlockchainEvent.EVENT_SOURCE_CONTRACT,sandra)
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,source,sandra)
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,destination,sandra)
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT,contract,sandra)
 
 
     }
