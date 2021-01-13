@@ -14,7 +14,8 @@ export class BlockchainEvent extends Entity {
     public static EVENT_BLOCK_TIME = 'timestamp';
     public static QUANTITY = 'quantity';
 
-    public constructor(factory:BlockchainEventFactory|null,
+
+     constructor(factory:BlockchainEventFactory|null,
 
                        source:BlockchainAddress,
                        destination:BlockchainAddress,
@@ -31,11 +32,12 @@ export class BlockchainEvent extends Entity {
         if (factory == null)
             factory = new BlockchainEventFactory(blockchain,sandra)
 
+         let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
         super(factory,[txidRef]);
 
 
 
-        let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
+
         this.addReference(  new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME),timestamp));
         this.addReference(  new Reference(sandra.get(BlockchainEvent.QUANTITY),quantity));
 
@@ -48,5 +50,28 @@ export class BlockchainEvent extends Entity {
 
 
 
+}
+
+interface IBox {
+    x : number;
+    y : number;
+    height : number;
+    width : number;
+}
+
+class Box {
+    public x: number;
+    public y: number;
+    public height: number;
+    public width: number;
+
+    constructor();
+    constructor(obj: IBox);
+    constructor(obj?: any) {
+        this.x = obj && obj.x || 0
+        this.y = obj && obj.y || 0
+        this.height = obj && obj.height || 0
+        this.width = obj && obj.width || 0;
+    }
 }
 

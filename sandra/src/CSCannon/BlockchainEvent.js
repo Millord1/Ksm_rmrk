@@ -21,8 +21,8 @@ var BlockchainEvent = /** @class */ (function (_super) {
         var _this = this;
         if (factory == null)
             factory = new BlockchainEventFactory(blockchain, sandra);
-        _this = _super.call(this, factory, [txidRef]) || this;
         var txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME), txid);
+        _this = _super.call(this, factory, [txidRef]) || this;
         _this.addReference(new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME), timestamp));
         _this.addReference(new Reference(sandra.get(BlockchainEvent.QUANTITY), quantity));
         _this.joinEntity(source, BlockchainEvent.EVENT_SOURCE_ADDRESS, sandra);
@@ -38,3 +38,12 @@ var BlockchainEvent = /** @class */ (function (_super) {
     return BlockchainEvent;
 }(Entity));
 export { BlockchainEvent };
+var Box = /** @class */ (function () {
+    function Box(obj) {
+        this.x = obj && obj.x || 0;
+        this.y = obj && obj.y || 0;
+        this.height = obj && obj.height || 0;
+        this.width = obj && obj.width || 0;
+    }
+    return Box;
+}());
