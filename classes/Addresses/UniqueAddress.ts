@@ -1,5 +1,5 @@
-import {BlockchainAddress} from "./BlockchainAddress";
-import {Unique} from "../Blockchains/Unique";
+import {BlockchainAddress} from "./BlockchainAddress.js";
+import {Unique} from "../Blockchains/Unique.js";
 
 export class UniqueAddress extends BlockchainAddress
 {

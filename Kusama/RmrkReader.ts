@@ -1,14 +1,14 @@
-import {Blockchain} from "../classes/Blockchains/Blockchain";
-import {Nft} from "../classes/Nft";
-import {Collection} from "../classes/Collection";
-import {Send} from "../classes/Rmrk/Interactions/Send";
-import {MintNft} from "../classes/Rmrk/Interactions/MintNft";
-import {Mint} from "../classes/Rmrk/Interactions/Mint";
-import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer";
-import {List} from "../classes/Rmrk/Interactions/List";
-import {Buy} from "../classes/Rmrk/Interactions/Buy";
-import {Consume} from "../classes/Rmrk/Interactions/Consume";
-import {Entity} from "../classes/Rmrk/Entity";
+import {Blockchain} from "../classes/Blockchains/Blockchain.js";
+import {Entity} from "../classes/Rmrk/Entity.js";
+import {Nft} from "../classes/Nft.js";
+import {Collection} from "../classes/Collection.js";
+import {Mint} from "../classes/Rmrk/Interactions/Mint.js";
+import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer.js";
+import {MintNft} from "../classes/Rmrk/Interactions/MintNft.js";
+import {Send} from "../classes/Rmrk/Interactions/Send.js";
+import {List} from "../classes/Rmrk/Interactions/List.js";
+import {Buy} from "../classes/Rmrk/Interactions/Buy.js";
+import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 
 
 export class RmrkReader

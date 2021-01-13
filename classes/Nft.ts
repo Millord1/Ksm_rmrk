@@ -1,7 +1,7 @@
-import {BlockchainAddress} from "./Addresses/BlockchainAddress";
-import {Blockchain} from "./Blockchains/Blockchain";
-import {Entity} from "./Rmrk/Entity";
-import {BlockchainContract} from "./Contract/BlockchainContract";
+import {BlockchainAddress} from "./Addresses/BlockchainAddress.js";
+import {Blockchain} from "./Blockchains/Blockchain.js";
+import {Entity} from "./Rmrk/Entity.js";
+import {BlockchainContract} from "./Contract/BlockchainContract.js";
 
 
 export class Nft extends Entity

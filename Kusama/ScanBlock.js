@@ -39,7 +39,7 @@ exports.__esModule = true;
 exports.ScanBlock = void 0;
 var api_1 = require("@polkadot/api");
 var util_1 = require("@polkadot/util");
-var RmrkReader_1 = require("./RmrkReader");
+var RmrkReader_js_1 = require("./RmrkReader.js");
 var ScanBlock = /** @class */ (function () {
     function ScanBlock(chain) {
         this.chain = chain;
@@ -91,7 +91,7 @@ var ScanBlock = /** @class */ (function () {
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var reader = new RmrkReader_1.RmrkReader(_this.chain, signer);
+                                    var reader = new RmrkReader_js_1.RmrkReader(_this.chain, signer);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
                                     // console.log(rmrkReader);
                                     blockRmrks.push(rmrkReader);

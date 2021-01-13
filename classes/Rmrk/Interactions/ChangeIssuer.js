@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.ChangeIssuer = void 0;
-var Interaction_1 = require("../Interaction");
+var Interaction_js_1 = require("../Interaction.js");
 var ChangeIssuer = /** @class */ (function (_super) {
     __extends(ChangeIssuer, _super);
     function ChangeIssuer(rmrk, chain, signer) {
@@ -36,6 +36,6 @@ var ChangeIssuer = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return ChangeIssuer;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.ChangeIssuer = ChangeIssuer;
 //# sourceMappingURL=ChangeIssuer.js.map

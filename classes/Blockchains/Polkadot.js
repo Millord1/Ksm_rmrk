@@ -14,21 +14,21 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Polkadot = void 0;
-var Blockchain_1 = require("./Blockchain");
-var KusamaAddress_1 = require("../Addresses/KusamaAddress");
-var PolkadotContract_1 = require("../Contract/PolkadotContract");
+var Blockchain_js_1 = require("./Blockchain.js");
+var KusamaAddress_js_1 = require("../Addresses/KusamaAddress.js");
+var PolkadotContract_js_1 = require("../Contract/PolkadotContract.js");
 var Polkadot = /** @class */ (function (_super) {
     __extends(Polkadot, _super);
     function Polkadot() {
-        var _this = _super.call(this, "Polkadot", "DOT", "", false, KusamaAddress_1.KusamaAddress) || this;
+        var _this = _super.call(this, "Polkadot", "DOT", "", false, KusamaAddress_js_1.KusamaAddress) || this;
         _this.wsProvider = 'wss://rpc.polkadot.io';
         return _this;
     }
     Polkadot.prototype.toJson = function () {
         return this.toJsonSerialize();
     };
-    Polkadot.contractClass = PolkadotContract_1.PolkadotContract;
+    Polkadot.contractClass = PolkadotContract_js_1.PolkadotContract;
     return Polkadot;
-}(Blockchain_1.Blockchain));
+}(Blockchain_js_1.Blockchain));
 exports.Polkadot = Polkadot;
 //# sourceMappingURL=Polkadot.js.map

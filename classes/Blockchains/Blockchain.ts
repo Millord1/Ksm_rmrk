@@ -1,5 +1,5 @@
-import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-import {BlockchainInterface, publicEntity} from "../Interfaces";
+import {BlockchainAddress} from "../Addresses/BlockchainAddress.js";
+import {BlockchainInterface, publicEntity} from "../Interfaces.js";
 
 
 export abstract class Blockchain implements BlockchainInterface

@@ -1,6 +1,6 @@
-import {Remark} from "./Remark";
-import {Blockchain} from "../Blockchains/Blockchain";
-import {publicEntity} from "../Interfaces";
+import {Remark} from "./Remark.js";
+import {Blockchain} from "../Blockchains/Blockchain.js";
+import {publicEntity} from "../Interfaces.js";
 
 
 export abstract class Entity extends Remark implements publicEntity

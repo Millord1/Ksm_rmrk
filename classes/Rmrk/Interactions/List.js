@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.List = void 0;
-var Interaction_1 = require("../Interaction");
+var Interaction_js_1 = require("../Interaction.js");
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
     function List(rmrk, chain, signer) {
@@ -34,6 +34,6 @@ var List = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return List;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.List = List;
 //# sourceMappingURL=List.js.map

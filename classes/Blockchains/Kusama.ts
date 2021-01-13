@@ -1,6 +1,6 @@
-import {SubstrateChain} from "./SubstrateChain";
-import {KusamaAddress} from "../Addresses/KusamaAddress";
-import {KusamaContract} from "../Contract/KusamaContract";
+import {SubstrateChain} from "./SubstrateChain.js";
+import {KusamaAddress} from "../Addresses/KusamaAddress.js";
+import {KusamaContract} from "../Contract/KusamaContract.js";
 
 
 export class Kusama extends SubstrateChain

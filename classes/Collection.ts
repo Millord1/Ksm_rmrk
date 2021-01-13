@@ -1,6 +1,6 @@
-import {Blockchain} from "./Blockchains/Blockchain";
-import {Entity} from "./Rmrk/Entity";
-import {BlockchainContract} from "./Contract/BlockchainContract";
+import {Blockchain} from "./Blockchains/Blockchain.js";
+import {Entity} from "./Rmrk/Entity.js";
+import {BlockchainContract} from "./Contract/BlockchainContract.js";
 
 
 export class Collection extends Entity

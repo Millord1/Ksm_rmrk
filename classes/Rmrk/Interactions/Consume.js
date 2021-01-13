@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Consume = void 0;
-var Interaction_1 = require("../Interaction");
+var Interaction_js_1 = require("../Interaction.js");
 var Consume = /** @class */ (function (_super) {
     __extends(Consume, _super);
     function Consume(rmrk, chain, signer) {
@@ -52,6 +52,6 @@ var Consume = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return Consume;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.Consume = Consume;
 //# sourceMappingURL=Consume.js.map

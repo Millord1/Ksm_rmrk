@@ -14,8 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Interaction = void 0;
-var Remark_1 = require("./Remark");
-var Nft_1 = require("../Nft");
+var Remark_js_1 = require("./Remark.js");
+var Nft_js_1 = require("../Nft.js");
 var Interaction = /** @class */ (function (_super) {
     __extends(Interaction, _super);
     function Interaction(rmrk, interaction, chain, version, signer) {
@@ -38,7 +38,7 @@ var Interaction = /** @class */ (function (_super) {
         this.nft.name = nftDatas[1];
         this.nft.sn = nftDatas[2];
         // @ts-ignore
-        var nft = new Nft_1.Nft(this.rmrk, this.chain, this.version, this.signer.address);
+        var nft = new Nft_js_1.Nft(this.rmrk, this.chain, this.version, this.signer.address);
         return nft.rmrkToObject(this.nft);
     };
     Interaction.prototype.checkDatasLength = function (datas, length) {
@@ -69,6 +69,6 @@ var Interaction = /** @class */ (function (_super) {
         return datas;
     };
     return Interaction;
-}(Remark_1.Remark));
+}(Remark_js_1.Remark));
 exports.Interaction = Interaction;
 //# sourceMappingURL=Interaction.js.map

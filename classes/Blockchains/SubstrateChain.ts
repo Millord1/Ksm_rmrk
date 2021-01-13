@@ -1,5 +1,5 @@
-import {Blockchain} from "./Blockchain";
-import {Polkadot} from "./Polkadot";
+import {Blockchain} from "./Blockchain.js";
+import {Polkadot} from "./Polkadot.js";
 const fs = require('fs');
 const path = require('path');
 

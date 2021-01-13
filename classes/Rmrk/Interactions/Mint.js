@@ -14,8 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Mint = void 0;
-var Interaction_1 = require("../Interaction");
-var Collection_1 = require("../../Collection");
+var Interaction_js_1 = require("../Interaction.js");
+var Collection_js_1 = require("../../Collection.js");
 var Mint = /** @class */ (function (_super) {
     __extends(Mint, _super);
     function Mint(rmrk, chain, signer) {
@@ -23,7 +23,7 @@ var Mint = /** @class */ (function (_super) {
     }
     Mint.prototype.createMint = function () {
         //@ts-ignore
-        var myCollection = new Collection_1.Collection(this.rmrk, this.chain, null, this.signer.address);
+        var myCollection = new Collection_js_1.Collection(this.rmrk, this.chain, null, this.signer.address);
         this.myCollection = myCollection.createCollectionFromInteraction();
         return this;
     };
@@ -33,6 +33,6 @@ var Mint = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return Mint;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.Mint = Mint;
 //# sourceMappingURL=Mint.js.map

@@ -14,13 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.KusamaContract = void 0;
-var BlockchainContract_1 = require("./BlockchainContract");
+var BlockchainContract_js_1 = require("./BlockchainContract.js");
 var KusamaContract = /** @class */ (function (_super) {
     __extends(KusamaContract, _super);
     function KusamaContract() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return KusamaContract;
-}(BlockchainContract_1.BlockchainContract));
+}(BlockchainContract_js_1.BlockchainContract));
 exports.KusamaContract = KusamaContract;
 //# sourceMappingURL=KusamaContract.js.map

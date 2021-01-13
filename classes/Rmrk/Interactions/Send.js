@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Send = void 0;
-var Interaction_1 = require("../Interaction");
+var Interaction_js_1 = require("../Interaction.js");
 var Send = /** @class */ (function (_super) {
     __extends(Send, _super);
     function Send(rmrk, chain, signer) {
@@ -36,6 +36,6 @@ var Send = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return Send;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.Send = Send;
 //# sourceMappingURL=Send.js.map

@@ -1,8 +1,7 @@
 import {ScanBlock} from "./Kusama/ScanBlock";
-import {testScan} from "./StartScan";
+import {testScan} from "./StartScan.js";
 
 const {program} = require('commander');
-// import {startScan} from "./StartScan";
 
 
 const helloWorld  = () => {

@@ -1,5 +1,5 @@
-import {BlockchainAddress} from "./BlockchainAddress";
-import {Kusama} from "../Blockchains/Kusama";
+import {BlockchainAddress} from "./BlockchainAddress.js";
+import {Kusama} from "../Blockchains/Kusama.js";
 
 
 export class KusamaAddress extends BlockchainAddress

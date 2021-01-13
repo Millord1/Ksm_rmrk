@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Entity = void 0;
-var Remark_1 = require("./Remark");
+var Remark_js_1 = require("./Remark.js");
 var Entity = /** @class */ (function (_super) {
     __extends(Entity, _super);
     function Entity(rmrk, standard, chain, version, signer) {
@@ -48,6 +48,6 @@ var Entity = /** @class */ (function (_super) {
         return obj;
     };
     return Entity;
-}(Remark_1.Remark));
+}(Remark_js_1.Remark));
 exports.Entity = Entity;
 //# sourceMappingURL=Entity.js.map

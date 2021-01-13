@@ -1,8 +1,8 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
-import {RmrkReader} from "./RmrkReader";
-import {Blockchain} from "../classes/Blockchains/Blockchain";
-import {Remark} from "../classes/Rmrk/Remark";
+import {RmrkReader} from "./RmrkReader.js";
+import {Blockchain} from "../classes/Blockchains/Blockchain.js";
+import {Remark} from "../classes/Rmrk/Remark.js";
 
 //TODO rename class to RmrkJetski
 

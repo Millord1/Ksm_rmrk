@@ -1,6 +1,6 @@
-import {Interaction} from "../Interaction";
-import {Blockchain} from "../../Blockchains/Blockchain";
-import {Nft} from "../../Nft";
+import {Interaction} from "../Interaction.js";
+import {Blockchain} from "../../Blockchains/Blockchain.js";
+import {Nft} from "../../Nft.js";
 
 export class MintNft extends Interaction
 {

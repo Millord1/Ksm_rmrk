@@ -1,7 +1,7 @@
-import {Interaction} from "../Interaction";
-import {Blockchain} from "../../Blockchains/Blockchain";
-import {Nft} from "../../Nft";
-import {BlockchainAddress} from "../../Addresses/BlockchainAddress";
+import {Interaction} from "../Interaction.js";
+import {Blockchain} from "../../Blockchains/Blockchain.js";
+import {Nft} from "../../Nft.js";
+import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
 
 export class Consume extends Interaction
 {

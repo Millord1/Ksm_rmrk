@@ -14,17 +14,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.KusamaAddress = void 0;
-var BlockchainAddress_1 = require("./BlockchainAddress");
-var Kusama_1 = require("../Blockchains/Kusama");
+var BlockchainAddress_js_1 = require("./BlockchainAddress.js");
+var Kusama_js_1 = require("../Blockchains/Kusama.js");
 var KusamaAddress = /** @class */ (function (_super) {
     __extends(KusamaAddress, _super);
     function KusamaAddress() {
         var _this = _super.call(this) || this;
-        KusamaAddress.blockchain = Kusama_1.Kusama;
+        KusamaAddress.blockchain = Kusama_js_1.Kusama;
         _this.blockchainName = KusamaAddress.blockchain.name;
         return _this;
     }
     return KusamaAddress;
-}(BlockchainAddress_1.BlockchainAddress));
+}(BlockchainAddress_js_1.BlockchainAddress));
 exports.KusamaAddress = KusamaAddress;
 //# sourceMappingURL=KusamaAddress.js.map

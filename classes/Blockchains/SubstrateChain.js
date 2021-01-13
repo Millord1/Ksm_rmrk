@@ -14,8 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.SubstrateChain = void 0;
-var Blockchain_1 = require("./Blockchain");
-var Polkadot_1 = require("./Polkadot");
+var Blockchain_js_1 = require("./Blockchain.js");
+var Polkadot_js_1 = require("./Polkadot.js");
 var fs = require('fs');
 var path = require('path');
 var SubstrateChain = /** @class */ (function (_super) {
@@ -45,10 +45,10 @@ var SubstrateChain = /** @class */ (function (_super) {
         name = name.toLowerCase();
         switch (name) {
             case 'polkadot':
-                return new Polkadot_1.Polkadot();
+                return new Polkadot_js_1.Polkadot();
         }
     };
     return SubstrateChain;
-}(Blockchain_1.Blockchain));
+}(Blockchain_js_1.Blockchain));
 exports.SubstrateChain = SubstrateChain;
 //# sourceMappingURL=SubstrateChain.js.map

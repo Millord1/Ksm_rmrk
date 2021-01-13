@@ -14,8 +14,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.MintNft = void 0;
-var Interaction_1 = require("../Interaction");
-var Nft_1 = require("../../Nft");
+var Interaction_js_1 = require("../Interaction.js");
+var Nft_js_1 = require("../../Nft.js");
 var MintNft = /** @class */ (function (_super) {
     __extends(MintNft, _super);
     function MintNft(rmrk, chain, signer) {
@@ -23,7 +23,7 @@ var MintNft = /** @class */ (function (_super) {
     }
     MintNft.prototype.createMintNft = function () {
         // @ts-ignore
-        var myNft = new Nft_1.Nft(this.rmrk, this.chain, null, this.signer.address);
+        var myNft = new Nft_js_1.Nft(this.rmrk, this.chain, null, this.signer.address);
         this.myNft = myNft.createNftFromInteraction();
         return this;
     };
@@ -33,6 +33,6 @@ var MintNft = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return MintNft;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.MintNft = MintNft;
 //# sourceMappingURL=MintNft.js.map

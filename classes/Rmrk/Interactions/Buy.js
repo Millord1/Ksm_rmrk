@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Buy = void 0;
-var Interaction_1 = require("../Interaction");
+var Interaction_js_1 = require("../Interaction.js");
 var Buy = /** @class */ (function (_super) {
     __extends(Buy, _super);
     function Buy(rmrk, chain, signer) {
@@ -32,6 +32,6 @@ var Buy = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return Buy;
-}(Interaction_1.Interaction));
+}(Interaction_js_1.Interaction));
 exports.Buy = Buy;
 //# sourceMappingURL=Buy.js.map

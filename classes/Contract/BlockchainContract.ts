@@ -1,6 +1,6 @@
-import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-import {Collection} from "../Collection";
-import {Blockchain} from "../Blockchains/Blockchain";
+import {BlockchainAddress} from "../Addresses/BlockchainAddress.js";
+import {Collection} from "../Collection.js";
+import {Blockchain} from "../Blockchains/Blockchain.js";
 
 export abstract class BlockchainContract
 {

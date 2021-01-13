@@ -1,6 +1,6 @@
-import {Interaction} from "../Interaction";
-import {Blockchain} from "../../Blockchains/Blockchain";
-import {Collection} from "../../Collection";
+import {Interaction} from "../Interaction.js";
+import {Blockchain} from "../../Blockchains/Blockchain.js";
+import {Collection} from "../../Collection.js";
 
 export class Mint extends Interaction
 {

@@ -1,6 +1,6 @@
-import {Blockchain} from "./Blockchain";
-import {UniqueAddress} from "../Addresses/UniqueAddress";
-import {UniqueContract} from "../Contract/UniqueContract";
+import {Blockchain} from "./Blockchain.js";
+import {UniqueAddress} from "../Addresses/UniqueAddress.js";
+import {UniqueContract} from "../Contract/UniqueContract.js";
 
 export class Unique extends Blockchain
 {

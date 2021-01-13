@@ -1,7 +1,7 @@
-import {Remark} from "./Remark";
-import {Blockchain} from "../Blockchains/Blockchain";
-import {Nft} from "../Nft";
-import {publicInteraction} from "../Interfaces";
+import {Remark} from "./Remark.js";
+import {Blockchain} from "../Blockchains/Blockchain.js";
+import {Nft} from "../Nft.js";
+import {publicInteraction} from "../Interfaces.js";
 
 
 export abstract class Interaction extends Remark implements publicInteraction

@@ -1,7 +1,7 @@
-import {Interaction} from "../Interaction";
-import {Blockchain} from "../../Blockchains/Blockchain";
-import {BlockchainAddress} from "../../Addresses/BlockchainAddress";
-import {Nft} from "../../Nft";
+import {Interaction} from "../Interaction.js";
+import {Blockchain} from "../../Blockchains/Blockchain.js";
+import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
+import {Nft} from "../../Nft.js";
 
 
 export class Send extends Interaction

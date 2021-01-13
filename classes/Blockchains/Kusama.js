@@ -14,13 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.Kusama = void 0;
-var SubstrateChain_1 = require("./SubstrateChain");
-var KusamaAddress_1 = require("../Addresses/KusamaAddress");
-var KusamaContract_1 = require("../Contract/KusamaContract");
+var SubstrateChain_js_1 = require("./SubstrateChain.js");
+var KusamaAddress_js_1 = require("../Addresses/KusamaAddress.js");
+var KusamaContract_js_1 = require("../Contract/KusamaContract.js");
 var Kusama = /** @class */ (function (_super) {
     __extends(Kusama, _super);
     function Kusama() {
-        var _this = _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_1.KusamaAddress()) || this;
+        var _this = _super.call(this, "Kusama", "KSM", "", true, new KusamaAddress_js_1.KusamaAddress()) || this;
         _this.wsProvider = 'wss://kusama-rpc.polkadot.io/';
         return _this;
     }
@@ -32,8 +32,8 @@ var Kusama = /** @class */ (function (_super) {
         }
         return json;
     };
-    Kusama.contractClass = new KusamaContract_1.KusamaContract();
+    Kusama.contractClass = new KusamaContract_js_1.KusamaContract();
     return Kusama;
-}(SubstrateChain_1.SubstrateChain));
+}(SubstrateChain_js_1.SubstrateChain));
 exports.Kusama = Kusama;
 //# sourceMappingURL=Kusama.js.map
