@@ -1,5 +1,5 @@
-import {Blockchain} from "../Blockchain";
-import {SandraManager} from "../../SandraManager";
+import {Blockchain} from "../Blockchain.js";
+import {SandraManager} from "../../SandraManager.js";
 
 
 export class KusamaBlockchain extends Blockchain

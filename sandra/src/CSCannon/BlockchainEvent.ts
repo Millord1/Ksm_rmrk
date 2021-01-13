@@ -14,7 +14,7 @@ export class BlockchainEvent extends Entity {
     public static EVENT_BLOCK_TIME = 'timestamp';
     public static QUANTITY = 'quantity';
 
-    constructor(factory:BlockchainEventFactory,source:string,destination:string,contract:string,txid:string,timestamp:string,quantity:string,blockchain:Blockchain,sandra:SandraManager) ;
+    //constructor(factory:BlockchainEventFactory,source:string,destination:string,contract:string,txid:string,timestamp:string,quantity:string,blockchain:Blockchain,sandra:SandraManager) ;
 
     public constructor(factory:BlockchainEventFactory|null,
 

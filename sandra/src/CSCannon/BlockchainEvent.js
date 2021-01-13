@@ -17,6 +17,7 @@ import { Reference } from "../Reference.js";
 import { Blockchain } from "./Blockchain.js";
 var BlockchainEvent = /** @class */ (function (_super) {
     __extends(BlockchainEvent, _super);
+    //constructor(factory:BlockchainEventFactory,source:string,destination:string,contract:string,txid:string,timestamp:string,quantity:string,blockchain:Blockchain,sandra:SandraManager) ;
     function BlockchainEvent(factory, source, destination, contract, txid, timestamp, quantity, blockchain, sandra) {
         var _this = this;
         if (factory == null)
