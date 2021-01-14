@@ -24,6 +24,7 @@ var Collection = /** @class */ (function (_super) {
         this.metadata = obj.metadata;
         this.name = obj.name;
         this.version = obj.version;
+        // @ts-ignore
         var address = this.chain.getAddressClass();
         address.address = obj.issuer;
         var myChain = this.chain.constructor;
@@ -57,6 +58,4 @@ var Collection = /** @class */ (function (_super) {
     return Collection;
 }(Entity_js_1.Entity));
 exports.Collection = Collection;
-json['contract'] = this.contract;
-return (needStringify) ? JSON.stringify(json) : json;
 //# sourceMappingURL=Collection.js.map

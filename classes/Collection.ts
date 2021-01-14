@@ -21,6 +21,7 @@ export class Collection extends Entity
         this.name = obj.name;
         this.version = obj.version;
 
+        // @ts-ignore
         const address = this.chain.getAddressClass();
         address.address = obj.issuer;
 
