@@ -95,7 +95,7 @@ export class Gossiper{
         console.log(entity.subjectConcept.triplets);
 
 
-        // @ts-ignore
+
         for (let triplet of entity.subjectConcept.triplets) {
 
             if (!myData.triplets) myData.triplets = {};

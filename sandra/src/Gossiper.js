@@ -68,7 +68,6 @@ var Gossiper = /** @class */ (function () {
                 myData.triplets[triplet[0].shortname].push(element.unid);
             });
         };
-        // @ts-ignore
         for (var _i = 0, _a = entity.subjectConcept.triplets; _i < _a.length; _i++) {
             var triplet = _a[_i];
             _loop_1(triplet);
