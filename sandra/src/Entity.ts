@@ -3,6 +3,8 @@ import {EntityFactory} from "./EntityFactory.js";
 import {Concept} from "./Concept.js";
 import {SandraManager} from "./SandraManager";
 
+//does this move to the other branche ?
+
 export class Entity{
 
     public subjectConcept:Concept ;
