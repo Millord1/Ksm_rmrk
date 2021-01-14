@@ -26,12 +26,12 @@ export class Asset extends Entity
 
 
     public bindContract(contract: BlockchainContract, sandra: SandraManager){
-        this.joinEntity(contract, AssetFactory.tokenJoinVerb, sandra);
+        this.joinEntity(AssetFactory.tokenJoinVerb, contract, sandra);
     }
 
 
     public bindCollection(assetCollection: AssetCollection, sandra:SandraManager){
-        this.joinEntity(assetCollection, AssetFactory.collectionJoinVerb, sandra);
+        this.joinEntity(AssetFactory.collectionJoinVerb, assetCollection, sandra);
     }
 
 

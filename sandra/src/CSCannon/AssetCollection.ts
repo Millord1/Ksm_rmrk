@@ -28,7 +28,7 @@ export class AssetCollection extends Entity
 
 
     public joinCollection(assetCollection: AssetCollection, sandra: SandraManager){
-        this.joinEntity(assetCollection, AssetFactory.collectionJoinVerb, sandra);
+        this.joinEntity(AssetFactory.collectionJoinVerb, assetCollection, sandra);
     }
 
 
