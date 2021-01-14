@@ -1,19 +1,19 @@
-import {BlockchainAddress} from "./Addresses/BlockchainAddress";
-import {Blockchain} from "./Blockchains/Blockchain";
-import {Entity} from "./Rmrk/Entity";
-import {BlockchainContract} from "./Contract/BlockchainContract";
+import {BlockchainAddress} from "./Addresses/BlockchainAddress.js";
+import {Blockchain} from "./Blockchains/Blockchain.js";
+import {Entity} from "./Rmrk/Entity.js";
+import {BlockchainContract} from "./Contract/BlockchainContract.js";
 
 
 export class Nft extends Entity
 {
 
-    contractId: string;
-    contract: BlockchainContract;
-    name: string;
-    transferable: boolean;
-    sn: string;
-    metadata: string;
-    issuer: BlockchainAddress;
+    contractId: string | undefined;
+    contract: BlockchainContract | undefined;
+    name: string | undefined;
+    transferable: boolean | undefined;
+    sn: string | undefined;
+    metadata: string | undefined;
+    issuer: BlockchainAddress | undefined;
 
 
     constructor(rmrk: string, chain: Blockchain, version: string|null, signer: string) {
@@ -21,7 +21,7 @@ export class Nft extends Entity
     }
 
 
-    public rmrkToObject(obj){
+    public rmrkToObject(obj: any){
 
         if(obj.contract instanceof BlockchainContract){
             this.contract = obj.collection;
@@ -35,6 +35,7 @@ export class Nft extends Entity
         this.metadata = obj.metadata;
 
         if(typeof obj.issuer != 'undefined'){
+            // @ts-ignore
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
 
@@ -51,19 +52,6 @@ export class Nft extends Entity
 
         Entity.dataTreatment(nftDatas, this.nft);
 
-        // nftDatas.forEach((data)=>{
-        //     const datas = data.split(':');
-        //
-        //     if(datas.length > 2){
-        //         if(datas[0] === 'metadata' && datas[1] === 'ipfs'){
-        //             this.nft[datas[0]] = datas[1] + ':' + datas[2];
-        //         }
-        //     }else{
-        //         this.nft[datas[0]] = datas[1];
-        //     }
-        //
-        // });
-
         return this.rmrkToObject(this.nft);
     }
 
@@ -73,14 +61,22 @@ export class Nft extends Entity
 
         const json = this.toJsonSerialize();
 
+        // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
 
+        // @ts-ignore
         json['contractId'] = this.contractId;
+        // @ts-ignore
         json['contract'] = this.contract;
+        // @ts-ignore
         json['name'] = this.name;
+        // @ts-ignore
         json['transferable'] = this.transferable;
+        // @ts-ignore
         json['sn'] = this.sn;
+        // @ts-ignore
         json['metadata'] = this.metadata;
+        // @ts-ignore
         json['issuer'] = this.issuer;
 
         return (needStringify) ? JSON.stringify(json) : json;

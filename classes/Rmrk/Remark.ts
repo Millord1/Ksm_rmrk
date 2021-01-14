@@ -1,5 +1,5 @@
-import {Blockchain} from "../Blockchains/Blockchain";
-import {BlockchainAddress} from "../Addresses/BlockchainAddress";
+import {Blockchain} from "../Blockchains/Blockchain.js";
+
 
 export abstract class Remark
 {
@@ -26,11 +26,11 @@ export abstract class Remark
         issuer: null,
     }
 
-    version;
-    rmrk;
-    chain;
+    version: string;
+    rmrk: string;
+    chain: Blockchain;
 
-    protected constructor(version, rmrk, chain, signer){
+    protected constructor(version: string|null, rmrk: string, chain: Blockchain, signer: string){
 
         this.rmrk = rmrk;
         this.chain = chain;

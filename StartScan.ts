@@ -1,20 +1,19 @@
-import {Kusama} from "./classes/Blockchains/Kusama";
-import {Polkadot} from "./classes/Blockchains/Polkadot";
-import {Unique} from "./classes/Blockchains/Unique";
-import {ScanBlock} from "./Kusama/ScanBlock";
 import {Option} from "commander";
-import {Send} from "./classes/Rmrk/Interactions/Send";
-import {Mint} from "./classes/Rmrk/Interactions/Mint";
-import {SandraManager} from "./sandra/src/SandraManager";
-import {KusamaBlockchain} from "./sandra/src/CSCannon/Kusama/KusamaBlockchain";
-import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress";
-import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract";
-import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent";
-import {Gossiper} from "./sandra/src/Gossiper";
-const fs = require('fs');
-const path = require('path');
+import {Polkadot} from "./classes/Blockchains/Polkadot.js";
+import {Unique} from "./classes/Blockchains/Unique.js";
+import {Kusama} from "./classes/Blockchains/Kusama.js";
+import {RmrkJetski} from "./Kusama/RmrkJetski.js";
+import {Send} from "./classes/Rmrk/Interactions/Send.js";
+import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
+import {SandraManager} from "./sandra/src/SandraManager.js";
+import {KusamaBlockchain} from "./sandra/src/CSCannon/Kusama/KusamaBlockchain.js";
+import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
+import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
+import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
+import {Gossiper} from "./sandra/src/Gossiper.js";
 
-import * as $ from "jquery/index";
+
+// import * as $ from "jquery/JQuery.js";
 
 
 export const testScan = async (opts: Option) => {
@@ -39,11 +38,12 @@ export const testScan = async (opts: Option) => {
     }
 
 
-    const scan = new ScanBlock(blockchain);
+    const scan = new RmrkJetski(blockchain);
 
     // @ts-ignore
     scan.getRmrks(opts.block).then(
         result => {
+
             result.forEach(value => {
 
                 if(value instanceof Send || Mint){

@@ -17,6 +17,7 @@ export class EntityFactory {
     public entityArray:Entity[] = [];
     public storage:string = '';
     public refMap:Map<number, string> = new Map<number, string>();
+    public entityByRevValMap:Map<Concept,Map<string, Entity[]>> = new Map<Concept,Map<string, Entity[]>>();
     public joinedFactory:JoinedFactory[] = [];
     public sandraManager: SandraManager;
 
@@ -37,9 +38,32 @@ export class EntityFactory {
     let factory = this ;
 
     entity.referenceArray.forEach(element => {
+        console.log("entering element");
+        console.log(element);
 
         factory.sandraManager.registerNewReference(element);
         factory.refMap.set(element.concept.unid,element.concept.shortname);
+
+        let refMapByConcept:Map<string, Entity[]>;
+        console.log()
+        if (!this.entityByRevValMap.has(element.concept)){
+
+            refMapByConcept = new Map<string, Entity[]>() ;
+            this.entityByRevValMap.set(element.concept,refMapByConcept);
+        }
+        else {
+            refMapByConcept = this.entityByRevValMap.get(element.concept);
+        }
+
+        console.log(refMapByConcept);
+
+        if (refMapByConcept.has(element.value)) {
+            let existingElement = refMapByConcept.get(element.value);
+            existingElement.push(entity);
+        }
+        else {
+            refMapByConcept.set(element.value, [entity]);
+        }
 
     })
 
@@ -48,9 +72,6 @@ export class EntityFactory {
     public joinFactory(entityFactory:EntityFactory,onVerb:string,createOnRef:Concept = this.sandraManager.get('null_concept')){
 
         this.joinedFactory.push({entityFactory,onVerb,createOnRef} );
-
-
-
 
     }
 

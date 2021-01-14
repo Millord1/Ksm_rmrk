@@ -1,14 +1,15 @@
-import {BlockchainAddress} from "./BlockchainAddress";
-import {Kusama} from "../Blockchains/Kusama";
+import {BlockchainAddress} from "./BlockchainAddress.js";
+import {Kusama} from "../Blockchains/Kusama.js";
+import {Blockchain} from "../Blockchains/Blockchain.js";
 
 
 export class KusamaAddress extends BlockchainAddress
 {
-
+    public  blockchain:Blockchain
     constructor(){
         super();
-        KusamaAddress.blockchain = Kusama;
-        this.blockchainName = KusamaAddress.blockchain.name;
-    }
+        this.blockchain = new Kusama();
+        this.blockchainName = this.blockchain.name;
 
+    }
 }

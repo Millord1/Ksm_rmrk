@@ -1,21 +1,21 @@
-import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-import {Collection} from "../Collection";
-import {Blockchain} from "../Blockchains/Blockchain";
+import {BlockchainAddress} from "../Addresses/BlockchainAddress.js";
+import {Collection} from "../Collection.js";
+import {Blockchain} from "../Blockchains/Blockchain.js";
 
 export abstract class BlockchainContract
 {
 
-    version: string;
-    max: number;
-    issuer: BlockchainAddress;
-    symbol: string;
-    id: string;
+    version: string | undefined;
+    max: number | undefined;
+    issuer: BlockchainAddress | undefined;
+    symbol: string | undefined;
+    id: string | undefined;
 
-    chain: Blockchain;
-    collection: string;
+    chain: Blockchain | undefined;
+    collection: string | undefined;
 
 
-    public createContract(obj, chain: Blockchain, collection: Collection){
+    public createContract(obj: any, chain: Blockchain, collection: Collection){
 
         this.chain = chain;
         this.collection = collection.name;
@@ -25,7 +25,7 @@ export abstract class BlockchainContract
         this.symbol = obj.symbol;
         this.id = obj.id;
 
-        this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass();
+        this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
     }
 
 

@@ -1,36 +1,26 @@
-import {BlockchainAddress} from "../Addresses/BlockchainAddress";
-import {BlockchainInterface, publicEntity} from "../Interfaces";
+import {BlockchainAddress} from "../Addresses/BlockchainAddress.js";
+import {BlockchainInterface, publicEntity} from "../Interfaces.js";
 
 
 export abstract class Blockchain implements BlockchainInterface
 {
-    name;
-    symbol;
-    prefix;
-    isSubstrate;
-    address: BlockchainAddress;
-    wsProvider;
-
-    protected constructor(name, symbol, prefix, isSubstrate, addressClass){
+    name: string;
+    symbol: string;
+    prefix: string;
+    isSubstrate: boolean;
+    wsProvider: string;
+    protected constructor(name: string, symbol: string, prefix: string, isSubstrate: boolean, wsProvider: string){
         this.name = name;
         this.symbol = symbol;
         this.prefix = prefix;
         this.isSubstrate = isSubstrate;
-        this.address = addressClass;
+        this.wsProvider = wsProvider;
     }
-
-    public getAddressClass(){
-        return this.address;
-    }
-
-
-     toJsonSerialize = () : BlockchainInterface => ({
+    toJsonSerialize = () : BlockchainInterface => ({
         name: this.name,
         symbol: this.symbol,
         prefix: this.prefix,
         isSubstrate: this.isSubstrate,
         // address: this.address
     })
-
-
 }

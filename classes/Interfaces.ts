@@ -1,5 +1,5 @@
 import {BlockchainAddress} from "./Addresses/BlockchainAddress";
-import {Blockchain} from "./Blockchains/Blockchain";
+import {Blockchain} from "./Blockchains/Blockchain.js";
 
 
 export interface BlockchainInterface

@@ -1,14 +1,14 @@
-import {Blockchain} from "../classes/Blockchains/Blockchain";
-import {Nft} from "../classes/Nft";
-import {Collection} from "../classes/Collection";
-import {Send} from "../classes/Rmrk/Interactions/Send";
-import {MintNft} from "../classes/Rmrk/Interactions/MintNft";
-import {Mint} from "../classes/Rmrk/Interactions/Mint";
-import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer";
-import {List} from "../classes/Rmrk/Interactions/List";
-import {Buy} from "../classes/Rmrk/Interactions/Buy";
-import {Consume} from "../classes/Rmrk/Interactions/Consume";
-import {Entity} from "../classes/Rmrk/Entity";
+import {Blockchain} from "../classes/Blockchains/Blockchain.js";
+import {Entity} from "../classes/Rmrk/Entity.js";
+import {Nft} from "../classes/Nft.js";
+import {Collection} from "../classes/Collection.js";
+import {Mint} from "../classes/Rmrk/Interactions/Mint.js";
+import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer.js";
+import {MintNft} from "../classes/Rmrk/Interactions/MintNft.js";
+import {Send} from "../classes/Rmrk/Interactions/Send.js";
+import {List} from "../classes/Rmrk/Interactions/List.js";
+import {Buy} from "../classes/Rmrk/Interactions/Buy.js";
+import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 
 
 export class RmrkReader
@@ -79,51 +79,44 @@ export class RmrkReader
 
             case 'mint':
 
-                const mint = new Mint(rmrk, this.chain, this.signer);
-                interactObj = mint.createMint();
+                interactObj = new Mint(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'changeissuer':
 
-                const changeIssuer = new ChangeIssuer(rmrk, this.chain, this.signer);
-                interactObj = changeIssuer.createChangeIssuer();
+                interactObj = new ChangeIssuer(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'mintnft':
 
-                const mintNft = new MintNft(rmrk, this.chain, this.signer);
-                interactObj = mintNft.createMintNft();
+                interactObj = new MintNft(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'send' :
 
-                const send = new Send(rmrk, this.chain, this.signer);
-                interactObj = send.createSend();
+                interactObj = new Send(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'list' :
 
-                const list = new List(rmrk, this.chain, this.signer);
-                interactObj = list.createList();
+                interactObj = new List(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'buy' :
 
-                const buy = new Buy(rmrk, this.chain, this.signer);
-                interactObj = buy.createBuy();
+                interactObj = new Buy(rmrk, this.chain, this.signer);
 
                 break;
 
             case 'consume' :
             default :
 
-                const consume = new Consume(rmrk, this.chain, this.signer);
-                interactObj = consume.createConsume();
+                interactObj = new Consume(rmrk, this.chain, this.signer);
 
                 break;
         }

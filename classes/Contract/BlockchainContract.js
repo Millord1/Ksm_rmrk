@@ -8,7 +8,7 @@ var BlockchainContract = /** @class */ (function () {
         this.max = obj.max;
         this.symbol = obj.symbol;
         this.id = obj.id;
-        this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass();
+        this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
     };
     return BlockchainContract;
 }());

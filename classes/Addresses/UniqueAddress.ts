@@ -1,11 +1,11 @@
-import {BlockchainAddress} from "./BlockchainAddress";
-import {Unique} from "../Blockchains/Unique";
+import {BlockchainAddress} from "./BlockchainAddress.js";
+import {Unique} from "../Blockchains/Unique.js";
 
 export class UniqueAddress extends BlockchainAddress
 {
     constructor() {
         super();
-        UniqueAddress.blockchain = Unique;
+        UniqueAddress.blockchain = new Unique();
         this.blockchainName = UniqueAddress.blockchain.name;
     }
 
