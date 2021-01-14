@@ -20,14 +20,19 @@ export class EntityFactory {
     public entityByRevValMap:Map<Concept,Map<string, Entity[]>> = new Map<Concept,Map<string, Entity[]>>();
     public joinedFactory:JoinedFactory[] = [];
     public sandraManager: SandraManager;
+    public updateOnExistingRef: Concept;
 
 
-
-    public constructor(isa:string,containedIn:string,sandraManager:SandraManager) {
+    public constructor(isa:string,containedIn:string,sandraManager:SandraManager) ;
+    public constructor(isa:string,containedIn:string,sandraManager:SandraManager, updateOnExistingRef?:Concept) {
 
         this.is_a = isa;
         this.contained_in_file = containedIn;
         this.sandraManager = sandraManager;
+        if (updateOnExistingRef != null){
+            updateOnExistingRef = sandraManager.get('null_concept');
+        }
+        this.updateOnExistingRef = updateOnExistingRef ;
 
 
     }
@@ -68,8 +73,12 @@ export class EntityFactory {
 
     }
 
-    public joinFactory(entityFactory:EntityFactory,onVerb:string,createOnRef:Concept = this.sandraManager.get('null_concept')){
+    public joinFactory(entityFactory:EntityFactory,onVerb:string){
 
+
+       if ( this.joinedFactory.find(e => e.onVerb === onVerb) ) return ;
+
+        let createOnRef = entityFactory.updateOnExistingRef ;
         this.joinedFactory.push({entityFactory,onVerb,createOnRef} );
 
     }

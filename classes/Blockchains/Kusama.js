@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,18 +11,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.Kusama = void 0;
-var SubstrateChain_js_1 = require("./SubstrateChain.js");
-var KusamaAddress_js_1 = require("../Addresses/KusamaAddress.js");
-var KusamaContract_js_1 = require("../Contract/KusamaContract.js");
+import { SubstrateChain } from "./SubstrateChain.js";
+import { KusamaAddress } from "../Addresses/KusamaAddress.js";
+import { KusamaContract } from "../Contract/KusamaContract.js";
 var Kusama = /** @class */ (function (_super) {
     __extends(Kusama, _super);
     function Kusama() {
         return _super.call(this, "Kusama", "KSM", "", true, 'wss://kusama-rpc.polkadot.io/') || this;
     }
     Kusama.prototype.getAddressClass = function () {
-        return new KusamaAddress_js_1.KusamaAddress();
+        return new KusamaAddress();
     };
     Kusama.prototype.toJson = function (needSubstrate) {
         if (needSubstrate === void 0) { needSubstrate = true; }
@@ -34,8 +31,7 @@ var Kusama = /** @class */ (function (_super) {
         }
         return json;
     };
-    Kusama.contractClass = new KusamaContract_js_1.KusamaContract();
+    Kusama.contractClass = new KusamaContract();
     return Kusama;
-}(SubstrateChain_js_1.SubstrateChain));
-exports.Kusama = Kusama;
-//# sourceMappingURL=Kusama.js.map
+}(SubstrateChain));
+export { Kusama };

@@ -92,6 +92,8 @@ export class Gossiper{
             referenceArray:entity.referenceArray
 
         }
+        console.log(entity.subjectConcept.triplets);
+
 
         // @ts-ignore
         for (let triplet of entity.subjectConcept.triplets) {
@@ -105,6 +107,9 @@ export class Gossiper{
             })
 
         }
+        console.log(myData.triplets);
+
+
 
         return myData ;
 

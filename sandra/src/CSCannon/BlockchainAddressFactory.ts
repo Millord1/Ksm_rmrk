@@ -14,6 +14,7 @@ export class BlockchainAddressFactory extends EntityFactory {
 
         super('blockchainAddress','blockchainAddressFile',sandra);
         this.sandra = sandra ;
+        this.updateOnExistingRef = sandra.get('address');
     }
 
     public getOrCreate(address:string){

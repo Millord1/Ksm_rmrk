@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,15 +34,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-exports.RmrkJetski = void 0;
-var api_1 = require("@polkadot/api");
-var util_1 = require("@polkadot/util");
-var RmrkReader_js_1 = require("./RmrkReader.js");
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { hexToString } from "@polkadot/util";
+import { RmrkReader } from "./RmrkReader.js";
 var RmrkJetski = /** @class */ (function () {
     function RmrkJetski(chain) {
         this.chain = chain;
-        this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
+        this.wsProvider = new WsProvider(this.chain.wsProvider);
     }
     RmrkJetski.prototype.getApi = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -52,7 +49,7 @@ var RmrkJetski = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!(typeof this.api === 'undefined')) return [3 /*break*/, 2];
-                        return [4 /*yield*/, api_1.ApiPromise.create({ provider: this.wsProvider })];
+                        return [4 /*yield*/, ApiPromise.create({ provider: this.wsProvider })];
                     case 1:
                         myApi = _a.sent();
                         return [3 /*break*/, 3];
@@ -88,10 +85,10 @@ var RmrkJetski = /** @class */ (function () {
                                 var signer = ex.signer.toString();
                                 // findHash(api, signer);
                                 if (remark.indexOf("") === 0) {
-                                    var uri = util_1.hexToString(remark);
+                                    var uri = hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                                    var reader = new RmrkReader_js_1.RmrkReader(_this.chain, signer);
+                                    var reader = new RmrkReader(_this.chain, signer);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
                                     blockRmrks.push(rmrkReader);
                                 }
@@ -104,7 +101,7 @@ var RmrkJetski = /** @class */ (function () {
     };
     return RmrkJetski;
 }());
-exports.RmrkJetski = RmrkJetski;
+export { RmrkJetski };
 var findHash = function (api, signer) { return __awaiter(void 0, void 0, void 0, function () {
     var test;
     return __generator(this, function (_a) {
@@ -129,4 +126,3 @@ var findHash = function (api, signer) { return __awaiter(void 0, void 0, void 0,
 // Mint
 // scan.getRmrks(5083411);
 // scan.getRmrks(2176215);
-//# sourceMappingURL=RmrkJetski.js.map

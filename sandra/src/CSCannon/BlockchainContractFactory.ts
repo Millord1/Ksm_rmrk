@@ -13,15 +13,17 @@ export class BlockchainContractFactory extends EntityFactory{
     public constructor(sandra:SandraManager) {
 
         super('blockchainContract','blockchainContractFile',sandra);
-        this.sandraManager = sandra ;
+        this.sandra = sandra ;
+        this.updateOnExistingRef = sandra.get('id');
     }
 
-    public getOrCreate(id:string){
+    public getOrCreate(id:string):BlockchainContract{
         if (this.entityByRevValMap.has(this.sandra.get('id'))){
             let addressRefMap = this.entityByRevValMap.get(this.sandra.get('id'));
 
             if (addressRefMap.has(id)){
                 //address exists in factory
+                // @ts-ignore
                 return addressRefMap.get(id);
             }
 

@@ -23,6 +23,7 @@ var BlockchainAddressFactory = /** @class */ (function (_super) {
         _this.is_a = 'blockchainAddress';
         _this.contained_in_file = 'blockchainAddressFile';
         _this.sandra = sandra;
+        _this.updateOnExistingRef = sandra.get('address');
         return _this;
     }
     BlockchainAddressFactory.prototype.getOrCreate = function (address) {

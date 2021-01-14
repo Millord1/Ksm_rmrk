@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.Blockchain = void 0;
 var Blockchain = /** @class */ (function () {
     function Blockchain(name, symbol, prefix, isSubstrate, wsProvider) {
         var _this = this;
@@ -18,5 +15,4 @@ var Blockchain = /** @class */ (function () {
     }
     return Blockchain;
 }());
-exports.Blockchain = Blockchain;
-//# sourceMappingURL=Blockchain.js.map
+export { Blockchain };

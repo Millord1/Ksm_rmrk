@@ -21,7 +21,8 @@ var BlockchainContractFactory = /** @class */ (function (_super) {
     function BlockchainContractFactory(sandra) {
         var _this = _super.call(this, 'blockchainContract', 'blockchainContractFile', sandra) || this;
         _this.contained_in_file = 'blockchainContractFile';
-        _this.sandraManager = sandra;
+        _this.sandra = sandra;
+        _this.updateOnExistingRef = sandra.get('id');
         return _this;
     }
     BlockchainContractFactory.prototype.getOrCreate = function (id) {
@@ -29,6 +30,7 @@ var BlockchainContractFactory = /** @class */ (function (_super) {
             var addressRefMap = this.entityByRevValMap.get(this.sandra.get('id'));
             if (addressRefMap.has(id)) {
                 //address exists in factory
+                // @ts-ignore
                 return addressRefMap.get(id);
             }
         }

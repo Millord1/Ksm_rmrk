@@ -13,6 +13,7 @@ export class BlockchainEvent extends Entity {
     public static EVENT_SOURCE_CONTRACT = 'sourceBlockchainContract';
     public static EVENT_BLOCK_TIME = 'timestamp';
     public static QUANTITY = 'quantity';
+    public static ON_BLOCKCHAIN = 'onBlockchain';
 
 
     public constructor(factory:BlockchainEventFactory|null,
@@ -43,7 +44,7 @@ export class BlockchainEvent extends Entity {
             destination = blockchain.addressFactory.getOrCreate(destination)
         }
         if ( typeof contract == "string"){
-            contract = blockchain.addressFactory.getOrCreate(contract)
+            contract = blockchain.contractFactory.getOrCreate(contract)
         }
 
 
@@ -54,6 +55,8 @@ export class BlockchainEvent extends Entity {
         this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,source,sandra)
         this.joinEntity(BlockchainEvent.EVENT_DESTINATION_VERB,destination,sandra)
         this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT,contract,sandra)
+
+        this.setTriplet(BlockchainEvent.ON_BLOCKCHAIN,blockchain.name,sandra)
 
 
     }

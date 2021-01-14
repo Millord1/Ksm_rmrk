@@ -2,7 +2,7 @@
 exports.__esModule = true;
 exports.EntityFactory = void 0;
 var EntityFactory = /** @class */ (function () {
-    function EntityFactory(isa, containedIn, sandraManager) {
+    function EntityFactory(isa, containedIn, sandraManager, updateOnExistingRef) {
         this.entityArray = [];
         this.storage = '';
         this.refMap = new Map();
@@ -11,6 +11,10 @@ var EntityFactory = /** @class */ (function () {
         this.is_a = isa;
         this.contained_in_file = containedIn;
         this.sandraManager = sandraManager;
+        if (updateOnExistingRef != null) {
+            updateOnExistingRef = sandraManager.get('null_concept');
+        }
+        this.updateOnExistingRef = updateOnExistingRef;
     }
     EntityFactory.prototype.addEntity = function (entity) {
         var _this = this;
@@ -38,8 +42,10 @@ var EntityFactory = /** @class */ (function () {
             }
         });
     };
-    EntityFactory.prototype.joinFactory = function (entityFactory, onVerb, createOnRef) {
-        if (createOnRef === void 0) { createOnRef = this.sandraManager.get('null_concept'); }
+    EntityFactory.prototype.joinFactory = function (entityFactory, onVerb) {
+        if (this.joinedFactory.find(function (e) { return e.onVerb === onVerb; }))
+            return;
+        var createOnRef = entityFactory.updateOnExistingRef;
         this.joinedFactory.push({ entityFactory: entityFactory, onVerb: onVerb, createOnRef: createOnRef });
     };
     return EntityFactory;

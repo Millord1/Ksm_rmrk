@@ -20,6 +20,7 @@ var BlockchainEventFactory = /** @class */ (function (_super) {
     __extends(BlockchainEventFactory, _super);
     function BlockchainEventFactory(blockchain, sandra) {
         var _this = _super.call(this, 'blockchainEvent', 'blockchainEventFile', sandra) || this;
+        _this.updateOnExistingRef = sandra.get('txId');
         _this.joinFactory(blockchain.addressFactory, BlockchainEvent_js_1.BlockchainEvent.EVENT_SOURCE_ADDRESS, sandra.get('address'));
         _this.joinFactory(blockchain.addressFactory, BlockchainEvent_js_1.BlockchainEvent.EVENT_DESTINATION_VERB, sandra.get('address'));
         _this.joinFactory(blockchain.contractFactory, BlockchainEvent_js_1.BlockchainEvent.EVENT_SOURCE_CONTRACT, sandra.get('id'));

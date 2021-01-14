@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,9 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
-exports.ChangeIssuer = void 0;
-var Interaction_js_1 = require("../Interaction.js");
+import { Interaction } from "../Interaction.js";
 var ChangeIssuer = /** @class */ (function (_super) {
     __extends(ChangeIssuer, _super);
     function ChangeIssuer(rmrk, chain, signer) {
@@ -48,6 +45,5 @@ var ChangeIssuer = /** @class */ (function (_super) {
         return JSON.stringify(json);
     };
     return ChangeIssuer;
-}(Interaction_js_1.Interaction));
-exports.ChangeIssuer = ChangeIssuer;
-//# sourceMappingURL=ChangeIssuer.js.map
+}(Interaction));
+export { ChangeIssuer };

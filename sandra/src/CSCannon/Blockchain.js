@@ -6,6 +6,7 @@ var BlockchainContractFactory_js_1 = require("./BlockchainContractFactory.js");
 var BlockchainEventFactory_js_1 = require("./BlockchainEventFactory.js");
 var Blockchain = /** @class */ (function () {
     function Blockchain(sandra) {
+        this.name = 'genericBlockchain';
         this.addressFactory = new BlockchainAddressFactory_js_1.BlockchainAddressFactory(sandra);
         this.contractFactory = new BlockchainContractFactory_js_1.BlockchainContractFactory(sandra);
         this.eventFactory = new BlockchainEventFactory_js_1.BlockchainEventFactory(this, sandra);

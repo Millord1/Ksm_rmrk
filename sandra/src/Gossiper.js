@@ -58,6 +58,7 @@ var Gossiper = /** @class */ (function () {
             subjectUnid: entity.subjectConcept.unid,
             referenceArray: entity.referenceArray
         };
+        console.log(entity.subjectConcept.triplets);
         var _loop_1 = function (triplet) {
             if (!myData.triplets)
                 myData.triplets = {};
@@ -72,6 +73,7 @@ var Gossiper = /** @class */ (function () {
             var triplet = _a[_i];
             _loop_1(triplet);
         }
+        console.log(myData.triplets);
         return myData;
     };
     Gossiper.prototype.joinFactoryGossiper = function (gossiper) {

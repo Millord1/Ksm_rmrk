@@ -6,6 +6,7 @@ import {BlockchainEventFactory} from "./BlockchainEventFactory.js";
 export class Blockchain {
 
     public addressFactory:BlockchainAddressFactory
+    public  name: string = 'genericBlockchain';
 
     public static TXID_CONCEPT_NAME = 'txid';
     public contractFactory: BlockchainContractFactory;
@@ -19,5 +20,7 @@ export class Blockchain {
 
 
     }
+
+
 
 }

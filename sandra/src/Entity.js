@@ -13,7 +13,7 @@ var Entity = /** @class */ (function () {
             _this.addReference(ref);
         });
         factory.addEntity(this);
-        // this.factory = factory ;
+        this.factory = factory;
     }
     Entity.prototype.addReference = function (ref) {
         this.referenceArray.push(ref);
@@ -21,6 +21,10 @@ var Entity = /** @class */ (function () {
     };
     Entity.prototype.joinEntity = function (verb, entity, sandraManager) {
         this.subjectConcept.setTriplet(sandraManager.get(verb), entity.subjectConcept);
+        this.factory.joinFactory(entity.factory, verb);
+    };
+    Entity.prototype.setTriplet = function (verb, target, sandraManager) {
+        this.subjectConcept.setTriplet(sandraManager.get(verb), sandraManager.get(target));
     };
     return Entity;
 }());

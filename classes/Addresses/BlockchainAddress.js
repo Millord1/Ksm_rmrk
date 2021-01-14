@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.BlockchainAddress = void 0;
 var BlockchainAddress = /** @class */ (function () {
     function BlockchainAddress() {
     }
@@ -9,5 +6,4 @@ var BlockchainAddress = /** @class */ (function () {
     };
     return BlockchainAddress;
 }());
-exports.BlockchainAddress = BlockchainAddress;
-//# sourceMappingURL=BlockchainAddress.js.map
+export { BlockchainAddress };

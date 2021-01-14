@@ -33,13 +33,14 @@ var BlockchainEvent = /** @class */ (function (_super) {
             destination = blockchain.addressFactory.getOrCreate(destination);
         }
         if (typeof contract == "string") {
-            contract = blockchain.addressFactory.getOrCreate(contract);
+            contract = blockchain.contractFactory.getOrCreate(contract);
         }
         _this.addReference(new Reference_js_1.Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME), timestamp));
         _this.addReference(new Reference_js_1.Reference(sandra.get(BlockchainEvent.QUANTITY), quantity));
         _this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS, source, sandra);
         _this.joinEntity(BlockchainEvent.EVENT_DESTINATION_VERB, destination, sandra);
         _this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT, contract, sandra);
+        _this.setTriplet(BlockchainEvent.ON_BLOCKCHAIN, blockchain.name, sandra);
         return _this;
     }
     BlockchainEvent.EVENT_SOURCE_ADDRESS = 'source';
@@ -47,6 +48,7 @@ var BlockchainEvent = /** @class */ (function (_super) {
     BlockchainEvent.EVENT_SOURCE_CONTRACT = 'sourceBlockchainContract';
     BlockchainEvent.EVENT_BLOCK_TIME = 'timestamp';
     BlockchainEvent.QUANTITY = 'quantity';
+    BlockchainEvent.ON_BLOCKCHAIN = 'onBlockchain';
     return BlockchainEvent;
 }(Entity_js_1.Entity));
 exports.BlockchainEvent = BlockchainEvent;
