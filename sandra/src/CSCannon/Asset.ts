@@ -4,6 +4,7 @@ import {SandraManager} from "../SandraManager.js";
 import {BlockchainContract} from "./BlockchainContract.js";
 import {Blockchain} from "./Blockchain.js";
 import {Reference} from "../Reference.js";
+import {AssetCollection} from "./AssetCollection.js";
 
 
 export class Asset extends Entity
@@ -24,21 +25,23 @@ export class Asset extends Entity
     }
 
 
-    public bindContract(contract: BlockchainContract, replaceExisting: boolean = false){
-        // this.joinEntity(contract, AssetFactory.tokenJoinVerb, );
+    public bindContract(contract: BlockchainContract, sandra: SandraManager){
+        this.joinEntity(contract, AssetFactory.tokenJoinVerb, sandra);
     }
 
 
-    public bindCollection(assetCollection){
-        // this.joinEntity(assetCollection, AssetFactory.collectionJoinVerb);
+    public bindCollection(assetCollection: AssetCollection, sandra:SandraManager){
+        this.joinEntity(assetCollection, AssetFactory.collectionJoinVerb, sandra);
     }
 
 
     public setImageUrl(imgUrl: string){
+        // TODO createOrUpdateRef
         this.imgUrl = imgUrl;
     }
 
     public setMetaDatasUrl(metaDatasUrl: string){
+        // TODO createOrUpdateRef
         this.metaDatasUrl = metaDatasUrl;
     }
 
