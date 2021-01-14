@@ -12,11 +12,11 @@ export class KusamaBlockchain extends Blockchain
 
         super(sandra);
 
-        this.addressFactory.is_a = 'ksmAddress';
-        this.addressFactory.contained_in_file = 'ksmAddressFile';
+        this.addressFactory.is_a = 'kusmaAddress';
+        this.addressFactory.contained_in_file = 'kusmaAddressFile';
 
-        this.contractFactory.is_a = 'ksmContract';
-        this.contractFactory.contained_in_file = 'ksmContractFile';
+        this.contractFactory.is_a = 'rmrkContract';
+        this.contractFactory.contained_in_file = 'rmrkContractFile';
     }
     
 }
