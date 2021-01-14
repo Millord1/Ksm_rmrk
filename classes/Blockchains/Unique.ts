@@ -7,8 +7,8 @@ export class Unique extends Blockchain
 
     static contractClass = UniqueContract
 
-    constructor() {
-        super("Usetech", "Uniq", "", false, new UniqueAddress, 'wss://unique.usetech.com');
-    }
+    // constructor() {
+    //     super("Usetech", "Uniq", "", false, new UniqueAddress, 'wss://unique.usetech.com');
+    // }
 
 }

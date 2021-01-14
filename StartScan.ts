@@ -6,14 +6,13 @@ import {RmrkJetski} from "./Kusama/RmrkJetski.js";
 import {Send} from "./classes/Rmrk/Interactions/Send.js";
 import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
 import {SandraManager} from "./sandra/src/SandraManager.js";
-import {KusamaBlockchain} from "./sandra/src/CSCannon/Kusama/KusamaBlockchain.js";
+import {KusamaBlockchain} from "./sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.js";
 import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
 import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
 
-
-// import * as $ from "jquery/JQuery.js";
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 export const testScan = async (opts: Option) => {
@@ -28,7 +27,7 @@ export const testScan = async (opts: Option) => {
             break;
 
         case "unique":
-            blockchain = new Unique();
+            // blockchain = new Unique();
             break;
 
         case "kusama":
@@ -63,27 +62,23 @@ export const testScan = async (opts: Option) => {
                     const collName = (typeof value.nftId.contractId !== 'undefined') ? value.nftId.contractId : value.nftId.contract.collection;
                     let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra);
 
-                    const txId = '0x01';
+                    const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
 
                     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, sandra);
 
                     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                     const json = JSON.stringify(gossiper.exposeGossip());
 
-                    // fs.writeFileSync(path.resolve(__dirname, "testJson.json"), json);
+                    // console.log(json);
 
-                    // let gossiper = new Gossiper(blockchainEventFactory,this.get(Blockchain.TXID_CONCEPT_NAME));
-                    // JSON.stringify(gossiper.exposeGossip()),
+                    // const xmlhttp = new XMLHttpRequest();
+                    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                    // xmlhttp.setRequestHeader("Content-Type", "application/json");
+                    // xmlhttp.send(json);
+                    // xmlhttp.addEventListener("load", ()=>{
+                    //     console.log("complete");
+                    // });
 
-                    $.ajax({
-                        type: "POST",
-                        url: 'http://arkam.everdreamsoft.com/alex/gossipTest',
-                        data: json,
-                        dataType: 'json',
-                        success: () => {
-                            console.log("success")
-                        }
-                    })
                 }
 
             })
