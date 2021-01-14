@@ -1,16 +1,22 @@
 import {SubstrateBlockchain} from "../SubstrateBlockchain";
 import {SandraManager} from "../../../SandraManager";
+import {Blockchain} from "../../Blockchain.js";
 
-export class KusamaBlockchain extends SubstrateBlockchain {
+export class KusamaBlockchain extends Blockchain
+{
 
-    public constructor(sandra:SandraManager) {
+    public static blockchainName: string = 'kusama';
+
+
+    public constructor(sandra: SandraManager) {
 
         super(sandra);
-        this.addressFactory.is_a = 'substrateAddress';
-        this.addressFactory.contained_in_file = 'substrateAddressFile';
 
+        this.addressFactory.is_a = 'ksmAddress';
+        this.addressFactory.contained_in_file = 'ksmAddressFile';
 
+        this.contractFactory.is_a = 'ksmContract';
+        this.contractFactory.contained_in_file = 'ksmContractFile';
     }
-
 
 }

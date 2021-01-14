@@ -2,6 +2,7 @@ import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
 import {RmrkReader} from "./RmrkReader.js";
 import {Blockchain} from "../classes/Blockchains/Blockchain.js";
+import {Remark} from "../classes/Rmrk/Remark.js";
 
 export class RmrkJetski
 {
@@ -31,14 +32,14 @@ export class RmrkJetski
 
 
     // @ts-ignore
-    public async getRmrks(blockNumber: number): Promise<Array<object>>{
+    public async getRmrks(blockNumber: number): Promise<Array<Remark>>{
 
 
         const api = await this.getApi();
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const block = await api.rpc.chain.getBlock(blockHash);
 
-        const blockRmrks : Array<object> = [];
+        const blockRmrks : Array<Remark> = [];
 
         block.block.extrinsics.forEach((ex: any) => {
 
@@ -51,9 +52,9 @@ export class RmrkJetski
                 const remark = args.toString();
                 const signer = ex.signer.toString();
 
-                if(remark.indexOf("") === 0){
+                // findHash(api, signer);
 
-                    // const txId;
+                if(remark.indexOf("") === 0){
 
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
@@ -69,6 +70,15 @@ export class RmrkJetski
         })
         return blockRmrks;
     }
+
+
+}
+
+
+const findHash = async (api: ApiPromise, signer: string) => {
+
+    const test = await api.tx.system.remark(signer);
+    console.log(test);
 
 
 }

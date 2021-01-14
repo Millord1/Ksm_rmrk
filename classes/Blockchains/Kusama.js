@@ -22,7 +22,7 @@ var Kusama = /** @class */ (function (_super) {
     function Kusama() {
         return _super.call(this, "Kusama", "KSM", "", true, 'wss://kusama-rpc.polkadot.io/') || this;
     }
-    Kusama.getAddressClass = function () {
+    Kusama.prototype.getAddressClass = function () {
         return new KusamaAddress_js_1.KusamaAddress();
     };
     Kusama.prototype.toJson = function (needSubstrate) {

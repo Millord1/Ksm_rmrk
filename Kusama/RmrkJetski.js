@@ -86,8 +86,8 @@ var RmrkJetski = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 var signer = ex.signer.toString();
+                                // findHash(api, signer);
                                 if (remark.indexOf("") === 0) {
-                                    // const txId;
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
@@ -105,6 +105,18 @@ var RmrkJetski = /** @class */ (function () {
     return RmrkJetski;
 }());
 exports.RmrkJetski = RmrkJetski;
+var findHash = function (api, signer) { return __awaiter(void 0, void 0, void 0, function () {
+    var test;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, api.tx.system.remark(signer)];
+            case 1:
+                test = _a.sent();
+                console.log(test);
+                return [2 /*return*/];
+        }
+    });
+}); };
 // const scan = new RmrkJetski(new Kusama());
 // FAIL
 // scan.getRmrks(5445790);
