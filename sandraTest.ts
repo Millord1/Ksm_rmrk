@@ -13,4 +13,5 @@ console.log(kumsa.addressFactory.entityByRevValMap);
 let event = new BlockchainEvent(kumsa.eventFactory,'dddd','dfff','sdfdsf','dsaf','1111',"1",kumsa,sandra);
 
 console.log("event");
+
 console.log(event.subjectConcept.triplets);
