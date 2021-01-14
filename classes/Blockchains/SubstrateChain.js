@@ -20,8 +20,8 @@ var fs = require('fs');
 var path = require('path');
 var SubstrateChain = /** @class */ (function (_super) {
     __extends(SubstrateChain, _super);
-    function SubstrateChain(name, symbol, prefix, isSubstrate, addressClass, wsProvider) {
-        var _this = _super.call(this, name, symbol, prefix, isSubstrate, addressClass, wsProvider) || this;
+    function SubstrateChain(name, symbol, prefix, isSubstrate, wsProvider) {
+        var _this = _super.call(this, name, symbol, prefix, isSubstrate, wsProvider) || this;
         _this.checkSubstrate();
         return _this;
     }

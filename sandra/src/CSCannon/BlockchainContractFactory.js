@@ -15,13 +15,25 @@ var __extends = (this && this.__extends) || (function () {
 exports.__esModule = true;
 exports.BlockchainContractFactory = void 0;
 var EntityFactory_js_1 = require("../EntityFactory.js");
+var BlockchainContract_js_1 = require("./BlockchainContract.js");
 var BlockchainContractFactory = /** @class */ (function (_super) {
     __extends(BlockchainContractFactory, _super);
     function BlockchainContractFactory(sandra) {
         var _this = _super.call(this, 'blockchainContract', 'blockchainContractFile', sandra) || this;
         _this.contained_in_file = 'blockchainContractFile';
+        _this.sandraManager = sandra;
         return _this;
     }
+    BlockchainContractFactory.prototype.getOrCreate = function (id) {
+        if (this.entityByRevValMap.has(this.sandra.get('id'))) {
+            var addressRefMap = this.entityByRevValMap.get(this.sandra.get('id'));
+            if (addressRefMap.has(id)) {
+                //address exists in factory
+                return addressRefMap.get(id);
+            }
+        }
+        return new BlockchainContract_js_1.BlockchainContract(this, id, this.sandra);
+    };
     return BlockchainContractFactory;
 }(EntityFactory_js_1.EntityFactory));
 exports.BlockchainContractFactory = BlockchainContractFactory;

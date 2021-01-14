@@ -19,7 +19,7 @@ var Entity = /** @class */ (function () {
         this.referenceArray.push(ref);
         return this;
     };
-    Entity.prototype.joinEntity = function (entity, verb, sandraManager) {
+    Entity.prototype.joinEntity = function (verb, entity, sandraManager) {
         this.subjectConcept.setTriplet(sandraManager.get(verb), entity.subjectConcept);
     };
     return Entity;

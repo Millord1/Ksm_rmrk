@@ -28,13 +28,19 @@ var BlockchainEvent = /** @class */ (function (_super) {
         var txidRef = new Reference_js_1.Reference(sandra.get(Blockchain_js_1.Blockchain.TXID_CONCEPT_NAME), txid);
         _this = _super.call(this, factory, [txidRef]) || this;
         if (typeof source == "string") {
-            source = blockchain.addressFactory.getOrCreate();
+            source = blockchain.addressFactory.getOrCreate(source);
+        }
+        if (typeof destination == "string") {
+            destination = blockchain.addressFactory.getOrCreate(destination);
+        }
+        if (typeof contract == "string") {
+            contract = blockchain.addressFactory.getOrCreate(contract);
         }
         _this.addReference(new Reference_js_1.Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME), timestamp));
         _this.addReference(new Reference_js_1.Reference(sandra.get(BlockchainEvent.QUANTITY), quantity));
-        _this.joinEntity(source, BlockchainEvent.EVENT_SOURCE_ADDRESS, sandra);
-        _this.joinEntity(destination, BlockchainEvent.EVENT_DESTINATION_VERB, sandra);
-        _this.joinEntity(contract, BlockchainEvent.EVENT_SOURCE_CONTRACT, sandra);
+        _this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS, source, sandra);
+        _this.joinEntity(BlockchainEvent.EVENT_DESTINATION_VERB, destination, sandra);
+        _this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT, contract, sandra);
         return _this;
     }
     BlockchainEvent.EVENT_SOURCE_ADDRESS = 'source';
