@@ -22,25 +22,45 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="take this commit as reference">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.ts" afterDir="false" />
+    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Collection.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Contract/KusamaContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Interfaces.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Nft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddress.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddressFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddressFactory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Ethereum/EthereumBlockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Ethereum/EthereumBlockchain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Gossiper.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Gossiper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Reference.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Reference.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/SandraManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/SandraManager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,10 +81,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="bb88a031779c3a174de9efc7f046e10a99d136de" />
+        <entry key="$PROJECT_DIR$" value="shaban" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GithubPullRequestsUISettings">
     <option name="hiddenUrls">
@@ -189,21 +210,7 @@
       <option name="project" value="LOCAL" />
       <updated>1608735201920</updated>
     </task>
-    <task id="LOCAL-00004" summary="refactor a bit of canonize">
-      <created>1610532291324</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1610532291324</updated>
-    </task>
-    <task id="LOCAL-00005" summary="crazy debug">
-      <created>1610535020891</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1610535020891</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,9 +259,6 @@
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/SubstrateBlockchain.js" />
-        <option value="$PROJECT_DIR$/sandraTest.js" />
       </list>
     </option>
   </component>
@@ -274,10 +278,7 @@
     <MESSAGE value="add objects" />
     <MESSAGE value="change architecture" />
     <MESSAGE value="change architecture and treatment of rmrk Entities" />
-    <MESSAGE value="refactor a bit of canonize" />
-    <MESSAGE value="crazy debug" />
-    <MESSAGE value="take this commit as reference" />
-    <option name="LAST_COMMIT_MESSAGE" value="take this commit as reference" />
+    <option name="LAST_COMMIT_MESSAGE" value="change architecture and treatment of rmrk Entities" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

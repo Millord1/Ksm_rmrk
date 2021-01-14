@@ -57,4 +57,6 @@ var Collection = /** @class */ (function (_super) {
     return Collection;
 }(Entity_js_1.Entity));
 exports.Collection = Collection;
+json['contract'] = this.contract;
+return (needStringify) ? JSON.stringify(json) : json;
 //# sourceMappingURL=Collection.js.map

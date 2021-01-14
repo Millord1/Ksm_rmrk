@@ -14,11 +14,10 @@ export class BlockchainEvent extends Entity {
     public static EVENT_BLOCK_TIME = 'timestamp';
     public static QUANTITY = 'quantity';
 
-    //constructor(factory:BlockchainEventFactory,source:string,destination:string,contract:string,txid:string,timestamp:string,quantity:string,blockchain:Blockchain,sandra:SandraManager) ;
 
-    public constructor(factory:BlockchainEventFactory|null,
+     constructor(factory:BlockchainEventFactory|null,
 
-                       source:BlockchainAddress|string,
+                       source:BlockchainAddress,
                        destination:BlockchainAddress,
                        contract:BlockchainContract,
                        txid:string,
@@ -33,27 +32,46 @@ export class BlockchainEvent extends Entity {
         if (factory == null)
             factory = new BlockchainEventFactory(blockchain,sandra)
 
-        let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
-
+         let txidRef = new Reference(sandra.get(Blockchain.TXID_CONCEPT_NAME),txid);
         super(factory,[txidRef]);
 
-        if ( typeof source == "string"){
-            source = blockchain.addressFactory.getOrCreate()
-        }
 
 
 
         this.addReference(  new Reference(sandra.get(BlockchainEvent.EVENT_BLOCK_TIME),timestamp));
         this.addReference(  new Reference(sandra.get(BlockchainEvent.QUANTITY),quantity));
 
-        this.joinEntity(source,BlockchainEvent.EVENT_SOURCE_ADDRESS,sandra)
-        this.joinEntity(destination,BlockchainEvent.EVENT_DESTINATION_VERB,sandra)
-        this.joinEntity(contract,BlockchainEvent.EVENT_SOURCE_CONTRACT,sandra)
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,source,sandra)
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,destination,sandra)
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT,contract,sandra)
 
 
     }
 
 
 
+}
+
+interface IBox {
+    x : number;
+    y : number;
+    height : number;
+    width : number;
+}
+
+class Box {
+    public x: number;
+    public y: number;
+    public height: number;
+    public width: number;
+
+    constructor();
+    constructor(obj: IBox);
+    constructor(obj?: any) {
+        this.x = obj && obj.x || 0
+        this.y = obj && obj.y || 0
+        this.height = obj && obj.height || 0
+        this.width = obj && obj.width || 0;
+    }
 }
 
