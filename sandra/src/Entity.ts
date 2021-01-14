@@ -3,6 +3,8 @@ import {EntityFactory} from "./EntityFactory.js";
 import {Concept} from "./Concept.js";
 import {SandraManager} from "./SandraManager";
 
+//Does this move to master ?
+
 export class Entity{
 
     public subjectConcept:Concept ;

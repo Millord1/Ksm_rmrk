@@ -1,6 +1,8 @@
 "use strict";
 exports.__esModule = true;
 exports.Entity = void 0;
+var SandraManager_1 = require("./SandraManager");
+//Does this move to master ?
 var Entity = /** @class */ (function () {
     function Entity(factory, references) {
         var _this = this;
@@ -25,4 +27,8 @@ var Entity = /** @class */ (function () {
     return Entity;
 }());
 exports.Entity = Entity;
+setTriplet(verb, string, target, string, sandraManager, SandraManager_1.SandraManager);
+{
+    this.subjectConcept.setTriplet(sandraManager.get(verb), sandraManager.get(target));
+}
 //# sourceMappingURL=Entity.js.map
