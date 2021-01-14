@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.Entity = void 0;
+//does this move to the other branche ?
 var Entity = /** @class */ (function () {
     function Entity(factory, references) {
         var _this = this;
