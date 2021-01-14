@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 exports.__esModule = true;
 exports.Interaction = void 0;
 var Remark_js_1 = require("./Remark.js");
-var Nft_js_1 = require("../Nft.js");
+var Asset_js_1 = require("../Asset.js");
 var Interaction = /** @class */ (function (_super) {
     __extends(Interaction, _super);
     function Interaction(rmrk, interaction, chain, version, signer) {
@@ -41,7 +41,7 @@ var Interaction = /** @class */ (function (_super) {
         this.nft.name = nftDatas[1];
         // @ts-ignore
         this.nft.sn = nftDatas[2];
-        var nft = new Nft_js_1.Nft(this.rmrk, this.chain, this.version, this.signer);
+        var nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.signer);
         return nft.rmrkToObject(this.nft);
     };
     Interaction.prototype.checkDatasLength = function (datas, length) {

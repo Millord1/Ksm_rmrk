@@ -13,61 +13,55 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-exports.Nft = void 0;
+exports.Asset = void 0;
 var Entity_js_1 = require("./Rmrk/Entity.js");
-var BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
-var Nft = /** @class */ (function (_super) {
-    __extends(Nft, _super);
-    function Nft(rmrk, chain, version, signer) {
-        return _super.call(this, rmrk, Nft.name, chain, version, signer) || this;
+var Token_js_1 = require("./Token.js");
+var Asset = /** @class */ (function (_super) {
+    __extends(Asset, _super);
+    function Asset(rmrk, chain, version, signer) {
+        return _super.call(this, rmrk, Asset.name, chain, version, signer) || this;
     }
-    Nft.prototype.rmrkToObject = function (obj) {
-        if (obj.contract instanceof BlockchainContract_js_1.BlockchainContract) {
-            this.contract = obj.collection;
-        }
-        else {
-            this.contractId = obj.collection;
-        }
+    Asset.prototype.rmrkToObject = function (obj) {
         this.name = obj.name;
-        this.transferable = obj.transferable;
-        this.sn = obj.sn;
         this.metadata = obj.metadata;
         if (typeof obj.issuer != 'undefined') {
             // @ts-ignore
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
+        var token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.signer);
+        this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
         return this;
     };
-    Nft.prototype.createNftFromInteraction = function () {
+    Asset.prototype.createNftFromInteraction = function () {
         var splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         var nftDatas = splitted[2].split(',');
         Entity_js_1.Entity.dataTreatment(nftDatas, this.nft);
         return this.rmrkToObject(this.nft);
     };
-    Nft.prototype.toJson = function (needStringify, needSubstrate) {
+    Asset.prototype.toJson = function (needStringify, needSubstrate) {
         if (needStringify === void 0) { needStringify = true; }
         if (needSubstrate === void 0) { needSubstrate = true; }
         var json = this.toJsonSerialize();
         // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
         // @ts-ignore
-        json['contractId'] = this.contractId;
+        json['contractId'] = this.token.contractId;
         // @ts-ignore
-        json['contract'] = this.contract;
+        json['contract'] = this.token.contract;
         // @ts-ignore
         json['name'] = this.name;
         // @ts-ignore
-        json['transferable'] = this.transferable;
+        json['transferable'] = this.token.transferable;
         // @ts-ignore
-        json['sn'] = this.sn;
+        json['sn'] = this.token.sn;
         // @ts-ignore
         json['metadata'] = this.metadata;
         // @ts-ignore
         json['issuer'] = this.issuer;
         return (needStringify) ? JSON.stringify(json) : json;
     };
-    return Nft;
+    return Asset;
 }(Entity_js_1.Entity));
-exports.Nft = Nft;
-//# sourceMappingURL=Nft.js.map
+exports.Asset = Asset;
+//# sourceMappingURL=Asset.js.map

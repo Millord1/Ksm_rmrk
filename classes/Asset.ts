@@ -2,42 +2,34 @@ import {BlockchainAddress} from "./Addresses/BlockchainAddress.js";
 import {Blockchain} from "./Blockchains/Blockchain.js";
 import {Entity} from "./Rmrk/Entity.js";
 import {BlockchainContract} from "./Contract/BlockchainContract.js";
+import {Token} from './Token.js';
 
-
-export class Nft extends Entity
+export class Asset extends Entity
 {
 
-    contractId: string | undefined;
-    contract: BlockchainContract | undefined;
     name: string | undefined;
-    transferable: boolean | undefined;
-    sn: string | undefined;
     metadata: string | undefined;
     issuer: BlockchainAddress | undefined;
+    token: Token | undefined;
 
 
     constructor(rmrk: string, chain: Blockchain, version: string|null, signer: string) {
-        super(rmrk, Nft.name, chain, version, signer);
+        super(rmrk, Asset.name, chain, version, signer);
     }
 
 
     public rmrkToObject(obj: any){
 
-        if(obj.contract instanceof BlockchainContract){
-            this.contract = obj.collection;
-        }else{
-            this.contractId = obj.collection;
-        }
-
         this.name = obj.name;
-        this.transferable = obj.transferable;
-        this.sn = obj.sn;
         this.metadata = obj.metadata;
 
         if(typeof obj.issuer != 'undefined'){
             // @ts-ignore
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
+
+        const token = new Token(this.rmrk, this.chain, this.version, this.signer);
+        this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
 
         return this;
     }
@@ -65,15 +57,15 @@ export class Nft extends Entity
         json['chain'] = this.chain.toJson(needSubstrate);
 
         // @ts-ignore
-        json['contractId'] = this.contractId;
+        json['contractId'] = this.token.contractId;
         // @ts-ignore
-        json['contract'] = this.contract;
+        json['contract'] = this.token.contract;
         // @ts-ignore
         json['name'] = this.name;
         // @ts-ignore
-        json['transferable'] = this.transferable;
+        json['transferable'] = this.token.transferable;
         // @ts-ignore
-        json['sn'] = this.sn;
+        json['sn'] = this.token.sn;
         // @ts-ignore
         json['metadata'] = this.metadata;
         // @ts-ignore

@@ -2,7 +2,7 @@
 exports.__esModule = true;
 exports.RmrkReader = void 0;
 var Entity_js_1 = require("../classes/Rmrk/Entity.js");
-var Nft_js_1 = require("../classes/Nft.js");
+var Asset_js_1 = require("../classes/Asset.js");
 var Collection_js_1 = require("../classes/Collection.js");
 var Mint_js_1 = require("../classes/Rmrk/Interactions/Mint.js");
 var ChangeIssuer_js_1 = require("../classes/Rmrk/Interactions/ChangeIssuer.js");
@@ -41,7 +41,7 @@ var RmrkReader = /** @class */ (function () {
         var splitted = rmrk.split(',');
         Entity_js_1.Entity.dataTreatment(splitted, this.entityObj);
         var myClass = (this.entityObj.id === null) ?
-            new Nft_js_1.Nft(rmrk, this.chain, this.entityObj.version, this.signer) :
+            new Asset_js_1.Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
             new Collection_js_1.Collection(rmrk, this.chain, this.entityObj.version, this.signer);
         return myClass.rmrkToObject(this.entityObj);
     };

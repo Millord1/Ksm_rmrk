@@ -1,12 +1,12 @@
 import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
-import {Nft} from "../../Nft.js";
+import {Asset} from "../../Asset.js";
 import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
 
 export class Consume extends Interaction
 {
 
-    nftToConsume: Nft;
+    nftToConsume: Asset;
     reason: string | undefined;
     consumer: BlockchainAddress | undefined;
 
