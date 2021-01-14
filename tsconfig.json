@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
-    "strict": true,                           /* Enable all strict type-checking options. */
+    "strict": true                           /* Enable all strict type-checking options. */
   },
   "exclude": [
     "node_modules"

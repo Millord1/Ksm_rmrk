@@ -22,6 +22,7 @@ var Send = /** @class */ (function (_super) {
         var splitted = _this.rmrkToArray();
         _this.version = splitted[2];
         _this.nftId = _this.nftFromComputedId(splitted[3]);
+        // @ts-ignore
         var blockchainAddress = _this.chain.getAddressClass();
         blockchainAddress.address = splitted[4];
         _this.recipient = blockchainAddress;
