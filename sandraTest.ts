@@ -3,15 +3,20 @@ import {Kusama} from "./classes/Blockchains/Kusama";
 import {KusamaBlockchain} from "./sandra/src/CSCannon/Kusama/KusamaBlockchain.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
+import {Gossiper} from "./sandra/src/Gossiper.js";
 
 let sandra = new SandraManager();
-let kumsa = new KusamaBlockchain(sandra);
+let kusama = new KusamaBlockchain(sandra);
 
 
-console.log(kumsa.addressFactory.entityByRevValMap);
+console.log(kusama.addressFactory.entityByRevValMap);
 
-let event = new BlockchainEvent(kumsa.eventFactory,'dddd','dfff','sdfdsf','dsaf','1111',"1",kumsa,sandra);
+let event = new BlockchainEvent(kusama.eventFactory,'dddd','dfff','sdfdsf','dsaf','1111',"1",kusama,sandra);
 
 console.log("event");
+let addressFactory = kusama.addressFactory ;
 
-console.log(event.subjectConcept.triplets);
+let gossiper = new Gossiper(kusama.eventFactory,sandra.get('txId'));
+let result = gossiper.exposeGossip();
+
+console.log(sandra.conceptList);

@@ -17,8 +17,6 @@ var EntityFactory = /** @class */ (function () {
         this.entityArray.push(entity);
         var factory = this;
         entity.referenceArray.forEach(function (element) {
-            console.log("entering element");
-            console.log(element);
             factory.sandraManager.registerNewReference(element);
             factory.refMap.set(element.concept.unid, element.concept.shortname);
             var refMapByConcept;

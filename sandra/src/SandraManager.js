@@ -13,7 +13,6 @@ var Blockchain_js_1 = require("./CSCannon/Blockchain.js");
 var EthereumBlockchain_js_1 = require("./CSCannon/Ethereum/EthereumBlockchain.js");
 var SandraManager = /** @class */ (function () {
     function SandraManager() {
-        this.name = 'helloWalid';
         this.invisible = null;
         this.conceptList = [];
         this.entityList = [];

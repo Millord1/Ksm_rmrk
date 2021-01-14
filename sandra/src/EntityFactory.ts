@@ -38,8 +38,7 @@ export class EntityFactory {
     let factory = this ;
 
     entity.referenceArray.forEach(element => {
-        console.log("entering element");
-        console.log(element);
+
 
         factory.sandraManager.registerNewReference(element);
         factory.refMap.set(element.concept.unid,element.concept.shortname);

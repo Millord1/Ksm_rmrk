@@ -13,7 +13,7 @@ import {EthereumBlockchain} from "./CSCannon/Ethereum/EthereumBlockchain.js";
 
 export class SandraManager {
 
-    private name:string = 'helloWalid';
+
     public invisible: string | null = null ;
     public conceptMap:Map<string,Concept> ;
     public entityMap:Map<number,Entity> ;
