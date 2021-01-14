@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11,7 +12,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Remark } from "./Remark";
+exports.__esModule = true;
+exports.Entity = void 0;
+var Remark_js_1 = require("./Remark.js");
 var Entity = /** @class */ (function (_super) {
     __extends(Entity, _super);
     function Entity(rmrk, standard, chain, version, signer) {
@@ -40,10 +43,12 @@ var Entity = /** @class */ (function (_super) {
                 var separator = (ipfs === "ipfs") ? '://' : ':';
                 datas[1] = datas[1] + separator + datas[2];
             }
+            // @ts-ignore
             obj[datas[0]] = datas[1];
         });
         return obj;
     };
     return Entity;
-}(Remark));
-export { Entity };
+}(Remark_js_1.Remark));
+exports.Entity = Entity;
+//# sourceMappingURL=Entity.js.map

@@ -1,13 +1,16 @@
-import { Nft } from "../classes/Nft";
-import { Collection } from "../classes/Collection";
-import { Send } from "../classes/Rmrk/Interactions/Send";
-import { MintNft } from "../classes/Rmrk/Interactions/MintNft";
-import { Mint } from "../classes/Rmrk/Interactions/Mint";
-import { ChangeIssuer } from "../classes/Rmrk/Interactions/ChangeIssuer";
-import { List } from "../classes/Rmrk/Interactions/List";
-import { Buy } from "../classes/Rmrk/Interactions/Buy";
-import { Consume } from "../classes/Rmrk/Interactions/Consume";
-import { Entity } from "../classes/Rmrk/Entity";
+"use strict";
+exports.__esModule = true;
+exports.RmrkReader = void 0;
+var Entity_js_1 = require("../classes/Rmrk/Entity.js");
+var Nft_js_1 = require("../classes/Nft.js");
+var Collection_js_1 = require("../classes/Collection.js");
+var Mint_js_1 = require("../classes/Rmrk/Interactions/Mint.js");
+var ChangeIssuer_js_1 = require("../classes/Rmrk/Interactions/ChangeIssuer.js");
+var MintNft_js_1 = require("../classes/Rmrk/Interactions/MintNft.js");
+var Send_js_1 = require("../classes/Rmrk/Interactions/Send.js");
+var List_js_1 = require("../classes/Rmrk/Interactions/List.js");
+var Buy_js_1 = require("../classes/Rmrk/Interactions/Buy.js");
+var Consume_js_1 = require("../classes/Rmrk/Interactions/Consume.js");
 var RmrkReader = /** @class */ (function () {
     function RmrkReader(chain, signer) {
         this.entityObj = {
@@ -36,10 +39,10 @@ var RmrkReader = /** @class */ (function () {
     };
     RmrkReader.prototype.readEntity = function (rmrk) {
         var splitted = rmrk.split(',');
-        Entity.dataTreatment(splitted, this.entityObj);
+        Entity_js_1.Entity.dataTreatment(splitted, this.entityObj);
         var myClass = (this.entityObj.id === null) ?
-            new Nft(rmrk, this.chain, this.entityObj.version, this.signer) :
-            new Collection(rmrk, this.chain, this.entityObj.version, this.signer);
+            new Nft_js_1.Nft(rmrk, this.chain, this.entityObj.version, this.signer) :
+            new Collection_js_1.Collection(rmrk, this.chain, this.entityObj.version, this.signer);
         return myClass.rmrkToObject(this.entityObj);
     };
     RmrkReader.prototype.readInteraction = function (rmrk) {
@@ -49,37 +52,31 @@ var RmrkReader = /** @class */ (function () {
         var interactObj;
         switch (interaction) {
             case 'mint':
-                var mint = new Mint(rmrk, this.chain, this.signer);
-                interactObj = mint.createMint();
+                interactObj = new Mint_js_1.Mint(rmrk, this.chain, this.signer);
                 break;
             case 'changeissuer':
-                var changeIssuer = new ChangeIssuer(rmrk, this.chain, this.signer);
-                interactObj = changeIssuer.createChangeIssuer();
+                interactObj = new ChangeIssuer_js_1.ChangeIssuer(rmrk, this.chain, this.signer);
                 break;
             case 'mintnft':
-                var mintNft = new MintNft(rmrk, this.chain, this.signer);
-                interactObj = mintNft.createMintNft();
+                interactObj = new MintNft_js_1.MintNft(rmrk, this.chain, this.signer);
                 break;
             case 'send':
-                var send = new Send(rmrk, this.chain, this.signer);
-                interactObj = send.createSend();
+                interactObj = new Send_js_1.Send(rmrk, this.chain, this.signer);
                 break;
             case 'list':
-                var list = new List(rmrk, this.chain, this.signer);
-                interactObj = list.createList();
+                interactObj = new List_js_1.List(rmrk, this.chain, this.signer);
                 break;
             case 'buy':
-                var buy = new Buy(rmrk, this.chain, this.signer);
-                interactObj = buy.createBuy();
+                interactObj = new Buy_js_1.Buy(rmrk, this.chain, this.signer);
                 break;
             case 'consume':
             default:
-                var consume = new Consume(rmrk, this.chain, this.signer);
-                interactObj = consume.createConsume();
+                interactObj = new Consume_js_1.Consume(rmrk, this.chain, this.signer);
                 break;
         }
         return interactObj;
     };
     return RmrkReader;
 }());
-export { RmrkReader };
+exports.RmrkReader = RmrkReader;
+//# sourceMappingURL=RmrkReader.js.map

@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11,27 +12,44 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Interaction } from "../Interaction";
+exports.__esModule = true;
+exports.Send = void 0;
+var Interaction_js_1 = require("../Interaction.js");
 var Send = /** @class */ (function (_super) {
     __extends(Send, _super);
     function Send(rmrk, chain, signer) {
-        return _super.call(this, rmrk, Send.name, chain, null, signer) || this;
-    }
-    Send.prototype.createSend = function () {
-        var splitted = this.rmrkToArray();
-        this.version = splitted[2];
-        this.nftId = this.nftFromComputedId(splitted[3]);
-        var blockchainAddress = this.chain.getAddressClass();
+        var _this = _super.call(this, rmrk, Send.name, chain, null, signer) || this;
+        var splitted = _this.rmrkToArray();
+        _this.version = splitted[2];
+        _this.nftId = _this.nftFromComputedId(splitted[3]);
+        var blockchainAddress = _this.chain.getAddressClass();
         blockchainAddress.address = splitted[4];
-        this.recipient = blockchainAddress;
-        return this;
-    };
+        _this.recipient = blockchainAddress;
+        return _this;
+    }
+    // public createSend(){
+    //
+    //     const splitted = this.rmrkToArray();
+    //
+    //     this.version = splitted[2];
+    //
+    //     this.nftId = this.nftFromComputedId(splitted[3]);
+    //
+    //     const blockchainAddress = this.chain.getAddressClass();
+    //     blockchainAddress.address = splitted[4];
+    //     this.recipient = blockchainAddress;
+    //
+    //     return this;
+    // }
     Send.prototype.toJson = function () {
         var json = this.toJsonSerialize();
+        // @ts-ignore
         json['nftId'] = this.nftId.toJson(false, false);
+        // @ts-ignore
         json['recipient'] = this.recipient;
         return JSON.stringify(json);
     };
     return Send;
-}(Interaction));
-export { Send };
+}(Interaction_js_1.Interaction));
+exports.Send = Send;
+//# sourceMappingURL=Send.js.map

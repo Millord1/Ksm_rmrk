@@ -1,30 +1,6 @@
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
+"use strict";
+exports.__esModule = true;
+exports.Gossiper = void 0;
 var Gossiper = /** @class */ (function () {
     function Gossiper(entityFactory, updateOnReference) {
         this.showAllTriplets = false;
@@ -33,39 +9,20 @@ var Gossiper = /** @class */ (function () {
         this.joinFactoryGossip = [];
     }
     Gossiper.prototype.exposeGossip = function () {
-        var e_1, _a, e_2, _b;
         var _this = this;
         var how = this.entityFactory.refMap;
         var refMap = {};
-        try {
-            //Iterate over map entries
-            // @ts-ignore
-            for (var how_1 = __values(how), how_1_1 = how_1.next(); !how_1_1.done; how_1_1 = how_1.next()) {
-                var _c = __read(how_1_1.value, 2), key = _c[0], value = _c[1];
-                refMap[key] = value;
-            }
+        //Iterate over map entries
+        // @ts-ignore
+        for (var _i = 0, how_1 = how; _i < how_1.length; _i++) {
+            var _a = how_1[_i], key = _a[0], value = _a[1];
+            refMap[key] = value;
         }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (how_1_1 && !how_1_1.done && (_a = how_1.return)) _a.call(how_1);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-        try {
-            // @ts-ignore
-            for (var _d = __values(this.entityFactory.refMap.entries()), _e = _d.next(); !_e.done; _e = _d.next()) {
-                var entry = _e.value;
-                // refMap[entry[0]] = entry[1];
-                //console.log(entry);
-            }
-        }
-        catch (e_2_1) { e_2 = { error: e_2_1 }; }
-        finally {
-            try {
-                if (_e && !_e.done && (_b = _d.return)) _b.call(_d);
-            }
-            finally { if (e_2) throw e_2.error; }
+        // @ts-ignore
+        for (var _b = 0, _c = this.entityFactory.refMap.entries(); _b < _c.length; _b++) {
+            var entry = _c[_b];
+            // refMap[entry[0]] = entry[1];
+            //console.log(entry);
         }
         var joinedFactoryGossip = [];
         this.entityFactory.joinedFactory.forEach(function (joinFactory) {
@@ -96,7 +53,6 @@ var Gossiper = /** @class */ (function () {
         return new Gossiper(entityFactory, updateOnRefrenceConcept);
     };
     Gossiper.prototype.gossipEntity = function (entity) {
-        var e_3, _a;
         var myData = {
             id: entity.id,
             subjectUnid: entity.subjectConcept.unid,
@@ -111,19 +67,10 @@ var Gossiper = /** @class */ (function () {
                 myData.triplets[triplet[0].shortname].push(element.unid);
             });
         };
-        try {
-            // @ts-ignore
-            for (var _b = __values(entity.subjectConcept.triplets), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var triplet = _c.value;
-                _loop_1(triplet);
-            }
-        }
-        catch (e_3_1) { e_3 = { error: e_3_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-            }
-            finally { if (e_3) throw e_3.error; }
+        // @ts-ignore
+        for (var _i = 0, _a = entity.subjectConcept.triplets; _i < _a.length; _i++) {
+            var triplet = _a[_i];
+            _loop_1(triplet);
         }
         return myData;
     };
@@ -132,4 +79,5 @@ var Gossiper = /** @class */ (function () {
     };
     return Gossiper;
 }());
-export { Gossiper };
+exports.Gossiper = Gossiper;
+//# sourceMappingURL=Gossiper.js.map
