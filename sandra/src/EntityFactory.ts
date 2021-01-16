@@ -23,13 +23,13 @@ export class EntityFactory {
     public updateOnExistingRef: Concept;
 
 
-    public constructor(isa:string,containedIn:string,sandraManager:SandraManager) ;
+
     public constructor(isa:string,containedIn:string,sandraManager:SandraManager, updateOnExistingRef?:Concept) {
 
         this.is_a = isa;
         this.contained_in_file = containedIn;
         this.sandraManager = sandraManager;
-        if (updateOnExistingRef != null){
+        if (updateOnExistingRef == null){
             updateOnExistingRef = sandraManager.get('null_concept');
         }
         this.updateOnExistingRef = updateOnExistingRef ;
@@ -56,6 +56,7 @@ export class EntityFactory {
             this.entityByRevValMap.set(element.concept,refMapByConcept);
         }
         else {
+            // @ts-ignore
             refMapByConcept = this.entityByRevValMap.get(element.concept);
         }
 
@@ -63,6 +64,7 @@ export class EntityFactory {
 
         if (refMapByConcept.has(element.value)) {
             let existingElement = refMapByConcept.get(element.value);
+            // @ts-ignore
             existingElement.push(entity);
         }
         else {

@@ -1,54 +1,36 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubstrateChain = void 0;
-var Blockchain_js_1 = require("./Blockchain.js");
-var Polkadot_js_1 = require("./Polkadot.js");
-var fs = require('fs');
-var path = require('path');
-var SubstrateChain = /** @class */ (function (_super) {
-    __extends(SubstrateChain, _super);
-    function SubstrateChain(name, symbol, prefix, isSubstrate, wsProvider) {
-        var _this = _super.call(this, name, symbol, prefix, isSubstrate, wsProvider) || this;
-        _this.checkSubstrate();
-        return _this;
+const Blockchain_js_1 = require("./Blockchain.js");
+const Polkadot_js_1 = require("./Polkadot.js");
+const fs = require('fs');
+const path = require('path');
+class SubstrateChain extends Blockchain_js_1.Blockchain {
+    constructor(name, symbol, prefix, isSubstrate, wsProvider) {
+        super(name, symbol, prefix, isSubstrate, wsProvider);
+        this.checkSubstrate();
     }
-    SubstrateChain.prototype.checkSubstrate = function () {
+    checkSubstrate() {
         if (this.isSubstrate) {
-            var chains = fs.readFileSync(path.resolve(__dirname, "substrates.json"));
-            var blockchains = JSON.parse(chains);
-            for (var _i = 0, _a = Object.entries(blockchains); _i < _a.length; _i++) {
-                var _b = _a[_i], blockchain = _b[0], substrates = _b[1];
+            const chains = fs.readFileSync(path.resolve(__dirname, "substrates.json"));
+            const blockchains = JSON.parse(chains);
+            for (const [blockchain, substrates] of Object.entries(blockchains)) {
                 // @ts-ignore
-                for (var _c = 0, substrates_1 = substrates; _c < substrates_1.length; _c++) {
-                    var substrate = substrates_1[_c];
+                for (let substrate of substrates) {
                     if (substrate.name === this.name) {
                         this.substrateOf = this.getClassFromString(blockchain);
                     }
                 }
             }
         }
-    };
-    SubstrateChain.prototype.getClassFromString = function (name) {
+    }
+    getClassFromString(name) {
         name = name.toLowerCase();
         switch (name) {
             case 'polkadot':
                 return new Polkadot_js_1.Polkadot();
         }
-    };
-    return SubstrateChain;
-}(Blockchain_js_1.Blockchain));
+    }
+}
 exports.SubstrateChain = SubstrateChain;
 //# sourceMappingURL=SubstrateChain.js.map

@@ -1,37 +1,22 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Consume = void 0;
-var Interaction_js_1 = require("../Interaction.js");
-var Consume = /** @class */ (function (_super) {
-    __extends(Consume, _super);
-    function Consume(rmrk, chain, signer) {
-        var _this = _super.call(this, rmrk, Consume.name, chain, null, signer) || this;
-        var consume = _this.rmrkToArray();
+const Interaction_js_1 = require("../Interaction.js");
+class Consume extends Interaction_js_1.Interaction {
+    constructor(rmrk, chain, signer) {
+        super(rmrk, Consume.name, chain, null, signer);
+        const consume = this.rmrkToArray();
         if (consume[1].toLowerCase() === "consume") {
-            _this.version = consume[2];
-            _this.nftToConsume = _this.nftFromComputedId(consume[3]);
+            this.version = consume[2];
+            this.nftToConsume = this.nftFromComputedId(consume[3]);
         }
         else {
-            _this.reason = consume[1];
-            _this.nftToConsume = _this.nftFromComputedId(consume[2]);
-            var consumer = _this.chain.getAddressClass();
+            this.reason = consume[1];
+            this.nftToConsume = this.nftFromComputedId(consume[2]);
+            const consumer = this.chain.getAddressClass();
             consumer.address = consume[3];
-            _this.consumer = consumer;
+            this.consumer = consumer;
         }
-        return _this;
     }
     // public createConsume(){
     //
@@ -66,8 +51,8 @@ var Consume = /** @class */ (function (_super) {
     //
     //     return this;
     // }
-    Consume.prototype.toJson = function () {
-        var json = this.toJsonSerialize();
+    toJson() {
+        const json = this.toJsonSerialize();
         // @ts-ignore
         json['nftToConsume'] = this.nftToConsume.toJson(false);
         // @ts-ignore
@@ -75,8 +60,7 @@ var Consume = /** @class */ (function (_super) {
         // @ts-ignore
         json['consumer'] = this.consumer;
         return JSON.stringify(json);
-    };
-    return Consume;
-}(Interaction_js_1.Interaction));
+    }
+}
 exports.Consume = Consume;
 //# sourceMappingURL=Consume.js.map

@@ -1,8 +1,8 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Remark = void 0;
-var Remark = /** @class */ (function () {
-    function Remark(version, rmrk, chain, signer) {
+class Remark {
+    constructor(version, rmrk, chain, signer) {
         this.defaultVersion = '0.1';
         this.nft = {
             collection: null,
@@ -28,7 +28,6 @@ var Remark = /** @class */ (function () {
         this.signer = signer;
         this.version = version;
     }
-    return Remark;
-}());
+}
 exports.Remark = Remark;
 //# sourceMappingURL=Remark.js.map

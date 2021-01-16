@@ -1,13 +1,12 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Reference = void 0;
-var Reference = /** @class */ (function () {
-    function Reference(concept, value) {
+class Reference {
+    constructor(concept, value) {
         this.refId = 0;
         this.concept = concept;
         this.value = value;
     }
-    return Reference;
-}());
+}
 exports.Reference = Reference;
 //# sourceMappingURL=Reference.js.map

@@ -3,6 +3,7 @@ export class Concept {
     public unid:number ;
     public shortname:string ;
     public triplets:Map<Concept,Array<Concept>> ;
+    public isPureShortname:boolean = false ;
 
     constructor(unid:number,shortname:string) {
 
@@ -11,7 +12,7 @@ export class Concept {
         this.triplets = new Map<Concept, Array<Concept>>();
     }
 
-    public setTriplet(verb:Concept,target:Concept){
+    public setTriplet(verb:Concept,target:Concept,notEntity:boolean = false){
 
         if (this.triplets.get(verb)){
             // @ts-ignore
@@ -20,6 +21,8 @@ export class Concept {
         else{
             this.triplets.set(verb,[target]);
         }
+
+        if (notEntity) this.isPureShortname = true;
 
 
 

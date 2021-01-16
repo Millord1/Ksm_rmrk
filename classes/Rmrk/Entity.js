@@ -1,54 +1,38 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
-var Remark_js_1 = require("./Remark.js");
-var Entity = /** @class */ (function (_super) {
-    __extends(Entity, _super);
-    function Entity(rmrk, standard, chain, version, signer) {
-        var _this = _super.call(this, version, rmrk, chain, signer) || this;
-        _this.toJsonSerialize = function () { return ({
-            version: _this.version,
-            rmrk: _this.rmrk,
-            chain: _this.chain,
-            standard: _this.standard
-        }); };
-        _this.standard = standard;
-        return _this;
+const Remark_js_1 = require("./Remark.js");
+class Entity extends Remark_js_1.Remark {
+    constructor(rmrk, standard, chain, version, signer) {
+        super(version, rmrk, chain, signer);
+        this.toJsonSerialize = () => ({
+            version: this.version,
+            rmrk: this.rmrk,
+            chain: this.chain,
+            standard: this.standard
+        });
+        this.standard = standard;
     }
-    Entity.dataTreatment = function (splitted, obj) {
-        splitted.forEach(function (index) {
-            var datas = index.split(':');
-            for (var i = 0; i < datas.length; i++) {
+    static dataTreatment(splitted, obj) {
+        splitted.forEach((index) => {
+            const datas = index.split(':');
+            for (let i = 0; i < datas.length; i++) {
                 datas[i] = datas[i].replace(/[&\/\\"']/g, '');
             }
             if (datas[0] === "metadata") {
-                var ipfs = datas[2].slice(0, 4);
+                const ipfs = datas[2].slice(0, 4);
                 if (datas[1] === "ipfs") {
-                    var url = datas[2].slice(4);
+                    const url = datas[2].slice(4);
                     datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
                 }
-                var separator = (ipfs === "ipfs") ? '://' : ':';
+                const separator = (ipfs === "ipfs") ? '://' : ':';
                 datas[1] = datas[1] + separator + datas[2];
             }
             // @ts-ignore
             obj[datas[0]] = datas[1];
         });
         return obj;
-    };
-    return Entity;
-}(Remark_js_1.Remark));
+    }
+}
 exports.Entity = Entity;
 //# sourceMappingURL=Entity.js.map

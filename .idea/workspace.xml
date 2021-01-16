@@ -22,32 +22,56 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="chaning kusama naming">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="test branch switch">
+      <change afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StartScan.ts" beforeDir="false" afterPath="$PROJECT_DIR$/StartScan.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Collection.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Contract/KusamaContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Contract/KusamaContract.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Interfaces.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Nft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Nft.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddress.js" afterDir="false" />
@@ -55,23 +79,27 @@
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddressFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddressFactory.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Ethereum/EthereumBlockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Ethereum/EthereumBlockchain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/EthereumAddressFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/EthereumAddressFactory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/Gossiper.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Gossiper.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/Gossiper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Gossiper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/Reference.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Reference.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandra/src/SandraManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/SandraManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/SandraManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/SandraManager.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sandraTest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandraTest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +125,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="GithubPullRequestsUISettings">
     <option name="hiddenUrls">
       <set>
@@ -117,7 +153,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -198,6 +234,8 @@
       <workItem from="1608710586014" duration="20598000" />
       <workItem from="1608803324154" duration="4830000" />
       <workItem from="1609142905596" duration="12990000" />
+      <workItem from="1610645697026" duration="12094000" />
+      <workItem from="1610811462049" duration="1433000" />
     </task>
     <task id="LOCAL-00001" summary="add objects">
       <created>1608657103500</created>
@@ -278,6 +316,9 @@
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
         <option value="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.js.map" />
         <option value="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/EthereumAddressFactory.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.js" />
       </list>
     </option>
   </component>
@@ -306,14 +347,30 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/sandraTest.ts</url>
           <line>15</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/sandraTest.ts</url>
           <line>18</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/sandra/src/EntityFactory.ts</url>
+          <line>30</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.ts</url>
+          <line>19</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

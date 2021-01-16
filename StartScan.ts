@@ -64,10 +64,11 @@ export const testScan = async (opts: Option) => {
 
                     const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
 
-                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, sandra);
+                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, 555, sandra);
 
                     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                     const json = JSON.stringify(gossiper.exposeGossip());
+                    console.log(json);
 
                     // console.log(json);
 

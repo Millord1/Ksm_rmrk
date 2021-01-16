@@ -1,13 +1,14 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Concept = void 0;
-var Concept = /** @class */ (function () {
-    function Concept(unid, shortname) {
+class Concept {
+    constructor(unid, shortname) {
+        this.isPureShortname = false;
         this.unid = unid;
         this.shortname = shortname;
         this.triplets = new Map();
     }
-    Concept.prototype.setTriplet = function (verb, target) {
+    setTriplet(verb, target, notEntity = false) {
         if (this.triplets.get(verb)) {
             // @ts-ignore
             this.triplets.get(verb).push(target);
@@ -15,8 +16,9 @@ var Concept = /** @class */ (function () {
         else {
             this.triplets.set(verb, [target]);
         }
-    };
-    return Concept;
-}());
+        if (notEntity)
+            this.isPureShortname = true;
+    }
+}
 exports.Concept = Concept;
 //# sourceMappingURL=Concept.js.map

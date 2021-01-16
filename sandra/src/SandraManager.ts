@@ -70,62 +70,9 @@ export class SandraManager {
 
     }
 
-    public demo(){
-
-
-            var entityFactory = new EntityFactory('cat','testFile',this);
-            var felix = new Entity(entityFactory, [
-                new Reference(this.get('name'),'felix'),
-                new Reference(this.get('age'),'3')
-            ]);
-            var miaous = new Entity(entityFactory, [
-            new Reference(this.get('name'),'miaous'),
-            new Reference(this.get('age'),'10')
-        ]);
-
-
-            var ownerFactory = new EntityFactory("person",'peopleFile',this);
-            let mike =  new Entity(ownerFactory).addReference(new Reference(this.get('name'),'mike'))
-            let jown =  new Entity(ownerFactory).addReference(new Reference(this.get('name'),'jown'))
-
-
-            entityFactory.joinFactory(ownerFactory,'hasMaster',this.get('name'))
-            entityFactory.joinFactory(entityFactory,'friendWith',this.get('name'))
-
-            felix.joinEntity(mike,'hasMaster',this);
-            felix.joinEntity(jown,'hasMaster',this);
-
-            felix.joinEntity(miaous,'friendWith',this);
-
-            let gossiper = new Gossiper(entityFactory,this.get('name'));
-
-            console.log(JSON.stringify(gossiper.exposeGossip()));
-
-            console.log(this.conceptList);
-        console.log(this.entityList);
-        console.log(this.refList);
-
-
-    }
-
-    public cannonDemo(connector:CrystalSuiteConnector){
-
-        let blockchain = new EthereumBlockchain(this);
-
-        var blockchainEventFactory= blockchain.eventFactory ;
-        let source = new BlockchainAddress(blockchain.addressFactory,'MyFirstAddress',this);
-        let destination = new BlockchainAddress(blockchain.addressFactory,'MysecondAddress',this);
-        let contract = new BlockchainContract(blockchain.contractFactory,'myContract',this);
-
-        let event1 = new BlockchainEvent(blockchainEventFactory,source,destination,contract,'myTX','11111111',"1",blockchain,this);
-
-        let gossiper = new Gossiper(blockchainEventFactory,this.get(Blockchain.TXID_CONCEPT_NAME));
-        connector.gossip(gossiper).then(r=>{console.log(r)});
 
 
 
-
-    }
 
 
 }

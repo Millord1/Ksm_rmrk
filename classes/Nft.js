@@ -1,27 +1,13 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Nft = void 0;
-var Entity_js_1 = require("./Rmrk/Entity.js");
-var BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
-var Nft = /** @class */ (function (_super) {
-    __extends(Nft, _super);
-    function Nft(rmrk, chain, version, signer) {
-        return _super.call(this, rmrk, Nft.name, chain, version, signer) || this;
+const Entity_js_1 = require("./Rmrk/Entity.js");
+const BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
+class Nft extends Entity_js_1.Entity {
+    constructor(rmrk, chain, version, signer) {
+        super(rmrk, Nft.name, chain, version, signer);
     }
-    Nft.prototype.rmrkToObject = function (obj) {
+    rmrkToObject(obj) {
         if (obj.contract instanceof BlockchainContract_js_1.BlockchainContract) {
             this.contract = obj.collection;
         }
@@ -37,18 +23,16 @@ var Nft = /** @class */ (function (_super) {
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
         return this;
-    };
-    Nft.prototype.createNftFromInteraction = function () {
-        var splitted = this.rmrk.split('::');
+    }
+    createNftFromInteraction() {
+        const splitted = this.rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        var nftDatas = splitted[2].split(',');
+        const nftDatas = splitted[2].split(',');
         Entity_js_1.Entity.dataTreatment(nftDatas, this.nft);
         return this.rmrkToObject(this.nft);
-    };
-    Nft.prototype.toJson = function (needStringify, needSubstrate) {
-        if (needStringify === void 0) { needStringify = true; }
-        if (needSubstrate === void 0) { needSubstrate = true; }
-        var json = this.toJsonSerialize();
+    }
+    toJson(needStringify = true, needSubstrate = true) {
+        const json = this.toJsonSerialize();
         // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
         // @ts-ignore
@@ -66,8 +50,7 @@ var Nft = /** @class */ (function (_super) {
         // @ts-ignore
         json['issuer'] = this.issuer;
         return (needStringify) ? JSON.stringify(json) : json;
-    };
-    return Nft;
-}(Entity_js_1.Entity));
+    }
+}
 exports.Nft = Nft;
 //# sourceMappingURL=Nft.js.map

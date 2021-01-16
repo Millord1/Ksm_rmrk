@@ -16,9 +16,10 @@ export class BlockchainEventFactory extends EntityFactory{
 
         this.updateOnExistingRef = sandra.get('txId');
 
-        this.joinFactory(blockchain.addressFactory,BlockchainEvent.EVENT_SOURCE_ADDRESS,sandra.get('address'));
-        this.joinFactory(blockchain.addressFactory,BlockchainEvent.EVENT_DESTINATION_VERB,sandra.get('address'));
-        this.joinFactory(blockchain.contractFactory,BlockchainEvent.EVENT_SOURCE_CONTRACT,sandra.get('id'));
+        // this.joinFactory(blockchain.addressFactory,BlockchainEvent.EVENT_SOURCE_ADDRESS);
+        // this.joinFactory(blockchain.addressFactory,BlockchainEvent.EVENT_DESTINATION_VERB);
+        // this.joinFactory(blockchain.contractFactory,BlockchainEvent.EVENT_SOURCE_CONTRACT);
+        // this.joinFactory(blockchain.blockFactory,BlockchainEvent.EVENT_BLOCK);
 
 
     }

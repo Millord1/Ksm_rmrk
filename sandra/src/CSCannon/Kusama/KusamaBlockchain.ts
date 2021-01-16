@@ -5,7 +5,7 @@ import {SandraManager} from "../../SandraManager.js";
 export class KusamaBlockchain extends Blockchain
 {
     
-    public static blockchainName: string = 'kusama';
+    public  name: string = 'kusama';
 
 
     public constructor(sandra: SandraManager) {
@@ -16,7 +16,11 @@ export class KusamaBlockchain extends Blockchain
         this.addressFactory.contained_in_file = 'kusamaAddressFile';
 
         this.contractFactory.is_a = 'rmrkContract';
-        this.contractFactory.contained_in_file = 'rmrkContractFile';
+        this.contractFactory.contained_in_file = 'blockchainContractFile';
+
+        this.name = 'kusama';
+
+
     }
     
 }

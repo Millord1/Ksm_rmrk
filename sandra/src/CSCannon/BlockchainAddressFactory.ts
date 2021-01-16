@@ -21,8 +21,10 @@ export class BlockchainAddressFactory extends EntityFactory {
         if (this.entityByRevValMap.has(this.sandra.get('address'))){
             let addressRefMap = this.entityByRevValMap.get(this.sandra.get('address'));
 
+            // @ts-ignore
             if (addressRefMap.has(address)){
                 //address exists in factory
+                // @ts-ignore
                 return addressRefMap.get(address)[0];
             }
 

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2015",
     "downlevelIteration": true,
     "sourceMap": true,
     "strict": true                           /* Enable all strict type-checking options. */
@@ -9,5 +9,12 @@
   "exclude": [
     "node_modules"
   ],
-  "files": ["Test.ts"]
+
+  "lib": [
+    "dom",
+    "es6",
+    "scripthost",
+    "es2015.promise",
+    "es2015.collection"
+  ]
 }

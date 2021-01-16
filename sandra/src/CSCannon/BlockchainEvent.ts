@@ -5,15 +5,17 @@ import {BlockchainAddress} from "./BlockchainAddress.js";
 import {BlockchainContract} from "./BlockchainContract.js";
 import {Reference} from "../Reference.js";
 import {Blockchain} from "./Blockchain.js";
+import {BlockchainBlock} from "./BlockchainBlock.js";
 
 export class BlockchainEvent extends Entity {
 
     public static EVENT_SOURCE_ADDRESS = 'source';
     public static EVENT_DESTINATION_VERB = 'hasSingleDestination';
-    public static EVENT_SOURCE_CONTRACT = 'sourceBlockchainContract';
+    public static EVENT_SOURCE_CONTRACT = 'blockchainContract';
     public static EVENT_BLOCK_TIME = 'timestamp';
     public static QUANTITY = 'quantity';
     public static ON_BLOCKCHAIN = 'onBlockchain';
+    public static EVENT_BLOCK = 'onBlock';
 
 
     public constructor(factory:BlockchainEventFactory|null,
@@ -25,6 +27,7 @@ export class BlockchainEvent extends Entity {
                        timestamp:string,
                        quantity:string,
                        blockchain:Blockchain,
+                       blockId:number,
                         sandra:SandraManager,
 
     ) {
@@ -55,6 +58,10 @@ export class BlockchainEvent extends Entity {
         this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,source,sandra)
         this.joinEntity(BlockchainEvent.EVENT_DESTINATION_VERB,destination,sandra)
         this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT,contract,sandra)
+
+        //create the block
+       let blockchainBlock = new BlockchainBlock(blockchain.blockFactory,blockId,timestamp,sandra);
+        this.joinEntity(BlockchainEvent.EVENT_BLOCK,blockchainBlock,sandra)
 
         this.setTriplet(BlockchainEvent.ON_BLOCKCHAIN,blockchain.name,sandra)
 
