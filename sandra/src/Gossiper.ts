@@ -104,7 +104,7 @@ export class Gossiper{
             referenceArray:entity.referenceArray
 
         }
-        console.log(entity.subjectConcept.triplets);
+
 
 
 
@@ -119,7 +119,7 @@ export class Gossiper{
             })
 
         }
-        console.log(myData.triplets);
+
 
 
 

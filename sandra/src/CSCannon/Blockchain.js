@@ -16,10 +16,9 @@ class Blockchain {
         this.blockFactory = new EntityFactory_js_1.EntityFactory(this.getName() + "Block", "blockchainBlocFile", sandra, sandra.get(BlockchainBlock_js_1.BlockchainBlock.INDEX_SHORTNAME));
     }
     getName() {
-        console.log("geeeering name" + this.name);
         return this.name;
     }
 }
 exports.Blockchain = Blockchain;
-Blockchain.TXID_CONCEPT_NAME = 'txId';
+Blockchain.TXID_CONCEPT_NAME = 'txHash';
 //# sourceMappingURL=Blockchain.js.map

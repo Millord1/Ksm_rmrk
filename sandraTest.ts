@@ -16,7 +16,6 @@ console.log(kusama.addressFactory.entityByRevValMap);
 let event = new BlockchainEvent(kusama.eventFactory,'address1','addressDest1','contract1','txid1111','1111',"1",kusama,3,sandra);
 
 console.log("event");
-let addressFactory = kusama.addressFactory ;
 
 let gossiper = new Gossiper(kusama.eventFactory,sandra.get('txId'));
 let result = gossiper.exposeGossip();

@@ -38,8 +38,11 @@ class RmrkJetski {
             const block = yield api.rpc.chain.getBlock(blockHash);
             const blockRmrks = [];
             block.block.extrinsics.forEach((ex) => {
+                console.log("showing method");
+                console.log(ex);
                 const { method: { args, method, section } } = ex;
                 if (section === "system" && method === "remark") {
+                    //  console.log(ex)
                     const remark = args.toString();
                     const signer = ex.signer.toString();
                     // findHash(api, signer);

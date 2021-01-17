@@ -10,7 +10,7 @@ export class Blockchain {
     public addressFactory:BlockchainAddressFactory
     public  name: string = 'genericBlockchain';
 
-    public static TXID_CONCEPT_NAME = 'txId';
+    public static TXID_CONCEPT_NAME = 'txHash';
     public contractFactory: BlockchainContractFactory;
     public eventFactory: BlockchainEventFactory;
     public blockFactory: EntityFactory;
@@ -26,7 +26,7 @@ export class Blockchain {
     }
 
     public getName(){
-        console.log("geeeering name" +this.name);
+
         return this.name ;
 
     }

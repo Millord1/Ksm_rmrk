@@ -5,11 +5,15 @@ const Entity_js_1 = require("../Entity.js");
 const Reference_js_1 = require("../Reference.js");
 const BlockchainContractFactory_js_1 = require("./BlockchainContractFactory.js");
 class BlockchainContract extends Entity_js_1.Entity {
-    constructor(factory, id, sandraManager) {
+    constructor(factory, id, sandraManager, standard = null) {
         if (factory == null)
             factory = new BlockchainContractFactory_js_1.BlockchainContractFactory(sandraManager);
         super(factory);
         this.addReference(new Reference_js_1.Reference(sandraManager.get('id'), id));
+        //if the contract has a standard we bind it
+        if (standard) {
+            this.joinEntity('contractStandard', standard, sandraManager);
+        }
     }
 }
 exports.BlockchainContract = BlockchainContract;

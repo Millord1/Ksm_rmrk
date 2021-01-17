@@ -58,7 +58,6 @@ class Gossiper {
             subjectUnid: entity.subjectConcept.unid,
             referenceArray: entity.referenceArray
         };
-        console.log(entity.subjectConcept.triplets);
         for (let triplet of entity.subjectConcept.triplets) {
             if (!myData.triplets)
                 myData.triplets = {};
@@ -68,7 +67,6 @@ class Gossiper {
                 myData.triplets[triplet[0].shortname].push(element.unid);
             });
         }
-        console.log(myData.triplets);
         return myData;
     }
     joinFactoryGossiper(gossiper) {

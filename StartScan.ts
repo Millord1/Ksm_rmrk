@@ -11,6 +11,7 @@ import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
 import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
+import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -60,7 +61,7 @@ export const testScan = async (opts: Option) => {
 
                     // @ts-ignore
                     const collName = (typeof value.nftId.contractId !== 'undefined') ? value.nftId.contractId : value.nftId.contract.collection;
-                    let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra);
+                    let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
 
                     const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
 
