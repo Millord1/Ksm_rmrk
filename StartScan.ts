@@ -71,13 +71,13 @@ export const testScan = async (opts: Option) => {
 
                     // console.log(json);
 
-                    const xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-                    xmlhttp.setRequestHeader("Content-Type", "application/json");
-                    xmlhttp.send(json);
-                    xmlhttp.addEventListener("load", ()=>{
-                        console.log("complete");
-                    });
+                    // const xmlhttp = new XMLHttpRequest();
+                    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                    // xmlhttp.setRequestHeader("Content-Type", "application/json");
+                    // xmlhttp.send(json);
+                    // xmlhttp.addEventListener("load", ()=>{
+                    //     console.log("complete");
+                    // });
 
                 }
 

@@ -30,21 +30,26 @@ var Entity = /** @class */ (function (_super) {
     }
     Entity.dataTreatment = function (splitted, obj) {
         splitted.forEach(function (index) {
-            var datas = index.split(':');
-            for (var i = 0; i < datas.length; i++) {
-                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
+            var splittedDatas = index.split(',');
+            for (var i = 0; i < splittedDatas.length; i++) {
+                splittedDatas[i] = splittedDatas[i].replace(/[&\/\\"']/g, '');
             }
-            if (datas[0] === "metadata") {
-                var ipfs = datas[2].slice(0, 4);
-                if (datas[1] === "ipfs") {
-                    var url = datas[2].slice(4);
-                    datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
-                }
-                var separator = (ipfs === "ipfs") ? '://' : ':';
-                datas[1] = datas[1] + separator + datas[2];
+            if (splittedDatas.length > 2) {
+                splittedDatas.forEach(function (split) {
+                    var datas = split.split(':');
+                    if (datas[0] === "metadata") {
+                        var ipfs = datas[2].slice(0, 4);
+                        if (datas[1] === "ipfs") {
+                            var url = datas[2].slice(4);
+                            datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
+                        }
+                        var separator = (ipfs === "ipfs") ? '://' : ':';
+                        datas[1] = datas[1] + separator + datas[2];
+                    }
+                    // @ts-ignore
+                    obj[datas[0]] = datas[1];
+                });
             }
-            // @ts-ignore
-            obj[datas[0]] = datas[1];
         });
         return obj;
     };

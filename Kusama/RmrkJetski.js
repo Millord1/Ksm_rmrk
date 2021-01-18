@@ -86,11 +86,13 @@ var RmrkJetski = /** @class */ (function () {
                             if (section === "system" && method === "remark") {
                                 var remark = args.toString();
                                 var signer = ex.signer.toString();
+                                // const signature = ex.signature.toString();
                                 // findHash(api, signer);
                                 if (remark.indexOf("") === 0) {
                                     var uri = util_1.hexToString(remark);
                                     var lisibleUri = decodeURIComponent(uri);
                                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+                                    console.log(lisibleUri);
                                     var reader = new RmrkReader_js_1.RmrkReader(_this.chain, signer);
                                     var rmrkReader = reader.readRmrk(lisibleUri);
                                     blockRmrks.push(rmrkReader);

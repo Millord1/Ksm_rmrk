@@ -26,30 +26,38 @@ export abstract class Entity extends Remark implements publicEntity
 
         splitted.forEach((index) => {
 
-            const datas = index.split(':');
+            const splittedDatas = index.split(',');
 
-            for(let i = 0; i < datas.length; i++){
-                datas[i] = datas[i].replace(/[&\/\\"']/g, '');
+            for(let i = 0; i < splittedDatas.length; i++){
+                splittedDatas[i] = splittedDatas[i].replace(/[&\/\\"']/g, '');
             }
 
-            if(datas[0] === "metadata"){
+            if(splittedDatas.length > 2){
 
-                const ipfs = datas[2].slice(0, 4);
+                splittedDatas.forEach((split) => {
 
-                if(datas[1] === "ipfs") {
+                    const datas = split.split(':');
 
-                    const url = datas[2].slice(4);
+                    if(datas[0] === "metadata"){
 
-                    datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
-                }
+                        const ipfs = datas[2].slice(0, 4);
 
-                const separator = (ipfs === "ipfs") ? '://' : ':';
-                datas[1] = datas[1] + separator + datas[2];
+                        if(datas[1] === "ipfs") {
+
+                            const url = datas[2].slice(4);
+
+                            datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
+                        }
+
+                        const separator = (ipfs === "ipfs") ? '://' : ':';
+                        datas[1] = datas[1] + separator + datas[2];
+                    }
+                    // @ts-ignore
+                    obj[datas[0]] = datas[1];
+                })
             }
-
-            // @ts-ignore
-            obj[datas[0]] = datas[1];
         })
+
         return obj;
     }
 

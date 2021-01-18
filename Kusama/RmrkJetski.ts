@@ -47,10 +47,13 @@ export class RmrkJetski
                 args, method, section
             }} = ex;
 
+
             if(section === "system" && method === "remark"){
 
                 const remark = args.toString();
                 const signer = ex.signer.toString();
+
+                // const signature = ex.signature.toString();
 
                 // findHash(api, signer);
 
@@ -59,7 +62,7 @@ export class RmrkJetski
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-
+                    console.log(lisibleUri);
                     const reader = new RmrkReader(this.chain, signer);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
@@ -68,6 +71,7 @@ export class RmrkJetski
             }
 
         })
+
         return blockRmrks;
     }
 

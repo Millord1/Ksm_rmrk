@@ -25,6 +25,7 @@ export abstract class BlockchainContract
         this.symbol = obj.symbol;
         this.id = obj.id;
 
+        // @ts-ignore
         this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
     }
 
