@@ -36,7 +36,7 @@ export class Token extends Entity
     }
 
 
-    public getContract(): BlockchainContract|string {
+    public getContract(): any {
 
         if ( this.contract instanceof BlockchainContract){
             return this.contract;
