@@ -10,6 +10,7 @@ class Collection extends Entity_js_1.Entity {
         this.metadata = obj.metadata;
         this.name = obj.name;
         this.version = obj.version;
+        // @ts-ignore
         const address = this.chain.getAddressClass();
         address.address = obj.issuer;
         const myChain = this.chain.constructor;

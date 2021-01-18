@@ -2,18 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MintNft = void 0;
 const Interaction_js_1 = require("../Interaction.js");
-const Nft_js_1 = require("../../Nft.js");
+const Asset_js_1 = require("../../Asset.js");
 class MintNft extends Interaction_js_1.Interaction {
     constructor(rmrk, chain, signer) {
         super(rmrk, MintNft.name, chain, null, signer);
         // @ts-ignore
-        const myNft = new Nft_js_1.Nft(this.rmrk, this.chain, null, this.signer.address);
+        const myNft = new Asset_js_1.Asset(this.rmrk, this.chain, null, this.signer.address);
         this.myNft = myNft.createNftFromInteraction();
     }
     // public createMintNft(){
     //
     //     // @ts-ignore
-    //     const myNft = new Nft(this.rmrk, this.chain, null, this.signer.address);
+    //     const myNft = new Asset(this.rmrk, this.chain, null, this.signer.address);
     //     this.myNft = myNft.createNftFromInteraction();
     //
     //     return this;

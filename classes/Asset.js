@@ -1,27 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Nft = void 0;
+exports.Asset = void 0;
 const Entity_js_1 = require("./Rmrk/Entity.js");
-const BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
-class Nft extends Entity_js_1.Entity {
+const Token_js_1 = require("./Token.js");
+class Asset extends Entity_js_1.Entity {
     constructor(rmrk, chain, version, signer) {
-        super(rmrk, Nft.name, chain, version, signer);
+        super(rmrk, Asset.name, chain, version, signer);
     }
     rmrkToObject(obj) {
-        if (obj.contract instanceof BlockchainContract_js_1.BlockchainContract) {
-            this.contract = obj.collection;
-        }
-        else {
-            this.contractId = obj.collection;
-        }
         this.name = obj.name;
-        this.transferable = obj.transferable;
-        this.sn = obj.sn;
         this.metadata = obj.metadata;
         if (typeof obj.issuer != 'undefined') {
             // @ts-ignore
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
+        const token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.signer);
+        this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
         return this;
     }
     createNftFromInteraction() {
@@ -36,15 +30,15 @@ class Nft extends Entity_js_1.Entity {
         // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
         // @ts-ignore
-        json['contractId'] = this.contractId;
+        json['contractId'] = this.token.contractId;
         // @ts-ignore
-        json['contract'] = this.contract;
+        json['contract'] = this.token.contract;
         // @ts-ignore
         json['name'] = this.name;
         // @ts-ignore
-        json['transferable'] = this.transferable;
+        json['transferable'] = this.token.transferable;
         // @ts-ignore
-        json['sn'] = this.sn;
+        json['sn'] = this.token.sn;
         // @ts-ignore
         json['metadata'] = this.metadata;
         // @ts-ignore
@@ -52,5 +46,5 @@ class Nft extends Entity_js_1.Entity {
         return (needStringify) ? JSON.stringify(json) : json;
     }
 }
-exports.Nft = Nft;
-//# sourceMappingURL=Nft.js.map
+exports.Asset = Asset;
+//# sourceMappingURL=Asset.js.map

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Interaction = void 0;
 const Remark_js_1 = require("./Remark.js");
-const Nft_js_1 = require("../Nft.js");
+const Asset_js_1 = require("../Asset.js");
 class Interaction extends Remark_js_1.Remark {
     constructor(rmrk, interaction, chain, version, signer) {
         super(version, rmrk, chain, signer);
@@ -26,7 +26,7 @@ class Interaction extends Remark_js_1.Remark {
         this.nft.name = nftDatas[1];
         // @ts-ignore
         this.nft.sn = nftDatas[2];
-        const nft = new Nft_js_1.Nft(this.rmrk, this.chain, this.version, this.signer);
+        const nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.signer);
         return nft.rmrkToObject(this.nft);
     }
     checkDatasLength(datas, length) {

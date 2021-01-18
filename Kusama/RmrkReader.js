@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RmrkReader = void 0;
 const Entity_js_1 = require("../classes/Rmrk/Entity.js");
-const Nft_js_1 = require("../classes/Nft.js");
+const Asset_js_1 = require("../classes/Asset.js");
 const Collection_js_1 = require("../classes/Collection.js");
 const Mint_js_1 = require("../classes/Rmrk/Interactions/Mint.js");
 const ChangeIssuer_js_1 = require("../classes/Rmrk/Interactions/ChangeIssuer.js");
@@ -41,7 +41,7 @@ class RmrkReader {
         const splitted = rmrk.split(',');
         Entity_js_1.Entity.dataTreatment(splitted, this.entityObj);
         const myClass = (this.entityObj.id === null) ?
-            new Nft_js_1.Nft(rmrk, this.chain, this.entityObj.version, this.signer) :
+            new Asset_js_1.Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
             new Collection_js_1.Collection(rmrk, this.chain, this.entityObj.version, this.signer);
         return myClass.rmrkToObject(this.entityObj);
     }

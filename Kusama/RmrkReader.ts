@@ -1,6 +1,6 @@
 import {Blockchain} from "../classes/Blockchains/Blockchain.js";
 import {Entity} from "../classes/Rmrk/Entity.js";
-import {Nft} from "../classes/Nft.js";
+import {Asset} from "../classes/Asset.js";
 import {Collection} from "../classes/Collection.js";
 import {Mint} from "../classes/Rmrk/Interactions/Mint.js";
 import {ChangeIssuer} from "../classes/Rmrk/Interactions/ChangeIssuer.js";
@@ -57,7 +57,7 @@ export class RmrkReader
         Entity.dataTreatment(splitted, this.entityObj);
 
         const myClass = (this.entityObj.id === null) ?
-            new Nft(rmrk, this.chain, this.entityObj.version, this.signer) :
+            new Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
             new Collection(rmrk, this.chain, this.entityObj.version, this.signer);
 
 

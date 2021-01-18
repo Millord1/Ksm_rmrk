@@ -19,19 +19,18 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/moduleStable2" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="Adding contract standard in canonize">
+    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="take this commit as reference">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,18 +51,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="shaban" />
+        <entry key="$PROJECT_DIR$" value="bb88a031779c3a174de9efc7f046e10a99d136de" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
   </component>
   <component name="GithubPullRequestsUISettings">
     <option name="hiddenUrls">
@@ -72,7 +63,13 @@
       </set>
     </option>
   </component>
-  <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/everdreamsoft/crystal-spark-cannon" />
+      <path value="$PROJECT_DIR$/vendor/everdreamsoft/sandra" />
+    </include_path>
+  </component>
   <component name="ProjectId" id="1ljYaIMDZXVEqqi4Zsy96NyJg43" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -86,8 +83,8 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
-    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="ts.external.directory.path" value="H:\EDS\RMRK\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -103,20 +100,17 @@
       <command value="run" />
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.index.js">
-    <configuration name="Basics.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Polkadot/Basics.js" working-dir="$PROJECT_DIR$/Polkadot">
+  <component name="RunManager" selected="Node.js.ScanBlock.js">
+    <configuration name="Basics.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Polkadot/Basics.js" working-dir="$PROJECT_DIR$/Polkadot">
+      <method v="2" />
+    </configuration>
+    <configuration name="ScanBlock.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Kusama/ScanBlock.js" working-dir="$PROJECT_DIR$/Kusama">
       <method v="2" />
     </configuration>
     <configuration default="true" type="NodeJSConfigurationType" path-to-js-file="$PROJECT_DIR$/Test.ts">
       <method v="2" />
     </configuration>
     <configuration name="basicsCalls.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/Polkadot/basicsCalls.js" working-dir="$PROJECT_DIR$/Polkadot">
-      <method v="2" />
-    </configuration>
-    <configuration name="index.js" type="NodeJSConfigurationType" application-parameters="fetch --chain=kusama --block=5437975 " path-to-node="$USER_HOME$/.nvm/versions/node/v15.5.0/bin/node" nameIsGenerated="true" path-to-js-file="index.js" working-dir="$PROJECT_DIR$">
-      <method v="2" />
-    </configuration>
-    <configuration name="sandraTest.js" type="NodeJSConfigurationType" temporary="true" path-to-node="$USER_HOME$/.nvm/versions/node/v15.5.0/bin/node" nameIsGenerated="true" node-parameters="yarn fetch --chain=kusama --block=5437975 " path-to-js-file="$PROJECT_DIR$/sandraTest.js" working-dir="$PROJECT_DIR$/Kusama">
       <method v="2" />
     </configuration>
     <configuration name="ScanBlock.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
@@ -128,7 +122,6 @@
       <option name="extraTypeScriptOptions" value="" />
       <option name="scriptName" value="$PROJECT_DIR$/Kusama/ScanBlock.ts" />
       <option name="programParameters" value="" />
-      <option name="tsnodePackage" value="H:\EDS\RMRK\node_modules\ts-node" />
       <method v="2" />
     </configuration>
     <configuration name="basicsCalls.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
@@ -143,15 +136,17 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Node.js.index.js" />
       <item itemvalue="Node.js.Basics.js" />
       <item itemvalue="Node.js.basicsCalls.js" />
-      <item itemvalue="Node.js.sandraTest.js" />
+      <item itemvalue="Node.js.ScanBlock.js" />
+      <item itemvalue="TypeScript.ScanBlock.ts" />
+      <item itemvalue="TypeScript.basicsCalls.ts" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.sandraTest.js" />
+        <item itemvalue="Node.js.ScanBlock.js" />
         <item itemvalue="Node.js.basicsCalls.js" />
+        <item itemvalue="Node.js.Basics.js" />
       </list>
     </recent_temporary>
   </component>
@@ -170,8 +165,9 @@
       <workItem from="1608710586014" duration="20598000" />
       <workItem from="1608803324154" duration="4830000" />
       <workItem from="1609142905596" duration="12990000" />
-      <workItem from="1610645697026" duration="12094000" />
-      <workItem from="1610811462049" duration="14531000" />
+      <workItem from="1610630156563" duration="729000" />
+      <workItem from="1610651589592" duration="274000" />
+      <workItem from="1610957012160" duration="5142000" />
     </task>
     <task id="LOCAL-00001" summary="add objects">
       <created>1608657103500</created>
@@ -194,28 +190,56 @@
       <option name="project" value="LOCAL" />
       <updated>1608735201920</updated>
     </task>
-    <task id="LOCAL-00004" summary="chaning kusama naming">
-      <created>1610630622698</created>
+    <task id="LOCAL-00004" summary="refactor a bit of canonize">
+      <created>1610532291324</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1610630622698</updated>
+      <updated>1610532291324</updated>
     </task>
-    <task id="LOCAL-00005" summary="cleaning classes">
-      <created>1610813064809</created>
+    <task id="LOCAL-00005" summary="crazy debug">
+      <created>1610535020891</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1610813064809</updated>
+      <updated>1610535020891</updated>
     </task>
-    <task id="LOCAL-00006" summary="Adding contract standard in canonize">
-      <created>1610900376981</created>
+    <task id="LOCAL-00006" summary="modif joinEntity calls">
+      <created>1610618244174</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1610900376981</updated>
+      <updated>1610618244174</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="change NFT to Asset and Token">
+      <created>1610619675816</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1610619675816</updated>
+    </task>
+    <task id="LOCAL-00008" summary="modif package.json and light change">
+      <created>1610620231680</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1610620231680</updated>
+    </task>
+    <task id="LOCAL-00009" summary="modif data treatment">
+      <created>1610960121482</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1610960121482</updated>
+    </task>
+    <task id="LOCAL-00010" summary="modif data treatment">
+      <created>1610961263381</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1610961263381</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,7 +251,6 @@
         <option value="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js" />
-        <option value="$PROJECT_DIR$/classes/Nft.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js" />
         <option value="$PROJECT_DIR$/Kusama/RmrkReader.js" />
@@ -240,7 +263,6 @@
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" />
-        <option value="$PROJECT_DIR$/classes/Nft.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" />
         <option value="$PROJECT_DIR$/classes/Collection.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" />
@@ -264,17 +286,22 @@
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.js.map" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/EthereumAddressFactory.js.map" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.js.map" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandardFactory.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandardFactory.js.map" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandard.js.map" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandard.js" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.js.map" />
-        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/SubstrateBlockchain.js" />
+        <option value="$PROJECT_DIR$/sandraTest.js" />
+        <option value="$PROJECT_DIR$/sandraTest.js.map" />
+        <option value="$PROJECT_DIR$/classes/Token.js.map" />
+        <option value="$PROJECT_DIR$/classes/Token.js" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
       </list>
     </option>
   </component>
@@ -283,7 +310,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/moduleStable2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -294,62 +333,32 @@
     <MESSAGE value="add objects" />
     <MESSAGE value="change architecture" />
     <MESSAGE value="change architecture and treatment of rmrk Entities" />
-    <MESSAGE value="chaning kusama naming" />
-    <MESSAGE value="cleaning classes" />
-    <MESSAGE value="Adding contract standard in canonize" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding contract standard in canonize" />
+    <MESSAGE value="refactor a bit of canonize" />
+    <MESSAGE value="crazy debug" />
+    <MESSAGE value="take this commit as reference" />
+    <MESSAGE value="modif joinEntity calls" />
+    <MESSAGE value="change NFT to Asset and Token" />
+    <MESSAGE value="modif package.json and light change" />
+    <MESSAGE value="modif data treatment" />
+    <option name="LAST_COMMIT_MESSAGE" value="modif data treatment" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/sandraTest.ts</url>
-          <line>15</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/sandraTest.ts</url>
-          <line>18</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts</url>
-          <line>18</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.ts</url>
-          <line>19</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/Kusama/RmrkJetski.ts</url>
-          <line>41</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/Kusama/RmrkJetski.ts</url>
-          <line>47</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/Kusama/RmrkJetski.ts</url>
-          <line>82</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/sandra/src/Gossiper.ts</url>
-          <line>110</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="WindowStateProjectService">
+    <state x="2401" y="8" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1610619492020">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2401" y="8" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610619492020" />
+    <state x="2012" y="100" width="1736" height="856" key="ShowDiffWithBranchDialog" timestamp="1610961666716">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2012" y="100" width="1736" height="856" key="ShowDiffWithBranchDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610961666716" />
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1610961266782">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610961266782" />
+    <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610962201226">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610962201226" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

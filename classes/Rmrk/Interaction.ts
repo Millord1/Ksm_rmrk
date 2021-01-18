@@ -1,6 +1,6 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {Nft} from "../Nft.js";
+import {Asset} from "../Asset.js";
 import {publicInteraction} from "../Interfaces.js";
 
 
@@ -32,7 +32,7 @@ export abstract class Interaction extends Remark implements publicInteraction
         this.nft.sn = nftDatas[2];
 
 
-        const nft = new Nft(this.rmrk, this.chain, this.version, this.signer);
+        const nft = new Asset(this.rmrk, this.chain, this.version, this.signer);
         return nft.rmrkToObject(this.nft);
     }
 

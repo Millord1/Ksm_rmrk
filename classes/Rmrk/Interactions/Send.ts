@@ -1,13 +1,13 @@
 import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
-import {Nft} from "../../Nft.js";
+import {Asset} from "../../Asset.js";
 
 
 export class Send extends Interaction
 {
 
-    nftId: Nft;
+    nftId: Asset;
     recipient: BlockchainAddress;
 
     constructor(rmrk: string, chain: Blockchain, signer: string){

@@ -1,11 +1,11 @@
 import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
-import {Nft} from "../../Nft.js";
+import {Asset} from "../../Asset.js";
 
 export class List extends Interaction
 {
 
-    nftId: Nft;
+    nftId: Asset;
     quantity: string;
 
     constructor(rmrk: string, chain: Blockchain, signer: string) {

@@ -9,6 +9,7 @@ class BlockchainContract {
         this.max = obj.max;
         this.symbol = obj.symbol;
         this.id = obj.id;
+        // @ts-ignore
         this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
     }
 }
