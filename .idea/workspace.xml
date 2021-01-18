@@ -19,48 +19,18 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/moduleStable2" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/BlockchainAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Blockchain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Kusama.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/Polkadot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Blockchains/SubstrateChain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Collection.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Collection.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Contract/KusamaContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Contract/KusamaContract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Interfaces.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Interfaces.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Nft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Nft.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interaction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Buy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/ChangeIssuer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddress.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddressFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainAddressFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContractFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEvent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Ethereum/EthereumBlockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Ethereum/EthereumBlockchain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Gossiper.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Gossiper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Reference.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Reference.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/SandraManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/SandraManager.js" afterDir="false" />
+    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="take this commit as reference">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,11 +51,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="shaban" />
+        <entry key="$PROJECT_DIR$" value="bb88a031779c3a174de9efc7f046e10a99d136de" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GithubPullRequestsUISettings">
     <option name="hiddenUrls">
@@ -93,6 +62,13 @@
         <option value="https://github.com/FatalTio/Ksm_rmrk" />
       </set>
     </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/everdreamsoft/crystal-spark-cannon" />
+      <path value="$PROJECT_DIR$/vendor/everdreamsoft/sandra" />
+    </include_path>
   </component>
   <component name="ProjectId" id="1ljYaIMDZXVEqqi4Zsy96NyJg43" />
   <component name="ProjectViewState">
@@ -108,7 +84,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
-    <property name="ts.external.directory.path" value="K:\Program Files\PhpStorm 2020.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="H:\EDS\RMRK\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -146,7 +122,6 @@
       <option name="extraTypeScriptOptions" value="" />
       <option name="scriptName" value="$PROJECT_DIR$/Kusama/ScanBlock.ts" />
       <option name="programParameters" value="" />
-      <option name="tsnodePackage" value="H:\EDS\RMRK\node_modules\ts-node" />
       <method v="2" />
     </configuration>
     <configuration name="basicsCalls.ts" type="TypeScriptProgramRunner" factoryName="TypeScript" temporary="true">
@@ -164,6 +139,8 @@
       <item itemvalue="Node.js.Basics.js" />
       <item itemvalue="Node.js.basicsCalls.js" />
       <item itemvalue="Node.js.ScanBlock.js" />
+      <item itemvalue="TypeScript.ScanBlock.ts" />
+      <item itemvalue="TypeScript.basicsCalls.ts" />
     </list>
     <recent_temporary>
       <list>
@@ -188,6 +165,9 @@
       <workItem from="1608710586014" duration="20598000" />
       <workItem from="1608803324154" duration="4830000" />
       <workItem from="1609142905596" duration="12990000" />
+      <workItem from="1610630156563" duration="729000" />
+      <workItem from="1610651589592" duration="274000" />
+      <workItem from="1610957012160" duration="5142000" />
     </task>
     <task id="LOCAL-00001" summary="add objects">
       <created>1608657103500</created>
@@ -210,7 +190,56 @@
       <option name="project" value="LOCAL" />
       <updated>1608735201920</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="refactor a bit of canonize">
+      <created>1610532291324</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1610532291324</updated>
+    </task>
+    <task id="LOCAL-00005" summary="crazy debug">
+      <created>1610535020891</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1610535020891</updated>
+    </task>
+    <task id="LOCAL-00006" summary="modif joinEntity calls">
+      <created>1610618244174</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1610618244174</updated>
+    </task>
+    <task id="LOCAL-00007" summary="change NFT to Asset and Token">
+      <created>1610619675816</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1610619675816</updated>
+    </task>
+    <task id="LOCAL-00008" summary="modif package.json and light change">
+      <created>1610620231680</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1610620231680</updated>
+    </task>
+    <task id="LOCAL-00009" summary="modif data treatment">
+      <created>1610960121482</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1610960121482</updated>
+    </task>
+    <task id="LOCAL-00010" summary="modif data treatment">
+      <created>1610961263381</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1610961263381</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,7 +251,6 @@
         <option value="$PROJECT_DIR$/classes/Contract/BlockchainContract.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Remark.js" />
-        <option value="$PROJECT_DIR$/classes/Nft.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interaction.js" />
         <option value="$PROJECT_DIR$/Kusama/RmrkReader.js" />
@@ -235,7 +263,6 @@
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/List.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Mint.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js.map" />
-        <option value="$PROJECT_DIR$/classes/Nft.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/MintNft.js" />
         <option value="$PROJECT_DIR$/classes/Collection.js" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Send.js" />
@@ -259,6 +286,22 @@
         <option value="$PROJECT_DIR$/classes/Addresses/KusamaAddress.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js.map" />
         <option value="$PROJECT_DIR$/classes/Rmrk/Interactions/Consume.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Substrate/SubstrateBlockchain.js" />
+        <option value="$PROJECT_DIR$/sandraTest.js" />
+        <option value="$PROJECT_DIR$/sandraTest.js.map" />
+        <option value="$PROJECT_DIR$/classes/Token.js.map" />
+        <option value="$PROJECT_DIR$/classes/Token.js" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
       </list>
     </option>
   </component>
@@ -267,7 +310,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/moduleStable2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -278,7 +333,32 @@
     <MESSAGE value="add objects" />
     <MESSAGE value="change architecture" />
     <MESSAGE value="change architecture and treatment of rmrk Entities" />
-    <option name="LAST_COMMIT_MESSAGE" value="change architecture and treatment of rmrk Entities" />
+    <MESSAGE value="refactor a bit of canonize" />
+    <MESSAGE value="crazy debug" />
+    <MESSAGE value="take this commit as reference" />
+    <MESSAGE value="modif joinEntity calls" />
+    <MESSAGE value="change NFT to Asset and Token" />
+    <MESSAGE value="modif package.json and light change" />
+    <MESSAGE value="modif data treatment" />
+    <option name="LAST_COMMIT_MESSAGE" value="modif data treatment" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2401" y="8" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1610619492020">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2401" y="8" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610619492020" />
+    <state x="2012" y="100" width="1736" height="856" key="ShowDiffWithBranchDialog" timestamp="1610961666716">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2012" y="100" width="1736" height="856" key="ShowDiffWithBranchDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610961666716" />
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1610961266782">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610961266782" />
+    <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610962201226">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610962201226" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
