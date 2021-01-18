@@ -1,29 +1,14 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.MintNft = void 0;
-var Interaction_js_1 = require("../Interaction.js");
-var Asset_js_1 = require("../../Asset.js");
-var MintNft = /** @class */ (function (_super) {
-    __extends(MintNft, _super);
-    function MintNft(rmrk, chain, signer) {
-        var _this = _super.call(this, rmrk, MintNft.name, chain, null, signer) || this;
+const Interaction_js_1 = require("../Interaction.js");
+const Asset_js_1 = require("../../Asset.js");
+class MintNft extends Interaction_js_1.Interaction {
+    constructor(rmrk, chain, signer) {
+        super(rmrk, MintNft.name, chain, null, signer);
         // @ts-ignore
-        var myNft = new Asset_js_1.Asset(_this.rmrk, _this.chain, null, _this.signer.address);
-        _this.myNft = myNft.createNftFromInteraction();
-        return _this;
+        const myNft = new Asset_js_1.Asset(this.rmrk, this.chain, null, this.signer.address);
+        this.myNft = myNft.createNftFromInteraction();
     }
     // public createMintNft(){
     //
@@ -33,13 +18,12 @@ var MintNft = /** @class */ (function (_super) {
     //
     //     return this;
     // }
-    MintNft.prototype.toJson = function () {
-        var json = this.myNft.toJson(false, true);
+    toJson() {
+        const json = this.myNft.toJson(false, true);
         // @ts-ignore
         json['interaction'] = this.interaction;
         return JSON.stringify(json);
-    };
-    return MintNft;
-}(Interaction_js_1.Interaction));
+    }
+}
 exports.MintNft = MintNft;
 //# sourceMappingURL=MintNft.js.map

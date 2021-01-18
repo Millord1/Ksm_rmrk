@@ -1,18 +1,18 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.RmrkReader = void 0;
-var Entity_js_1 = require("../classes/Rmrk/Entity.js");
-var Asset_js_1 = require("../classes/Asset.js");
-var Collection_js_1 = require("../classes/Collection.js");
-var Mint_js_1 = require("../classes/Rmrk/Interactions/Mint.js");
-var ChangeIssuer_js_1 = require("../classes/Rmrk/Interactions/ChangeIssuer.js");
-var MintNft_js_1 = require("../classes/Rmrk/Interactions/MintNft.js");
-var Send_js_1 = require("../classes/Rmrk/Interactions/Send.js");
-var List_js_1 = require("../classes/Rmrk/Interactions/List.js");
-var Buy_js_1 = require("../classes/Rmrk/Interactions/Buy.js");
-var Consume_js_1 = require("../classes/Rmrk/Interactions/Consume.js");
-var RmrkReader = /** @class */ (function () {
-    function RmrkReader(chain, signer) {
+const Entity_js_1 = require("../classes/Rmrk/Entity.js");
+const Asset_js_1 = require("../classes/Asset.js");
+const Collection_js_1 = require("../classes/Collection.js");
+const Mint_js_1 = require("../classes/Rmrk/Interactions/Mint.js");
+const ChangeIssuer_js_1 = require("../classes/Rmrk/Interactions/ChangeIssuer.js");
+const MintNft_js_1 = require("../classes/Rmrk/Interactions/MintNft.js");
+const Send_js_1 = require("../classes/Rmrk/Interactions/Send.js");
+const List_js_1 = require("../classes/Rmrk/Interactions/List.js");
+const Buy_js_1 = require("../classes/Rmrk/Interactions/Buy.js");
+const Consume_js_1 = require("../classes/Rmrk/Interactions/Consume.js");
+class RmrkReader {
+    constructor(chain, signer) {
         this.entityObj = {
             version: null,
             name: null,
@@ -28,28 +28,28 @@ var RmrkReader = /** @class */ (function () {
         this.chain = chain;
         this.signer = signer;
     }
-    RmrkReader.prototype.readRmrk = function (rmrk) {
-        var isInteraction = rmrk.includes('::');
+    readRmrk(rmrk) {
+        const isInteraction = rmrk.includes('::');
         if (isInteraction) {
             return this.readInteraction(rmrk);
         }
         else {
             return this.readEntity(rmrk);
         }
-    };
-    RmrkReader.prototype.readEntity = function (rmrk) {
-        var splitted = rmrk.split(',');
+    }
+    readEntity(rmrk) {
+        const splitted = rmrk.split(',');
         Entity_js_1.Entity.dataTreatment(splitted, this.entityObj);
-        var myClass = (this.entityObj.id === null) ?
+        const myClass = (this.entityObj.id === null) ?
             new Asset_js_1.Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
             new Collection_js_1.Collection(rmrk, this.chain, this.entityObj.version, this.signer);
         return myClass.rmrkToObject(this.entityObj);
-    };
-    RmrkReader.prototype.readInteraction = function (rmrk) {
-        var splitted = rmrk.split('::');
-        var interaction = splitted[1];
+    }
+    readInteraction(rmrk) {
+        const splitted = rmrk.split('::');
+        let interaction = splitted[1];
         interaction = interaction.toLowerCase();
-        var interactObj;
+        let interactObj;
         switch (interaction) {
             case 'mint':
                 interactObj = new Mint_js_1.Mint(rmrk, this.chain, this.signer);
@@ -75,8 +75,7 @@ var RmrkReader = /** @class */ (function () {
                 break;
         }
         return interactObj;
-    };
-    return RmrkReader;
-}());
+    }
+}
 exports.RmrkReader = RmrkReader;
 //# sourceMappingURL=RmrkReader.js.map

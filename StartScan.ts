@@ -28,7 +28,8 @@ export const testScan = async (opts: Option) => {
             break;
 
         case "unique":
-            // blockchain = new Unique();
+            //@ts-ignore
+            blockchain = new Unique();
             break;
 
         case "kusama":

@@ -1,77 +1,61 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Interaction = void 0;
-var Remark_js_1 = require("./Remark.js");
-var Asset_js_1 = require("../Asset.js");
-var Interaction = /** @class */ (function (_super) {
-    __extends(Interaction, _super);
-    function Interaction(rmrk, interaction, chain, version, signer) {
-        var _this = _super.call(this, version, rmrk, chain, signer) || this;
-        _this.toJsonSerialize = function () { return ({
-            version: _this.version,
-            rmrk: _this.rmrk,
+const Remark_js_1 = require("./Remark.js");
+const Asset_js_1 = require("../Asset.js");
+class Interaction extends Remark_js_1.Remark {
+    constructor(rmrk, interaction, chain, version, signer) {
+        super(version, rmrk, chain, signer);
+        this.toJsonSerialize = () => ({
+            version: this.version,
+            rmrk: this.rmrk,
             // @ts-ignore
-            chain: _this.chain.toJson(),
-            interaction: _this.interaction
-        }); };
-        _this.interaction = interaction;
-        return _this;
+            chain: this.chain.toJson(),
+            interaction: this.interaction
+        });
+        this.interaction = interaction;
     }
-    Interaction.prototype.rmrkToArray = function () {
+    rmrkToArray() {
         return this.rmrk.split('::');
-    };
-    Interaction.prototype.nftFromComputedId = function (computed) {
-        var nftDatas = this.checkDatasLength(computed.split('-'), 3);
+    }
+    nftFromComputedId(computed) {
+        let nftDatas = this.checkDatasLength(computed.split('-'), 3);
         // @ts-ignore
         this.nft.collection = nftDatas[0];
         // @ts-ignore
         this.nft.name = nftDatas[1];
         // @ts-ignore
         this.nft.sn = nftDatas[2];
-        var nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.signer);
+        const nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.signer);
         return nft.rmrkToObject(this.nft);
-    };
-    Interaction.prototype.checkDatasLength = function (datas, length) {
+    }
+    checkDatasLength(datas, length) {
         if (datas.length > length) {
-            var name_1 = datas[0] + '-' + datas[1];
+            const name = datas[0] + '-' + datas[1];
             datas.splice(0, 2);
-            var sn = datas[datas.length - 1];
-            var isNumber = true;
-            for (var i = 0; i < sn.length; i++) {
+            const sn = datas[datas.length - 1];
+            let isNumber = true;
+            for (let i = 0; i < sn.length; i++) {
                 if (isNaN(parseInt(sn[i]))) {
                     isNumber = false;
                 }
             }
             if (isNumber) {
-                var serialN = sn;
+                const serialN = sn;
                 datas.pop();
-                var nftName = '';
-                for (var i = 0; i < datas.length; i++) {
-                    var first = (i === 0) ? '' : '-';
+                let nftName = '';
+                for (let i = 0; i < datas.length; i++) {
+                    let first = (i === 0) ? '' : '-';
                     nftName += first + datas[i];
                 }
                 datas = [];
                 datas.unshift(serialN);
                 datas.unshift(nftName);
-                datas.unshift(name_1);
+                datas.unshift(name);
             }
         }
         return datas;
-    };
-    return Interaction;
-}(Remark_js_1.Remark));
+    }
+}
 exports.Interaction = Interaction;
 //# sourceMappingURL=Interaction.js.map
