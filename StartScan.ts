@@ -61,7 +61,7 @@ export const testScan = async (opts: Option) => {
                     let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
 
                     // @ts-ignore
-                    const collName = (typeof value.nftId.contractId !== 'undefined') ? value.nftId.contractId : value.nftId.contract.collection;
+                    const collName = value.nftId.token.contractId;
                     let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
 
                     const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
