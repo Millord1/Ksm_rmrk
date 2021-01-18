@@ -1,1 +1,1 @@
-{"version":3,"file":"KusamaContract.js","sourceRoot":"","sources":["KusamaContract.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,iEAA2D;AAE3D;IAAoC,kCAAkB;IAAtD;;IAKA,CAAC;IAAD,qBAAC;AAAD,CAAC,AALD,CAAoC,0CAAkB,GAKrD;AALY,wCAAc"}
+{"version":3,"file":"KusamaContract.js","sourceRoot":"","sources":["KusamaContract.ts"],"names":[],"mappings":";;;AAAA,mEAA2D;AAE3D,MAAa,cAAe,SAAQ,0CAAkB;CAKrD;AALD,wCAKC"}

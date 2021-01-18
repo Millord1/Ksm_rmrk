@@ -1,7 +1,7 @@
 import {EntityFactory} from "./EntityFactory.js";
-import {Reference} from "./Reference.js";
 import {Concept} from "./Concept.js";
 import {Entity} from "./Entity";
+import {SandraManager} from "./SandraManager.js";
 
 export class Gossiper{
 
@@ -9,6 +9,7 @@ export class Gossiper{
     public updateOnReference:Concept ;
     public joinFactoryGossip:Gossiper[];
     public showAllTriplets:boolean = false ;
+
 
     public constructor(entityFactory:EntityFactory, updateOnReference:Concept) {
 
@@ -18,7 +19,7 @@ export class Gossiper{
 
     }
 
-    public exposeGossip(){
+    public exposeGossip(isFinalFactory:boolean = true){
 
             let how = this.entityFactory.refMap ;
 
@@ -44,7 +45,7 @@ export class Gossiper{
 
                 if (joinFactory.entityFactory !== this.entityFactory) {
                     let joinedGossip = new Gossiper(joinFactory.entityFactory, joinFactory.createOnRef);
-                    joinedFactoryGossip.push(joinedGossip.exposeGossip()) ;
+                    joinedFactoryGossip.push(joinedGossip.exposeGossip(false)) ;
 
 
                 }
@@ -58,9 +59,14 @@ export class Gossiper{
                 })
 
 
+
+
+
+
             let myData:any = {
                 gossiper:{
-                  updateOnReferenceShortname:this.updateOnReference.shortname
+                  updateOnReferenceShortname:this.updateOnReference.shortname,
+
                 },
                 'entityFactory': {
                     'is_a': this.entityFactory.is_a,
@@ -71,6 +77,12 @@ export class Gossiper{
                 }
 
             }
+
+        if (isFinalFactory){
+            myData.gossiper.shortNameDictionary = this.buildShortNameDictionary(this.entityFactory.sandraManager) ;
+
+        }
+
 
             return myData ;
     }
@@ -93,7 +105,9 @@ export class Gossiper{
 
         }
 
-        // @ts-ignore
+
+
+
         for (let triplet of entity.subjectConcept.triplets) {
 
             if (!myData.triplets) myData.triplets = {};
@@ -106,6 +120,9 @@ export class Gossiper{
 
         }
 
+
+
+
         return myData ;
 
     }
@@ -113,6 +130,21 @@ export class Gossiper{
     public joinFactoryGossiper(gossiper:Gossiper){
 
         this.joinFactoryGossip.push(gossiper);
+
+    }
+
+    public buildShortNameDictionary(sandra:SandraManager){
+
+        let dictionnary:any = {};
+
+        sandra.conceptList.forEach(element =>{
+
+            dictionnary[element.unid] = element.shortname ;
+
+        })
+
+        return dictionnary ;
+
 
     }
 

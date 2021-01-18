@@ -11,6 +11,7 @@ import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
 import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
+import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -59,15 +60,16 @@ export const testScan = async (opts: Option) => {
                     let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
 
                     // @ts-ignore
-                    const collName = value.nftId.contractId;
-                    let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra);
+                    const collName = (typeof value.nftId.contractId !== 'undefined') ? value.nftId.contractId : value.nftId.contract.collection;
+                    let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
 
                     const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
 
-                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, sandra);
+                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, 555, sandra);
 
                     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                     const json = JSON.stringify(gossiper.exposeGossip());
+                    console.log(json);
 
                     // console.log(json);
 

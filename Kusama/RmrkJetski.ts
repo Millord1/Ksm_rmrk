@@ -42,6 +42,8 @@ export class RmrkJetski
         const blockRmrks : Array<Remark> = [];
 
         block.block.extrinsics.forEach((ex: any) => {
+            console.log("showing method")
+            console.log(ex);
 
             const { method: {
                 args, method, section
@@ -50,6 +52,7 @@ export class RmrkJetski
 
             if(section === "system" && method === "remark"){
 
+              //  console.log(ex)
                 const remark = args.toString();
                 const signer = ex.signer.toString();
 

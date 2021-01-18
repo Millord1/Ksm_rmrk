@@ -14,14 +14,17 @@ export class BlockchainAddressFactory extends EntityFactory {
 
         super('blockchainAddress','blockchainAddressFile',sandra);
         this.sandra = sandra ;
+        this.updateOnExistingRef = sandra.get('address');
     }
 
     public getOrCreate(address:string){
         if (this.entityByRevValMap.has(this.sandra.get('address'))){
             let addressRefMap = this.entityByRevValMap.get(this.sandra.get('address'));
 
+            // @ts-ignore
             if (addressRefMap.has(address)){
                 //address exists in factory
+                // @ts-ignore
                 return addressRefMap.get(address)[0];
             }
 

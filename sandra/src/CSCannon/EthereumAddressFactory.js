@@ -1,25 +1,13 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-import { BlockchainAddressFactory } from "./BlockchainAddressFactory.js";
-var EthereumAddressFactory = /** @class */ (function (_super) {
-    __extends(EthereumAddressFactory, _super);
-    function EthereumAddressFactory() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.is_a = 'ethAddress';
-        _this.contained_in_file = 'ethAddressFile';
-        return _this;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EthereumAddressFactory = void 0;
+const BlockchainAddressFactory_js_1 = require("./BlockchainAddressFactory.js");
+class EthereumAddressFactory extends BlockchainAddressFactory_js_1.BlockchainAddressFactory {
+    constructor() {
+        super(...arguments);
+        this.is_a = 'ethAddress';
+        this.contained_in_file = 'ethAddressFile';
     }
-    return EthereumAddressFactory;
-}(BlockchainAddressFactory));
-export { EthereumAddressFactory };
+}
+exports.EthereumAddressFactory = EthereumAddressFactory;
+//# sourceMappingURL=EthereumAddressFactory.js.map

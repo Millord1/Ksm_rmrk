@@ -1,10 +1,8 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlockchainContract = void 0;
-var BlockchainContract = /** @class */ (function () {
-    function BlockchainContract() {
-    }
-    BlockchainContract.prototype.createContract = function (obj, chain, collection) {
+class BlockchainContract {
+    createContract(obj, chain, collection) {
         this.chain = chain;
         this.collection = collection.name;
         this.version = obj.version;
@@ -13,8 +11,7 @@ var BlockchainContract = /** @class */ (function () {
         this.id = obj.id;
         // @ts-ignore
         this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
-    };
-    return BlockchainContract;
-}());
+    }
+}
 exports.BlockchainContract = BlockchainContract;
 //# sourceMappingURL=BlockchainContract.js.map

@@ -1,13 +1,12 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlockchainAddress = void 0;
-var BlockchainAddress = /** @class */ (function () {
-    function BlockchainAddress() {
+class BlockchainAddress {
+    constructor() {
     }
-    BlockchainAddress.prototype.toJson = function () {
+    toJson() {
         return { blockchainName: this.blockchainName };
-    };
-    return BlockchainAddress;
-}());
+    }
+}
 exports.BlockchainAddress = BlockchainAddress;
 //# sourceMappingURL=BlockchainAddress.js.map

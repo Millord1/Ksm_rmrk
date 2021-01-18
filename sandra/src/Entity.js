@@ -1,28 +1,31 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
-var Entity = /** @class */ (function () {
-    function Entity(factory, references) {
-        var _this = this;
-        if (references === void 0) { references = []; }
+//does this move to the other branche ?
+class Entity {
+    constructor(factory, references = []) {
         this.referenceArray = [];
+        this.brotherEntityMap = new Map();
         this.id = 0;
         factory.sandraManager.registerNewEntity(this);
         this.subjectConcept = factory.sandraManager.get('entity:subject:' + this.id);
-        references.forEach(function (ref) {
-            _this.addReference(ref);
+        references.forEach(ref => {
+            this.addReference(ref);
         });
         factory.addEntity(this);
-        // this.factory = factory ;
+        this.factory = factory;
     }
-    Entity.prototype.addReference = function (ref) {
+    addReference(ref) {
         this.referenceArray.push(ref);
         return this;
-    };
-    Entity.prototype.joinEntity = function (verb, entity, sandraManager) {
+    }
+    joinEntity(verb, entity, sandraManager) {
         this.subjectConcept.setTriplet(sandraManager.get(verb), entity.subjectConcept);
-    };
-    return Entity;
-}());
+        this.factory.joinFactory(entity.factory, verb);
+    }
+    setTriplet(verb, target, sandraManager, refArray) {
+        this.subjectConcept.setTriplet(sandraManager.get(verb), sandraManager.get(target), false, refArray);
+    }
+}
 exports.Entity = Entity;
 //# sourceMappingURL=Entity.js.map

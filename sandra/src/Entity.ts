@@ -3,11 +3,16 @@ import {EntityFactory} from "./EntityFactory.js";
 import {Concept} from "./Concept.js";
 import {SandraManager} from "./SandraManager";
 
+//does this move to the other branche ?
+
 export class Entity{
 
     public subjectConcept:Concept ;
     public id:number ;
     public referenceArray:Reference[] = [];
+    public factory:EntityFactory ;
+    public brotherEntityMap:Map<Concept,Map<Concept, Entity[]>> = new Map<Concept,Map<Concept, Entity[]>>();
+
 
 
     public constructor(factory:EntityFactory, references:Array<Reference>=[]) {
@@ -24,7 +29,7 @@ export class Entity{
         })
 
         factory.addEntity(this);
-       // this.factory = factory ;
+        this.factory = factory ;
 
     }
 
@@ -36,9 +41,14 @@ export class Entity{
     }
 
     public joinEntity(verb:string,entity:Entity,sandraManager:SandraManager){
-        this.subjectConcept.setTriplet(sandraManager.get(verb),entity.subjectConcept)
+        this.subjectConcept.setTriplet(sandraManager.get(verb),entity.subjectConcept);
+        this.factory.joinFactory(entity.factory,verb)
 
 
+    }
+
+    public setTriplet(verb:string,target:string,sandraManager:SandraManager,refArray?:Reference[]){
+        this.subjectConcept.setTriplet(sandraManager.get(verb),sandraManager.get(target),false,refArray);
 
     }
 

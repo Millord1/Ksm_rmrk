@@ -20,14 +20,20 @@ export class EntityFactory {
     public entityByRevValMap:Map<Concept,Map<string, Entity[]>> = new Map<Concept,Map<string, Entity[]>>();
     public joinedFactory:JoinedFactory[] = [];
     public sandraManager: SandraManager;
+    public updateOnExistingRef: Concept;
+    public brotherEntityMap:Map<Concept,Map<Concept, Entity[]>> = new Map<Concept,Map<Concept, Entity[]>>();
 
 
 
-    public constructor(isa:string,containedIn:string,sandraManager:SandraManager) {
+    public constructor(isa:string,containedIn:string,sandraManager:SandraManager, updateOnExistingRef?:Concept) {
 
         this.is_a = isa;
         this.contained_in_file = containedIn;
         this.sandraManager = sandraManager;
+        if (updateOnExistingRef == null){
+            updateOnExistingRef = sandraManager.get('null_concept');
+        }
+        this.updateOnExistingRef = updateOnExistingRef ;
 
 
     }
@@ -38,8 +44,7 @@ export class EntityFactory {
     let factory = this ;
 
     entity.referenceArray.forEach(element => {
-        console.log("entering element");
-        console.log(element);
+
 
         factory.sandraManager.registerNewReference(element);
         factory.refMap.set(element.concept.unid,element.concept.shortname);
@@ -52,6 +57,7 @@ export class EntityFactory {
             this.entityByRevValMap.set(element.concept,refMapByConcept);
         }
         else {
+            // @ts-ignore
             refMapByConcept = this.entityByRevValMap.get(element.concept);
         }
 
@@ -59,6 +65,7 @@ export class EntityFactory {
 
         if (refMapByConcept.has(element.value)) {
             let existingElement = refMapByConcept.get(element.value);
+            // @ts-ignore
             existingElement.push(entity);
         }
         else {
@@ -69,8 +76,12 @@ export class EntityFactory {
 
     }
 
-    public joinFactory(entityFactory:EntityFactory,onVerb:string,createOnRef:Concept = this.sandraManager.get('null_concept')){
+    public joinFactory(entityFactory:EntityFactory,onVerb:string){
 
+
+       if ( this.joinedFactory.find(e => e.onVerb === onVerb) ) return ;
+
+        let createOnRef = entityFactory.updateOnExistingRef ;
         this.joinedFactory.push({entityFactory,onVerb,createOnRef} );
 
     }
