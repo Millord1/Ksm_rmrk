@@ -21,6 +21,7 @@ export class EntityFactory {
     public joinedFactory:JoinedFactory[] = [];
     public sandraManager: SandraManager;
     public updateOnExistingRef: Concept;
+    public brotherEntityMap:Map<Concept,Map<Concept, Entity[]>> = new Map<Concept,Map<Concept, Entity[]>>();
 
 
 

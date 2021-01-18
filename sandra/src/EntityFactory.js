@@ -8,6 +8,7 @@ class EntityFactory {
         this.refMap = new Map();
         this.entityByRevValMap = new Map();
         this.joinedFactory = [];
+        this.brotherEntityMap = new Map();
         this.is_a = isa;
         this.contained_in_file = containedIn;
         this.sandraManager = sandraManager;

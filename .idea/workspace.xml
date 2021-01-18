@@ -22,24 +22,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="cleaning classes">
-      <change afterPath="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandard.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandardFactory.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.ts" afterDir="false" />
+    <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="Adding contract standard in canonize">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StartScan.ts" beforeDir="false" afterPath="$PROJECT_DIR$/StartScan.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Blockchain.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainContract.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Gossiper.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Gossiper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandra/src/Gossiper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Gossiper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sandraTest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandraTest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Concept.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Concept.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/Entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.js" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sandra/src/EntityFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sandra/src/EntityFactory.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +171,7 @@
       <workItem from="1608803324154" duration="4830000" />
       <workItem from="1609142905596" duration="12990000" />
       <workItem from="1610645697026" duration="12094000" />
-      <workItem from="1610811462049" duration="9213000" />
+      <workItem from="1610811462049" duration="14531000" />
     </task>
     <task id="LOCAL-00001" summary="add objects">
       <created>1608657103500</created>
@@ -216,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610813064809</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Adding contract standard in canonize">
+      <created>1610900376981</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1610900376981</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,7 +296,8 @@
     <MESSAGE value="change architecture and treatment of rmrk Entities" />
     <MESSAGE value="chaning kusama naming" />
     <MESSAGE value="cleaning classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaning classes" />
+    <MESSAGE value="Adding contract standard in canonize" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding contract standard in canonize" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -311,12 +311,6 @@
           <url>file://$PROJECT_DIR$/sandraTest.ts</url>
           <line>18</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/sandra/src/EntityFactory.ts</url>
-          <line>30</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/sandra/src/CSCannon/BlockchainEventFactory.ts</url>
@@ -347,6 +341,12 @@
           <line>82</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/sandra/src/Gossiper.ts</url>
+          <line>110</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

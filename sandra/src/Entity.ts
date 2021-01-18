@@ -11,6 +11,8 @@ export class Entity{
     public id:number ;
     public referenceArray:Reference[] = [];
     public factory:EntityFactory ;
+    public brotherEntityMap:Map<Concept,Map<Concept, Entity[]>> = new Map<Concept,Map<Concept, Entity[]>>();
+
 
 
     public constructor(factory:EntityFactory, references:Array<Reference>=[]) {
@@ -45,8 +47,8 @@ export class Entity{
 
     }
 
-    public setTriplet(verb:string,target:string,sandraManager:SandraManager){
-        this.subjectConcept.setTriplet(sandraManager.get(verb),sandraManager.get(target));
+    public setTriplet(verb:string,target:string,sandraManager:SandraManager,refArray?:Reference[]){
+        this.subjectConcept.setTriplet(sandraManager.get(verb),sandraManager.get(target),false,refArray);
 
     }
 
