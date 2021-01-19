@@ -28,6 +28,7 @@ export const testScan = async (opts: Option) => {
             break;
 
         case "unique":
+            // TODO remake Unique Blockchain
             //@ts-ignore
             blockchain = new Unique();
             break;
@@ -47,7 +48,7 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
-                if(value instanceof Send || Mint){
+                if(value instanceof Send || value instanceof Mint){
 
                     let sandra = new SandraManager();
                     let blockchain = new KusamaBlockchain(sandra);
@@ -56,9 +57,15 @@ export const testScan = async (opts: Option) => {
                     const signer = value.signer;
                     let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 
-                    // @ts-ignore
-                    const recipient = value.recipient.address;
-                    let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+                    let receiver: BlockchainAddress;
+                    if(value instanceof Send){
+                        // @ts-ignore
+                        const recipient = value.recipient.address;
+                        if(recipient !== "undefined"){
+                            // @ts-ignore
+                            receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+                        }
+                    }
 
                     // @ts-ignore
                     const collName = value.nftId.token.contractId;
@@ -66,21 +73,21 @@ export const testScan = async (opts: Option) => {
 
                     const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
 
+                    // @ts-ignore
                     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, 555, sandra);
 
                     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                     const json = JSON.stringify(gossiper.exposeGossip());
-                    console.log(json);
 
                     // console.log(json);
 
-                    const xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-                    xmlhttp.setRequestHeader("Content-Type", "application/json");
-                    xmlhttp.send(json);
-                    xmlhttp.addEventListener("load", ()=>{
-                        console.log("complete");
-                    });
+                    // const xmlhttp = new XMLHttpRequest();
+                    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                    // xmlhttp.setRequestHeader("Content-Type", "application/json");
+                    // xmlhttp.send(json);
+                    // xmlhttp.addEventListener("load", ()=>{
+                    //     console.log("complete");
+                    // });
 
                 }
 

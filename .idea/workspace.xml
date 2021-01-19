@@ -30,7 +30,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8732dee-1c5c-4ee5-b3f2-77d0a9c35040" name="Default Changelist" comment="take this commit as reference">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkJetski.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkJetski.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kusama/RmrkReader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Kusama/RmrkReader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StartScan.ts" beforeDir="false" afterPath="$PROJECT_DIR$/StartScan.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Asset.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Asset.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Asset.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Asset.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Asset.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Asset.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.js" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/classes/Rmrk/Remark.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +100,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
     <property name="ts.external.directory.path" value="H:\EDS\RMRK\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -168,6 +185,8 @@
       <workItem from="1610630156563" duration="729000" />
       <workItem from="1610651589592" duration="274000" />
       <workItem from="1610957012160" duration="5142000" />
+      <workItem from="1610974935302" duration="6155000" />
+      <workItem from="1611043645118" duration="12816000" />
     </task>
     <task id="LOCAL-00001" summary="add objects">
       <created>1608657103500</created>
@@ -239,7 +258,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610961263381</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="commit for pull">
+      <created>1610967410831</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1610967410831</updated>
+    </task>
+    <task id="LOCAL-00012" summary="light modif of token's contractID">
+      <created>1610967986723</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1610967986723</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,6 +325,17 @@
         <option value="$PROJECT_DIR$/sandraTest.js.map" />
         <option value="$PROJECT_DIR$/classes/Token.js.map" />
         <option value="$PROJECT_DIR$/classes/Token.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandardFactory.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandardFactory.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Interfaces/RmrkContractStandard.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandard.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/ContractStandard.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/BlockchainBlock.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.js" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/Kusama/KusamaBlockchain.js.map" />
+        <option value="$PROJECT_DIR$/sandra/src/CSCannon/EthereumAddressFactory.js.map" />
       </list>
     </option>
   </component>
@@ -340,21 +384,27 @@
     <MESSAGE value="change NFT to Asset and Token" />
     <MESSAGE value="modif package.json and light change" />
     <MESSAGE value="modif data treatment" />
-    <option name="LAST_COMMIT_MESSAGE" value="modif data treatment" />
+    <MESSAGE value="commit for pull" />
+    <MESSAGE value="light modif of token's contractID" />
+    <option name="LAST_COMMIT_MESSAGE" value="light modif of token's contractID" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2401" y="8" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1610619492020">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2401" y="8" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610619492020" />
+    <state x="2381" y="173" key="SettingsEditor" timestamp="1610975076881">
+      <screen x="1920" y="8" width="1920" height="1040" />
+    </state>
+    <state x="2381" y="173" key="SettingsEditor/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610975076881" />
     <state x="2012" y="100" width="1736" height="856" key="ShowDiffWithBranchDialog" timestamp="1610961666716">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
     <state x="2012" y="100" width="1736" height="856" key="ShowDiffWithBranchDialog/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610961666716" />
-    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1610961266782">
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2" timestamp="1610967991149">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>
-    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610961266782" />
+    <state x="2472" y="261" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.8.1920.1040@1920.8.1920.1040" timestamp="1610967991149" />
     <state x="2697" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610962201226">
       <screen x="1920" y="8" width="1920" height="1040" />
     </state>

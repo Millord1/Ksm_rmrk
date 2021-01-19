@@ -16,6 +16,10 @@ class Asset extends Entity_js_1.Entity {
         }
         const token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.signer);
         this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
+        this.getMetadatasContent();
+        // if(obj.metadata != null){
+        //     const metadatas = this.getMetadatasContent(obj.metadata);
+        // }
         return this;
     }
     createNftFromInteraction() {

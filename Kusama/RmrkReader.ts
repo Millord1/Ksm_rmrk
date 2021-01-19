@@ -60,7 +60,6 @@ export class RmrkReader
             new Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
             new Collection(rmrk, this.chain, this.entityObj.version, this.signer);
 
-
         return myClass.rmrkToObject(this.entityObj);
     }
 

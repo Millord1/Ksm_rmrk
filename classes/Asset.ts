@@ -4,6 +4,7 @@ import {Entity} from "./Rmrk/Entity.js";
 import {BlockchainContract} from "./Contract/BlockchainContract.js";
 import {Token} from './Token.js';
 
+
 export class Asset extends Entity
 {
 
@@ -30,6 +31,11 @@ export class Asset extends Entity
 
         const token = new Token(this.rmrk, this.chain, this.version, this.signer);
         this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
+
+        this.getMetadatasContent();
+        // if(obj.metadata != null){
+        //     const metadatas = this.getMetadatasContent(obj.metadata);
+        // }
 
         return this;
     }

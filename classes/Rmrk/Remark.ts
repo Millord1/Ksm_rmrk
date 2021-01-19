@@ -7,7 +7,7 @@ export abstract class Remark
 
     protected signer: string;
 
-    protected nft = {
+    public nft = {
         collection: null,
         name: null,
         sn: null,
@@ -15,7 +15,7 @@ export abstract class Remark
         transferable: null
     };
 
-    protected collection = {
+    public collection = {
         version: null,
         name: null,
         metadata: null,
