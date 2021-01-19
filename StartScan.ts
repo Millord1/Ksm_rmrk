@@ -49,20 +49,9 @@ export const testScan = async (opts: Option) => {
             result.forEach(value => {
 
 
-                let recipient;
-                let collName;
-
-                if(value instanceof Send){
-
-                    recipient = value.transaction.destination.address;
-                    // @ts-ignore
-                    collName = value.nftId.token.contractId;
-
-                }else if(value instanceof Mint){
-
-                    recipient = value.transaction.source.address;
-                    collName = value.myCollection.name;
-                }
+                const recipient = value.transaction.destination.address;
+                // @ts-ignore
+                const collName = value.nftId.token.contractId;
 
 
                 let sandra = new SandraManager();
@@ -70,29 +59,21 @@ export const testScan = async (opts: Option) => {
 
                 // TODO change it when Mint is needed
                 // Add signer '0x0' by default in Mint
-                // @ts-ignore
-                const signer = value.signer;
+
+                const signer = value.transaction.source.address;
                 let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 
-                let receiver;
-                if (recipient !== "undefined"){
-                    //@ts-ignore
-                    receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
-                }
+                let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
 
-                let contract;
-                if(collName !== "undefined"){
-                    //@ts-ignore
-                    contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
-                }
+                let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
 
                 const txId = value.transaction.txHash;
                 const timestamp = value.transaction.timestamp;
                 const blockId = value.transaction.blockId;
-                //@ts-ignore
+
+                // @ts-ignore
                 const contractStandard = new RmrkContractStandard(sandra, value.nftId.token.sn);
 
-                //@ts-ignore
                 let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
@@ -100,13 +81,13 @@ export const testScan = async (opts: Option) => {
 
                 // console.log(json);
 
-                // const xmlhttp = new XMLHttpRequest();
-                // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-                // xmlhttp.setRequestHeader("Content-Type", "application/json");
-                // xmlhttp.send(json);
-                // xmlhttp.addEventListener("load", ()=>{
-                //     console.log("complete");
-                // });
+                const xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send(json);
+                xmlhttp.addEventListener("load", ()=>{
+                    console.log("complete");
+                });
 
             })
         }

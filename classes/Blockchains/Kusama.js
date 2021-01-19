@@ -8,8 +8,8 @@ class Kusama extends SubstrateChain_js_1.SubstrateChain {
     constructor() {
         super("Kusama", "KSM", "", true, 'wss://kusama-rpc.polkadot.io/');
     }
-    getAddressClass() {
-        return new KusamaAddress_js_1.KusamaAddress();
+    getAddressClass(address) {
+        return new KusamaAddress_js_1.KusamaAddress(address);
     }
     toJson(needSubstrate = true) {
         const json = this.toJsonSerialize();

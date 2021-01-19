@@ -3,11 +3,13 @@ import {Blockchain} from "../Blockchains/Blockchain.js";
 
 export abstract class BlockchainAddress
 {
-    address: string | undefined;
-    blockchainName: string | undefined;
+    address: string;
+    blockchainName: string;
     public static blockchain: Blockchain;
 
-    protected constructor(){
+    protected constructor(address: string, blockchainName: string){
+        this.address = address;
+        this.blockchainName = blockchainName;
     }
 
     public toJson(){
