@@ -7,9 +7,8 @@ export class KusamaAddress extends BlockchainAddress
 {
     public  blockchain:Blockchain
 
-    constructor(){
-        super();
+    constructor(address: string){
+        super(address, "Kusama");
         this.blockchain = new Kusama();
-        this.blockchainName = this.blockchain.name;
     }
 }

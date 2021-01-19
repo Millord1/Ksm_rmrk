@@ -6,8 +6,8 @@ export class Transaction
 {
 
     public blockId : number;
-    public txHash: number;
-    public timestamp: number;
+    public txHash: string;
+    public timestamp: string;
     public source: BlockchainAddress;
     public blockchain: Blockchain;
 
@@ -17,8 +17,8 @@ export class Transaction
     constructor(
         blockchain: Blockchain,
         blockId: number,
-        txHash: number,
-        timestamp: number,
+        txHash: string,
+        timestamp: string,
         source: BlockchainAddress,
         destination: BlockchainAddress|null
     ){

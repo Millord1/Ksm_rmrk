@@ -9,9 +9,11 @@ export class Kusama extends SubstrateChain
     constructor(){
         super("Kusama", "KSM", "", true, 'wss://kusama-rpc.polkadot.io/');
     }
-    public getAddressClass(){
-        return new KusamaAddress();
+
+    public getAddressClass(address: string){
+        return new KusamaAddress(address);
     }
+
     public toJson(needSubstrate : boolean = true){
         const json = this.toJsonSerialize();
         if(this.isSubstrate && needSubstrate){

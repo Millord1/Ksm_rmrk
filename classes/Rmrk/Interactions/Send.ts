@@ -9,7 +9,7 @@ export class Send extends Interaction
 {
 
     nftId: Asset;
-    recipient: BlockchainAddress;
+    // recipient: BlockchainAddress;
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction){
         super(rmrk, Send.name, chain, null, transaction);
@@ -19,10 +19,10 @@ export class Send extends Interaction
 
         this.nftId = this.nftFromComputedId(splitted[3]);
 
-        // @ts-ignore
-        const blockchainAddress = this.chain.getAddressClass();
-        blockchainAddress.address = splitted[4];
-        this.recipient = blockchainAddress;
+        // // @ts-ignore
+        // const blockchainAddress = this.chain.getAddressClass(this.transaction.source.address);
+        // blockchainAddress.address = splitted[4];
+        // this.recipient = blockchainAddress;
     }
 
     // public createSend(){
