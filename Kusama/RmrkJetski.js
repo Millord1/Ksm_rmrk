@@ -13,6 +13,7 @@ exports.RmrkJetski = void 0;
 const api_1 = require("@polkadot/api");
 const util_1 = require("@polkadot/util");
 const RmrkReader_js_1 = require("./RmrkReader.js");
+const Transaction_js_1 = require("../classes/Transaction.js");
 class RmrkJetski {
     constructor(chain) {
         this.chain = chain;
@@ -40,32 +41,22 @@ class RmrkJetski {
             let blockTimestamp = 0;
             const blockRmrks = [];
             block.block.extrinsics.forEach((ex) => {
-                // console.log("showing method")
-                // console.log(ex.toHuman());
-                // console.log(ex.hash.toHex());
+
                 const { method: { args, method, section } } = ex;
                 //note timestamp extrinsic always comes first on a block
                 if (section === "timestamp" && method === "set") {
                     blockTimestamp = getTimestamp(ex);
                 }
                 if (section === "system" && method === "remark") {
-                    //  console.log(ex)
                     const remark = args.toString();
                     const signer = ex.signer.toString();
-                    //TODO push timestamp into your object @Millord
                     const hash = ex.hash.toHex();
-                    //TODO push timestamp into your object @Millord
-                    blockTimestamp = blockTimestamp;
-                    //TODO push timestamp into your object @Millord
-                    blockId = blockId;
-                    // const signature = ex.signature.toString();
-                    // findHash(api, signer);
+                    const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
                     if (remark.indexOf("") === 0) {
                         const uri = util_1.hexToString(remark);
                         let lisibleUri = decodeURIComponent(uri);
                         lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                        console.log(lisibleUri);
-                        const reader = new RmrkReader_js_1.RmrkReader(this.chain, signer);
+                        const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
                         const rmrkReader = reader.readRmrk(lisibleUri);
                         blockRmrks.push(rmrkReader);
                     }
@@ -81,10 +72,6 @@ function getTimestamp(ex) {
     let secondTimestamp = Number(argString) / 1000;
     return secondTimestamp;
 }
-const findHash = (api, signer) => __awaiter(void 0, void 0, void 0, function* () {
-    const test = yield api.tx.system.remark(signer);
-    console.log(test);
-});
 // const scan = new RmrkJetski(new Kusama());
 // FAIL
 // scan.getRmrks(5445790);

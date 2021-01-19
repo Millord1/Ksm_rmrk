@@ -1,6 +1,7 @@
 import {Blockchain} from "./Blockchains/Blockchain.js";
 import {Entity} from "./Rmrk/Entity.js";
 import {BlockchainContract} from "./Contract/BlockchainContract.js";
+import {Transaction} from "./Transaction.js";
 
 
 export class Collection extends Entity
@@ -10,8 +11,8 @@ export class Collection extends Entity
     name: string | undefined;
     contract: BlockchainContract | undefined;
 
-    constructor(rmrk: string, chain: Blockchain, version: string|null, signer:string) {
-        super(rmrk, Collection.name, chain, version, signer);
+    constructor(rmrk: string, chain: Blockchain, version: string|null, transaction:Transaction) {
+        super(rmrk, Collection.name, chain, version, transaction);
     }
 
 

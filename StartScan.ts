@@ -28,6 +28,7 @@ export const testScan = async (opts: Option) => {
             break;
 
         case "unique":
+            // TODO remake Unique Blockchain
             //@ts-ignore
             blockchain = new Unique();
             break;
@@ -47,45 +48,65 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
-                if(value instanceof Send || Mint){
 
-                    let sandra = new SandraManager();
-                    let blockchain = new KusamaBlockchain(sandra);
+                let recipient;
+                let collName;
 
+                if(value instanceof Send){
+
+                    recipient = value.transaction.destination.address;
                     // @ts-ignore
-                    const signer = value.signer;
-                    let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
+                    collName = value.nftId.token.contractId;
 
-                    // @ts-ignore
-                    const recipient = value.recipient.address;
-                    let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+                }else if(value instanceof Mint){
 
-                    // @ts-ignore
-                    const collName = value.nftId.token.contractId;
-                    let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
-
-                    const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
-                    let token = new RmrkContractStandard(sandra)
-                    token.setSn(value.nft.sn)
-                    console.log(token);
-
-                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, 555,token, sandra);
-
-                    let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
-                    const json = JSON.stringify(gossiper.exposeGossip());
-                    console.log(json);
-
-                    // console.log(json);
-
-                    const xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-                    xmlhttp.setRequestHeader("Content-Type", "application/json");
-                    xmlhttp.send(json);
-                    xmlhttp.addEventListener("load", ()=>{
-                        console.log("complete");
-                    });
-
+                    recipient = value.transaction.source.address;
+                    collName = value.myCollection.name;
                 }
+
+
+                let sandra = new SandraManager();
+                let blockchain = new KusamaBlockchain(sandra);
+
+                // TODO change it when Mint is needed
+                // Add signer '0x0' by default in Mint
+                // @ts-ignore
+                const signer = value.signer;
+                let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
+
+                let receiver;
+                if (recipient !== "undefined"){
+                    //@ts-ignore
+                    receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+                }
+
+                let contract;
+                if(collName !== "undefined"){
+                    //@ts-ignore
+                    contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
+                }
+
+                const txId = value.transaction.txHash;
+                const timestamp = value.transaction.timestamp;
+                const blockId = value.transaction.blockId;
+                //@ts-ignore
+                const contractStandard = new RmrkContractStandard(sandra, value.nftId.token.sn);
+
+                //@ts-ignore
+                let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
+
+                let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
+                const json = JSON.stringify(gossiper.exposeGossip());
+
+                // console.log(json);
+
+                // const xmlhttp = new XMLHttpRequest();
+                // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                // xmlhttp.setRequestHeader("Content-Type", "application/json");
+                // xmlhttp.send(json);
+                // xmlhttp.addEventListener("load", ()=>{
+                //     console.log("complete");
+                // });
 
             })
         }

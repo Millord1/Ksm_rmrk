@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Remark = void 0;
 class Remark {
-    constructor(version, rmrk, chain, signer) {
+    constructor(version, rmrk, chain, transaction) {
         this.defaultVersion = '0.1';
         this.nft = {
             collection: null,
@@ -25,7 +25,7 @@ class Remark {
         if (version === null) {
             version = this.defaultVersion;
         }
-        this.signer = signer;
+        this.transaction = transaction;
         this.version = version;
     }
 }

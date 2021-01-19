@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Send = void 0;
 const Interaction_js_1 = require("../Interaction.js");
 class Send extends Interaction_js_1.Interaction {
-    constructor(rmrk, chain, signer) {
-        super(rmrk, Send.name, chain, null, signer);
+    constructor(rmrk, chain, transaction) {
+        super(rmrk, Send.name, chain, null, transaction);
         const splitted = this.rmrkToArray();
         this.version = splitted[2];
         this.nftId = this.nftFromComputedId(splitted[3]);

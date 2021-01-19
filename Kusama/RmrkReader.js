@@ -12,7 +12,7 @@ const List_js_1 = require("../classes/Rmrk/Interactions/List.js");
 const Buy_js_1 = require("../classes/Rmrk/Interactions/Buy.js");
 const Consume_js_1 = require("../classes/Rmrk/Interactions/Consume.js");
 class RmrkReader {
-    constructor(chain, signer) {
+    constructor(chain, transaction) {
         this.entityObj = {
             version: null,
             name: null,
@@ -26,7 +26,7 @@ class RmrkReader {
             collection: null
         };
         this.chain = chain;
-        this.signer = signer;
+        this.transaction = transaction;
     }
     readRmrk(rmrk) {
         const isInteraction = rmrk.includes('::');
@@ -41,8 +41,8 @@ class RmrkReader {
         const splitted = rmrk.split(',');
         Entity_js_1.Entity.dataTreatment(splitted, this.entityObj);
         const myClass = (this.entityObj.id === null) ?
-            new Asset_js_1.Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
-            new Collection_js_1.Collection(rmrk, this.chain, this.entityObj.version, this.signer);
+            new Asset_js_1.Asset(rmrk, this.chain, this.entityObj.version, this.transaction) :
+            new Collection_js_1.Collection(rmrk, this.chain, this.entityObj.version, this.transaction);
         return myClass.rmrkToObject(this.entityObj);
     }
     readInteraction(rmrk) {
@@ -52,26 +52,26 @@ class RmrkReader {
         let interactObj;
         switch (interaction) {
             case 'mint':
-                interactObj = new Mint_js_1.Mint(rmrk, this.chain, this.signer);
+                interactObj = new Mint_js_1.Mint(rmrk, this.chain, this.transaction);
                 break;
             case 'changeissuer':
-                interactObj = new ChangeIssuer_js_1.ChangeIssuer(rmrk, this.chain, this.signer);
+                interactObj = new ChangeIssuer_js_1.ChangeIssuer(rmrk, this.chain, this.transaction);
                 break;
             case 'mintnft':
-                interactObj = new MintNft_js_1.MintNft(rmrk, this.chain, this.signer);
+                interactObj = new MintNft_js_1.MintNft(rmrk, this.chain, this.transaction);
                 break;
             case 'send':
-                interactObj = new Send_js_1.Send(rmrk, this.chain, this.signer);
+                interactObj = new Send_js_1.Send(rmrk, this.chain, this.transaction);
                 break;
             case 'list':
-                interactObj = new List_js_1.List(rmrk, this.chain, this.signer);
+                interactObj = new List_js_1.List(rmrk, this.chain, this.transaction);
                 break;
             case 'buy':
-                interactObj = new Buy_js_1.Buy(rmrk, this.chain, this.signer);
+                interactObj = new Buy_js_1.Buy(rmrk, this.chain, this.transaction);
                 break;
             case 'consume':
             default:
-                interactObj = new Consume_js_1.Consume(rmrk, this.chain, this.signer);
+                interactObj = new Consume_js_1.Consume(rmrk, this.chain, this.transaction);
                 break;
         }
         return interactObj;

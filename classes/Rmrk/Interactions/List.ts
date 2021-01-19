@@ -1,6 +1,7 @@
 import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
+import {Transaction} from "../../Transaction.js";
 
 export class List extends Interaction
 {
@@ -8,8 +9,8 @@ export class List extends Interaction
     nftId: Asset;
     quantity: string;
 
-    constructor(rmrk: string, chain: Blockchain, signer: string) {
-        super(rmrk, List.name, chain, null, signer);
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction) {
+        super(rmrk, List.name, chain, null, transaction);
 
         const splitted = this.rmrkToArray();
 
