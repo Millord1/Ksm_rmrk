@@ -46,9 +46,9 @@ export class RmrkJetski
         const blockRmrks : Array<Remark> = [];
 
         block.block.extrinsics.forEach((ex: any) => {
-            console.log("showing method")
-            console.log(ex.toHuman());
-            console.log(ex.hash.toHex());
+           // console.log("showing method")
+           // console.log(ex.toHuman());
+           // console.log(ex.hash.toHex());
 
             const { method: {
                 args, method, section
