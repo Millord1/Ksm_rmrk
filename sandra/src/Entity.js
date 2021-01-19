@@ -6,9 +6,9 @@ class Entity {
     constructor(factory, references = []) {
         this.referenceArray = [];
         this.brotherEntityMap = new Map();
-        this.unid = 0;
+        this.id = 0;
         factory.sandraManager.registerNewEntity(this);
-        this.subjectConcept = factory.sandraManager.get('entity:subject:' + this.unid);
+        this.subjectConcept = factory.sandraManager.get('entity:subject:' + this.id);
         references.forEach(ref => {
             this.addReference(ref);
         });

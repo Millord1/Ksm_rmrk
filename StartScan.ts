@@ -89,7 +89,8 @@ export const testScan = async (opts: Option) => {
                 const txId = value.transaction.txHash;
                 const timestamp = value.transaction.timestamp;
                 const blockId = value.transaction.blockId;
-                //@ts-ignore
+
+
                 const contractStandard = new RmrkContractStandard(sandra, value.nftId.token.sn);
 
                 //@ts-ignore
@@ -98,15 +99,15 @@ export const testScan = async (opts: Option) => {
                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                 const json = JSON.stringify(gossiper.exposeGossip());
 
-                // console.log(json);
+                console.log(json);
 
-                // const xmlhttp = new XMLHttpRequest();
-                // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-                // xmlhttp.setRequestHeader("Content-Type", "application/json");
-                // xmlhttp.send(json);
-                // xmlhttp.addEventListener("load", ()=>{
-                //     console.log("complete");
-                // });
+                const xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send(json);
+                xmlhttp.addEventListener("load", ()=>{
+                    console.log("complete");
+                });
 
             })
         }

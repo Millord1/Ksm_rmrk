@@ -8,7 +8,7 @@ import {SandraManager} from "./SandraManager";
 export class Entity{
 
     public subjectConcept:Concept ;
-    public unid:number ;
+    public id:number ;
     public referenceArray:Reference[] = [];
     public factory:EntityFactory ;
     public brotherEntityMap:Map<Concept,Map<Concept, Entity[]>> = new Map<Concept,Map<Concept, Entity[]>>();
@@ -17,10 +17,10 @@ export class Entity{
 
     public constructor(factory:EntityFactory, references:Array<Reference>=[]) {
 
-        this.unid = 0 ;
+        this.id = 0 ;
         factory.sandraManager.registerNewEntity(this);
 
-        this.subjectConcept = factory.sandraManager.get('entity:subject:'+this.unid);
+        this.subjectConcept = factory.sandraManager.get('entity:subject:'+this.id);
 
         references.forEach(ref =>{
 
