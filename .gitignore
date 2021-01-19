@@ -2,4 +2,6 @@ node_modules/
 yarn-error.log
 rmrk.json
 .idea
+.idea/
 vendor/
+.idea/workspace.xml

@@ -38,6 +38,10 @@ export class RmrkJetski
         const api = await this.getApi();
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const block = await api.rpc.chain.getBlock(blockHash);
+        let blockId = blockNumber ;
+
+        let blockTimestamp =  0 ;
+
 
         const blockRmrks : Array<Remark> = [];
 
@@ -49,12 +53,23 @@ export class RmrkJetski
                 args, method, section
             }} = ex;
 
+            //note timestamp extrinsic always comes first on a block
+            if(section === "timestamp" && method === "set"){
+               blockTimestamp = getTimestamp(ex);
+            }
+
 
             if(section === "system" && method === "remark"){
 
               //  console.log(ex)
                 const remark = args.toString();
                 const signer = ex.signer.toString();
+
+                //TODO push timestamp into your object @Millord
+                blockTimestamp = blockTimestamp ;
+
+                //TODO push timestamp into your object @Millord
+                blockId = blockId ;
 
                 // const signature = ex.signature.toString();
 
@@ -78,6 +93,15 @@ export class RmrkJetski
         return blockRmrks;
     }
 
+
+}
+
+function getTimestamp(ex:any)  {
+
+    let argString = ex.args.toString();
+    let secondTimestamp = Number(argString)/1000
+
+    return secondTimestamp ;
 
 }
 

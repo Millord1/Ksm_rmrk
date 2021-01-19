@@ -36,15 +36,25 @@ class RmrkJetski {
             const api = yield this.getApi();
             const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
             const block = yield api.rpc.chain.getBlock(blockHash);
+            let blockId = blockNumber;
+            let blockTimestamp = 0;
             const blockRmrks = [];
             block.block.extrinsics.forEach((ex) => {
                 console.log("showing method");
                 console.log(ex);
                 const { method: { args, method, section } } = ex;
+                //note timestamp extrinsic always comes first on a block
+                if (section === "timestamp" && method === "set") {
+                    blockTimestamp = getTimestamp(ex);
+                }
                 if (section === "system" && method === "remark") {
                     //  console.log(ex)
                     const remark = args.toString();
                     const signer = ex.signer.toString();
+                    //TODO push timestamp into your object @Millord
+                    blockTimestamp = blockTimestamp;
+                    //TODO push timestamp into your object @Millord
+                    blockId = blockId;
                     // const signature = ex.signature.toString();
                     // findHash(api, signer);
                     if (remark.indexOf("") === 0) {
@@ -63,6 +73,11 @@ class RmrkJetski {
     }
 }
 exports.RmrkJetski = RmrkJetski;
+function getTimestamp(ex) {
+    let argString = ex.args.toString();
+    let secondTimestamp = Number(argString) / 1000;
+    return secondTimestamp;
+}
 const findHash = (api, signer) => __awaiter(void 0, void 0, void 0, function* () {
     const test = yield api.tx.system.remark(signer);
     console.log(test);

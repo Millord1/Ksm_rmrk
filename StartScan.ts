@@ -65,8 +65,11 @@ export const testScan = async (opts: Option) => {
                     let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
 
                     const txId = '0x6c6520706f7374206d61726368652073616e73206a7175657279';
+                    let token = new RmrkContractStandard(sandra)
+                    token.setSn(value.nft.sn)
+                    console.log(token);
 
-                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, 555, sandra);
+                    let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, '123456', '1', blockchain, 555,token, sandra);
 
                     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                     const json = JSON.stringify(gossiper.exposeGossip());

@@ -2,6 +2,14 @@ import {EntityFactory} from "./EntityFactory.js";
 import {Concept} from "./Concept.js";
 import {Entity} from "./Entity";
 import {SandraManager} from "./SandraManager.js";
+import {Reference} from "./Reference.js";
+
+interface simpleReferenceForDisplay {
+
+    conceptUnid:number,
+    value:string
+
+}
 
 export class Gossiper{
 
@@ -119,6 +127,26 @@ export class Gossiper{
             })
 
         }
+        //check triplet references
+        for (let tripletRef of entity.subjectConcept.tripletsReferences) {
+
+            if (!myData.tripletsReferences) myData.tripletsReferences = {};
+            if (!myData.tripletsReferences[tripletRef[0].shortname]) myData.tripletsReferences[tripletRef[0].shortname] = [];
+
+            //simplyfy reference
+
+
+            tripletRef[1].forEach(element =>{
+                //simplify reference for display
+                let simpleReference:simpleReferenceForDisplay[] = this.simplifyReference(element.refs);
+
+
+
+                myData.tripletsReferences[tripletRef[0].shortname].push({targetUnid:element.concept.unid,refs:simpleReference}) ;
+
+            })
+
+        }
 
 
 
@@ -144,6 +172,20 @@ export class Gossiper{
         })
 
         return dictionnary ;
+
+
+    }
+
+    public simplifyReference(ref:Reference[]):simpleReferenceForDisplay[]{
+
+        let simpleRefArray:simpleReferenceForDisplay[] = []
+
+        ref.forEach(ref =>{
+            simpleRefArray.push({conceptUnid:ref.concept.unid,value:ref.value})
+
+        })
+
+        return simpleRefArray ;
 
 
     }

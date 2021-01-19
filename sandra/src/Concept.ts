@@ -45,11 +45,7 @@ export class Concept {
             else{
                 this.tripletsReferences.set(verb,[{concept:target,refs:refs}])
             }
-
         }
-
-
-
     }
 
 }
