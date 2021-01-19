@@ -3,6 +3,8 @@ import {Blockchain} from "./Blockchains/Blockchain.js";
 import {Entity} from "./Rmrk/Entity.js";
 import {BlockchainContract} from "./Contract/BlockchainContract.js";
 import {Token} from './Token.js';
+import {Transaction} from "./Transaction.js";
+
 
 export class Asset extends Entity
 {
@@ -13,8 +15,8 @@ export class Asset extends Entity
     token: Token | undefined;
 
 
-    constructor(rmrk: string, chain: Blockchain, version: string|null, signer: string) {
-        super(rmrk, Asset.name, chain, version, signer);
+    constructor(rmrk: string, chain: Blockchain, version: string|null, transaction: Transaction) {
+        super(rmrk, Asset.name, chain, version, transaction);
     }
 
 
@@ -28,8 +30,13 @@ export class Asset extends Entity
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
 
-        const token = new Token(this.rmrk, this.chain, this.version, this.signer);
+        const token = new Token(this.rmrk, this.chain, this.version, this.transaction);
         this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
+
+        this.getMetadatasContent();
+        // if(obj.metadata != null){
+        //     const metadatas = this.getMetadatasContent(obj.metadata);
+        // }
 
         return this;
     }
@@ -69,7 +76,9 @@ export class Asset extends Entity
         // @ts-ignore
         json['metadata'] = this.metadata;
         // @ts-ignore
-        json['issuer'] = this.issuer;
+        json['issuer'] = this.transaction.source.address;
+        // @ts-ignore
+        json['receiver'] = this.transaction.destination.address;
 
         return (needStringify) ? JSON.stringify(json) : json;
     }

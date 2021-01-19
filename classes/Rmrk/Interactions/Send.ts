@@ -2,6 +2,7 @@ import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
 import {Asset} from "../../Asset.js";
+import {Transaction} from "../../Transaction.js";
 
 
 export class Send extends Interaction
@@ -10,8 +11,8 @@ export class Send extends Interaction
     nftId: Asset;
     recipient: BlockchainAddress;
 
-    constructor(rmrk: string, chain: Blockchain, signer: string){
-        super(rmrk, Send.name, chain, null, signer);
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction){
+        super(rmrk, Send.name, chain, null, transaction);
         const splitted = this.rmrkToArray();
 
         this.version = splitted[2];

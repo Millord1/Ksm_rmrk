@@ -2,6 +2,7 @@ import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
 import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
+import {Transaction} from "../../Transaction.js";
 
 export class Consume extends Interaction
 {
@@ -10,9 +11,9 @@ export class Consume extends Interaction
     reason: string | undefined;
     consumer: BlockchainAddress | undefined;
 
-    constructor(rmrk: string, chain: Blockchain, signer: string) {
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction) {
 
-        super(rmrk, Consume.name, chain, null, signer);
+        super(rmrk, Consume.name, chain, null, transaction);
 
         const consume = this.rmrkToArray();
 
@@ -23,6 +24,7 @@ export class Consume extends Interaction
             this.reason = consume[1];
             this.nftToConsume = this.nftFromComputedId(consume[2])
 
+            // @ts-ignore
             const consumer = this.chain.getAddressClass();
             consumer.address = consume[3];
             this.consumer = consumer;
