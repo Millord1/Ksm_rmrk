@@ -41,7 +41,7 @@ export class RmrkJetski
         const block = await api.rpc.chain.getBlock(blockHash);
 
         let blockId = blockNumber ;
-        let blockTimestamp =  0 ;
+        let blockTimestamp: string ;
 
 
         const blockRmrks : Array<Remark> = [];
@@ -88,13 +88,12 @@ export class RmrkJetski
 
 }
 
-function getTimestamp(ex:any)  {
+function getTimestamp(ex:any): string  {
 
     let argString = ex.args.toString();
     let secondTimestamp = Number(argString)/1000
-
-    return secondTimestamp ;
-
+    
+    return secondTimestamp.toString();
 }
 
 
