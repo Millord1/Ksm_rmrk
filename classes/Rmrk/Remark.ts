@@ -1,11 +1,12 @@
 import {Blockchain} from "../Blockchains/Blockchain.js";
+import {Transaction} from "../Transaction.js";
 
 
 export abstract class Remark
 {
     private defaultVersion = '0.1';
 
-    protected signer: string;
+    public transaction: Transaction;
 
     public nft = {
         collection: null,
@@ -30,7 +31,7 @@ export abstract class Remark
     rmrk: string;
     chain: Blockchain;
 
-    protected constructor(version: string|null, rmrk: string, chain: Blockchain, signer: string){
+    protected constructor(version: string|null, rmrk: string, chain: Blockchain, transaction: Transaction){
 
         this.rmrk = rmrk;
         this.chain = chain;
@@ -39,7 +40,7 @@ export abstract class Remark
             version = this.defaultVersion;
         }
 
-        this.signer = signer;
+        this.transaction = transaction;
 
         this.version = version;
     }

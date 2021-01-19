@@ -4,8 +4,8 @@ exports.Interaction = void 0;
 const Remark_js_1 = require("./Remark.js");
 const Asset_js_1 = require("../Asset.js");
 class Interaction extends Remark_js_1.Remark {
-    constructor(rmrk, interaction, chain, version, signer) {
-        super(version, rmrk, chain, signer);
+    constructor(rmrk, interaction, chain, version, transaction) {
+        super(version, rmrk, chain, transaction);
         this.toJsonSerialize = () => ({
             version: this.version,
             rmrk: this.rmrk,
@@ -26,7 +26,7 @@ class Interaction extends Remark_js_1.Remark {
         this.nft.name = nftDatas[1];
         // @ts-ignore
         this.nft.sn = nftDatas[2];
-        const nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.signer);
+        const nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction);
         return nft.rmrkToObject(this.nft);
     }
     checkDatasLength(datas, length) {

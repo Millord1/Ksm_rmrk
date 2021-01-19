@@ -9,12 +9,13 @@ import {Send} from "../classes/Rmrk/Interactions/Send.js";
 import {List} from "../classes/Rmrk/Interactions/List.js";
 import {Buy} from "../classes/Rmrk/Interactions/Buy.js";
 import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
+import {Transaction} from "../classes/Transaction.js";
 
 
 export class RmrkReader
 {
 
-    private readonly signer: string;
+    private readonly transaction: Transaction;
 
     entityObj = {
         version: null,
@@ -31,9 +32,9 @@ export class RmrkReader
 
     chain: Blockchain;
 
-    constructor(chain: Blockchain, signer: string){
+    constructor(chain: Blockchain, transaction: Transaction){
         this.chain = chain;
-        this.signer = signer;
+        this.transaction = transaction;
     }
 
 
@@ -57,8 +58,8 @@ export class RmrkReader
         Entity.dataTreatment(splitted, this.entityObj);
 
         const myClass = (this.entityObj.id === null) ?
-            new Asset(rmrk, this.chain, this.entityObj.version, this.signer) :
-            new Collection(rmrk, this.chain, this.entityObj.version, this.signer);
+            new Asset(rmrk, this.chain, this.entityObj.version, this.transaction) :
+            new Collection(rmrk, this.chain, this.entityObj.version, this.transaction);
 
         return myClass.rmrkToObject(this.entityObj);
     }
@@ -78,44 +79,44 @@ export class RmrkReader
 
             case 'mint':
 
-                interactObj = new Mint(rmrk, this.chain, this.signer);
+                interactObj = new Mint(rmrk, this.chain, this.transaction);
 
                 break;
 
             case 'changeissuer':
 
-                interactObj = new ChangeIssuer(rmrk, this.chain, this.signer);
+                interactObj = new ChangeIssuer(rmrk, this.chain, this.transaction);
 
                 break;
 
             case 'mintnft':
 
-                interactObj = new MintNft(rmrk, this.chain, this.signer);
+                interactObj = new MintNft(rmrk, this.chain, this.transaction);
 
                 break;
 
             case 'send' :
 
-                interactObj = new Send(rmrk, this.chain, this.signer);
+                interactObj = new Send(rmrk, this.chain, this.transaction);
 
                 break;
 
             case 'list' :
 
-                interactObj = new List(rmrk, this.chain, this.signer);
+                interactObj = new List(rmrk, this.chain, this.transaction);
 
                 break;
 
             case 'buy' :
 
-                interactObj = new Buy(rmrk, this.chain, this.signer);
+                interactObj = new Buy(rmrk, this.chain, this.transaction);
 
                 break;
 
             case 'consume' :
             default :
 
-                interactObj = new Consume(rmrk, this.chain, this.signer);
+                interactObj = new Consume(rmrk, this.chain, this.transaction);
 
                 break;
         }

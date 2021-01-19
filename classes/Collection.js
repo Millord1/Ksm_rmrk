@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Collection = void 0;
 const Entity_js_1 = require("./Rmrk/Entity.js");
 class Collection extends Entity_js_1.Entity {
-    constructor(rmrk, chain, version, signer) {
-        super(rmrk, Collection.name, chain, version, signer);
+    constructor(rmrk, chain, version, transaction) {
+        super(rmrk, Collection.name, chain, version, transaction);
     }
     rmrkToObject(obj) {
         this.metadata = obj.metadata;

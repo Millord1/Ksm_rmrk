@@ -4,8 +4,8 @@ exports.Entity = void 0;
 const Remark_js_1 = require("./Remark.js");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class Entity extends Remark_js_1.Remark {
-    constructor(rmrk, standard, chain, version, signer) {
-        super(version, rmrk, chain, signer);
+    constructor(rmrk, standard, chain, version, transaction) {
+        super(version, rmrk, chain, transaction);
         this.toJsonSerialize = () => ({
             version: this.version,
             rmrk: this.rmrk,

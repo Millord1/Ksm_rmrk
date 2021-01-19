@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Consume = void 0;
 const Interaction_js_1 = require("../Interaction.js");
 class Consume extends Interaction_js_1.Interaction {
-    constructor(rmrk, chain, signer) {
-        super(rmrk, Consume.name, chain, null, signer);
+    constructor(rmrk, chain, transaction) {
+        super(rmrk, Consume.name, chain, null, transaction);
         const consume = this.rmrkToArray();
         if (consume[1].toLowerCase() === "consume") {
             this.version = consume[2];
@@ -13,6 +13,7 @@ class Consume extends Interaction_js_1.Interaction {
         else {
             this.reason = consume[1];
             this.nftToConsume = this.nftFromComputedId(consume[2]);
+            // @ts-ignore
             const consumer = this.chain.getAddressClass();
             consumer.address = consume[3];
             this.consumer = consumer;

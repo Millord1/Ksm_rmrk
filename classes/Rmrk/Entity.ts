@@ -1,6 +1,7 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {publicEntity} from "../Interfaces.js";
+import {Transaction} from "../Transaction.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -10,8 +11,8 @@ export abstract class Entity extends Remark implements publicEntity
 
     standard;
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, signer:string) {
-        super(version, rmrk, chain, signer);
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction) {
+        super(version, rmrk, chain, transaction);
         this.standard = standard;
     }
 

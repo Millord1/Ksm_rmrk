@@ -2,6 +2,7 @@ import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Asset} from "../Asset.js";
 import {publicInteraction} from "../Interfaces.js";
+import {Transaction} from "../Transaction.js";
 
 
 export abstract class Interaction extends Remark implements publicInteraction
@@ -9,8 +10,8 @@ export abstract class Interaction extends Remark implements publicInteraction
 
     interaction: string;
 
-    protected constructor(rmrk: string, interaction:string, chain: Blockchain, version: string|null, signer: string) {
-        super(version, rmrk, chain, signer);
+    protected constructor(rmrk: string, interaction:string, chain: Blockchain, version: string|null, transaction: Transaction) {
+        super(version, rmrk, chain, transaction);
         this.interaction = interaction
     }
 
@@ -32,7 +33,7 @@ export abstract class Interaction extends Remark implements publicInteraction
         this.nft.sn = nftDatas[2];
 
 
-        const nft = new Asset(this.rmrk, this.chain, this.version, this.signer);
+        const nft = new Asset(this.rmrk, this.chain, this.version, this.transaction);
         return nft.rmrkToObject(this.nft);
     }
 

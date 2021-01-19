@@ -4,8 +4,8 @@ exports.Asset = void 0;
 const Entity_js_1 = require("./Rmrk/Entity.js");
 const Token_js_1 = require("./Token.js");
 class Asset extends Entity_js_1.Entity {
-    constructor(rmrk, chain, version, signer) {
-        super(rmrk, Asset.name, chain, version, signer);
+    constructor(rmrk, chain, version, transaction) {
+        super(rmrk, Asset.name, chain, version, transaction);
     }
     rmrkToObject(obj) {
         this.name = obj.name;
@@ -14,7 +14,7 @@ class Asset extends Entity_js_1.Entity {
             // @ts-ignore
             this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
         }
-        const token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.signer);
+        const token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.transaction);
         this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
         this.getMetadatasContent();
         // if(obj.metadata != null){
@@ -46,7 +46,9 @@ class Asset extends Entity_js_1.Entity {
         // @ts-ignore
         json['metadata'] = this.metadata;
         // @ts-ignore
-        json['issuer'] = this.issuer;
+        json['issuer'] = this.transaction.source.address;
+        // @ts-ignore
+        json['receiver'] = this.transaction.destination.address;
         return (needStringify) ? JSON.stringify(json) : json;
     }
 }
