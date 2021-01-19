@@ -41,7 +41,8 @@ class RmrkJetski {
             const blockRmrks = [];
             block.block.extrinsics.forEach((ex) => {
                 console.log("showing method");
-                console.log(ex);
+                console.log(ex.toHuman());
+                console.log(ex.hash.toHex());
                 const { method: { args, method, section } } = ex;
                 //note timestamp extrinsic always comes first on a block
                 if (section === "timestamp" && method === "set") {
@@ -51,6 +52,8 @@ class RmrkJetski {
                     //  console.log(ex)
                     const remark = args.toString();
                     const signer = ex.signer.toString();
+                    //TODO push timestamp into your object @Millord
+                    const hash = ex.hash.toHex();
                     //TODO push timestamp into your object @Millord
                     blockTimestamp = blockTimestamp;
                     //TODO push timestamp into your object @Millord
