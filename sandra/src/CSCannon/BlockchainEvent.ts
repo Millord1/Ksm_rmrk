@@ -6,6 +6,7 @@ import {BlockchainContract} from "./BlockchainContract.js";
 import {Reference} from "../Reference.js";
 import {Blockchain} from "./Blockchain.js";
 import {BlockchainBlock} from "./BlockchainBlock.js";
+import {ContractStandard} from "./ContractStandard.js";
 
 export class BlockchainEvent extends Entity {
 
@@ -28,6 +29,7 @@ export class BlockchainEvent extends Entity {
                        quantity:string,
                        blockchain:Blockchain,
                        blockId:number,
+                        token:ContractStandard | null,
                         sandra:SandraManager,
 
     ) {
@@ -57,13 +59,30 @@ export class BlockchainEvent extends Entity {
 
         this.joinEntity(BlockchainEvent.EVENT_SOURCE_ADDRESS,source,sandra)
         this.joinEntity(BlockchainEvent.EVENT_DESTINATION_VERB,destination,sandra)
-        this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT,contract,sandra)
+
 
         //create the block
        let blockchainBlock = new BlockchainBlock(blockchain.blockFactory,blockId,timestamp,sandra);
         this.joinEntity(BlockchainEvent.EVENT_BLOCK,blockchainBlock,sandra)
 
         this.setTriplet(BlockchainEvent.ON_BLOCKCHAIN,blockchain.name,sandra)
+
+        let refArray:Reference[] = [];
+
+        if (token){
+            //we need to get the tokenpath data and add it as reference on the event
+           let specifierMap = token.getSpecifierArray()
+
+            for (let specifier of specifierMap) {
+                console.log(specifier[0]);
+                 refArray.push(new Reference(specifier[0],specifier[1]));
+            }
+
+
+
+        }
+
+        this.joinEntity(BlockchainEvent.EVENT_SOURCE_CONTRACT,contract,sandra,refArray)
 
 
     }

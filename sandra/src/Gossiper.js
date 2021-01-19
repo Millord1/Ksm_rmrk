@@ -67,6 +67,19 @@ class Gossiper {
                 myData.triplets[triplet[0].shortname].push(element.unid);
             });
         }
+        //check triplet references
+        for (let tripletRef of entity.subjectConcept.tripletsReferences) {
+            if (!myData.tripletsReferences)
+                myData.tripletsReferences = {};
+            if (!myData.tripletsReferences[tripletRef[0].shortname])
+                myData.tripletsReferences[tripletRef[0].shortname] = [];
+            //simplyfy reference
+            tripletRef[1].forEach(element => {
+                //simplify reference for display
+                let simpleReference = this.simplifyReference(element.refs);
+                myData.tripletsReferences[tripletRef[0].shortname].push({ targetUnid: element.concept.unid, refs: simpleReference });
+            });
+        }
         return myData;
     }
     joinFactoryGossiper(gossiper) {
@@ -78,6 +91,13 @@ class Gossiper {
             dictionnary[element.unid] = element.shortname;
         });
         return dictionnary;
+    }
+    simplifyReference(ref) {
+        let simpleRefArray = [];
+        ref.forEach(ref => {
+            simpleRefArray.push({ conceptUnid: ref.concept.unid, value: ref.value });
+        });
+        return simpleRefArray;
     }
 }
 exports.Gossiper = Gossiper;

@@ -19,8 +19,8 @@ class Entity {
         this.referenceArray.push(ref);
         return this;
     }
-    joinEntity(verb, entity, sandraManager) {
-        this.subjectConcept.setTriplet(sandraManager.get(verb), entity.subjectConcept);
+    joinEntity(verb, entity, sandraManager, refArray) {
+        this.subjectConcept.setTriplet(sandraManager.get(verb), entity.subjectConcept, false, refArray);
         this.factory.joinFactory(entity.factory, verb);
     }
     setTriplet(verb, target, sandraManager, refArray) {
