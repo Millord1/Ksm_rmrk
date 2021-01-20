@@ -8,7 +8,7 @@ export class Transaction
     public blockId : number;
     public txHash: string;
     public timestamp: string;
-    public source: BlockchainAddress;
+    public source: string;
     public blockchain: Blockchain;
 
     public destination: BlockchainAddress;
@@ -19,7 +19,7 @@ export class Transaction
         blockId: number,
         txHash: string,
         timestamp: string,
-        source: BlockchainAddress,
+        source: string,
         destination: BlockchainAddress|null
     ){
 
@@ -32,8 +32,7 @@ export class Transaction
         let receiver;
         if(destination === null){
             //@ts-ignore
-            receiver = this.blockchain.getAddressClass();
-            receiver.address = '0x0';
+            receiver = this.blockchain.getAddressClass('0x0');
         }else{
             receiver = destination;
         }

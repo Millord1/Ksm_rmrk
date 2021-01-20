@@ -1,1 +1,38 @@
-{"version":"0.1","rmrk":"rmrk::SEND::0.1::241B8516516F381A-FRACTAL-LOTUS-FRACTAL-LOTUS-3-0000000000000003::GczFVp4yRk8baEBsMZ2JFvFu6n6Ucp1Ry6PV4c3PDNC6pe3","chain":{"name":"Kusama","symbol":"KSM","prefix":"","isSubstrate":true,"substrateOf":{"name":"Polkadot","symbol":"DOT","prefix":"","isSubstrate":false,"wsProvider":"wss://rpc.polkadot.io"}},"interaction":"Send","nftId":{"version":"0.1","rmrk":"rmrk::SEND::0.1::241B8516516F381A-FRACTAL-LOTUS-FRACTAL-LOTUS-3-0000000000000003::GczFVp4yRk8baEBsMZ2JFvFu6n6Ucp1Ry6PV4c3PDNC6pe3","chain":{"name":"Kusama","symbol":"KSM","prefix":"","isSubstrate":true},"standard":"Nft","contractId":"241B8516516F381A-FRACTAL","name":"LOTUS-FRACTAL-LOTUS-3","transferable":null,"sn":"0000000000000003","metadata":null},"recipient":{"blockchainName":"Kusama","address":"GczFVp4yRk8baEBsMZ2JFvFu6n6Ucp1Ry6PV4c3PDNC6pe3"}}
+{
+  "version": "0.1",
+  "rmrk": "rmrk::SEND::0.1::241B8516516F381A-FRACTAL-LOTUS-FRACTAL-LOTUS-3-0000000000000003::GczFVp4yRk8baEBsMZ2JFvFu6n6Ucp1Ry6PV4c3PDNC6pe3",
+  "chain": {
+    "name": "Kusama",
+    "symbol": "KSM",
+    "prefix": "",
+    "isSubstrate": true,
+    "substrateOf": {
+      "name": "Polkadot",
+      "symbol": "DOT",
+      "prefix": "",
+      "isSubstrate": false,
+      "wsProvider": "wss://rpc.polkadot.io"
+    }
+  },
+  "interaction": "Send",
+  "nftId": {
+    "version": "0.1",
+    "rmrk": "rmrk::SEND::0.1::241B8516516F381A-FRACTAL-LOTUS-FRACTAL-LOTUS-3-0000000000000003::GczFVp4yRk8baEBsMZ2JFvFu6n6Ucp1Ry6PV4c3PDNC6pe3",
+    "chain": {
+      "name": "Kusama",
+      "symbol": "KSM",
+      "prefix": "",
+      "isSubstrate": true
+    },
+    "standard": "Nft",
+    "contractId": "241B8516516F381A-FRACTAL",
+    "name": "LOTUS-FRACTAL-LOTUS-3",
+    "transferable": null,
+    "sn": "0000000000000003",
+    "metadata": null
+  },
+  "recipient": {
+    "blockchainName": "Kusama",
+    "address": "GczFVp4yRk8baEBsMZ2JFvFu6n6Ucp1Ry6PV4c3PDNC6pe3"
+  }
+}
