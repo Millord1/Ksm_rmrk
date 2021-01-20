@@ -13,6 +13,8 @@ import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 
+const fs = require('fs');
+const path = require('path');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
@@ -60,7 +62,8 @@ export const testScan = async (opts: Option) => {
                 // TODO change it when Mint is needed
                 // Add signer '0x0' by default in Mint
 
-                const signer = value.transaction.source.address;
+                const signer = value.transaction.source;
+                // console.log(value.transaction);
                 let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 
                 let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
@@ -81,6 +84,8 @@ export const testScan = async (opts: Option) => {
                 const json = JSON.stringify(gossiper.exposeGossip());
 
                 console.log(json);
+
+                // fs.writeFileSync(path.resolve(__dirname, "cannonizer.json"), json);
 
                 const xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");

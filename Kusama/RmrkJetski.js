@@ -38,7 +38,7 @@ class RmrkJetski {
             const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
             const block = yield api.rpc.chain.getBlock(blockHash);
             let blockId = blockNumber;
-            let blockTimestamp = 0;
+            let blockTimestamp;
             const blockRmrks = [];
             block.block.extrinsics.forEach((ex) => {
                 const { method: { args, method, section } } = ex;
@@ -69,7 +69,7 @@ exports.RmrkJetski = RmrkJetski;
 function getTimestamp(ex) {
     let argString = ex.args.toString();
     let secondTimestamp = Number(argString) / 1000;
-    return secondTimestamp;
+    return secondTimestamp.toString();
 }
 // const scan = new RmrkJetski(new Kusama());
 // FAIL

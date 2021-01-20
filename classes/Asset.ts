@@ -17,6 +17,10 @@ export class Asset extends Entity
 
     constructor(rmrk: string, chain: Blockchain, version: string|null, transaction: Transaction) {
         super(rmrk, Asset.name, chain, version, transaction);
+        // this.name = name;
+        // this.metadata = metadata;
+        // this.issuer = issuer;
+        // this.token = token;
     }
 
 
@@ -27,7 +31,7 @@ export class Asset extends Entity
 
         if(typeof obj.issuer != 'undefined'){
             // @ts-ignore
-            this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
+            this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass(obj.issuer);
         }
 
         const token = new Token(this.rmrk, this.chain, this.version, this.transaction);

@@ -6,13 +6,17 @@ const Token_js_1 = require("./Token.js");
 class Asset extends Entity_js_1.Entity {
     constructor(rmrk, chain, version, transaction) {
         super(rmrk, Asset.name, chain, version, transaction);
+        // this.name = name;
+        // this.metadata = metadata;
+        // this.issuer = issuer;
+        // this.token = token;
     }
     rmrkToObject(obj) {
         this.name = obj.name;
         this.metadata = obj.metadata;
         if (typeof obj.issuer != 'undefined') {
             // @ts-ignore
-            this.issuer = (obj.issuer === null) ? null : this.contract.chain.getAddressClass();
+            this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass(obj.issuer);
         }
         const token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.transaction);
         this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);

@@ -19,6 +19,9 @@ export class Send extends Interaction
 
         this.nftId = this.nftFromComputedId(splitted[3]);
 
+        // @ts-ignore
+        this.transaction.setDestination(this.chain.getAddressClass(splitted[4]));
+
         // // @ts-ignore
         // const blockchainAddress = this.chain.getAddressClass(this.transaction.source.address);
         // blockchainAddress.address = splitted[4];
@@ -46,8 +49,6 @@ export class Send extends Interaction
         const json = this.toJsonSerialize();
         // @ts-ignore
         json['nftId'] = this.nftId.toJson(false, false);
-        // @ts-ignore
-        json['recipient'] = this.recipient;
 
         return JSON.stringify(json);
     }

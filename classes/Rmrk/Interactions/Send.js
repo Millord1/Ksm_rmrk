@@ -9,6 +9,8 @@ class Send extends Interaction_js_1.Interaction {
         const splitted = this.rmrkToArray();
         this.version = splitted[2];
         this.nftId = this.nftFromComputedId(splitted[3]);
+        // @ts-ignore
+        this.transaction.setDestination(this.chain.getAddressClass(splitted[4]));
         // // @ts-ignore
         // const blockchainAddress = this.chain.getAddressClass(this.transaction.source.address);
         // blockchainAddress.address = splitted[4];
@@ -32,8 +34,6 @@ class Send extends Interaction_js_1.Interaction {
         const json = this.toJsonSerialize();
         // @ts-ignore
         json['nftId'] = this.nftId.toJson(false, false);
-        // @ts-ignore
-        json['recipient'] = this.recipient;
         return JSON.stringify(json);
     }
 }
