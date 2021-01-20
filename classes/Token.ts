@@ -40,31 +40,5 @@ export class Token extends Entity
     }
 
 
-    // public setDatas(transferable: boolean, sn: string, contract: string|BlockchainContract, asset: Asset){
-    //
-    //     this.transferable = transferable;
-    //     this.sn = sn;
-    //     this.asset = asset;
-    //
-    //     if(contract instanceof BlockchainContract){
-    //         this.contract = contract;
-    //         this.contractId = this.contract.id;
-    //     }else{
-    //         this.contractId = contract;
-    //     }
-    //
-    //     return this;
-    // }
-
-
-    public getContract(): any {
-
-        if ( this.contract instanceof BlockchainContract){
-            return this.contract;
-        }else{
-            return this.contractId;
-        }
-    }
-
 
 }

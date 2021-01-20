@@ -32,24 +32,6 @@ export class Asset extends Entity
     }
 
 
-    // public rmrkToObject(obj: any){
-    //
-    //     this.name = obj.name;
-    //     this.metadata = obj.metadata;
-    //
-    //
-
-        // const token = new Token(this.rmrk, this.chain, this.version, this.transaction);
-        // this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
-
-        // this.getMetadatasContent();
-        // if(obj.metadata != null){
-        //     const metadatas = this.getMetadatasContent(obj.metadata);
-        // }
-    //
-    //     return this;
-    // }
-
 
     public static createNftFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction){
 

@@ -1,12 +1,12 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {publicEntity, EntityInterface} from "../Interfaces.js";
+import {PublicEntity, EntityInterface} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
-export abstract class Entity extends Remark implements publicEntity
+export abstract class Entity extends Remark implements PublicEntity
 {
 
     standard;
@@ -17,7 +17,7 @@ export abstract class Entity extends Remark implements publicEntity
     }
 
 
-    toJsonSerialize = () : publicEntity => ({
+    toJsonSerialize = () : PublicEntity => ({
         version: this.version,
         rmrk: this.rmrk,
         chain: this.chain,

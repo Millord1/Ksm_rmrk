@@ -2,7 +2,6 @@
 import {testScan} from "./StartScan.js";
 
 const {program} = require('commander');
-// import {startScan} from "./StartScan";
 
 
 const helloWorld  = () => {

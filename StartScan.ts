@@ -80,9 +80,9 @@ export const testScan = async (opts: Option) => {
                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                 const json = JSON.stringify(gossiper.exposeGossip());
 
-                // console.log(json);
+                console.log(json);
 
-                fs.writeFileSync(path.resolve(__dirname, "cannonizer.json"), json);
+                // fs.writeFileSync(path.resolve(__dirname, "cannonizer.json"), json);
 
                 const xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");

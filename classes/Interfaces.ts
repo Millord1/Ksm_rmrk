@@ -11,7 +11,7 @@ export interface BlockchainInterface
 }
 
 
-export interface publicInteraction
+export interface PublicInteraction
 {
     version: string;
     rmrk: string;
@@ -19,7 +19,7 @@ export interface publicInteraction
     interaction: string;
 }
 
-export interface publicEntity
+export interface PublicEntity
 {
     version: string;
     rmrk: string;
