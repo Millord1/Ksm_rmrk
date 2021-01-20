@@ -13,7 +13,7 @@ let kusama = new KusamaBlockchain(sandra);
 
 console.log(kusama.addressFactory.entityByRevValMap);
 
-let event = new BlockchainEvent(kusama.eventFactory,'address1','addressDest1','contract1','txid1111','1111',"1",kusama,3,sandra);
+//let event = new BlockchainEvent(kusama.eventFactory,'address1','addressDest1','contract1','txid1111','1111',"1",kusama,3,sandra);
 
 console.log("event");
 

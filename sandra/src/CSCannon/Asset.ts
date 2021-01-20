@@ -14,7 +14,7 @@ export class Asset extends Entity
     public metaDatasUrl: string;
     public imgUrl: string;
 
-    public constructor(factory: AssetFactory|null, assetId: string, metaDatasUrl: string, imgUrl: string, sandra: SandraManager) {
+    public constructor(factory: AssetFactory, assetId: string, metaDatasUrl: string, imgUrl: string, sandra: SandraManager) {
         super(factory);
 
         this.assetId = assetId;

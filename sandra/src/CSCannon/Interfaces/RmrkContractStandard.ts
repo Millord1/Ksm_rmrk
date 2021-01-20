@@ -15,8 +15,12 @@ export class RmrkContractStandard extends ContractStandard{
         this.sandra = sandra ;
 
         //we need to bind the the standard to the CSCannon class
-        this.addReference(new Reference(sandra.get('class_name'),"CsCannon\\\Blockchains\\\Interfaces\\\RmrkContractStandard"))
+        this.addReference(new Reference(sandra.get('class_name'),"CsCannon\\\Blockchains\\\Interfaces\\\RmrkContractStandard"));
 
+        if (tokenSn) {
+            this.setSn(tokenSn);
+
+        }
 
     }
 
