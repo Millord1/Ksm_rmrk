@@ -4,22 +4,6 @@ exports.Remark = void 0;
 class Remark {
     constructor(version, rmrk, chain, transaction) {
         this.defaultVersion = '0.1';
-        this.nft = {
-            collection: null,
-            name: null,
-            sn: null,
-            metadata: null,
-            transferable: null
-        };
-        this.collection = {
-            version: null,
-            name: null,
-            metadata: null,
-            max: null,
-            symbol: null,
-            id: null,
-            issuer: null,
-        };
         this.rmrk = rmrk;
         this.chain = chain;
         if (version === null) {
@@ -30,4 +14,15 @@ class Remark {
     }
 }
 exports.Remark = Remark;
+Remark.entityObj = {
+    version: "",
+    name: "",
+    max: 0,
+    symbol: "",
+    id: "",
+    metadata: "",
+    transferable: null,
+    sn: "",
+    collection: ""
+};
 //# sourceMappingURL=Remark.js.map

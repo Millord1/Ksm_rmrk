@@ -2,51 +2,43 @@ import {Blockchain} from "./Blockchains/Blockchain.js";
 import {Entity} from "./Rmrk/Entity.js";
 import {BlockchainContract} from "./Contract/BlockchainContract.js";
 import {Transaction} from "./Transaction.js";
+import {Remark} from "./Rmrk/Remark.js";
+import {EntityInterface} from "./Interfaces.js";
 
 
 export class Collection extends Entity
 {
 
-    metadata: string | undefined;
-    name: string | undefined;
-    contract: BlockchainContract | undefined;
+    metadata: string;
+    name: string;
+    contract: BlockchainContract;
 
-    constructor(rmrk: string, chain: Blockchain, version: string|null, transaction:Transaction) {
+    constructor(rmrk: string,
+                chain: Blockchain,
+                version: string,
+                transaction:Transaction,
+                obj: EntityInterface
+    ) {
         super(rmrk, Collection.name, chain, version, transaction);
-    }
-
-
-    public rmrkToObject(obj: any){
 
         this.metadata = obj.metadata;
         this.name = obj.name;
-        this.version = obj.version;
+        this.version = version;
 
-        // @ts-ignore
-        const address = this.chain.getAddressClass();
-        address.address = obj.issuer;
-
-        const myChain = this.chain.constructor;
-
-        // @ts-ignore
-        this.contract = myChain.contractClass;
-        // @ts-ignore
-        this.contract.createContract(obj, this.chain, this);
-
-        return this;
+        this.contract = new BlockchainContract(this.chain, obj.name, obj.id, obj.symbol, obj.max);
     }
 
 
-    public createCollectionFromInteraction(){
+    public static createCollectionFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction){
 
-        const splitted = this.rmrk.split('::');
+        const splitted = rmrk.split('::');
 
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         // const datas = splitted[2].split(',');
 
-        Entity.dataTreatment(splitted, this.collection);
+        const obj = Entity.dataTreatment(splitted, Remark.entityObj);
 
-        return this.rmrkToObject(this.collection);
+        return new Collection(rmrk, chain, obj.version, transaction, obj);
     }
 
 

@@ -3,8 +3,6 @@ import {Polkadot} from "./classes/Blockchains/Polkadot.js";
 import {Unique} from "./classes/Blockchains/Unique.js";
 import {Kusama} from "./classes/Blockchains/Kusama.js";
 import {RmrkJetski} from "./Kusama/RmrkJetski.js";
-import {Send} from "./classes/Rmrk/Interactions/Send.js";
-import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
 import {SandraManager} from "./sandra/src/SandraManager.js";
 import {KusamaBlockchain} from "./sandra/src/CSCannon/Substrate/Kusama/KusamaBlockchain.js";
 import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
@@ -52,8 +50,8 @@ export const testScan = async (opts: Option) => {
 
 
                 const recipient = value.transaction.destination.address;
-                // @ts-ignore
-                const collName = value.nftId.token.contractId;
+
+                const collName = value.nft.token.contractId;
 
 
                 let sandra = new SandraManager();
@@ -63,7 +61,7 @@ export const testScan = async (opts: Option) => {
                 // Add signer '0x0' by default in Mint
 
                 const signer = value.transaction.source;
-                // console.log(value.transaction);
+
                 let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 
                 let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
@@ -75,17 +73,16 @@ export const testScan = async (opts: Option) => {
                 const blockId = value.transaction.blockId;
 
 
-                // @ts-ignore
-                const contractStandard = new RmrkContractStandard(sandra, value.nftId.token.sn);
+                const contractStandard = new RmrkContractStandard(sandra, value.nft.token.sn);
 
                 let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                 const json = JSON.stringify(gossiper.exposeGossip());
 
-                console.log(json);
+                // console.log(json);
 
-                // fs.writeFileSync(path.resolve(__dirname, "cannonizer.json"), json);
+                fs.writeFileSync(path.resolve(__dirname, "cannonizer.json"), json);
 
                 const xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");

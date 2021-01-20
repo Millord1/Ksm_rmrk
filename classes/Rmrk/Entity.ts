@@ -1,6 +1,6 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {publicEntity} from "../Interfaces.js";
+import {publicEntity, EntityInterface} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -25,7 +25,7 @@ export abstract class Entity extends Remark implements publicEntity
     })
 
 
-    public static dataTreatment(splitted: Array <string>, obj: Object){
+    public static dataTreatment(splitted: Array <string>, obj: EntityInterface): EntityInterface{
 
         splitted.forEach((index) => {
 

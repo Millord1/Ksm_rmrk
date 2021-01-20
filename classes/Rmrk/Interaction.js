@@ -20,16 +20,10 @@ class Interaction extends Remark_js_1.Remark {
     }
     nftFromComputedId(computed) {
         let nftDatas = this.checkDatasLength(computed.split('-'), 3);
-        // @ts-ignore
-        this.nft.collection = nftDatas[0];
-        // @ts-ignore
-        this.nft.name = nftDatas[1];
-        // @ts-ignore
-        this.nft.sn = nftDatas[2];
-        const nft = new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction);
-        return nft.rmrkToObject(this.nft);
+        return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas);
     }
     checkDatasLength(datas, length) {
+        const obj = Remark_js_1.Remark.entityObj;
         if (datas.length > length) {
             const name = datas[0] + '-' + datas[1];
             datas.splice(0, 2);
@@ -48,13 +42,12 @@ class Interaction extends Remark_js_1.Remark {
                     let first = (i === 0) ? '' : '-';
                     nftName += first + datas[i];
                 }
-                datas = [];
-                datas.unshift(serialN);
-                datas.unshift(nftName);
-                datas.unshift(name);
+                obj.collection = name;
+                obj.name = nftName;
+                obj.sn = serialN;
             }
         }
-        return datas;
+        return obj;
     }
 }
 exports.Interaction = Interaction;

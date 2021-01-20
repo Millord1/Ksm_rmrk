@@ -4,58 +4,63 @@ import {Entity} from "./Rmrk/Entity.js";
 import {BlockchainContract} from "./Contract/BlockchainContract.js";
 import {Token} from './Token.js';
 import {Transaction} from "./Transaction.js";
+import {Remark} from "./Rmrk/Remark.js";
+import {EntityInterface} from "./Interfaces.js";
 
 
 export class Asset extends Entity
 {
 
-    name: string | undefined;
-    metadata: string | undefined;
-    issuer: BlockchainAddress | undefined;
-    token: Token | undefined;
+    name: string;
+    metadata: string;
+    token: Token;
 
 
-    constructor(rmrk: string, chain: Blockchain, version: string|null, transaction: Transaction) {
+    constructor(
+        rmrk: string,
+        chain: Blockchain,
+        version: string|null,
+        transaction: Transaction,
+        obj : EntityInterface
+        ) {
         super(rmrk, Asset.name, chain, version, transaction);
-        // this.name = name;
-        // this.metadata = metadata;
-        // this.issuer = issuer;
-        // this.token = token;
-    }
-
-
-    public rmrkToObject(obj: any){
-
         this.name = obj.name;
         this.metadata = obj.metadata;
 
-        if(typeof obj.issuer != 'undefined'){
-            // @ts-ignore
-            this.issuer = (obj.issuer === null) ? null : this.chain.getAddressClass(obj.issuer);
-        }
 
-        const token = new Token(this.rmrk, this.chain, this.version, this.transaction);
-        this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
-
-        this.getMetadatasContent();
-        // if(obj.metadata != null){
-        //     const metadatas = this.getMetadatasContent(obj.metadata);
-        // }
-
-        return this;
+        this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
     }
 
 
-    public createNftFromInteraction(){
+    // public rmrkToObject(obj: any){
+    //
+    //     this.name = obj.name;
+    //     this.metadata = obj.metadata;
+    //
+    //
 
-        const splitted = this.rmrk.split('::');
+        // const token = new Token(this.rmrk, this.chain, this.version, this.transaction);
+        // this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
+
+        // this.getMetadatasContent();
+        // if(obj.metadata != null){
+        //     const metadatas = this.getMetadatasContent(obj.metadata);
+        // }
+    //
+    //     return this;
+    // }
+
+
+    public static createNftFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction){
+
+        const splitted = rmrk.split('::');
 
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         const nftDatas = splitted[2].split(',');
 
-        Entity.dataTreatment(nftDatas, this.nft);
+        const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
 
-        return this.rmrkToObject(this.nft);
+        return new Asset(rmrk, chain, null, transaction, obj);
     }
 
 
