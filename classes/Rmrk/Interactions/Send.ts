@@ -19,7 +19,6 @@ export class Send extends Interaction
         this.nft = this.nftFromComputedId(splitted[3]);
 
         this.transaction.setDestination(this.chain.getAddressClass(splitted[4]));
-        console.log(this.transaction.destination);
     }
 
 

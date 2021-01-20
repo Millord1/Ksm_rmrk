@@ -1,11 +1,11 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Asset} from "../Asset.js";
-import {EntityInterface, publicInteraction} from "../Interfaces.js";
+import {EntityInterface, PublicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 
 
-export abstract class Interaction extends Remark implements publicInteraction
+export abstract class Interaction extends Remark implements PublicInteraction
 {
 
     interaction: string;
@@ -70,7 +70,7 @@ export abstract class Interaction extends Remark implements publicInteraction
     }
 
 
-    toJsonSerialize = () : publicInteraction => ({
+    toJsonSerialize = () : PublicInteraction => ({
        version : this.version,
        rmrk: this.rmrk,
        // @ts-ignore
