@@ -31,7 +31,6 @@ export class Transaction
 
         let receiver;
         if(destination === null){
-            //@ts-ignore
             receiver = this.blockchain.getAddressClass('0x0');
         }else{
             receiver = destination;

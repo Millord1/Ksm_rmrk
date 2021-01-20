@@ -10,25 +10,14 @@ import {List} from "../classes/Rmrk/Interactions/List.js";
 import {Buy} from "../classes/Rmrk/Interactions/Buy.js";
 import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 import {Transaction} from "../classes/Transaction.js";
+import {EntityInterface} from "../classes/Interfaces.js";
+import {Remark} from "../classes/Rmrk/Remark.js";
 
 
 export class RmrkReader
 {
 
     private readonly transaction: Transaction;
-
-    entityObj = {
-        version: null,
-        name: null,
-        max: null,
-        symbol: null,
-        id: null,
-        metadata: null,
-        issuer: null,
-        transferable: null,
-        sn: null,
-        collection: null
-    }
 
     chain: Blockchain;
 
@@ -55,13 +44,11 @@ export class RmrkReader
 
         const splitted = rmrk.split(',');
 
-        Entity.dataTreatment(splitted, this.entityObj);
+        const obj : EntityInterface = Entity.dataTreatment(splitted, Remark.entityObj);
 
-        const myClass = (this.entityObj.id === null) ?
-            new Asset(rmrk, this.chain, this.entityObj.version, this.transaction) :
-            new Collection(rmrk, this.chain, this.entityObj.version, this.transaction);
-
-        return myClass.rmrkToObject(this.entityObj);
+        return (obj.id === "") ?
+            new Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
+            new Collection(rmrk, this.chain, obj.version, this.transaction, obj);
     }
 
 

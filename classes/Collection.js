@@ -2,30 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Collection = void 0;
 const Entity_js_1 = require("./Rmrk/Entity.js");
+const BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
+const Remark_js_1 = require("./Rmrk/Remark.js");
 class Collection extends Entity_js_1.Entity {
-    constructor(rmrk, chain, version, transaction) {
+    constructor(rmrk, chain, version, transaction, obj) {
         super(rmrk, Collection.name, chain, version, transaction);
-    }
-    rmrkToObject(obj) {
         this.metadata = obj.metadata;
         this.name = obj.name;
-        this.version = obj.version;
-        // @ts-ignore
-        const address = this.chain.getAddressClass();
-        address.address = obj.issuer;
-        const myChain = this.chain.constructor;
-        // @ts-ignore
-        this.contract = myChain.contractClass;
-        // @ts-ignore
-        this.contract.createContract(obj, this.chain, this);
-        return this;
+        this.version = version;
+        this.contract = new BlockchainContract_js_1.BlockchainContract(this.chain, obj.name, obj.id, obj.symbol, obj.max);
     }
-    createCollectionFromInteraction() {
-        const splitted = this.rmrk.split('::');
+    static createCollectionFromInteraction(rmrk, chain, transaction) {
+        const splitted = rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         // const datas = splitted[2].split(',');
-        Entity_js_1.Entity.dataTreatment(splitted, this.collection);
-        return this.rmrkToObject(this.collection);
+        const obj = Entity_js_1.Entity.dataTreatment(splitted, Remark_js_1.Remark.entityObj);
+        return new Collection(rmrk, chain, obj.version, transaction, obj);
     }
     toJson(needStringify = true, needSubstrate = true) {
         const json = this.toJsonSerialize();

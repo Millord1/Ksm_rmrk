@@ -1,7 +1,7 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Asset} from "../Asset.js";
-import {publicInteraction} from "../Interfaces.js";
+import {EntityInterface, publicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 
 
@@ -25,20 +25,13 @@ export abstract class Interaction extends Remark implements publicInteraction
 
         let nftDatas = this.checkDatasLength(computed.split('-'), 3);
 
-        // @ts-ignore
-        this.nft.collection = nftDatas[0];
-        // @ts-ignore
-        this.nft.name = nftDatas[1];
-        // @ts-ignore
-        this.nft.sn = nftDatas[2];
-
-
-        const nft = new Asset(this.rmrk, this.chain, this.version, this.transaction);
-        return nft.rmrkToObject(this.nft);
+        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas);
     }
 
 
-    private checkDatasLength(datas: Array<string>, length: number){
+    private checkDatasLength(datas: Array<string>, length: number): EntityInterface{
+
+        const obj = Remark.entityObj;
 
         if(datas.length > length){
 
@@ -67,15 +60,13 @@ export abstract class Interaction extends Remark implements publicInteraction
                     nftName += first + datas[i];
                 }
 
-                datas = [];
-
-                datas.unshift(serialN);
-                datas.unshift(nftName);
-                datas.unshift(name);
+                obj.collection = name;
+                obj.name = nftName;
+                obj.sn = serialN;
             }
         }
 
-        return datas;
+        return obj;
     }
 
 

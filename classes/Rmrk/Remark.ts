@@ -1,5 +1,7 @@
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Transaction} from "../Transaction.js";
+import {EntityInterface} from "../Interfaces.js";
+import {BlockchainContract} from "../Contract/BlockchainContract.js";
 
 
 export abstract class Remark
@@ -8,24 +10,17 @@ export abstract class Remark
 
     public transaction: Transaction;
 
-    public nft = {
-        collection: null,
-        name: null,
-        sn: null,
-        metadata: null,
-        transferable: null
+    public static entityObj: EntityInterface = {
+        version: "",
+        name: "",
+        max: 0,
+        symbol: "",
+        id: "",
+        metadata: "",
+        transferable: null,
+        sn: "",
+        collection: ""
     };
-
-    public collection = {
-        version: null,
-        name: null,
-        metadata: null,
-        max: null,
-        symbol: null,
-        id: null,
-
-        issuer: null,
-    }
 
     version: string;
     rmrk: string;

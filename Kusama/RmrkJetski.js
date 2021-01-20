@@ -14,6 +14,7 @@ const api_1 = require("@polkadot/api");
 const util_1 = require("@polkadot/util");
 const RmrkReader_js_1 = require("./RmrkReader.js");
 const Transaction_js_1 = require("../classes/Transaction.js");
+const Send_js_1 = require("../classes/Rmrk/Interactions/Send.js");
 class RmrkJetski {
     constructor(chain) {
         this.chain = chain;
@@ -31,7 +32,6 @@ class RmrkJetski {
             return myApi;
         });
     }
-    // @ts-ignore
     getRmrks(blockNumber) {
         return __awaiter(this, void 0, void 0, function* () {
             const api = yield this.getApi();
@@ -57,7 +57,9 @@ class RmrkJetski {
                         lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                         const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
                         const rmrkReader = reader.readRmrk(lisibleUri);
-                        blockRmrks.push(rmrkReader);
+                        if (rmrkReader instanceof Send_js_1.Send) {
+                            blockRmrks.push(rmrkReader);
+                        }
                     }
                 }
             });

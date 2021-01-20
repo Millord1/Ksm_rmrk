@@ -1,4 +1,4 @@
-import {BlockchainAddress} from "./Addresses/BlockchainAddress";
+
 import {Blockchain} from "./Blockchains/Blockchain.js";
 
 
@@ -8,7 +8,6 @@ export interface BlockchainInterface
     symbol: string;
     prefix: string;
     isSubstrate: boolean;
-    // address: BlockchainAddress
 }
 
 
@@ -26,4 +25,17 @@ export interface publicEntity
     rmrk: string;
     chain: Blockchain;
     standard: string
+}
+
+export interface EntityInterface
+{
+    version: string,
+    name: string,
+    max: number,
+    symbol: string,
+    id: string,
+    metadata: string,
+    transferable: boolean|null,
+    sn: string,
+    collection: string
 }

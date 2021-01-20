@@ -8,19 +8,24 @@ import {Transaction} from "./Transaction.js";
 export class Token extends Entity
 {
 
-    transferable: boolean | undefined;
-    sn: string | undefined;
-    contractId: string | undefined;
+    transferable: boolean | null;
+    sn: string;
+    contractId: string;
     contract: BlockchainContract | undefined;
-    asset: Asset | undefined;
+    asset: Asset;
 
 
-    constructor(rmrk: string, chain: Blockchain, version: string|null, transaction: Transaction) {
+    constructor(
+        rmrk: string,
+        chain: Blockchain,
+        version: string|null,
+        transaction: Transaction,
+        transferable: boolean|null,
+        sn: string,
+        contract: BlockchainContract|string,
+        asset: Asset
+        ) {
         super(rmrk, Token.name, chain, version, transaction);
-    }
-
-
-    public setDatas(transferable: boolean, sn: string, contract: string|BlockchainContract, asset: Asset){
 
         this.transferable = transferable;
         this.sn = sn;
@@ -32,9 +37,24 @@ export class Token extends Entity
         }else{
             this.contractId = contract;
         }
-
-        return this;
     }
+
+
+    // public setDatas(transferable: boolean, sn: string, contract: string|BlockchainContract, asset: Asset){
+    //
+    //     this.transferable = transferable;
+    //     this.sn = sn;
+    //     this.asset = asset;
+    //
+    //     if(contract instanceof BlockchainContract){
+    //         this.contract = contract;
+    //         this.contractId = this.contract.id;
+    //     }else{
+    //         this.contractId = contract;
+    //     }
+    //
+    //     return this;
+    // }
 
 
     public getContract(): any {

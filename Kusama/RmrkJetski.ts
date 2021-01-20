@@ -2,8 +2,8 @@ import {ApiPromise, WsProvider} from '@polkadot/api';
 import {hexToString} from "@polkadot/util";
 import {RmrkReader} from "./RmrkReader.js";
 import {Blockchain} from "../classes/Blockchains/Blockchain.js";
-import {Remark} from "../classes/Rmrk/Remark.js";
 import {Transaction} from "../classes/Transaction.js";
+import {Send} from "../classes/Rmrk/Interactions/Send.js";
 
 export class RmrkJetski
 {
@@ -32,8 +32,7 @@ export class RmrkJetski
     }
 
 
-    // @ts-ignore
-    public async getRmrks(blockNumber: number): Promise<Array<Remark>>{
+    public async getRmrks(blockNumber: number): Promise<Array<Send>>{
 
 
         const api = await this.getApi();
@@ -44,7 +43,7 @@ export class RmrkJetski
         let blockTimestamp: string ;
 
 
-        const blockRmrks : Array<Remark> = [];
+        const blockRmrks : Array<Send> = [];
 
         block.block.extrinsics.forEach((ex: any) => {
 
@@ -77,7 +76,9 @@ export class RmrkJetski
                     const reader = new RmrkReader(this.chain, tx);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
-                    blockRmrks.push(rmrkReader);
+                    if(rmrkReader instanceof Send){
+                        blockRmrks.push(rmrkReader);
+                    }
                 }
             }
 

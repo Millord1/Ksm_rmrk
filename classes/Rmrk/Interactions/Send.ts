@@ -8,8 +8,7 @@ import {Transaction} from "../../Transaction.js";
 export class Send extends Interaction
 {
 
-    nftId: Asset;
-    // recipient: BlockchainAddress;
+    public nft: Asset;
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction){
         super(rmrk, Send.name, chain, null, transaction);
@@ -17,31 +16,11 @@ export class Send extends Interaction
 
         this.version = splitted[2];
 
-        this.nftId = this.nftFromComputedId(splitted[3]);
+        this.nft = this.nftFromComputedId(splitted[3]);
 
-        // @ts-ignore
         this.transaction.setDestination(this.chain.getAddressClass(splitted[4]));
-
-        // // @ts-ignore
-        // const blockchainAddress = this.chain.getAddressClass(this.transaction.source.address);
-        // blockchainAddress.address = splitted[4];
-        // this.recipient = blockchainAddress;
+        console.log(this.transaction.destination);
     }
-
-    // public createSend(){
-    //
-    //     const splitted = this.rmrkToArray();
-    //
-    //     this.version = splitted[2];
-    //
-    //     this.nftId = this.nftFromComputedId(splitted[3]);
-    //
-    //     const blockchainAddress = this.chain.getAddressClass();
-    //     blockchainAddress.address = splitted[4];
-    //     this.recipient = blockchainAddress;
-    //
-    //     return this;
-    // }
 
 
     public toJson(){
