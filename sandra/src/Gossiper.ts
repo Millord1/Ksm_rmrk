@@ -19,7 +19,10 @@ export class Gossiper{
     public showAllTriplets:boolean = false ;
 
 
-    public constructor(entityFactory:EntityFactory, updateOnReference:Concept) {
+    public constructor(entityFactory:EntityFactory, updateOnReference?:Concept) {
+
+        //taking factory default if not set
+        if (!updateOnReference) updateOnReference = entityFactory.updateOnExistingRef ;
 
         this.entityFactory = entityFactory ;
         this.updateOnReference = updateOnReference ;

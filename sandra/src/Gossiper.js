@@ -4,6 +4,9 @@ exports.Gossiper = void 0;
 class Gossiper {
     constructor(entityFactory, updateOnReference) {
         this.showAllTriplets = false;
+        //taking factory default if not set
+        if (!updateOnReference)
+            updateOnReference = entityFactory.updateOnExistingRef;
         this.entityFactory = entityFactory;
         this.updateOnReference = updateOnReference;
         this.joinFactoryGossip = [];

@@ -11,21 +11,6 @@ class Asset extends Entity_js_1.Entity {
         this.metadata = obj.metadata;
         this.token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
     }
-    // public rmrkToObject(obj: any){
-    //
-    //     this.name = obj.name;
-    //     this.metadata = obj.metadata;
-    //
-    //
-    // const token = new Token(this.rmrk, this.chain, this.version, this.transaction);
-    // this.token = token.setDatas(obj.transferable, obj.sn, obj.collection, this);
-    // this.getMetadatasContent();
-    // if(obj.metadata != null){
-    //     const metadatas = this.getMetadatasContent(obj.metadata);
-    // }
-    //
-    //     return this;
-    // }
     static createNftFromInteraction(rmrk, chain, transaction) {
         const splitted = rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');

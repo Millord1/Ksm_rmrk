@@ -6,6 +6,7 @@ import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
 import {AssetCollection} from "./sandra/src/CSCannon/AssetCollection.js";
 import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
+import {AssetFactory} from "./sandra/src/CSCannon/AssetFactory.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -16,12 +17,15 @@ let kusama = new KusamaBlockchain(sandra);
 console.log(kusama.addressFactory.entityByRevValMap);
 
 let canonizer = new CSCanonizeManager();
-let myCollection = canonizer.createCollection({id:'hellow',imageUrl:'https://picsum.photos/400',name:'pixum',description:'dolor'});
+let myCollection = canonizer.createCollection({id:'my veryfirst collection',imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
+
+let myAsset = canonizer.createAsset({assetId:'A great asset I made'});
+
+myAsset.bindCollection(myCollection);
 
 
 
-
-let gossiper = new Gossiper(canonizer.getAssetCollectionFactory(),sandra.get(myCollection.COLLECTION_ID));
+let gossiper = new Gossiper(canonizer.getAssetFactory());
 let result = gossiper.exposeGossip();
 
 let json = JSON.stringify(result);

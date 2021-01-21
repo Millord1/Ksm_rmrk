@@ -5,8 +5,8 @@ import {SandraManager} from "../SandraManager.js";
 export class AssetFactory extends EntityFactory
 {
 
-    public is_a: string = 'blockchainAsset';
-    public contained_in_file: string = 'blockchainAssetFile';
+    public is_a: string = 'blockchainizableAsset';
+    public contained_in_file: string = 'blockchainizableAssets';
 
     public static ID = 'assetId';
     public static imageUrl = 'imgUrl';
@@ -16,6 +16,8 @@ export class AssetFactory extends EntityFactory
 
     public constructor(sandra: SandraManager) {
         super('blockchainAsset', 'blockchainAssetFile', sandra);
+
+        this.updateOnExistingRef  = sandra.get(AssetFactory.ID);
     }
 
 

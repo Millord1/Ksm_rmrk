@@ -1,5 +1,6 @@
 import {EntityFactory} from "../EntityFactory.js";
 import {SandraManager} from "../SandraManager.js";
+import {Reference} from "../Reference.js";
 
 
 export class AssetCollectionFactory extends EntityFactory
@@ -17,6 +18,8 @@ export class AssetCollectionFactory extends EntityFactory
 
     public constructor(sandra: SandraManager) {
         super('assetCollection', 'assetCollectionFile', sandra);
+        this.updateOnExistingRef  = sandra.get(this.id);
+
     }
 
 }
