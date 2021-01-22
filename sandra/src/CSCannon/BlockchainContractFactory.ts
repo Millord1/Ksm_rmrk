@@ -2,12 +2,15 @@ import {EntityFactory} from "../EntityFactory.js";
 import {SandraManager} from "../SandraManager.js";
 import {BlockchainAddress} from "./BlockchainAddress.js";
 import {BlockchainContract} from "./BlockchainContract.js";
+import {AssetCollection} from "./AssetCollection.js";
 
 export class BlockchainContractFactory extends EntityFactory{
 
 
     public contained_in_file:string = 'blockchainContractFile';
     private sandra:SandraManager ;
+    public  static JOIN_COLLECTION = 'inCollection';
+    public  static  EXPLICIT_TOKEN_LISTING_SHORTNAME = 'explicitListing';
 
 
     public constructor(sandra:SandraManager) {
@@ -31,9 +34,9 @@ export class BlockchainContractFactory extends EntityFactory{
 
         return new BlockchainContract(this,id,this.sandra);
 
-
-
     }
+
+
 
 
 

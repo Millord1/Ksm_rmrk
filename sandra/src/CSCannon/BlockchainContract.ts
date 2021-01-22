@@ -4,6 +4,7 @@ import {SandraManager} from "../SandraManager.js";
 import {Reference} from "../Reference.js";
 import {BlockchainContractFactory} from "./BlockchainContractFactory.js";
 import {ContractStandard} from "./ContractStandard.js";
+import {AssetCollection} from "./AssetCollection.js";
 
 export class BlockchainContract extends Entity{
 
@@ -20,6 +21,14 @@ export class BlockchainContract extends Entity{
         if (standard){
             this.joinEntity('contractStandard',standard,sandraManager);
         }
+
+    }
+
+    public bindToCollection(collection:AssetCollection):this{
+
+        this.joinEntity(BlockchainContractFactory.JOIN_COLLECTION,collection,this.factory.sandraManager)
+
+        return this ;
 
     }
 

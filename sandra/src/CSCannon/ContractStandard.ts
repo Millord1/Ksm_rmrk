@@ -1,5 +1,7 @@
 import {Entity} from "../Entity.js";
 import {Concept} from "../Concept.js";
+import {BlockchainToken} from "./BlockchainToken.js";
+import {CSCanonizeManager} from "./CSCanonizeManager.js";
 
 interface specifier {
     concept:Concept
@@ -9,7 +11,7 @@ interface specifier {
 
 
 
-export class ContractStandard extends Entity{
+export abstract class ContractStandard extends Entity{
 
 
     specifierArray:Map<Concept,string> = new Map<Concept,string>()
@@ -26,11 +28,15 @@ export class ContractStandard extends Entity{
         return this.specifierArray ;
     }
 
-    public getSpecifierValue(concept:Concept):Map<Concept,string>{
+    public abstract getDisplayStructure():string;
+
+   public generateTokenPathEntity(canonizeManager:CSCanonizeManager){
+
+       return new BlockchainToken(canonizeManager,this.getDisplayStructure());
 
 
-        return this.specifierArray ;
-    }
+
+   }
 
 
 

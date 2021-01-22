@@ -7,28 +7,45 @@ import {Gossiper} from "./sandra/src/Gossiper.js";
 import {AssetCollection} from "./sandra/src/CSCannon/AssetCollection.js";
 import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
 import {AssetFactory} from "./sandra/src/CSCannon/AssetFactory.js";
+import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
+import {BlockchainTokenFactory} from "./sandra/src/CSCannon/BlockchainTokenFactory.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let sandra = new SandraManager();
+let canonizeManager = new CSCanonizeManager();
+
+let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain(sandra);
 
 
 console.log(kusama.addressFactory.entityByRevValMap);
 
-let canonizer = new CSCanonizeManager();
-let myCollection = canonizer.createCollection({id:'my veryfirst collection',imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
 
-let myAsset = canonizer.createAsset({assetId:'A great asset I made'});
+let myCollection = canonizeManager.createCollection({id:'my veryfirst collection',imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
+
+let myAsset = canonizeManager.createAsset({assetId:'A great asset I made',imageUrl:"https://picsum.photos/400"});
+let myCOntract = kusama.contractFactory.getOrCreate('241B8516516F381A-FRACTAL');
 
 myAsset.bindCollection(myCollection);
+myCOntract.bindToCollection(myCollection);
+
+let rmrkToken = new RmrkContractStandard(canonizeManager);
+rmrkToken.setSn("0000000000000003");
+let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
 
 
 
-let gossiper = new Gossiper(canonizer.getAssetFactory());
+
+tokenPath.bindToAssetWithContract(myCOntract,myAsset);
+
+
+
+
+let gossiper = new Gossiper(canonizeManager.getTokenFactory());
 let result = gossiper.exposeGossip();
 
-let json = JSON.stringify(result);
+let json = JSON.stringify(result,null,2); // pretty
+//let json = JSON.stringify(result);
 console.log(json);
 
 const xmlhttp = new XMLHttpRequest();

@@ -61,7 +61,7 @@ export class EntityFactory {
             refMapByConcept = this.entityByRevValMap.get(element.concept);
         }
 
-        console.log(refMapByConcept);
+
 
         if (refMapByConcept.has(element.value)) {
             let existingElement = refMapByConcept.get(element.value);

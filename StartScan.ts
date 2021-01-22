@@ -10,6 +10,7 @@ import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
 import {Gossiper} from "./sandra/src/Gossiper.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
+import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
 
 const fs = require('fs');
 const path = require('path');
@@ -54,7 +55,8 @@ export const testScan = async (opts: Option) => {
                 const collName = value.nft.token.contractId;
 
 
-                let sandra = new SandraManager();
+                let canonizeManager = new CSCanonizeManager();
+                let sandra =  canonizeManager.getSandra();
                 let blockchain = new KusamaBlockchain(sandra);
 
                 // TODO change it when Mint is needed
@@ -66,14 +68,14 @@ export const testScan = async (opts: Option) => {
 
                 let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
 
-                let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(sandra));
+                let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(canonizeManager));
 
                 const txId = value.transaction.txHash;
                 const timestamp = value.transaction.timestamp;
                 const blockId = value.transaction.blockId;
 
 
-                const contractStandard = new RmrkContractStandard(sandra, value.nft.token.sn);
+                const contractStandard = new RmrkContractStandard(canonizeManager, value.nft.token.sn);
 
                 let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 

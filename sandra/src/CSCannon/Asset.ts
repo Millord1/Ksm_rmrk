@@ -5,12 +5,13 @@ import {BlockchainContract} from "./BlockchainContract.js";
 import {Blockchain} from "./Blockchain.js";
 import {Reference} from "../Reference.js";
 import {AssetCollection} from "./AssetCollection.js";
+import {BlockchainToken} from "./BlockchainToken.js";
 
 export interface AssetInterface{
 
     assetId: string,
-    metaDatasUrl?: string,
-    imgUrl?: string,
+    metadataUrl?: string,
+    imageUrl?: string,
 
 
 }
@@ -29,6 +30,11 @@ export class Asset extends Entity
 
         this.sandra = sandra ;
         this.addReference(new Reference(sandra.get(AssetFactory.ID), assetInterface.assetId));
+        assetInterface.imageUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.imageUrl)) : null ;
+        assetInterface.metadataUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.metadataUrl)) : null ;
+
+       // assetInterface.imageUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.imageUrl )): null;
+
     }
 
 
@@ -40,6 +46,8 @@ export class Asset extends Entity
     public bindCollection(assetCollection: AssetCollection){
         this.joinEntity(AssetFactory.collectionJoinVerb, assetCollection, this.sandra);
     }
+
+
 
 
     public setImageUrl(imgUrl: string){

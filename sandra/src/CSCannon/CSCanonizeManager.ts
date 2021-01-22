@@ -3,6 +3,8 @@ import {AssetCollectionFactory} from "./AssetCollectionFactory.js";
 import {AssetCollection, AssetCollectionInterface} from "./AssetCollection.js";
 import {AssetFactory} from "./AssetFactory.js";
 import {Asset, AssetInterface} from "./Asset.js";
+import {BlockchainTokenFactory} from "./BlockchainTokenFactory.js";
+import {ContractStandardFactory} from "./ContractStandardFactory.js";
 
 interface CanonizeOptions{
 
@@ -15,12 +17,16 @@ export class CSCanonizeManager {
     private sandra: SandraManager;
     private assetCollectionFactory ;
     private assetFactory:AssetFactory ;
+    private tokenFactory: BlockchainTokenFactory;
+    private contractStandardFactory: ContractStandardFactory;
 
     constructor(options?:CanonizeOptions,sandra:SandraManager = new SandraManager()) {
 
         this.sandra = sandra ;
         this.assetCollectionFactory = new AssetCollectionFactory(sandra);
         this.assetFactory = new AssetFactory(sandra);
+        this.tokenFactory = new BlockchainTokenFactory(this);
+        this.contractStandardFactory = new ContractStandardFactory(sandra);
 
 
     }
@@ -43,9 +49,28 @@ export class CSCanonizeManager {
 
     }
 
+    public getContractStandardFactory():ContractStandardFactory{
+
+        return this.contractStandardFactory ;
+
+    }
+
+    public getTokenFactory():BlockchainTokenFactory{
+
+        return this.tokenFactory ;
+
+    }
+
+
     public getAssetCollectionFactory():AssetCollectionFactory{
 
         return this.assetCollectionFactory ;
+
+    }
+
+    public getSandra():SandraManager{
+
+        return this.sandra ;
 
     }
 

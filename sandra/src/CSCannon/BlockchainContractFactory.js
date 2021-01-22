@@ -23,4 +23,6 @@ class BlockchainContractFactory extends EntityFactory_js_1.EntityFactory {
     }
 }
 exports.BlockchainContractFactory = BlockchainContractFactory;
+BlockchainContractFactory.JOIN_COLLECTION = 'inCollection';
+BlockchainContractFactory.EXPLICIT_TOKEN_LISTING_SHORTNAME = 'explicitListing';
 //# sourceMappingURL=BlockchainContractFactory.js.map
