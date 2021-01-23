@@ -54,13 +54,14 @@ export const testScan = async (opts: Option) => {
 
                 const collName = value.nft.token.contractId;
 
-
                 let canonizeManager = new CSCanonizeManager();
                 let sandra =  canonizeManager.getSandra();
                 let blockchain = new KusamaBlockchain(sandra);
 
                 // TODO change it when Mint is needed
                 // Add signer '0x0' by default in Mint
+
+
 
                 const signer = value.transaction.source;
 
@@ -82,9 +83,78 @@ export const testScan = async (opts: Option) => {
                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
                 const json = JSON.stringify(gossiper.exposeGossip());
 
-                console.log(json);
+                //console.log(json);
 
-                // fs.writeFileSync(path.resolve(__dirname, "cannonizer.json"), json);
+
+
+                const xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send(json);
+                xmlhttp.addEventListener("load", ()=>{
+                    console.log("complete");
+                });
+
+            })
+        }
+    );
+}
+
+export const forceScan = async (block:number) => {
+
+    let blockchain;
+
+
+
+            blockchain = new Kusama();
+
+
+
+    const scan = new RmrkJetski(blockchain);
+
+
+    scan.getRmrks(block).then(
+        result => {
+
+            result.forEach(value => {
+
+
+                const recipient = value.transaction.destination.address;
+
+                const collName = value.nft.token.contractId;
+
+                let canonizeManager = new CSCanonizeManager();
+                let sandra =  canonizeManager.getSandra();
+                let blockchain = new KusamaBlockchain(sandra);
+
+                // TODO change it when Mint is needed
+                // Add signer '0x0' by default in Mint
+
+
+
+                const signer = value.transaction.source;
+
+                let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
+
+                let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+
+                let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(canonizeManager));
+
+                const txId = value.transaction.txHash;
+                const timestamp = value.transaction.timestamp;
+                const blockId = value.transaction.blockId;
+
+
+                const contractStandard = new RmrkContractStandard(canonizeManager, value.nft.token.sn);
+
+                let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
+
+                let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
+                const json = JSON.stringify(gossiper.exposeGossip());
+
+
+
+
 
                 const xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
