@@ -23,10 +23,10 @@ class Entity extends Remark_js_1.Remark {
             splittedDatas.forEach((split) => {
                 const datas = split.split(':');
                 if (datas[0] === "metadata") {
-                    const ipfs = datas[2].slice(0, 4);
+                    const protocol = datas[2].slice(0, 4);
                     if (datas[1] === "ipfs") {
                         const url = datas[2].slice(4);
-                        datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
+                        datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
                     }
                     datas[1] = datas[2];
                 }
@@ -35,17 +35,7 @@ class Entity extends Remark_js_1.Remark {
             });
         });
         return obj;
-    }
-    getMetadatasContent() {
-        // TODO complete with real ipfs metadatas link
-        // const url = "ipfs.io/ipfs/QmSkmCWNBoMGyd1d1TzQpgAakRCux5JAqQpRjDSNiv3DDB";
-        const url = "ipfs.io/ipfs/QmcQpkNDoYbFPbwPUAaS2ACnKpBib1z6VWDGD1qFtYvfdZ";
-        const get = new XMLHttpRequest();
-        get.open("GET", 'https://' + url);
-        const response = get.response;
-        // const jason = JSON.parse(response);
-        console.log(response);
-        // this.getIpfsMetaDatas(ipfs);
+        // const metas = new Metadatas('ipfs', 'ipfs/QmTsRuRsnvg3TBjShaMmdCnsQLZQsAbLf2tCZZzgeFrFuN');
     }
 }
 exports.Entity = Entity;

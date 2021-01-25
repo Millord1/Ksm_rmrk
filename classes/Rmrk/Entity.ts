@@ -2,6 +2,7 @@ import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {PublicEntity, EntityInterface} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
+import {Metadatas} from "../Metadatas.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -41,13 +42,13 @@ export abstract class Entity extends Remark implements PublicEntity
 
                 if(datas[0] === "metadata"){
 
-                    const ipfs = datas[2].slice(0, 4);
+                    const protocol = datas[2].slice(0, 4);
 
                     if(datas[1] === "ipfs") {
 
                         const url = datas[2].slice(4);
 
-                        datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
+                        datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
                     }
 
                     datas[1] = datas[2];
@@ -58,25 +59,9 @@ export abstract class Entity extends Remark implements PublicEntity
         })
 
         return obj;
+
+        // const metas = new Metadatas('ipfs', 'ipfs/QmTsRuRsnvg3TBjShaMmdCnsQLZQsAbLf2tCZZzgeFrFuN');
     }
 
-
-    protected getMetadatasContent(){
-
-        // TODO complete with real ipfs metadatas link
-
-        // const url = "ipfs.io/ipfs/QmSkmCWNBoMGyd1d1TzQpgAakRCux5JAqQpRjDSNiv3DDB";
-        const url = "ipfs.io/ipfs/QmcQpkNDoYbFPbwPUAaS2ACnKpBib1z6VWDGD1qFtYvfdZ";
-
-        const get = new XMLHttpRequest();
-
-        get.open("GET", 'https://' + url);
-        const response = get.response;
-        // const jason = JSON.parse(response);
-
-        console.log(response);
-
-        // this.getIpfsMetaDatas(ipfs);
-    }
 
 }

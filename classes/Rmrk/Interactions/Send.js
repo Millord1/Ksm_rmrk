@@ -9,7 +9,6 @@ class Send extends Interaction_js_1.Interaction {
         this.version = splitted[2];
         this.nft = this.nftFromComputedId(splitted[3]);
         this.transaction.setDestination(this.chain.getAddressClass(splitted[4]));
-        console.log(this.transaction.destination);
     }
     toJson() {
         const json = this.toJsonSerialize();
