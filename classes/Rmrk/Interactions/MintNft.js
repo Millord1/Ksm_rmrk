@@ -20,9 +20,10 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class MintNft extends Interaction_js_1.Interaction {
     constructor(rmrk, chain, transaction) {
         super(rmrk, MintNft.name, chain, null, transaction);
-        //const myNft = new Asset(this.rmrk, this.chain, null, transaction,this.rmrk);
-        this.myNft = Asset_js_1.Asset.createNftFromInteraction(rmrk, chain, transaction);
-        this.shabanHackToDispachImediately();
+        this.nft = Asset_js_1.Asset.createNftFromInteraction(rmrk, chain, transaction);
+        const issuer = this.transaction.source;
+        this.transaction.source = '0x0';
+        this.transaction.destination.address = issuer;
     }
     // public createMintNft(){
     //
@@ -33,7 +34,7 @@ class MintNft extends Interaction_js_1.Interaction {
     //     return this;
     // }
     toJson() {
-        const json = this.myNft.toJson(false, true);
+        const json = this.nft.toJson(false, true);
         // @ts-ignore
         json['interaction'] = this.interaction;
         return JSON.stringify(json);
@@ -43,11 +44,11 @@ class MintNft extends Interaction_js_1.Interaction {
         return __awaiter(this, void 0, void 0, function* () {
             let canonizeManager = new CSCanonizeManager_js_1.CSCanonizeManager();
             let sandra = canonizeManager.getSandra();
-            let contractId = this.myNft.token.contractId;
+            let contractId = this.nft.token.contractId;
             let kusama = new KusamaBlockchain_js_1.KusamaBlockchain(sandra);
-            let nft = this.myNft;
+            let nft = this.nft;
             //find image url
-            let metadataIpfs = this.myNft.metadata;
+            let metadataIpfs = this.nft.metadata;
             metadataIpfs = metadataIpfs.replace('ipfs/', '');
             const url = "https://ipfs.io/ipfs/" + metadataIpfs;
             let xhr = new XMLHttpRequest();

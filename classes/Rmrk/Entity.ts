@@ -1,8 +1,8 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {PublicEntity, EntityInterface} from "../Interfaces.js";
+import {PublicEntity, EntityInterface, MetaDataInputs} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
-import {Metadatas} from "../Metadatas.js";
+import {Metadata} from "../Metadata.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -10,11 +10,15 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 export abstract class Entity extends Remark implements PublicEntity
 {
 
-    standard;
+    public standard: string;
+    public metaData : Metadata | undefined;
+    public url: string;
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction) {
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction, url: string) {
         super(version, rmrk, chain, transaction);
         this.standard = standard;
+        this.url = url;
+
     }
 
 
@@ -60,7 +64,66 @@ export abstract class Entity extends Remark implements PublicEntity
 
         return obj;
 
-        // const metas = new Metadatas('ipfs', 'ipfs/QmTsRuRsnvg3TBjShaMmdCnsQLZQsAbLf2tCZZzgeFrFuN');
+    }
+
+
+    // public async getMeta(){
+    //     this.metaData = await this.getMetaDataContent(this.url);
+    // }
+
+
+    public static async getMetaData(url: string){
+
+        // const urlToCall = 'ipfs.io/' + url;
+
+        const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
+
+        const get = new XMLHttpRequest();
+
+        console.log(urlToCall);
+
+        let response: MetaDataInputs;
+
+        get.open("GET", 'https://' + urlToCall);
+        get.send();
+
+        get.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                response = JSON.parse(this.responseText);
+                // console.log(this.responseText);
+                return new Metadata(urlToCall, response);;
+            }
+        }
+    }
+
+
+    public static async getMetaDataContent(url: string): Promise<Metadata>{
+
+        return new Promise((resolve, reject) => {
+
+            const urlToCall = 'ipfs.io/' + url;
+
+            const get = new XMLHttpRequest();
+
+            console.log(urlToCall);
+
+            let response: MetaDataInputs;
+            let metaData : Metadata;
+
+            get.open("GET", 'https://' + urlToCall);
+            get.send();
+
+            get.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(this.responseText);
+                    metaData = new Metadata(urlToCall, response);
+                    resolve (metaData);
+                }else{
+                    reject ("call doesn't work");
+                }
+            }
+        });
+
     }
 
 

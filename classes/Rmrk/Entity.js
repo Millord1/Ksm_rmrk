@@ -1,10 +1,20 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
 const Remark_js_1 = require("./Remark.js");
+const Metadata_js_1 = require("../Metadata.js");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class Entity extends Remark_js_1.Remark {
-    constructor(rmrk, standard, chain, version, transaction) {
+    constructor(rmrk, standard, chain, version, transaction, url) {
         super(version, rmrk, chain, transaction);
         this.toJsonSerialize = () => ({
             version: this.version,
@@ -13,6 +23,7 @@ class Entity extends Remark_js_1.Remark {
             standard: this.standard
         });
         this.standard = standard;
+        this.url = url;
     }
     static dataTreatment(splitted, obj) {
         splitted.forEach((index) => {
@@ -35,7 +46,51 @@ class Entity extends Remark_js_1.Remark {
             });
         });
         return obj;
-        // const metas = new Metadatas('ipfs', 'ipfs/QmTsRuRsnvg3TBjShaMmdCnsQLZQsAbLf2tCZZzgeFrFuN');
+    }
+    // public async getMeta(){
+    //     this.metaData = await this.getMetaDataContent(this.url);
+    // }
+    static getMetaData(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // const urlToCall = 'ipfs.io/' + url;
+            const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
+            const get = new XMLHttpRequest();
+            console.log(urlToCall);
+            let response;
+            get.open("GET", 'https://' + urlToCall);
+            get.send();
+            get.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(this.responseText);
+                    // console.log(this.responseText);
+                    return new Metadata_js_1.Metadata(urlToCall, response);
+                    ;
+                }
+            };
+        });
+    }
+    static getMetaDataContent(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                const urlToCall = 'ipfs.io/' + url;
+                const get = new XMLHttpRequest();
+                console.log(urlToCall);
+                let response;
+                let metaData;
+                get.open("GET", 'https://' + urlToCall);
+                get.send();
+                get.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        response = JSON.parse(this.responseText);
+                        metaData = new Metadata_js_1.Metadata(urlToCall, response);
+                        resolve(metaData);
+                    }
+                    else {
+                        reject("call doesn't work");
+                    }
+                };
+            });
+        });
     }
 }
 exports.Entity = Entity;

@@ -6,19 +6,16 @@ import {Transaction} from "../../Transaction.js";
 export class Mint extends Interaction
 {
 
-    myCollection: Collection;
+    collection: Collection;
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction){
         super(rmrk, Mint.name, chain, null, transaction);
-        //@ts-ignore
-        const myCollection = new Collection(this.rmrk, this.chain, null, this.transaction);
-        this.myCollection = myCollection.createCollectionFromInteraction();
-        return this;
+        this.collection = Collection.createCollectionFromInteraction(rmrk, chain, transaction);
     }
 
 
     public toJson(){
-        const json = this.myCollection.toJson(false);
+        const json = this.collection.toJson(false);
         // @ts-ignore
         json['interaction'] = this.interaction;
         return JSON.stringify(json);

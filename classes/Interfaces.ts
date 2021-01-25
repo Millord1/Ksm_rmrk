@@ -40,7 +40,7 @@ export interface EntityInterface
     collection: string
 }
 
-export interface metaDatasInputs
+export interface MetaDataInputs
 {
     external_url: string;
     image: string;
