@@ -2,13 +2,16 @@ import {EntityFactory} from "../EntityFactory.js";
 import {SandraManager} from "../SandraManager.js";
 import {BlockchainAddress} from "./BlockchainAddress.js";
 import {BlockchainContract} from "./BlockchainContract.js";
+import {AssetCollection} from "./AssetCollection.js";
 
 export class BlockchainContractFactory extends EntityFactory{
 
 
     public contained_in_file:string = 'blockchainContractFile';
     private sandra:SandraManager ;
-    private test ;
+    public  static JOIN_COLLECTION = 'inCollection';
+    public  static  EXPLICIT_TOKEN_LISTING_SHORTNAME = 'explicitListing';
+
 
     public constructor(sandra:SandraManager) {
 
@@ -21,7 +24,7 @@ export class BlockchainContractFactory extends EntityFactory{
         if (this.entityByRevValMap.has(this.sandra.get('id'))){
             let addressRefMap = this.entityByRevValMap.get(this.sandra.get('id'));
 
-            if (addressRefMap.has(id)){
+            if (addressRefMap && addressRefMap.has(id)){
                 //address exists in factory
                 // @ts-ignore
                 return addressRefMap.get(id);
@@ -31,9 +34,9 @@ export class BlockchainContractFactory extends EntityFactory{
 
         return new BlockchainContract(this,id,this.sandra);
 
-
-
     }
+
+
 
 
 

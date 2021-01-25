@@ -13,7 +13,7 @@ class BlockchainContractFactory extends EntityFactory_js_1.EntityFactory {
     getOrCreate(id) {
         if (this.entityByRevValMap.has(this.sandra.get('id'))) {
             let addressRefMap = this.entityByRevValMap.get(this.sandra.get('id'));
-            if (addressRefMap.has(id)) {
+            if (addressRefMap && addressRefMap.has(id)) {
                 //address exists in factory
                 // @ts-ignore
                 return addressRefMap.get(id);
@@ -23,4 +23,6 @@ class BlockchainContractFactory extends EntityFactory_js_1.EntityFactory {
     }
 }
 exports.BlockchainContractFactory = BlockchainContractFactory;
+BlockchainContractFactory.JOIN_COLLECTION = 'inCollection';
+BlockchainContractFactory.EXPLICIT_TOKEN_LISTING_SHORTNAME = 'explicitListing';
 //# sourceMappingURL=BlockchainContractFactory.js.map
