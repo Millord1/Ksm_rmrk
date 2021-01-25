@@ -4,6 +4,7 @@ import {BlockchainContract} from "./Contract/BlockchainContract.js";
 import {Transaction} from "./Transaction.js";
 import {Remark} from "./Rmrk/Remark.js";
 import {EntityInterface} from "./Interfaces.js";
+import {Metadata} from "./Metadata.js";
 
 
 export class Collection extends Entity
@@ -17,9 +18,10 @@ export class Collection extends Entity
                 chain: Blockchain,
                 version: string,
                 transaction:Transaction,
-                obj: EntityInterface
+                obj: EntityInterface,
+                url: string
     ) {
-        super(rmrk, Collection.name, chain, version, transaction);
+        super(rmrk, Collection.name, chain, version, transaction, url);
 
         this.metadata = obj.metadata;
         this.name = obj.name;
@@ -38,7 +40,7 @@ export class Collection extends Entity
 
         const obj = Entity.dataTreatment(splitted, Remark.entityObj);
 
-        return new Collection(rmrk, chain, obj.version, transaction, obj);
+        return new Collection(rmrk, chain, obj.version, transaction, obj, obj.metadata);
     }
 
 

@@ -5,8 +5,8 @@ const Entity_js_1 = require("./Rmrk/Entity.js");
 const BlockchainContract_js_1 = require("./Contract/BlockchainContract.js");
 const Remark_js_1 = require("./Rmrk/Remark.js");
 class Collection extends Entity_js_1.Entity {
-    constructor(rmrk, chain, version, transaction, obj) {
-        super(rmrk, Collection.name, chain, version, transaction);
+    constructor(rmrk, chain, version, transaction, obj, url) {
+        super(rmrk, Collection.name, chain, version, transaction, url);
         this.metadata = obj.metadata;
         this.name = obj.name;
         this.version = version;
@@ -17,7 +17,7 @@ class Collection extends Entity_js_1.Entity {
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         // const datas = splitted[2].split(',');
         const obj = Entity_js_1.Entity.dataTreatment(splitted, Remark_js_1.Remark.entityObj);
-        return new Collection(rmrk, chain, obj.version, transaction, obj);
+        return new Collection(rmrk, chain, obj.version, transaction, obj, obj.metadata);
     }
     toJson(needStringify = true, needSubstrate = true) {
         const json = this.toJsonSerialize();

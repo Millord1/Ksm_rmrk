@@ -39,3 +39,13 @@ export interface EntityInterface
     sn: string,
     collection: string
 }
+
+export interface MetaDataInputs
+{
+    external_url: string;
+    image: string;
+    description: string;
+    name: string;
+    attributes: Array<string>;
+    background_color: string;
+}

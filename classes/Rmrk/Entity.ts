@@ -1,7 +1,8 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {PublicEntity, EntityInterface} from "../Interfaces.js";
+import {PublicEntity, EntityInterface, MetaDataInputs} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
+import {Metadata} from "../Metadata.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -9,11 +10,15 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 export abstract class Entity extends Remark implements PublicEntity
 {
 
-    standard;
+    public standard: string;
+    public metaData : Metadata | undefined;
+    public url: string;
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction) {
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction, url: string) {
         super(version, rmrk, chain, transaction);
         this.standard = standard;
+        this.url = url;
+
     }
 
 
@@ -41,13 +46,13 @@ export abstract class Entity extends Remark implements PublicEntity
 
                 if(datas[0] === "metadata"){
 
-                    const ipfs = datas[2].slice(0, 4);
+                    const protocol = datas[2].slice(0, 4);
 
                     if(datas[1] === "ipfs") {
 
                         const url = datas[2].slice(4);
 
-                        datas[2] = (ipfs === "ipfs") ? ipfs + '/' + url : ipfs + url;
+                        datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
                     }
 
                     datas[1] = datas[2];
@@ -58,25 +63,68 @@ export abstract class Entity extends Remark implements PublicEntity
         })
 
         return obj;
+
     }
 
 
-    protected getMetadatasContent(){
+    // public async getMeta(){
+    //     this.metaData = await this.getMetaDataContent(this.url);
+    // }
 
-        // TODO complete with real ipfs metadatas link
 
-        // const url = "ipfs.io/ipfs/QmSkmCWNBoMGyd1d1TzQpgAakRCux5JAqQpRjDSNiv3DDB";
-        const url = "ipfs.io/ipfs/QmcQpkNDoYbFPbwPUAaS2ACnKpBib1z6VWDGD1qFtYvfdZ";
+    public static async getMetaData(url: string){
+
+        // const urlToCall = 'ipfs.io/' + url;
+
+        const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
 
         const get = new XMLHttpRequest();
 
-        get.open("GET", 'https://' + url);
-        const response = get.response;
-        // const jason = JSON.parse(response);
+        console.log(urlToCall);
 
-        console.log(response);
+        let response: MetaDataInputs;
 
-        // this.getIpfsMetaDatas(ipfs);
+        get.open("GET", 'https://' + urlToCall);
+        get.send();
+
+        get.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                response = JSON.parse(this.responseText);
+                // console.log(this.responseText);
+                return new Metadata(urlToCall, response);;
+            }
+        }
     }
+
+
+    public static async getMetaDataContent(url: string): Promise<Metadata>{
+
+        return new Promise((resolve, reject) => {
+
+            const urlToCall = 'ipfs.io/' + url;
+
+            const get = new XMLHttpRequest();
+
+            console.log(urlToCall);
+
+            let response: MetaDataInputs;
+            let metaData : Metadata;
+
+            get.open("GET", 'https://' + urlToCall);
+            get.send();
+
+            get.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(this.responseText);
+                    metaData = new Metadata(urlToCall, response);
+                    resolve (metaData);
+                }else{
+                    reject ("call doesn't work");
+                }
+            }
+        });
+
+    }
+
 
 }

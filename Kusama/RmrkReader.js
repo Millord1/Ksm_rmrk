@@ -30,8 +30,8 @@ class RmrkReader {
         const splitted = rmrk.split(',');
         const obj = Entity_js_1.Entity.dataTreatment(splitted, Remark_js_1.Remark.entityObj);
         return (obj.id === "") ?
-            new Asset_js_1.Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
-            new Collection_js_1.Collection(rmrk, this.chain, obj.version, this.transaction, obj);
+            new Asset_js_1.Asset(rmrk, this.chain, obj.version, this.transaction, obj, obj.metadata) :
+            new Collection_js_1.Collection(rmrk, this.chain, obj.version, this.transaction, obj, obj.metadata);
     }
     readInteraction(rmrk) {
         const splitted = rmrk.split('::');

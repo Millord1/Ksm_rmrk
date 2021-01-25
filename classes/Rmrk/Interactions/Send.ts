@@ -1,6 +1,5 @@
 import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
-import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
 import {Asset} from "../../Asset.js";
 import {Transaction} from "../../Transaction.js";
 
