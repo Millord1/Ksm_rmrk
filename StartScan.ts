@@ -66,6 +66,7 @@ export const testScan = async (opts: Option) => {
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
+                    eventGossip(value, sn, collName);
 
                 }else if (value instanceof MintNft){
 
@@ -77,6 +78,7 @@ export const testScan = async (opts: Option) => {
                     value.transaction.destination.address = source;
 
                     entityGossip(value.nft);
+                    eventGossip(value, sn, collName);
 
                 }else if (value instanceof Mint){
 
@@ -84,8 +86,6 @@ export const testScan = async (opts: Option) => {
 
                     entityGossip(value.collection);
                 }
-
-                eventGossip(value, sn, collName);
 
             })
         }
@@ -225,7 +225,7 @@ const entityGossip = async (rmrk: Entity) => {
 
 
         // let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: meta.description});
+        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: meta.name, description: meta.description});
 
         // myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
