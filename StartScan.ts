@@ -47,6 +47,7 @@ export const testScan = async (opts: Option) => {
     }
 
 
+
     const scan = new RmrkJetski(blockchain);
 
     // @ts-ignore
@@ -67,6 +68,10 @@ export const testScan = async (opts: Option) => {
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
+
+                    const source = value.transaction.source;
+                    value.transaction.source = '0x0';
+                    value.transaction.destination.address = source;
 
                     entityGossip(value.nft);
 
@@ -105,19 +110,10 @@ export const forceScan = async (block:number) => {
                 let collName : string = "";
                 let sn: string = "";
 
-                if(value instanceof Send){
+                if(value instanceof Send || value instanceof MintNft){
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
-
-                }else if (value instanceof MintNft) {
-
-                    collName = value.nft.token.contractId;
-                    sn = value.nft.token.sn
-
-                    const source = value.transaction.source;
-                    value.transaction.source = '0x0';
-                    value.transaction.destination.address = source;
 
                 }else if (value instanceof Mint){
 
