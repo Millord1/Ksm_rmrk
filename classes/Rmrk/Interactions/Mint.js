@@ -6,13 +6,10 @@ const Collection_js_1 = require("../../Collection.js");
 class Mint extends Interaction_js_1.Interaction {
     constructor(rmrk, chain, transaction) {
         super(rmrk, Mint.name, chain, null, transaction);
-        //@ts-ignore
-        const myCollection = new Collection_js_1.Collection(this.rmrk, this.chain, null, this.transaction);
-        this.myCollection = myCollection.createCollectionFromInteraction();
-        return this;
+        this.collection = Collection_js_1.Collection.createCollectionFromInteraction(rmrk, chain, transaction);
     }
     toJson() {
-        const json = this.myCollection.toJson(false);
+        const json = this.collection.toJson(false);
         // @ts-ignore
         json['interaction'] = this.interaction;
         return JSON.stringify(json);

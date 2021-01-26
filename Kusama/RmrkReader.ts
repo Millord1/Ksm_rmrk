@@ -10,7 +10,7 @@ import {List} from "../classes/Rmrk/Interactions/List.js";
 import {Buy} from "../classes/Rmrk/Interactions/Buy.js";
 import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 import {Transaction} from "../classes/Transaction.js";
-import {EntityInterface, MetaDataInputs} from "../classes/Interfaces.js";
+import {EntityInterface} from "../classes/Interfaces.js";
 import {Remark} from "../classes/Rmrk/Remark.js";
 
 
@@ -47,8 +47,9 @@ export class RmrkReader
         const obj : EntityInterface = Entity.dataTreatment(splitted, Remark.entityObj);
 
         return (obj.id === "") ?
-            new Asset(rmrk, this.chain, obj.version, this.transaction, obj, obj.metadata) :
-            new Collection(rmrk, this.chain, obj.version, this.transaction, obj, obj.metadata);
+            new Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
+            new Collection(rmrk, this.chain, obj.version, this.transaction, obj);
+
     }
 
 
