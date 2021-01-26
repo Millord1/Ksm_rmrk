@@ -56,6 +56,9 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
+                //@ts-ignore
+                console.log(value.nft);
+
                 let collName : string = "";
                 let sn: string = "";
 
@@ -76,7 +79,9 @@ export const testScan = async (opts: Option) => {
                     entityGossip(value.nft);
 
                 }else if (value instanceof Mint){
-                    // collName = value.collection.name;
+
+                    collName = value.collection.name;
+                    entityGossip(value.collection);
                 }
 
                 eventGossip(value, sn, collName);
@@ -172,7 +177,7 @@ const entityGossip = async (rmrk: Entity) => {
 
     let kusama = new KusamaBlockchain(sandra);
 
-    let contractId : string = "";
+    let collectionId : string = "";
     let nft: Asset;
 
     let result: any;
@@ -181,15 +186,15 @@ const entityGossip = async (rmrk: Entity) => {
 
     if(rmrk instanceof Asset){
 
-        contractId = rmrk.token.contractId;
+        collectionId = rmrk.token.contractId;
         nft = rmrk ;
 
-        let myContract = kusama.contractFactory.getOrCreate(contractId);
+        let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
         let image = meta.image.replace("ipfs://",'https://ipfs.io/');
 
-        let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: contractId, imageUrl: image, name: contractId, description: meta.description});
+        let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+meta.name, imageUrl: image});
+        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: meta.description});
 
         myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
@@ -207,9 +212,9 @@ const entityGossip = async (rmrk: Entity) => {
     }else if (rmrk instanceof Collection){
 
 
-        contractId = rmrk.contract.id;
+        collectionId = rmrk.contract.id;
 
-        let myContract = kusama.contractFactory.getOrCreate(contractId);
+        let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
         // const meta = await Entity.getMetaDataContent(rmrk.url, rmrk);
 
@@ -217,7 +222,7 @@ const entityGossip = async (rmrk: Entity) => {
 
 
         // let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: contractId, imageUrl: image, name: contractId, description: meta.description});
+        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: meta.description});
 
         // myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
