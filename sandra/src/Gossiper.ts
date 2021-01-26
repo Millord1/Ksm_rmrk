@@ -11,6 +11,14 @@ interface simpleReferenceForDisplay {
 
 }
 
+interface ApiConnector {
+
+    gossipUrl:string
+    jwt:string
+
+
+}
+
 export class Gossiper{
 
     public entityFactory:EntityFactory ;
@@ -189,6 +197,22 @@ export class Gossiper{
         })
 
         return simpleRefArray ;
+
+
+    }
+
+    public async gossipToUrl(connector:ApiConnector){
+
+        return new Promise((resolve) => {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", connector.gossipUrl);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(this.exposeGossip(true));
+            xmlhttp.addEventListener("load", r => {
+                resolve(r);
+            });
+
+        });
 
 
     }

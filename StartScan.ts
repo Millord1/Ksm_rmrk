@@ -81,6 +81,7 @@ export const testScan = async (opts: Option) => {
                 }else if (value instanceof Mint){
 
                     collName = value.collection.name;
+
                     entityGossip(value.collection);
                 }
 
@@ -193,8 +194,10 @@ const entityGossip = async (rmrk: Entity) => {
 
         let image = meta.image.replace("ipfs://",'https://ipfs.io/');
 
+
         let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+meta.name, imageUrl: image});
         let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: meta.description});
+
 
         myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
@@ -255,3 +258,74 @@ function sendToGossip(json: string){
         console.log("complete");
     });
 }
+
+
+
+// export const forceScan = async (block:number) => {
+//
+//     let blockchain;
+//
+//
+//
+//             blockchain = new Kusama();
+//
+//
+//
+//     const scan = new RmrkJetski(blockchain);
+//
+//
+//     scan.getRmrks(block).then(
+//         result => {
+//
+//             result.forEach(value => {
+//
+//
+//                 const recipient = value.transaction.destination.address;
+//
+//                 const collName = value.nft.token.contractId;
+//
+//                 let canonizeManager = new CSCanonizeManager();
+//                 let sandra =  canonizeManager.getSandra();
+//                 let blockchain = new KusamaBlockchain(sandra);
+//
+//                 // TODO change it when Mint is needed
+//                 // Add signer '0x0' by default in Mint
+//
+//
+//
+//                 const signer = value.transaction.source;
+//
+//                 let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
+//
+//                 let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
+//
+//                 let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(canonizeManager));
+//
+//                 const txId = value.transaction.txHash;
+//                 const timestamp = value.transaction.timestamp;
+//                 const blockId = value.transaction.blockId;
+//
+//
+//                 const contractStandard = new RmrkContractStandard(canonizeManager, value.nft.token.sn);
+//
+//                 let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
+//
+//                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
+//                 const json = JSON.stringify(gossiper.exposeGossip());
+//
+//
+//
+//
+//
+//                 const xmlhttp = new XMLHttpRequest();
+//                 xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+//                 xmlhttp.setRequestHeader("Content-Type", "application/json");
+//                 xmlhttp.send(json);
+//                 xmlhttp.addEventListener("load", ()=>{
+//                     console.log("complete");
+//                 });
+//
+//             })
+//         }
+//     );
+// }

@@ -42,10 +42,10 @@ class RmrkJetski {
             // console.log(remarks);
             let blockId = blockNumber;
             let blockTimestamp;
+            blockTimestamp = '0';
             const blockRmrks = [];
             for (const ex of block.block.extrinsics) {
                 const { method: { args, method, section } } = ex;
-                blockTimestamp = '0';
                 //note timestamp extrinsic always comes first on a block
                 if (section === "timestamp" && method === "set") {
                     blockTimestamp = getTimestamp(ex);

@@ -45,7 +45,8 @@ export class RmrkJetski
         // console.log(remarks);
 
         let blockId = blockNumber ;
-        let blockTimestamp: string = '0';
+        let blockTimestamp: string ;
+        blockTimestamp = '0';
 
         const blockRmrks : Array<Remark> = [];
 
@@ -54,6 +55,7 @@ export class RmrkJetski
             const { method: {
                 args, method, section
             }} = ex;
+
 
             //note timestamp extrinsic always comes first on a block
             if(section === "timestamp" && method === "set"){
