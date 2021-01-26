@@ -225,7 +225,7 @@ const entityGossip = async (rmrk: Entity) => {
 
 
         // let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: meta.description});
+        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: meta.name, description: meta.description});
 
         // myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);

@@ -50,7 +50,13 @@ class Entity extends Remark_js_1.Remark {
     static getMetaDataContent(url) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
-                const urlToCall = 'ipfs.io/ipfs/' + url;
+                let urlToCall = "";
+                if (url.includes('/') && url.includes('ipfs')) {
+                    urlToCall = 'ipfs.io/' + url;
+                }
+                else {
+                    urlToCall = 'ipfs.io/ipfs/' + url;
+                }
                 // const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
                 const get = new XMLHttpRequest();
                 let response;
