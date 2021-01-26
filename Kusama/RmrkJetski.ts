@@ -78,11 +78,11 @@ export class RmrkJetski
                     let lisibleUri = decodeURIComponent(uri);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
-
                     const reader = new RmrkReader(this.chain, tx);
                     const rmrkReader = reader.readRmrk(lisibleUri);
 
                     blockRmrks.push(rmrkReader);
+
                 }
             }
 

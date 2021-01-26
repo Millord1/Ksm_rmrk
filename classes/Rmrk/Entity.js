@@ -48,47 +48,37 @@ class Entity extends Remark_js_1.Remark {
         return obj;
     }
     // public async getMeta(){
-    //     this.metaData = await this.getMetaDataContent(this.url);
+    //     this.metaDataContent = await this.getMetaDataContent(this.url);
     // }
-    static getMetaData(url) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // const urlToCall = 'ipfs.io/' + url;
-            const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
-            const get = new XMLHttpRequest();
-            console.log(urlToCall);
-            let response;
-            get.open("GET", 'https://' + urlToCall);
-            get.send();
-            get.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    response = JSON.parse(this.responseText);
-                    // console.log(this.responseText);
-                    return new Metadata_js_1.Metadata(urlToCall, response);
-                    ;
-                }
-            };
-        });
-    }
     static getMetaDataContent(url) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                const urlToCall = 'ipfs.io/' + url;
+            return new Promise((resolve) => {
+                // const urlToCall = 'ipfs.io/' + url;
+                const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
                 const get = new XMLHttpRequest();
-                console.log(urlToCall);
                 let response;
                 let metaData;
-                get.open("GET", 'https://' + urlToCall);
-                get.send();
                 get.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         response = JSON.parse(this.responseText);
                         metaData = new Metadata_js_1.Metadata(urlToCall, response);
                         resolve(metaData);
                     }
-                    else {
-                        reject("call doesn't work");
-                    }
+                    // else{
+                    //     const metaObj : MetaDataInputs = {
+                    //         external_url : "",
+                    //         image : "",
+                    //         description : "",
+                    //         name : "",
+                    //         attributes : [],
+                    //         background_color : "",
+                    //     }
+                    //     metaData = new Metadata(urlToCall, metaObj);
+                    //     reject (metaData);
+                    // }
                 };
+                get.open("GET", 'https://' + urlToCall);
+                get.send();
             });
         });
     }

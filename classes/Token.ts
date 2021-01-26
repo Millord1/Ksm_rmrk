@@ -25,7 +25,7 @@ export class Token extends Entity
         contract: BlockchainContract|string,
         asset: Asset
         ) {
-        super(rmrk, Token.name, chain, version, transaction);
+        super(rmrk, Token.name, chain, version, transaction, asset.url);
 
         this.transferable = transferable;
         this.sn = sn;

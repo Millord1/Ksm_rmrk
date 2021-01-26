@@ -1,19 +1,15 @@
-import {BlockchainAddress} from "./Addresses/BlockchainAddress.js";
 import {Blockchain} from "./Blockchains/Blockchain.js";
 import {Entity} from "./Rmrk/Entity.js";
-import {BlockchainContract} from "./Contract/BlockchainContract.js";
 import {Token} from './Token.js';
 import {Transaction} from "./Transaction.js";
 import {Remark} from "./Rmrk/Remark.js";
 import {EntityInterface} from "./Interfaces.js";
-import {Metadata} from "./Metadata.js";
 
 
 export class Asset extends Entity
 {
 
     name: string;
-    metadata: string;
     token: Token;
 
 
@@ -23,11 +19,9 @@ export class Asset extends Entity
         version: string|null,
         transaction: Transaction,
         obj : EntityInterface,
-        url: string
         ) {
-        super(rmrk, Asset.name, chain, version, transaction, url);
+        super(rmrk, Asset.name, chain, version, transaction, obj.metadata);
         this.name = obj.name;
-        this.metadata = obj.metadata;
 
         this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
     }
@@ -43,7 +37,7 @@ export class Asset extends Entity
 
         const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
 
-        return new Asset(rmrk, chain, null, transaction, obj, obj.metadata);
+        return new Asset(rmrk, chain, null, transaction, obj);
     }
 
 
