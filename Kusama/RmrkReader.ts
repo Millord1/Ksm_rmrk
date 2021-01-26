@@ -12,6 +12,7 @@ import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 import {Transaction} from "../classes/Transaction.js";
 import {EntityInterface} from "../classes/Interfaces.js";
 import {Remark} from "../classes/Rmrk/Remark.js";
+import {Metadata} from "../classes/Metadata.js";
 
 
 export class RmrkReader
@@ -27,34 +28,34 @@ export class RmrkReader
     }
 
 
-    public readRmrk(rmrk: string){
+    // public readRmrk(rmrk: string){
+    //
+    //     const isInteraction = rmrk.includes('::');
+    //
+    //     if(isInteraction){
+    //         return this.readInteraction(rmrk);
+    //     }else{
+    //         return this.readEntity(rmrk);
+    //     }
+    //
+    // }
+    //
+    //
+    // public readEntity(rmrk: string){
+    //
+    //     const splitted = rmrk.split(',');
+    //
+    //     const obj : EntityInterface = Entity.dataTreatment(splitted, Remark.entityObj);
+    //
+    //     return (obj.id === "") ?
+    //         new Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
+    //         new Collection(rmrk, this.chain, obj.version, this.transaction, obj);
+    //
+    // }
 
-        const isInteraction = rmrk.includes('::');
-
-        if(isInteraction){
-            return this.readInteraction(rmrk);
-        }else{
-            return this.readEntity(rmrk);
-        }
-
-    }
 
 
-    public readEntity(rmrk: string){
-
-        const splitted = rmrk.split(',');
-
-        const obj : EntityInterface = Entity.dataTreatment(splitted, Remark.entityObj);
-
-        return (obj.id === "") ?
-            new Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
-            new Collection(rmrk, this.chain, obj.version, this.transaction, obj);
-
-    }
-
-
-
-    public readInteraction(rmrk: string){
+    public readInteraction(rmrk: string, meta: Metadata){
 
         const splitted = rmrk.split('::');
 
@@ -67,7 +68,7 @@ export class RmrkReader
 
             case 'mint':
 
-                interactObj = new Mint(rmrk, this.chain, this.transaction);
+                interactObj = new Mint(rmrk, this.chain, this.transaction, meta);
 
                 break;
 
@@ -79,32 +80,32 @@ export class RmrkReader
 
             case 'mintnft':
 
-                interactObj = new MintNft(rmrk, this.chain, this.transaction);
+                interactObj = new MintNft(rmrk, this.chain, this.transaction, meta);
 
                 break;
 
             case 'send' :
 
-                interactObj = new Send(rmrk, this.chain, this.transaction);
+                interactObj = new Send(rmrk, this.chain, this.transaction, meta);
 
                 break;
 
             case 'list' :
 
-                interactObj = new List(rmrk, this.chain, this.transaction);
+                interactObj = new List(rmrk, this.chain, this.transaction, meta);
 
                 break;
 
             case 'buy' :
 
-                interactObj = new Buy(rmrk, this.chain, this.transaction);
+                interactObj = new Buy(rmrk, this.chain, this.transaction, meta);
 
                 break;
 
             case 'consume' :
             default :
 
-                interactObj = new Consume(rmrk, this.chain, this.transaction);
+                interactObj = new Consume(rmrk, this.chain, this.transaction, meta);
 
                 break;
         }

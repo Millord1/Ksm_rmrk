@@ -18,9 +18,9 @@ class Interaction extends Remark_js_1.Remark {
     rmrkToArray() {
         return this.rmrk.split('::');
     }
-    nftFromComputedId(computed) {
+    nftFromComputedId(computed, meta) {
         let nftDatas = this.checkDatasLength(computed.split('-'), 3);
-        return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas);
+        return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
     }
     checkDatasLength(datas, length) {
         const obj = Remark_js_1.Remark.entityObj;

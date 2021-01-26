@@ -11,13 +11,13 @@ export abstract class Entity extends Remark implements PublicEntity
 {
 
     public standard: string;
-    public metaDataContent : Metadata | undefined;
-    public url: string;
+    public metaDataContent : Metadata;
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction, url: string) {
+
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction, meta: Metadata) {
         super(version, rmrk, chain, transaction);
         this.standard = standard;
-        this.url = url;
+        this.metaDataContent = meta
 
     }
 
@@ -67,9 +67,6 @@ export abstract class Entity extends Remark implements PublicEntity
     }
 
 
-    // public async getMeta(){
-    //     this.metaDataContent = await this.getMetaDataContent(this.url);
-    // }
 
 
 
@@ -77,12 +74,15 @@ export abstract class Entity extends Remark implements PublicEntity
 
         return new Promise((resolve) => {
 
-            // const urlToCall = 'ipfs.io/' + url;
-            const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
+            const urlToCall = 'ipfs.io/ipfs/' + url;
+            // const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
             const get = new XMLHttpRequest();
 
             let response: MetaDataInputs;
             let metaData : Metadata;
+
+            get.open("GET", 'https://' + urlToCall);
+            get.send();
 
             get.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -90,22 +90,7 @@ export abstract class Entity extends Remark implements PublicEntity
                     metaData = new Metadata(urlToCall, response);
                     resolve (metaData);
                 }
-                // else{
-                //     const metaObj : MetaDataInputs = {
-                //         external_url : "",
-                //         image : "",
-                //         description : "",
-                //         name : "",
-                //         attributes : [],
-                //         background_color : "",
-                //     }
-                //     metaData = new Metadata(urlToCall, metaObj);
-                //     reject (metaData);
-                // }
             }
-
-            get.open("GET", 'https://' + urlToCall);
-            get.send();
 
         });
 
