@@ -57,9 +57,6 @@ export class RmrkJetski
             }} = ex;
 
 
-
-
-
             //note timestamp extrinsic always comes first on a block
             if(section === "timestamp" && method === "set"){
                 blockTimestamp = getTimestamp(ex);
