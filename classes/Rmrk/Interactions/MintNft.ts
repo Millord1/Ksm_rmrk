@@ -2,24 +2,17 @@ import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
 import {Transaction} from "../../Transaction.js";
-import {CSCanonizeManager} from "../../../sandra/src/CSCannon/CSCanonizeManager.js";
-import {KusamaBlockchain} from "../../../sandra/src/CSCannon/Kusama/KusamaBlockchain.js";
-import {RmrkContractStandard} from "../../../sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
-import {Gossiper} from "../../../sandra/src/Gossiper.js";
+import {Metadata} from "../../Metadata.js";
 
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 export class MintNft extends Interaction
 {
     nft: Asset;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction){
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
         super(rmrk, MintNft.name, chain, null, transaction);
-        this.nft = Asset.createNftFromInteraction(rmrk,chain,transaction);
+        this.nft = Asset.createNftFromInteraction(rmrk,chain,transaction, meta);
 
-        const issuer = this.transaction.source;
-        this.transaction.source = '0x0';
-        this.transaction.destination.address = issuer;
     }
 
     public toJson(){
@@ -43,7 +36,7 @@ export class MintNft extends Interaction
     //     let nft = this.nft ;
     //
     //     //find image url
-    //     let metadataIpfs = this.nft.metadata ;
+    //     let metadataIpfs = this.nft.url ;
     //     metadataIpfs = metadataIpfs.replace('ipfs/','');
     //
     //     const url = "https://ipfs.io/ipfs/"+metadataIpfs;

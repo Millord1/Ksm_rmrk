@@ -3,6 +3,7 @@ import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Asset} from "../Asset.js";
 import {EntityInterface, PublicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
+import {Metadata} from "../Metadata.js";
 
 
 export abstract class Interaction extends Remark implements PublicInteraction
@@ -21,11 +22,11 @@ export abstract class Interaction extends Remark implements PublicInteraction
     }
 
 
-    public nftFromComputedId(computed: string){
+    public nftFromComputedId(computed: string, meta: Metadata){
 
         let nftDatas = this.checkDatasLength(computed.split('-'), 3);
 
-        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas);
+        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
     }
 
 

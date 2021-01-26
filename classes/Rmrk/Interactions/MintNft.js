@@ -3,14 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MintNft = void 0;
 const Interaction_js_1 = require("../Interaction.js");
 const Asset_js_1 = require("../../Asset.js");
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class MintNft extends Interaction_js_1.Interaction {
-    constructor(rmrk, chain, transaction) {
+    constructor(rmrk, chain, transaction, meta) {
         super(rmrk, MintNft.name, chain, null, transaction);
-        this.nft = Asset_js_1.Asset.createNftFromInteraction(rmrk, chain, transaction);
-        const issuer = this.transaction.source;
-        this.transaction.source = '0x0';
-        this.transaction.destination.address = issuer;
+        this.nft = Asset_js_1.Asset.createNftFromInteraction(rmrk, chain, transaction, meta);
     }
     toJson() {
         const json = this.nft.toJson(false, true);

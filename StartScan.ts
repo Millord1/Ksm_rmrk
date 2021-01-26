@@ -13,12 +13,13 @@ import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
 import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
 import {MintNft} from "./classes/Rmrk/Interactions/MintNft.js";
 import {Send} from "./classes/Rmrk/Interactions/Send.js";
-import {Interaction} from "./classes/Rmrk/Interaction.js";
 import {Entity} from "./classes/Rmrk/Entity.js";
 import {Remark} from "./classes/Rmrk/Remark.js";
+import {Collection} from "./classes/Collection.js";
+import {Asset} from "./classes/Asset.js";
 
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
@@ -52,38 +53,30 @@ export const testScan = async (opts: Option) => {
     scan.getRmrks(opts.block).then(
         result => {
 
+            console.log('start forEach');
+
             result.forEach(value => {
 
                 let collName : string = "";
                 let sn: string = "";
 
-                if(value instanceof Interaction){
+                if(value instanceof Send){
 
-                    if(value instanceof Send || value instanceof MintNft){
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
 
-                        collName = value.nft.token.contractId;
-                        sn = value.nft.token.sn
+                }else if (value instanceof MintNft){
 
-                    }else if (value instanceof Mint){
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
 
-                        collName = value.collection.name;
-                    }
+                    entityGossip(value.nft);
 
-                }else if(value instanceof Entity){
-
-                    // TODO for Entities, create async function
-                    Entity.getMetaDataContent(value.url)
-                        .then((result) => {
-                        value.metaDataContent = result;
-                    })
-                        .catch((e)=>{
-                        console.error(e);
-                        console.log('Error with the metadata call')
-                    });
-
+                }else if (value instanceof Mint){
+                    // collName = value.collection.name;
                 }
 
-                sendGossip(value, sn, collName);
+                eventGossip(value, sn, collName);
 
             })
         }
@@ -124,7 +117,7 @@ export const forceScan = async (block:number) => {
                     collName = value.collection.name;
                 }
 
-                sendGossip(value, sn, collName);
+                eventGossip(value, sn, collName);
             })
         }
     );
@@ -132,7 +125,7 @@ export const forceScan = async (block:number) => {
 
 
 
-const sendGossip = (value: Remark, sn: string, collName: string) => {
+const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
 
@@ -162,6 +155,93 @@ const sendGossip = (value: Remark, sn: string, collName: string) => {
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
+    sendToGossip(json);
+
+}
+
+
+
+const entityGossip = async (rmrk: Entity) => {
+
+
+    let canonizeManager = new CSCanonizeManager();
+    let sandra = canonizeManager.getSandra();
+
+    let kusama = new KusamaBlockchain(sandra);
+
+    let contractId : string = "";
+    let nft: Asset;
+
+    let result: any;
+
+    let meta = rmrk.metaDataContent;
+
+    if(rmrk instanceof Asset){
+
+        contractId = rmrk.token.contractId;
+        nft = rmrk ;
+
+        let myContract = kusama.contractFactory.getOrCreate(contractId);
+
+        // const meta = await Entity.getMetaDataContent(rmrk.url);
+
+        let image = meta.image.replace("ipfs://",'https://ipfs.io/');
+
+        let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
+        let myCollection = canonizeManager.createCollection({id: contractId, imageUrl: image, name: contractId, description: meta.description});
+
+        myAsset.bindCollection(myCollection);
+        myContract.bindToCollection(myCollection);
+
+        let rmrkToken = new RmrkContractStandard(canonizeManager);
+        rmrkToken.setSn(nft.token.sn);
+        let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
+
+        tokenPath.bindToAssetWithContract(myContract,myAsset);
+
+        let gossiper = new Gossiper(canonizeManager.getTokenFactory());
+        result = gossiper.exposeGossip();
+
+
+    }else if (rmrk instanceof Collection){
+
+
+        contractId = rmrk.contract.id;
+
+        let myContract = kusama.contractFactory.getOrCreate(contractId);
+
+        // const meta = await Entity.getMetaDataContent(rmrk.url, rmrk);
+
+        let image = meta.image.replace("ipfs://",'https://ipfs.io/');
+
+
+        // let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
+        let myCollection = canonizeManager.createCollection({id: contractId, imageUrl: image, name: contractId, description: meta.description});
+
+        // myAsset.bindCollection(myCollection);
+        myContract.bindToCollection(myCollection);
+
+        // let rmrkToken = new RmrkContractStandard(canonizeManager);
+        // rmrkToken.setSn(nft.token.sn);
+        // let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
+
+        // tokenPath.bindToAssetWithContract(myContract,myAsset);
+
+        let gossiper = new Gossiper(canonizeManager.getAssetCollectionFactory());
+        result = gossiper.exposeGossip();
+
+    }
+
+    let json = JSON.stringify(result,null,2); // pretty
+
+    sendToGossip(json);
+
+
+
+}
+
+
+function sendToGossip(json: string){
 
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");

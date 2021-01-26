@@ -3,15 +3,16 @@ import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
 import {BlockchainAddress} from "../../Addresses/BlockchainAddress.js";
 import {Transaction} from "../../Transaction.js";
+import {Metadata} from "../../Metadata.js";
 
 export class Consume extends Interaction
 {
 
-    nftToConsume: Asset;
+    nft: Asset;
     reason: string | undefined;
     consumer: BlockchainAddress | undefined;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction) {
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata) {
 
         super(rmrk, Consume.name, chain, null, transaction);
 
@@ -19,10 +20,10 @@ export class Consume extends Interaction
 
         if(consume[1].toLowerCase() === "consume"){
             this.version = consume[2];
-            this.nftToConsume = this.nftFromComputedId(consume[3]);
+            this.nft = this.nftFromComputedId(consume[3], meta);
         }else{
             this.reason = consume[1];
-            this.nftToConsume = this.nftFromComputedId(consume[2])
+            this.nft = this.nftFromComputedId(consume[2], meta)
 
             // @ts-ignore
             const consumer = this.chain.getAddressClass();

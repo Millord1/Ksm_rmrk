@@ -5,31 +5,31 @@ import {Asset} from "./Asset.js";
 import {Transaction} from "./Transaction.js";
 
 
-export class Token extends Entity
+export class Token
 {
 
     transferable: boolean | null;
     sn: string;
     contractId: string;
     contract: BlockchainContract | undefined;
-    asset: Asset;
+    // asset: Asset;
 
 
     constructor(
-        rmrk: string,
-        chain: Blockchain,
-        version: string|null,
-        transaction: Transaction,
+        // rmrk: string,
+        // chain: Blockchain,
+        // version: string|null,
+        // transaction: Transaction,
         transferable: boolean|null,
         sn: string,
         contract: BlockchainContract|string,
-        asset: Asset
+        // asset: Asset
         ) {
-        super(rmrk, Token.name, chain, version, transaction, asset.url);
+        // super(rmrk, Token.name, chain, version, transaction, asset.url);
 
         this.transferable = transferable;
         this.sn = sn;
-        this.asset = asset;
+        // this.asset = asset;
 
         if(contract instanceof BlockchainContract){
             this.contract = contract;

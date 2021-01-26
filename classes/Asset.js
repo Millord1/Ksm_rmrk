@@ -5,17 +5,19 @@ const Entity_js_1 = require("./Rmrk/Entity.js");
 const Token_js_1 = require("./Token.js");
 const Remark_js_1 = require("./Rmrk/Remark.js");
 class Asset extends Entity_js_1.Entity {
-    constructor(rmrk, chain, version, transaction, obj) {
-        super(rmrk, Asset.name, chain, version, transaction, obj.metadata);
+    constructor(rmrk, chain, version, transaction, obj, meta) {
+        super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
-        this.token = new Token_js_1.Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
+        // this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
+        this.token = new Token_js_1.Token(obj.transferable, obj.sn, obj.collection);
     }
-    static createNftFromInteraction(rmrk, chain, transaction) {
+    static createNftFromInteraction(rmrk, chain, transaction, meta) {
         const splitted = rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         const nftDatas = splitted[2].split(',');
         const obj = Entity_js_1.Entity.dataTreatment(nftDatas, Remark_js_1.Remark.entityObj);
-        return new Asset(rmrk, chain, null, transaction, obj);
+        // const meta = await Entity.getMetaDataContent(obj.metadata);
+        return new Asset(rmrk, chain, null, transaction, obj, meta);
     }
     toJson(needStringify = true, needSubstrate = true) {
         const json = this.toJsonSerialize();

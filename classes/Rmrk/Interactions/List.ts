@@ -2,33 +2,23 @@ import {Interaction} from "../Interaction.js";
 import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
 import {Transaction} from "../../Transaction.js";
+import {Metadata} from "../../Metadata.js";
 
 export class List extends Interaction
 {
 
-    nftId: Asset;
+    nft: Asset;
     quantity: string;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction) {
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata) {
         super(rmrk, List.name, chain, null, transaction);
 
         const splitted = this.rmrkToArray();
 
         this.version = splitted[2];
-        this.nftId = this.nftFromComputedId(splitted[3]);
+        this.nft = this.nftFromComputedId(splitted[3], meta);
         this.quantity = splitted[4];
     }
-
-    // public createList(){
-    //
-    //     const splitted = this.rmrkToArray();
-    //
-    //     this.version = splitted[2];
-    //     this.nftId = this.nftFromComputedId(splitted[3]);
-    //     this.quantity = splitted[4];
-    //
-    //     return this;
-    // }
 
 
     public toJson(){

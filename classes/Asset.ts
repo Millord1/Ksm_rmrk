@@ -4,6 +4,7 @@ import {Token} from './Token.js';
 import {Transaction} from "./Transaction.js";
 import {Remark} from "./Rmrk/Remark.js";
 import {EntityInterface} from "./Interfaces.js";
+import {Metadata} from "./Metadata.js";
 
 
 export class Asset extends Entity
@@ -12,23 +13,24 @@ export class Asset extends Entity
     name: string;
     token: Token;
 
-
     constructor(
         rmrk: string,
         chain: Blockchain,
         version: string|null,
         transaction: Transaction,
         obj : EntityInterface,
+        meta: Metadata
         ) {
-        super(rmrk, Asset.name, chain, version, transaction, obj.metadata);
+        super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
 
-        this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
+        // this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
+        this.token = new Token(obj.transferable, obj.sn, obj.collection);
     }
 
 
 
-    public static createNftFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction){
+    public static createNftFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
 
         const splitted = rmrk.split('::');
 
@@ -36,8 +38,10 @@ export class Asset extends Entity
         const nftDatas = splitted[2].split(',');
 
         const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
+        // const meta = await Entity.getMetaDataContent(obj.metadata);
 
-        return new Asset(rmrk, chain, null, transaction, obj);
+        return  new Asset(rmrk, chain, null, transaction, obj, meta);
+
     }
 
 
