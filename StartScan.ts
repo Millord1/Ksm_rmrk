@@ -82,7 +82,7 @@ export const testScan = async (opts: Option) => {
 
                     collName = value.collection.name;
 
-                    entityGossip(value.collection);
+                    // entityGossip(value.collection);
                 }
 
                 eventGossip(value, sn, collName);
