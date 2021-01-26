@@ -36,23 +36,26 @@ export class RmrkJetski
 
     public async getRmrks(blockNumber: number): Promise<Array<Remark>>{
 
-
         const api = await this.getApi();
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const block = await api.rpc.chain.getBlock(blockHash);
 
+        // const remarks = await api.tx.system.remark;
+        //
+        // console.log(remarks);
+
         let blockId = blockNumber ;
         let blockTimestamp: string ;
 
-
         const blockRmrks : Array<Remark> = [];
-
 
         for (const ex of block.block.extrinsics){
 
             const { method: {
                 args, method, section
             }} = ex;
+
+            blockTimestamp = '0';
 
             //note timestamp extrinsic always comes first on a block
             if(section === "timestamp" && method === "set"){
@@ -66,8 +69,7 @@ export class RmrkJetski
                 const signer = ex.signer.toString();
                 const hash = ex.hash.toHex();
 
-                // TODO blockTimestamp used before being assigned
-                //@ts-ignore
+
                 const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
                 if(remark.indexOf("") === 0){
@@ -80,7 +82,7 @@ export class RmrkJetski
 
                     const data = Entity.dataTreatment(splitted, Entity.entityObj);
 
-                    const meta = await Entity.getMetaDataContent(Entity.entityObj.metadata);
+                    const meta = await Entity.getMetaDataContent(data.metadata);
 
                     const reader = new RmrkReader(this.chain, tx);
                     const rmrkReader = reader.readInteraction(lisibleUri, meta);
@@ -89,10 +91,9 @@ export class RmrkJetski
 
                 }
             }
-
         }
-        return blockRmrks;
 
+        return blockRmrks;
     }
 
 
@@ -106,38 +107,6 @@ function getTimestamp(ex:any): string  {
     return secondTimestamp.toString();
 }
 
-
-// async function getMeta(rmrk: Interaction): Promise<Entity>{
-//
-//     let url: string;
-//     let entity: Entity;
-//
-//     if(rmrk.hasOwnProperty('nft')){
-//         //@ts-ignore
-//         entity = rmrk.nft;
-//         //@ts-ignore
-//         url = rmrk.nft.url;
-//     }else if (rmrk.hasOwnProperty('collection')){
-//         //@ts-ignore
-//         entity = rmrk.collection;
-//         //@ts-ignore
-//         url = rmrk.collection.url;
-//     }
-//
-//     return new Promise((resolve, reject) => {
-//
-//         if(url != ""){
-//             Entity.getMetaDataContent(url).then((meta)=>{
-//                 entity.metaDataContent = meta;
-//                 resolve (entity);
-//             });
-//         }else{
-//             reject ('no Meta')
-//         }
-//
-//     })
-//
-// }
 
 
 

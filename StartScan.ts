@@ -47,13 +47,12 @@ export const testScan = async (opts: Option) => {
     }
 
 
+
     const scan = new RmrkJetski(blockchain);
 
     // @ts-ignore
     scan.getRmrks(opts.block).then(
         result => {
-
-            console.log('start forEach');
 
             result.forEach(value => {
 
@@ -69,6 +68,10 @@ export const testScan = async (opts: Option) => {
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
+
+                    const source = value.transaction.source;
+                    value.transaction.source = '0x0';
+                    value.transaction.destination.address = source;
 
                     entityGossip(value.nft);
 
@@ -183,8 +186,6 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(contractId);
 
-        // const meta = await Entity.getMetaDataContent(rmrk.url);
-
         let image = meta.image.replace("ipfs://",'https://ipfs.io/');
 
         let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
@@ -235,8 +236,6 @@ const entityGossip = async (rmrk: Entity) => {
     let json = JSON.stringify(result,null,2); // pretty
 
     sendToGossip(json);
-
-
 
 }
 
