@@ -36,7 +36,7 @@ export abstract class Entity extends Remark implements PublicEntity
 
             const splittedDatas = index.split(',');
 
-            for(let i = 0; i < splittedDatas.length; i++){
+            for(let i = 0; i < splittedDatas.length; i ++){
                 splittedDatas[i] = splittedDatas[i].replace(/[&\/\\"']/g, '');
             }
 

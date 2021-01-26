@@ -53,8 +53,6 @@ export const testScan = async (opts: Option) => {
     scan.getRmrks(opts.block).then(
         result => {
 
-            console.log('start forEach');
-
             result.forEach(value => {
 
                 let collName : string = "";
@@ -107,10 +105,19 @@ export const forceScan = async (block:number) => {
                 let collName : string = "";
                 let sn: string = "";
 
-                if(value instanceof Send || value instanceof MintNft){
+                if(value instanceof Send){
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
+
+                }else if (value instanceof MintNft) {
+
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
+
+                    const source = value.transaction.source;
+                    value.transaction.source = '0x0';
+                    value.transaction.destination.address = source;
 
                 }else if (value instanceof Mint){
 
@@ -183,8 +190,6 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(contractId);
 
-        // const meta = await Entity.getMetaDataContent(rmrk.url);
-
         let image = meta.image.replace("ipfs://",'https://ipfs.io/');
 
         let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
@@ -235,8 +240,6 @@ const entityGossip = async (rmrk: Entity) => {
     let json = JSON.stringify(result,null,2); // pretty
 
     sendToGossip(json);
-
-
 
 }
 

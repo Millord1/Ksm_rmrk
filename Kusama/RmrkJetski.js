@@ -37,11 +37,14 @@ class RmrkJetski {
             const api = yield this.getApi();
             const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
             const block = yield api.rpc.chain.getBlock(blockHash);
+            const remarks = yield api.tx.system.remark;
+            console.log(remarks);
             let blockId = blockNumber;
             let blockTimestamp;
             const blockRmrks = [];
             for (const ex of block.block.extrinsics) {
                 const { method: { args, method, section } } = ex;
+                blockTimestamp = '0';
                 //note timestamp extrinsic always comes first on a block
                 if (section === "timestamp" && method === "set") {
                     blockTimestamp = getTimestamp(ex);
@@ -50,8 +53,6 @@ class RmrkJetski {
                     const remark = args.toString();
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
-                    // TODO blockTimestamp used before being assigned
-                    //@ts-ignore
                     const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
                     if (remark.indexOf("") === 0) {
                         const uri = util_1.hexToString(remark);
@@ -59,7 +60,7 @@ class RmrkJetski {
                         lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                         const splitted = lisibleUri.split('::');
                         const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
-                        const meta = yield Entity_js_1.Entity.getMetaDataContent(Entity_js_1.Entity.entityObj.metadata);
+                        const meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
                         const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
                         const rmrkReader = reader.readInteraction(lisibleUri, meta);
                         blockRmrks.push(rmrkReader);
@@ -67,47 +68,6 @@ class RmrkJetski {
                 }
             }
             return blockRmrks;
-            // block.block.extrinsics.forEach((ex: any) => {
-            // const { method: {
-            //     args, method, section
-            // }} = ex;
-            //
-            // //note timestamp extrinsic always comes first on a block
-            // if(section === "timestamp" && method === "set"){
-            //    blockTimestamp = getTimestamp(ex);
-            // }
-            //
-            //
-            // if(section === "system" && method === "remark"){
-            //
-            //     const remark = args.toString();
-            //     const signer = ex.signer.toString();
-            //     const hash = ex.hash.toHex();
-            //
-            //
-            //     const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-            //
-            //     if(remark.indexOf("") === 0){
-            //
-            //         const uri = hexToString(remark);
-            //         let lisibleUri = decodeURIComponent(uri);
-            //         lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-            //
-            //         const splitted = lisibleUri.split('::');
-            //
-            //         const data = Entity.dataTreatment(splitted, Entity.entityObj);
-            //
-            //         const meta = await Entity.getMetaDataContent(Entity.entityObj.metadata);
-            //
-            //         const reader = new RmrkReader(this.chain, tx);
-            //         const rmrkReader = reader.readInteraction(lisibleUri);
-            //
-            //         blockRmrks.push(rmrkReader);
-            //
-            //     }
-            // }
-            // })
-            // return blockRmrks;
         });
     }
 }
@@ -117,37 +77,6 @@ function getTimestamp(ex) {
     let secondTimestamp = Number(argString) / 1000;
     return secondTimestamp.toString();
 }
-// async function getMeta(rmrk: Interaction): Promise<Entity>{
-//
-//     let url: string;
-//     let entity: Entity;
-//
-//     if(rmrk.hasOwnProperty('nft')){
-//         //@ts-ignore
-//         entity = rmrk.nft;
-//         //@ts-ignore
-//         url = rmrk.nft.url;
-//     }else if (rmrk.hasOwnProperty('collection')){
-//         //@ts-ignore
-//         entity = rmrk.collection;
-//         //@ts-ignore
-//         url = rmrk.collection.url;
-//     }
-//
-//     return new Promise((resolve, reject) => {
-//
-//         if(url != ""){
-//             Entity.getMetaDataContent(url).then((meta)=>{
-//                 entity.metaDataContent = meta;
-//                 resolve (entity);
-//             });
-//         }else{
-//             reject ('no Meta')
-//         }
-//
-//     })
-//
-// }
 // const scan = new RmrkJetski(new Kusama());
 // FAIL
 // scan.getRmrks(5445790);
