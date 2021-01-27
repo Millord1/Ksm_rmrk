@@ -19,33 +19,34 @@ class Interaction extends Remark_js_1.Remark {
         return this.rmrk.split('::');
     }
     nftFromComputedId(computed, meta) {
-        let nftDatas = this.checkDatasLength(computed.split('-'), 3);
+        let nftDatas = this.checkDatasLength(computed.split('-'));
         return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
     }
-    checkDatasLength(datas, length) {
+    checkDatasLength(data) {
         const obj = Remark_js_1.Remark.entityObj;
-        if (datas.length > length) {
-            const name = datas[0] + '-' + datas[1] + '-' + datas[2];
-            datas.splice(0, 2);
-            const sn = datas[datas.length - 1];
-            let isNumber = true;
-            for (let i = 0; i < sn.length; i++) {
-                if (isNaN(parseInt(sn[i]))) {
-                    isNumber = false;
-                }
-            }
-            if (isNumber) {
-                const serialN = sn;
-                datas.pop();
-                let nftName = '';
-                for (let i = 0; i < datas.length; i++) {
-                    let first = (i === 0) ? '' : '-';
-                    nftName += first + datas[i];
-                }
-                obj.collection = name;
-                obj.name = nftName;
-                obj.sn = serialN;
-            }
+        if (data.length === 3) {
+            // Actual Rmrks (not allowed)
+            // let collection: string = "";
+            //
+            // obj.sn = data[data.length -1];
+            // data.splice(data.length -1, 1);
+            //
+            // obj.name = data[data.length -1];
+            // data.splice(data.length -1, 1);
+            //
+            // for (let i = 0; i<data.length; i++){
+            //     if(i != data.length-1){
+            //         collection += data[i] + '-';
+            //     }else{
+            //         collection += data[i];
+            //     }
+            // }
+            //
+            // obj.collection = collection;
+            // Normalization
+            obj.collection = data[0];
+            obj.name = data[1];
+            obj.sn = data[2];
         }
         return obj;
     }

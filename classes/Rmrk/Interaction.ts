@@ -24,47 +24,44 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
     public nftFromComputedId(computed: string, meta: Metadata|null){
 
-        let nftDatas = this.checkDatasLength(computed.split('-'), 3);
+        let nftDatas = this.checkDatasLength(computed.split('-'));
 
         return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
     }
 
 
-    private checkDatasLength(datas: Array<string>, length: number): EntityInterface{
+    private checkDatasLength(data: Array<string>): EntityInterface{
 
         const obj = Remark.entityObj;
 
-        if(datas.length > length){
+        if(data.length === 3){
 
-            const name = datas[0] + '-' + datas[1] + '-' + datas[2];
-            datas.splice(0, 2);
+            // Actual Rmrks (not allowed)
 
-            const sn = datas[datas.length -1];
+            // let collection: string = "";
+            //
+            // obj.sn = data[data.length -1];
+            // data.splice(data.length -1, 1);
+            //
+            // obj.name = data[data.length -1];
+            // data.splice(data.length -1, 1);
+            //
+            // for (let i = 0; i<data.length; i++){
+            //     if(i != data.length-1){
+            //         collection += data[i] + '-';
+            //     }else{
+            //         collection += data[i];
+            //     }
+            // }
+            //
+            // obj.collection = collection;
 
-            let isNumber = true;
 
-            for (let i=0; i < sn.length; i++ ){
-                if( isNaN(parseInt(sn[i])) ){
-                    isNumber = false;
-                }
-            }
+            // Normalization
+            obj.collection = data[0];
+            obj.name = data[1];
+            obj.sn = data[2];
 
-            if(isNumber){
-
-                const serialN = sn;
-                datas.pop();
-
-                let nftName = '';
-
-                for (let i=0; i < datas.length; i++){
-                    let first = (i === 0) ? '' : '-';
-                    nftName += first + datas[i];
-                }
-
-                obj.collection = name;
-                obj.name = nftName;
-                obj.sn = serialN;
-            }
         }
 
         return obj;
@@ -74,7 +71,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
     toJsonSerialize = () : PublicInteraction => ({
        version : this.version,
        rmrk: this.rmrk,
-       // @ts-ignore
+        // @ts-ignore
        chain: this.chain.toJson(),
        interaction: this.interaction
     });

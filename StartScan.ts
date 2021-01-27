@@ -65,7 +65,9 @@ export const testScan = async (opts: Option) => {
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
-                    eventGossip(value, sn, collName);
+                    if(sn != ""){
+                        eventGossip(value, sn, collName);
+                    }
 
                 }else if (value instanceof MintNft){
 
@@ -76,8 +78,10 @@ export const testScan = async (opts: Option) => {
                     value.transaction.source = '0x0';
                     value.transaction.destination.address = source;
 
-                    entityGossip(value.nft);
-                    eventGossip(value, sn, collName);
+                    if(sn != ""){
+                        entityGossip(value.nft)
+                        eventGossip(value, sn, collName);
+                    }
 
                 }else if (value instanceof Mint){
 
@@ -118,16 +122,12 @@ export const forceScan = async (block:number) => {
 
                 if(value instanceof Send){
 
-                    console.log('Send');
-
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
                     eventGossip(value, sn, collName, false);
 
                 }else if(value instanceof MintNft){
-
-                    console.log('MintNft');
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
@@ -140,8 +140,6 @@ export const forceScan = async (block:number) => {
                     eventGossip(value, sn, collName, false);
 
                 }else if (value instanceof Mint){
-
-                    console.log('Mint');
 
                     // collName = value.collection.name;
                     entityGossip(value.collection, false);

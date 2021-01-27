@@ -5,6 +5,7 @@ const Entity_js_1 = require("./Rmrk/Entity.js");
 const Token_js_1 = require("./Token.js");
 const Remark_js_1 = require("./Rmrk/Remark.js");
 class Asset extends Entity_js_1.Entity {
+    // TODO Instance ?
     constructor(rmrk, chain, version, transaction, obj, meta) {
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
