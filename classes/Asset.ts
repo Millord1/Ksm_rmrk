@@ -21,12 +21,11 @@ export class Asset extends Entity
         transaction: Transaction,
         obj : EntityInterface,
         meta: Metadata|null
-        ) {
+        ){
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
         this.instance = obj.instance;
 
-        // this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
         this.token = new Token(obj.transferable, obj.sn, obj.collection);
     }
 
@@ -40,7 +39,6 @@ export class Asset extends Entity
         const nftDatas = splitted[2].split(',');
 
         const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
-        // const meta = await Entity.getMetaDataContent(obj.metadata);
 
         return  new Asset(rmrk, chain, null, transaction, obj, meta);
 

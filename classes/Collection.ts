@@ -34,7 +34,6 @@ export class Collection extends Entity
         const splitted = rmrk.split('::');
 
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        // const datas = splitted[2].split(',');
 
         const obj = Entity.dataTreatment(splitted, Remark.entityObj);
 

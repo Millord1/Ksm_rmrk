@@ -28,33 +28,6 @@ export class RmrkReader
     }
 
 
-    // public readRmrk(rmrk: string){
-    //
-    //     const isInteraction = rmrk.includes('::');
-    //
-    //     if(isInteraction){
-    //         return this.readInteraction(rmrk);
-    //     }else{
-    //         return this.readEntity(rmrk);
-    //     }
-    //
-    // }
-    //
-    //
-    // public readEntity(rmrk: string){
-    //
-    //     const splitted = rmrk.split(',');
-    //
-    //     const obj : EntityInterface = Entity.dataTreatment(splitted, Remark.entityObj);
-    //
-    //     return (obj.id === "") ?
-    //         new Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
-    //         new Collection(rmrk, this.chain, obj.version, this.transaction, obj);
-    //
-    // }
-
-
-
     public readInteraction(rmrk: string, meta: Metadata|null){
 
         const splitted = rmrk.split('::');
