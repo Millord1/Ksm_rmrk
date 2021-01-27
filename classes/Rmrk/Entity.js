@@ -60,7 +60,20 @@ class Entity extends Remark_js_1.Remark {
                 get.send();
                 get.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        response = JSON.parse(this.responseText);
+                        try {
+                            response = JSON.parse(this.responseText);
+                        }
+                        catch (error) {
+                            response = {
+                                external_url: "",
+                                image: "",
+                                description: "",
+                                name: "",
+                                attributes: [],
+                                background_color: "",
+                            };
+                            console.error(error.message + "\n for the MetaData url : " + urlToCall);
+                        }
                         metaData = new Metadata_js_1.Metadata(urlToCall, response);
                         resolve(metaData);
                     }

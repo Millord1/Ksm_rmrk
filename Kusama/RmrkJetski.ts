@@ -89,8 +89,9 @@ export class RmrkJetski
                     const reader = new RmrkReader(this.chain, tx);
                     const rmrkReader = reader.readInteraction(lisibleUri, meta);
 
-                    blockRmrks.push(rmrkReader);
-
+                    if(rmrkReader instanceof Interaction){
+                        blockRmrks.push(rmrkReader);
+                    }
                 }
             }
         }

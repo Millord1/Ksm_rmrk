@@ -1,6 +1,6 @@
 
 import {testScan} from "./StartScan.js";
-import {defaultWalker} from "./scenarios.js";
+import {defaultWalker, obxiumBlocks} from "./scenarios.js";
 
 const {program} = require('commander');
 
@@ -19,5 +19,8 @@ program.command("fetch")
 program.command("story")
 
     .action(defaultWalker);
+
+program.command("bruno")
+    .action(obxiumBlocks);
 
 program.parse(process.argv);
