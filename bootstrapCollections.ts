@@ -23,7 +23,7 @@ console.log(kusama.addressFactory.entityByRevValMap);
 
 let myCollection = canonizeManager.createCollection({id:'my veryfirst collection',imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
 
-let myAsset = canonizeManager.createAsset({assetId:'A great asset I made',imageUrl:"https://picsum.photos/400"});
+let myAsset = canonizeManager.createAsset({assetId:'A great asset I made',imageUrl:"https://picsum.photos/400",description:'hello'});
 let myCOntract = kusama.contractFactory.getOrCreate('241B8516516F381A-FRACTAL');
 
 myAsset.bindCollection(myCollection);
