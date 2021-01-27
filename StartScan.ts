@@ -81,7 +81,7 @@ export const testScan = async (opts: Option) => {
 
                 }else if (value instanceof Mint){
 
-                    collName = value.collection.name;
+                    // collName = value.collection.name;
 
                     entityGossip(value.collection);
                 }
@@ -184,13 +184,13 @@ const entityGossip = async (rmrk: Entity) => {
     let meta;
 
     let name: string = "";
-    let metaImage: string = "";
+    let image: string = "";
     let description: string = "";
 
     if(rmrk.metaDataContent != null){
         meta = rmrk.metaDataContent
         name = meta.name;
-        metaImage = meta.image;
+        image = meta.image.replace("ipfs://",'https://ipfs.io/');
         description = meta.description;
     }
 
@@ -200,8 +200,6 @@ const entityGossip = async (rmrk: Entity) => {
         nft = rmrk ;
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
-
-        let image = metaImage.replace("ipfs://",'https://ipfs.io/');
 
         let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+name, imageUrl: image});
         let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: description});
@@ -226,8 +224,6 @@ const entityGossip = async (rmrk: Entity) => {
         collectionId = rmrk.contract.id;
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
-
-        let image = metaImage.replace("ipfs://",'https://ipfs.io/');
 
         let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: rmrk.contract.collection, description: description});
 
