@@ -13,30 +13,6 @@ class RmrkReader {
         this.chain = chain;
         this.transaction = transaction;
     }
-    // public readRmrk(rmrk: string){
-    //
-    //     const isInteraction = rmrk.includes('::');
-    //
-    //     if(isInteraction){
-    //         return this.readInteraction(rmrk);
-    //     }else{
-    //         return this.readEntity(rmrk);
-    //     }
-    //
-    // }
-    //
-    //
-    // public readEntity(rmrk: string){
-    //
-    //     const splitted = rmrk.split(',');
-    //
-    //     const obj : EntityInterface = Entity.dataTreatment(splitted, Remark.entityObj);
-    //
-    //     return (obj.id === "") ?
-    //         new Asset(rmrk, this.chain, obj.version, this.transaction, obj) :
-    //         new Collection(rmrk, this.chain, obj.version, this.transaction, obj);
-    //
-    // }
     readInteraction(rmrk, meta) {
         const splitted = rmrk.split('::');
         let interaction = splitted[1];

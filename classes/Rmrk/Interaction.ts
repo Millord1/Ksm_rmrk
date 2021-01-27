@@ -36,7 +36,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         if(datas.length > length){
 
-            const name = datas[0] + '-' + datas[1];
+            const name = datas[0] + '-' + datas[1] + '-' + datas[2];
             datas.splice(0, 2);
 
             const sn = datas[datas.length -1];

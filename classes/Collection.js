@@ -14,7 +14,6 @@ class Collection extends Entity_js_1.Entity {
     static createCollectionFromInteraction(rmrk, chain, transaction, meta) {
         const splitted = rmrk.split('::');
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        // const datas = splitted[2].split(',');
         const obj = Entity_js_1.Entity.dataTreatment(splitted, Remark_js_1.Remark.entityObj);
         return new Collection(rmrk, chain, obj.version, transaction, obj, meta);
     }

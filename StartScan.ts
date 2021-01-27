@@ -56,8 +56,6 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
-                //@ts-ignore
-                console.log(value.nft);
 
                 let collName : string = "";
                 let sn: string = "";
@@ -176,7 +174,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
-    sendToGossip(json);
+    // sendToGossip(json);
 
 }
 
@@ -247,7 +245,7 @@ const entityGossip = async (rmrk: Entity) => {
 
     let json = JSON.stringify(result,null,2); // pretty
 
-    sendToGossip(json);
+    // sendToGossip(json);
 
 }
 

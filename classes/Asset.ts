@@ -40,7 +40,7 @@ export class Asset extends Entity
 
         const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
 
-        return  new Asset(rmrk, chain, null, transaction, obj, meta);
+        return new Asset(rmrk, chain, null, transaction, obj, meta);
 
     }
 
