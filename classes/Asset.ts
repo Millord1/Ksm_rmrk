@@ -12,6 +12,7 @@ export class Asset extends Entity
 
     name: string;
     token: Token;
+    instance: string;
 
     constructor(
         rmrk: string,
@@ -23,6 +24,7 @@ export class Asset extends Entity
         ) {
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
+        this.instance = obj.instance;
 
         // this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
         this.token = new Token(obj.transferable, obj.sn, obj.collection);
