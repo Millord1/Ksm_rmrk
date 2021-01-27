@@ -10,7 +10,7 @@ export class List extends Interaction
     nft: Asset;
     quantity: string;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata) {
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null) {
         super(rmrk, List.name, chain, null, transaction);
 
         const splitted = this.rmrkToArray();

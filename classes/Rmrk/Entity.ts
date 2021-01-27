@@ -11,10 +11,10 @@ export abstract class Entity extends Remark implements PublicEntity
 {
 
     public standard: string;
-    public metaDataContent : Metadata;
+    public metaDataContent : Metadata|null;
 
 
-    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction, meta: Metadata) {
+    protected constructor(rmrk: string, standard: string, chain: Blockchain, version: string|null, transaction:Transaction, meta: Metadata|null) {
         super(version, rmrk, chain, transaction);
         this.standard = standard;
         this.metaDataContent = meta

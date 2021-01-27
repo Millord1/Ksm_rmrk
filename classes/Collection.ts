@@ -18,7 +18,7 @@ export class Collection extends Entity
                 version: string,
                 transaction:Transaction,
                 obj: EntityInterface,
-                meta: Metadata
+                meta: Metadata|null
     ) {
         super(rmrk, Collection.name, chain, version, transaction, meta);
 
@@ -29,7 +29,7 @@ export class Collection extends Entity
     }
 
 
-    public static createCollectionFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
+    public static createCollectionFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
 
         const splitted = rmrk.split('::');
 

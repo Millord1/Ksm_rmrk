@@ -10,7 +10,7 @@ export class Send extends Interaction
 
     public nft: Asset;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
         super(rmrk, Send.name, chain, null, transaction);
         const splitted = this.rmrkToArray();
 

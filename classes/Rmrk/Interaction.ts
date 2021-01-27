@@ -22,7 +22,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
     }
 
 
-    public nftFromComputedId(computed: string, meta: Metadata){
+    public nftFromComputedId(computed: string, meta: Metadata|null){
 
         let nftDatas = this.checkDatasLength(computed.split('-'), 3);
 

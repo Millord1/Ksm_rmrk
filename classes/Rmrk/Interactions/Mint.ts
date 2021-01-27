@@ -9,7 +9,7 @@ export class Mint extends Interaction
 
     collection: Collection;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
         super(rmrk, Mint.name, chain, null, transaction);
         this.collection = Collection.createCollectionFromInteraction(rmrk, chain, transaction, meta);
     }

@@ -6,6 +6,7 @@ import {Transaction} from "../classes/Transaction.js";
 import {Entity} from "../classes/Rmrk/Entity.js";
 import {Remark} from "../classes/Rmrk/Remark.js";
 import {Interaction} from "../classes/Rmrk/Interaction.js";
+import {Metadata} from "../classes/Metadata.js";
 
 export class RmrkJetski
 {
@@ -82,7 +83,13 @@ export class RmrkJetski
 
                     const data = Entity.dataTreatment(splitted, Entity.entityObj);
 
-                    const meta = await Entity.getMetaDataContent(data.metadata);
+                    let meta: Metadata|null;
+
+                    if(data.metadata !== ""){
+                        meta = await Entity.getMetaDataContent(data.metadata);
+                    }else{
+                        meta = null;
+                    }
 
                     const reader = new RmrkReader(this.chain, tx);
                     const rmrkReader = reader.readInteraction(lisibleUri, meta);
