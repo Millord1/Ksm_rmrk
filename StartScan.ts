@@ -56,6 +56,8 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
+                //@ts-ignore
+                console.log(value.nft);
 
                 let collName : string = "";
                 let sn: string = "";
@@ -210,8 +212,8 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
-        let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: description});
+        let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+name, imageUrl: image,description:description});
+        let myCollection = canonizeManager.createCollection({id: collectionId});
 
 
         myAsset.bindCollection(myCollection);

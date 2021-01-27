@@ -13,6 +13,7 @@ export class AssetFactory extends EntityFactory
     public static metaDataUrl = 'metaDataUrl';
     public static tokenJoinVerb = 'bindToContract';
     public static collectionJoinVerb = 'bindToCollection';
+    public static description = 'description';
 
     public constructor(sandra: SandraManager) {
         super('blockchainAsset', 'blockchainAssetFile', sandra);

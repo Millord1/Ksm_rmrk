@@ -12,6 +12,7 @@ export interface AssetInterface{
     assetId: string,
     metadataUrl?: string,
     imageUrl?: string,
+    description:string,
 
 
 }
@@ -31,7 +32,8 @@ export class Asset extends Entity
         this.sandra = sandra ;
         this.addReference(new Reference(sandra.get(AssetFactory.ID), assetInterface.assetId));
         assetInterface.imageUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.imageUrl)) : null ;
-        assetInterface.metadataUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.metadataUrl)) : null ;
+        assetInterface.metadataUrl ? this.addReference(new Reference(sandra.get(AssetFactory.metaDataUrl), assetInterface.metadataUrl)) : null ;
+        assetInterface.description? this.addReference(new Reference(sandra.get(AssetFactory.description), assetInterface.description)) : null ;
 
        // assetInterface.imageUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.imageUrl )): null;
 
