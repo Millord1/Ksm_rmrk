@@ -47,6 +47,6 @@ export interface MetaDataInputs
     image: string;
     description: string;
     name: string;
-    attributes: Array<string>;
+    attributes: Array<Object>;
     background_color: string;
 }

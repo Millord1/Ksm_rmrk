@@ -91,8 +91,24 @@ export abstract class Entity extends Remark implements PublicEntity
             get.onreadystatechange = function () {
 
                 if (this.readyState == 4 && this.status == 200) {
-                    response = JSON.parse(this.responseText);
+
+                    try{
+                        response = JSON.parse(this.responseText);
+                    }catch(error){
+                        response = {
+                            external_url : "",
+                            image : "",
+                            description : "",
+                            name : "",
+                            attributes : [],
+                            background_color : "",
+                        };
+
+                        console.error(error.message + "\n for the MetaData url : " + urlToCall);
+                    }
+
                     metaData = new Metadata(urlToCall, response);
+
                     resolve (metaData);
                 }else if(this.readyState == 4 && this.status == 404){
                     reject ('Bad request :' + this.status);

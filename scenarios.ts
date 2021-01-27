@@ -1,6 +1,6 @@
 import {Option} from "commander";
 import {forceScan} from "./StartScan.js";
-
+const {program} = require('commander');
 
 export const defaultWalker =  (opts: Option) => {
 
@@ -28,6 +28,33 @@ export const defaultWalker =  (opts: Option) => {
 
 
 
+}
+
+
+export const obxiumBlocks = (opts: Option) => {
+
+    // Warning strange rmrk : 5083441, 5098160, 5393445,
+
+    let blocks : Array<number> = [
+
+        4892957, 4892977, 4892993, 4893005, 4893017, 4893031, 4893349, 4960562, 4960567, 4960570, 5083411, 5083441, 5098160, 5238224, 5238231,
+        5306899, 5306904, 5306933, 5367976, 5378742, 5393445, 5419694, 5419739, 5419840, 5420035, 5420272, 5420337, 5420425, 5420484, 5420541,
+        5437915, 5437924, 5437960, 5437968, 5437975, 5437981
+
+    ];
+
+    let index:number = 0 ;
+    let speed:number = 6000 ;
+
+    blocks.forEach(blockIndex =>{
+
+        setTimeout(function(){console.log("reading " +blockIndex); forceScan(blockIndex); }, speed*index);
+        index++ ;
+
+        if(index == blocks.length){
+            process.exit();
+        }
+    });
 
 
 }

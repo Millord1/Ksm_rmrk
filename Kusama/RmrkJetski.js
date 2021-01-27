@@ -15,6 +15,7 @@ const util_1 = require("@polkadot/util");
 const RmrkReader_js_1 = require("./RmrkReader.js");
 const Transaction_js_1 = require("../classes/Transaction.js");
 const Entity_js_1 = require("../classes/Rmrk/Entity.js");
+const Interaction_js_1 = require("../classes/Rmrk/Interaction.js");
 class RmrkJetski {
     constructor(chain) {
         this.chain = chain;
@@ -66,7 +67,9 @@ class RmrkJetski {
                         }
                         const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
                         const rmrkReader = reader.readInteraction(lisibleUri, meta);
-                        blockRmrks.push(rmrkReader);
+                        if (rmrkReader instanceof Interaction_js_1.Interaction) {
+                            blockRmrks.push(rmrkReader);
+                        }
                     }
                 }
             }

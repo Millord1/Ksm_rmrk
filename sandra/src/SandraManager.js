@@ -35,6 +35,7 @@ class SandraManager {
             return this.conceptMap.get(shortname);
         return this.registerNewConcept(shortname);
     }
+    // public somethingToConcept(something:any):Concept{
     somethingToConcept(something) {
         if (something instanceof Concept_js_1.Concept)
             return something;

@@ -17,6 +17,7 @@ import {Entity} from "./classes/Rmrk/Entity.js";
 import {Remark} from "./classes/Rmrk/Remark.js";
 import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
+import {Interaction} from "./classes/Rmrk/Interaction.js";
 
 // const fs = require('fs');
 // const path = require('path');
@@ -56,7 +57,6 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
-
                 let collName : string = "";
                 let sn: string = "";
 
@@ -87,7 +87,8 @@ export const testScan = async (opts: Option) => {
                 }
 
             })
-        }
+        },
+
     );
 }
 
@@ -117,23 +118,33 @@ export const forceScan = async (block:number) => {
 
                 if(value instanceof Send){
 
+                    console.log('Send');
+
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
-                    eventGossip(value, sn, collName);
+                    eventGossip(value, sn, collName, false);
 
                 }else if(value instanceof MintNft){
 
+                    console.log('MintNft');
+
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
-                    entityGossip(value.nft);
-                    eventGossip(value, sn, collName);
+                    const source = value.transaction.source;
+                    value.transaction.source = '0x0';
+                    value.transaction.destination.address = source;
+
+                    entityGossip(value.nft, false);
+                    eventGossip(value, sn, collName, false);
 
                 }else if (value instanceof Mint){
 
+                    console.log('Mint');
+
                     // collName = value.collection.name;
-                    entityGossip(value.collection);
+                    entityGossip(value.collection, false);
                 }
 
 
@@ -144,7 +155,7 @@ export const forceScan = async (block:number) => {
 
 
 
-const eventGossip = (value: Remark, sn: string, collName: string) => {
+const eventGossip = (value: Remark, sn: string, collName: string, processExit: boolean = true) => {
 
     const recipient = value.transaction.destination.address;
 
@@ -174,13 +185,13 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
-    // sendToGossip(json);
+    sendToGossip(json, processExit);
 
 }
 
 
 
-const entityGossip = async (rmrk: Entity) => {
+const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
     let canonizeManager = new CSCanonizeManager();
     let sandra = canonizeManager.getSandra();
@@ -245,12 +256,12 @@ const entityGossip = async (rmrk: Entity) => {
 
     let json = JSON.stringify(result,null,2); // pretty
 
-    // sendToGossip(json);
+    sendToGossip(json, processExit);
 
 }
 
 
-function sendToGossip(json: string){
+function sendToGossip(json: string, processExit: boolean){
 
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
@@ -259,70 +270,9 @@ function sendToGossip(json: string){
     xmlhttp.addEventListener("load", ()=>{
         console.log("complete");
     });
+
+    if(processExit){
+        process.exit();
+    }
 }
 
-
-
-// export const forceScan = async (block:number) => {
-//
-//     let blockchain;
-//
-//
-//
-//             blockchain = new Kusama();
-//
-//
-//
-//     const scan = new RmrkJetski(blockchain);
-//
-//
-//     scan.getRmrks(block).then(
-//         result => {
-//
-//             result.forEach(value => {
-//
-//
-//                 const recipient = value.transaction.destination.address;
-//
-//                 const collName = value.nft.token.contractId;
-//
-//                 let canonizeManager = new CSCanonizeManager();
-//                 let sandra =  canonizeManager.getSandra();
-//                 let blockchain = new KusamaBlockchain(sandra);
-//
-//                 const signer = value.transaction.source;
-//
-//                 let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
-//
-//                 let receiver = new BlockchainAddress(blockchain.addressFactory, recipient, sandra);
-//
-//                 let contract = new BlockchainContract(blockchain.contractFactory, collName, sandra,new RmrkContractStandard(canonizeManager));
-//
-//                 const txId = value.transaction.txHash;
-//                 const timestamp = value.transaction.timestamp;
-//                 const blockId = value.transaction.blockId;
-//
-//
-//                 const contractStandard = new RmrkContractStandard(canonizeManager, value.nft.token.sn);
-//
-//                 let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
-//
-//                 let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
-//                 const json = JSON.stringify(gossiper.exposeGossip());
-//
-//
-//
-//
-//
-//                 const xmlhttp = new XMLHttpRequest();
-//                 xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-//                 xmlhttp.setRequestHeader("Content-Type", "application/json");
-//                 xmlhttp.send(json);
-//                 xmlhttp.addEventListener("load", ()=>{
-//                     console.log("complete");
-//                 });
-//
-//             })
-//         }
-//     );
-// }
