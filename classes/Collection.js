@@ -9,7 +9,6 @@ class Collection extends Entity_js_1.Entity {
         super(rmrk, Collection.name, chain, version, transaction, meta);
         this.name = obj.name;
         this.version = version;
-        this.instance = obj.instance;
         this.contract = new BlockchainContract_js_1.BlockchainContract(this.chain, obj.name, obj.id, obj.symbol, obj.max);
     }
     static createCollectionFromInteraction(rmrk, chain, transaction, meta) {

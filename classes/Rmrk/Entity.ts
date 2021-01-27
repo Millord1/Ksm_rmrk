@@ -70,36 +70,32 @@ export abstract class Entity extends Remark implements PublicEntity
 
 
 
-    public static async getMetaDataContent(url: string): Promise<Metadata>{
+    public static async getMetaDataContent(urlIpfs: string): Promise<Metadata>{
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
 
             let urlToCall : string = "";
 
-            if(url.includes('/') && url.includes('ipfs')){
+            urlIpfs = urlIpfs.replace('ipfs/','');
 
-                urlToCall = 'ipfs.io/' + url;
+            urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
 
-            }else{
-
-                urlToCall = 'ipfs.io/ipfs/' + url;
-            }
-
-
-            // const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
             const get = new XMLHttpRequest();
 
             let response: MetaDataInputs;
             let metaData : Metadata;
 
-            get.open("GET", 'https://' + urlToCall);
+            get.open("GET", urlToCall);
             get.send();
 
             get.onreadystatechange = function () {
+
                 if (this.readyState == 4 && this.status == 200) {
                     response = JSON.parse(this.responseText);
                     metaData = new Metadata(urlToCall, response);
                     resolve (metaData);
+                }else if(this.readyState == 4 && this.status == 404){
+                    reject ('Bad request :' + this.status);
                 }
             }
 

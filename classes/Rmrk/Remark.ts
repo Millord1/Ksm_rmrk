@@ -1,7 +1,6 @@
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Transaction} from "../Transaction.js";
 import {EntityInterface} from "../Interfaces.js";
-import {BlockchainContract} from "../Contract/BlockchainContract.js";
 
 
 export abstract class Remark

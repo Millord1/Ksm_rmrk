@@ -59,7 +59,6 @@ class RmrkJetski {
                         const uri = util_1.hexToString(remark);
                         let lisibleUri = decodeURIComponent(uri);
                         lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                        console.log(lisibleUri);
                         const splitted = lisibleUri.split('::');
                         const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
                         let meta;

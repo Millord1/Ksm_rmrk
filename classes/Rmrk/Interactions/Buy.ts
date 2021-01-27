@@ -15,12 +15,6 @@ export class Buy extends Interaction
         this.nft = this.nftFromComputedId(splitted[3], meta);
     }
 
-    // public createBuy(){
-    //     const splitted = this.rmrkToArray();
-    //     this.nftId = this.nftFromComputedId(splitted[3]);
-    //     return this;
-    // }
-
 
     public toJson(){
 

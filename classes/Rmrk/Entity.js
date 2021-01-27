@@ -47,27 +47,25 @@ class Entity extends Remark_js_1.Remark {
         });
         return obj;
     }
-    static getMetaDataContent(url) {
+    static getMetaDataContent(urlIpfs) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 let urlToCall = "";
-                if (url.includes('/') && url.includes('ipfs')) {
-                    urlToCall = 'ipfs.io/' + url;
-                }
-                else {
-                    urlToCall = 'ipfs.io/ipfs/' + url;
-                }
-                // const urlToCall = 'ipfs.io/ipfs/QmavoTVbVHnGEUztnBT2p3rif3qBPeCfyyUE5v4Z7oFvs4';
+                urlIpfs = urlIpfs.replace('ipfs/', '');
+                urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
                 const get = new XMLHttpRequest();
                 let response;
                 let metaData;
-                get.open("GET", 'https://' + urlToCall);
+                get.open("GET", urlToCall);
                 get.send();
                 get.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         response = JSON.parse(this.responseText);
                         metaData = new Metadata_js_1.Metadata(urlToCall, response);
                         resolve(metaData);
+                    }
+                    else if (this.readyState == 4 && this.status == 404) {
+                        reject('404');
                     }
                 };
             });

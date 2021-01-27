@@ -41,13 +41,8 @@ export class RmrkJetski
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
         const block = await api.rpc.chain.getBlock(blockHash);
 
-        // const remarks = await api.tx.system.remark;
-        //
-        // console.log(remarks);
-
         let blockId = blockNumber ;
-        let blockTimestamp: string ;
-        blockTimestamp = '0';
+        let blockTimestamp: string = '0';
 
         const blockRmrks : Array<Remark> = [];
 
@@ -78,7 +73,7 @@ export class RmrkJetski
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                    console.log(lisibleUri);
+
                     const splitted = lisibleUri.split('::');
 
                     const data = Entity.dataTreatment(splitted, Entity.entityObj);

@@ -20,19 +20,5 @@ export class BlockchainContract
     }
 
 
-    // public createContract(obj: any, chain: Blockchain, collection: Collection){
-    //
-    //     this.chain = chain;
-    //     this.collection = collection.name;
-    //
-    //     this.version = obj.version;
-    //     this.max = obj.max;
-    //     this.symbol = obj.symbol;
-    //     this.id = obj.id;
-    //
-    //     // @ts-ignore
-    //     this.issuer = (obj.issuer === null) ? undefined : this.chain.getAddressClass();
-    // }
-
 
 }
