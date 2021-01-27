@@ -65,7 +65,7 @@ class Entity extends Remark_js_1.Remark {
                         resolve(metaData);
                     }
                     else if (this.readyState == 4 && this.status == 404) {
-                        reject('404');
+                        reject('Bad request :' + this.status);
                     }
                 };
             });

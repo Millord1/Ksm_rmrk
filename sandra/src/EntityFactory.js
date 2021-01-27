@@ -43,6 +43,10 @@ class EntityFactory {
             }
         });
     }
+    getOrUpdateEntity(entity, onRefConcept) {
+        const updateOn = onRefConcept ? onRefConcept : this.updateOnExistingRef;
+        this.entityArray.find(element => element.getRefValue(updateOn));
+    }
     joinFactory(entityFactory, onVerb) {
         if (this.joinedFactory.find(e => e.onVerb === onVerb))
             return;

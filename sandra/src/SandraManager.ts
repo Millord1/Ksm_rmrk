@@ -69,8 +69,8 @@ export class SandraManager {
 
 
     }
-
-    public somethingToConcept(something:any):Concept{
+   // public somethingToConcept(something:any):Concept{
+    public somethingToConcept(something:any){
 
        if (something instanceof Concept) return something ;
        if (typeof something === 'string'){

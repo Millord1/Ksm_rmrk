@@ -35,6 +35,18 @@ class SandraManager {
             return this.conceptMap.get(shortname);
         return this.registerNewConcept(shortname);
     }
+    // public somethingToConcept(something:any):Concept{
+    somethingToConcept(something) {
+        if (something instanceof Concept_js_1.Concept)
+            return something;
+        if (typeof something === 'string') {
+            return this.get(something);
+        }
+        if (typeof something === "number") {
+            let concept = [...this.conceptMap.values()].filter((item) => item.unid === something);
+            return concept[0];
+        }
+    }
 }
 exports.SandraManager = SandraManager;
 //# sourceMappingURL=SandraManager.js.map

@@ -9,7 +9,6 @@ class Asset extends Entity_js_1.Entity {
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
         this.instance = obj.instance;
-        // this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
         this.token = new Token_js_1.Token(obj.transferable, obj.sn, obj.collection);
     }
     static createNftFromInteraction(rmrk, chain, transaction, meta) {
@@ -17,7 +16,6 @@ class Asset extends Entity_js_1.Entity {
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
         const nftDatas = splitted[2].split(',');
         const obj = Entity_js_1.Entity.dataTreatment(nftDatas, Remark_js_1.Remark.entityObj);
-        // const meta = await Entity.getMetaDataContent(obj.metadata);
         return new Asset(rmrk, chain, null, transaction, obj, meta);
     }
     toJson(needStringify = true, needSubstrate = true) {

@@ -37,12 +37,8 @@ class RmrkJetski {
             const api = yield this.getApi();
             const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
             const block = yield api.rpc.chain.getBlock(blockHash);
-            // const remarks = await api.tx.system.remark;
-            //
-            // console.log(remarks);
             let blockId = blockNumber;
-            let blockTimestamp;
-            blockTimestamp = '0';
+            let blockTimestamp = '0';
             const blockRmrks = [];
             for (const ex of block.block.extrinsics) {
                 const { method: { args, method, section } } = ex;
