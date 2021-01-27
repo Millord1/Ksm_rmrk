@@ -8,6 +8,7 @@ class Asset extends Entity_js_1.Entity {
     constructor(rmrk, chain, version, transaction, obj, meta) {
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
+        this.instance = obj.instance;
         // this.token = new Token(this.rmrk, this.chain, this.version, this.transaction, obj.transferable, obj.sn, obj.collection, this);
         this.token = new Token_js_1.Token(obj.transferable, obj.sn, obj.collection);
     }

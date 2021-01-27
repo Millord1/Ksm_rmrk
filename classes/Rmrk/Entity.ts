@@ -72,7 +72,7 @@ export abstract class Entity extends Remark implements PublicEntity
 
     public static async getMetaDataContent(urlIpfs: string): Promise<Metadata>{
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
 
             let urlToCall : string = "";
 
@@ -85,14 +85,17 @@ export abstract class Entity extends Remark implements PublicEntity
             let response: MetaDataInputs;
             let metaData : Metadata;
 
-            get.open("GET", 'https://' + urlToCall);
+            get.open("GET", urlToCall);
             get.send();
 
             get.onreadystatechange = function () {
+
                 if (this.readyState == 4 && this.status == 200) {
                     response = JSON.parse(this.responseText);
                     metaData = new Metadata(urlToCall, response);
                     resolve (metaData);
+                }else if(this.readyState == 4 && this.status == 404){
+                    reject ('404');
                 }
             }
 

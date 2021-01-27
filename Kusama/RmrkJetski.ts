@@ -78,7 +78,7 @@ export class RmrkJetski
                     const uri = hexToString(remark);
                     let lisibleUri = decodeURIComponent(uri);
                     lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                    console.log(lisibleUri);
+
                     const splitted = lisibleUri.split('::');
 
                     const data = Entity.dataTreatment(splitted, Entity.entityObj);
