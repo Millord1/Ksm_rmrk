@@ -115,17 +115,28 @@ export const forceScan = async (block:number) => {
                 let collName : string = "";
                 let sn: string = "";
 
-                if(value instanceof Send || value instanceof MintNft){
+                if(value instanceof Send){
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
+                    eventGossip(value, sn, collName);
+
+                }else if(value instanceof MintNft){
+
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
+
+                    entityGossip(value.nft);
+                    eventGossip(value, sn, collName);
+
                 }else if (value instanceof Mint){
 
-                    collName = value.collection.name;
+                    // collName = value.collection.name;
+                    entityGossip(value.collection);
                 }
 
-                eventGossip(value, sn, collName);
+
             })
         }
     );
@@ -181,14 +192,12 @@ const entityGossip = async (rmrk: Entity) => {
 
     let result: any;
 
-    let meta;
-
     let name: string = "";
     let image: string = "";
     let description: string = "";
 
     if(rmrk.metaDataContent != null){
-        meta = rmrk.metaDataContent
+        const meta = rmrk.metaDataContent
         name = meta.name;
         image = meta.image.replace("ipfs://",'https://ipfs.io/');
         description = meta.description;
