@@ -110,7 +110,7 @@ function getTimestamp(ex:any): string  {
     return secondTimestamp.toString();
 }
 
-
+// 4960570
 
 
 // const scan = new RmrkJetski(new Kusama());

@@ -83,6 +83,7 @@ function getTimestamp(ex) {
     let secondTimestamp = Number(argString) / 1000;
     return secondTimestamp.toString();
 }
+// 4960570
 // const scan = new RmrkJetski(new Kusama());
 // FAIL
 // scan.getRmrks(5445790);
