@@ -171,6 +171,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
 const entityGossip = async (rmrk: Entity) => {
 
+    console.log(rmrk);
 
     let canonizeManager = new CSCanonizeManager();
     let sandra = canonizeManager.getSandra();

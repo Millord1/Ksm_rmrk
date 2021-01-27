@@ -12,6 +12,7 @@ export class Collection extends Entity
 
     name: string;
     contract: BlockchainContract;
+    instance: string;
 
     constructor(rmrk: string,
                 chain: Blockchain,
@@ -24,6 +25,7 @@ export class Collection extends Entity
 
         this.name = obj.name;
         this.version = version;
+        this.instance = obj.instance;
 
         this.contract = new BlockchainContract(this.chain, obj.name, obj.id, obj.symbol, obj.max);
     }

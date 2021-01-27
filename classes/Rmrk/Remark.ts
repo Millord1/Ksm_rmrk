@@ -19,7 +19,8 @@ export abstract class Remark
         metadata: "",
         transferable: null,
         sn: "",
-        collection: ""
+        collection: "",
+        instance: ""
     };
 
     version: string;
