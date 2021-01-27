@@ -76,8 +76,8 @@ export const testScan = async (opts: Option) => {
                     value.transaction.source = '0x0';
                     value.transaction.destination.address = source;
 
-                    // entityGossip(value.nft);
-                    // eventGossip(value, sn, collName);
+                    entityGossip(value.nft);
+                    eventGossip(value, sn, collName);
 
                 }else if (value instanceof Mint){
 
@@ -163,7 +163,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
-    // sendToGossip(json);
+    sendToGossip(json);
 
 }
 
@@ -243,7 +243,7 @@ const entityGossip = async (rmrk: Entity) => {
     let json = JSON.stringify(result,null,2); // pretty
 
 
-    // sendToGossip(json);
+    sendToGossip(json);
 
 }
 
