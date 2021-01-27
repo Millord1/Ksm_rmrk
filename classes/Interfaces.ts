@@ -37,7 +37,8 @@ export interface EntityInterface
     metadata: string,
     transferable: boolean|null,
     sn: string,
-    collection: string
+    collection: string,
+    instance: string
 }
 
 export interface MetaDataInputs

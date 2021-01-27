@@ -56,8 +56,6 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
-                //@ts-ignore
-                console.log(value.nft);
 
                 let collName : string = "";
                 let sn: string = "";
@@ -66,6 +64,7 @@ export const testScan = async (opts: Option) => {
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
+
                     eventGossip(value, sn, collName);
 
                 }else if (value instanceof MintNft){
@@ -77,8 +76,8 @@ export const testScan = async (opts: Option) => {
                     value.transaction.source = '0x0';
                     value.transaction.destination.address = source;
 
-                    entityGossip(value.nft);
-                    eventGossip(value, sn, collName);
+                    // entityGossip(value.nft);
+                    // eventGossip(value, sn, collName);
 
                 }else if (value instanceof Mint){
 
@@ -164,7 +163,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
-    sendToGossip(json);
+    // sendToGossip(json);
 
 }
 
@@ -172,6 +171,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
 const entityGossip = async (rmrk: Entity) => {
 
+    console.log(rmrk);
 
     let canonizeManager = new CSCanonizeManager();
     let sandra = canonizeManager.getSandra();
@@ -183,7 +183,18 @@ const entityGossip = async (rmrk: Entity) => {
 
     let result: any;
 
-    let meta = rmrk.metaDataContent;
+    let meta;
+
+    let name: string = "";
+    let metaImage: string = "";
+    let description: string = "";
+
+    if(rmrk.metaDataContent != null){
+        meta = rmrk.metaDataContent
+        name = meta.name;
+        metaImage = meta.image;
+        description = meta.description;
+    }
 
     if(rmrk instanceof Asset){
 
@@ -192,11 +203,10 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
-        let image = meta.image.replace("ipfs://",'https://ipfs.io/');
+        let image = metaImage.replace("ipfs://",'https://ipfs.io/');
 
-
-        let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+meta.name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: meta.description});
+        let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+name, imageUrl: image});
+        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: collectionId, description: description});
 
 
         myAsset.bindCollection(myCollection);
@@ -206,7 +216,7 @@ const entityGossip = async (rmrk: Entity) => {
         rmrkToken.setSn(nft.token.sn);
         let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
 
-        tokenPath.bindToAssetWithContract(myContract,myAsset);
+        tokenPath.bindToAssetWithContract(myContract, myAsset);
 
         let gossiper = new Gossiper(canonizeManager.getTokenFactory());
         result = gossiper.exposeGossip();
@@ -219,22 +229,11 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
-        // const meta = await Entity.getMetaDataContent(rmrk.url, rmrk);
+        let image = metaImage.replace("ipfs://",'https://ipfs.io/');
 
-        let image = meta.image.replace("ipfs://",'https://ipfs.io/');
+        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: rmrk.contract.collection, description: description});
 
-
-        // let myAsset = canonizeManager.createAsset({assetId: contractId+'-'+meta.name, imageUrl: image});
-        let myCollection = canonizeManager.createCollection({id: collectionId, imageUrl: image, name: meta.name, description: meta.description});
-
-        // myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
-
-        // let rmrkToken = new RmrkContractStandard(canonizeManager);
-        // rmrkToken.setSn(nft.token.sn);
-        // let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
-
-        // tokenPath.bindToAssetWithContract(myContract,myAsset);
 
         let gossiper = new Gossiper(canonizeManager.getAssetCollectionFactory());
         result = gossiper.exposeGossip();
@@ -243,7 +242,8 @@ const entityGossip = async (rmrk: Entity) => {
 
     let json = JSON.stringify(result,null,2); // pretty
 
-    sendToGossip(json);
+
+    // sendToGossip(json);
 
 }
 
@@ -287,11 +287,6 @@ function sendToGossip(json: string){
 //                 let canonizeManager = new CSCanonizeManager();
 //                 let sandra =  canonizeManager.getSandra();
 //                 let blockchain = new KusamaBlockchain(sandra);
-//
-//                 // TODO change it when Mint is needed
-//                 // Add signer '0x0' by default in Mint
-//
-//
 //
 //                 const signer = value.transaction.source;
 //

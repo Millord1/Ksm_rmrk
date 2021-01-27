@@ -59,9 +59,16 @@ class RmrkJetski {
                         const uri = util_1.hexToString(remark);
                         let lisibleUri = decodeURIComponent(uri);
                         lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+                        console.log(lisibleUri);
                         const splitted = lisibleUri.split('::');
                         const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
-                        const meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
+                        let meta;
+                        if (data.metadata !== "") {
+                            meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
+                        }
+                        else {
+                            meta = null;
+                        }
                         const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
                         const rmrkReader = reader.readInteraction(lisibleUri, meta);
                         blockRmrks.push(rmrkReader);

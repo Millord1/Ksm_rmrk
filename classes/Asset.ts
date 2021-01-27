@@ -19,7 +19,7 @@ export class Asset extends Entity
         version: string|null,
         transaction: Transaction,
         obj : EntityInterface,
-        meta: Metadata
+        meta: Metadata|null
         ) {
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
@@ -30,7 +30,7 @@ export class Asset extends Entity
 
 
 
-    public static createNftFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
+    public static createNftFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
 
         const splitted = rmrk.split('::');
 

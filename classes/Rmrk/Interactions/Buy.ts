@@ -9,7 +9,7 @@ export class Buy extends Interaction
 
     nft: Asset;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata) {
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null) {
         super(rmrk, Buy.name, chain, null, transaction);
         const splitted = this.rmrkToArray();
         this.nft = this.nftFromComputedId(splitted[3], meta);

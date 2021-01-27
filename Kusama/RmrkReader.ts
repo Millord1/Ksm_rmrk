@@ -55,7 +55,7 @@ export class RmrkReader
 
 
 
-    public readInteraction(rmrk: string, meta: Metadata){
+    public readInteraction(rmrk: string, meta: Metadata|null){
 
         const splitted = rmrk.split('::');
 

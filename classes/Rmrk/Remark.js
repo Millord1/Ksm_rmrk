@@ -23,6 +23,7 @@ Remark.entityObj = {
     metadata: "",
     transferable: null,
     sn: "",
-    collection: ""
+    collection: "",
+    instance: ""
 };
 //# sourceMappingURL=Remark.js.map

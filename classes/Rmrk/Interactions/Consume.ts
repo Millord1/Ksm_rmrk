@@ -12,7 +12,7 @@ export class Consume extends Interaction
     reason: string | undefined;
     consumer: BlockchainAddress | undefined;
 
-    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata) {
+    constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null) {
 
         super(rmrk, Consume.name, chain, null, transaction);
 

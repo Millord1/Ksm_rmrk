@@ -12,24 +12,26 @@ export class Collection extends Entity
 
     name: string;
     contract: BlockchainContract;
+    instance: string;
 
     constructor(rmrk: string,
                 chain: Blockchain,
                 version: string,
                 transaction:Transaction,
                 obj: EntityInterface,
-                meta: Metadata
+                meta: Metadata|null
     ) {
         super(rmrk, Collection.name, chain, version, transaction, meta);
 
         this.name = obj.name;
         this.version = version;
+        this.instance = obj.instance;
 
         this.contract = new BlockchainContract(this.chain, obj.name, obj.id, obj.symbol, obj.max);
     }
 
 
-    public static createCollectionFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata){
+    public static createCollectionFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
 
         const splitted = rmrk.split('::');
 
