@@ -25,7 +25,7 @@ class Interaction extends Remark_js_1.Remark {
     checkDatasLength(datas, length) {
         const obj = Remark_js_1.Remark.entityObj;
         if (datas.length > length) {
-            const name = datas[0] + '-' + datas[1];
+            const name = datas[0] + '-' + datas[1] + '-' + datas[2];
             datas.splice(0, 2);
             const sn = datas[datas.length - 1];
             let isNumber = true;

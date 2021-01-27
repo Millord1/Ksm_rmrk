@@ -9,6 +9,9 @@ export class MintNft extends Interaction
 {
     nft: Asset;
 
+    // TODO : collection ID différent for Asset and MintNft
+    // value.nft.token.contractId
+
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
         super(rmrk, MintNft.name, chain, null, transaction);
         this.nft = Asset.createNftFromInteraction(rmrk,chain,transaction, meta);

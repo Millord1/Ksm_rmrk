@@ -56,8 +56,6 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
-                //@ts-ignore
-                console.log(value.nft);
 
                 let collName : string = "";
                 let sn: string = "";
@@ -117,17 +115,28 @@ export const forceScan = async (block:number) => {
                 let collName : string = "";
                 let sn: string = "";
 
-                if(value instanceof Send || value instanceof MintNft){
+                if(value instanceof Send){
 
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
+                    eventGossip(value, sn, collName);
+
+                }else if(value instanceof MintNft){
+
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
+
+                    entityGossip(value.nft);
+                    eventGossip(value, sn, collName);
+
                 }else if (value instanceof Mint){
 
-                    collName = value.collection.name;
+                    // collName = value.collection.name;
+                    entityGossip(value.collection);
                 }
 
-                eventGossip(value, sn, collName);
+
             })
         }
     );
@@ -165,7 +174,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
-    sendToGossip(json);
+    // sendToGossip(json);
 
 }
 
@@ -183,14 +192,12 @@ const entityGossip = async (rmrk: Entity) => {
 
     let result: any;
 
-    let meta;
-
     let name: string = "";
     let image: string = "";
     let description: string = "";
 
     if(rmrk.metaDataContent != null){
-        meta = rmrk.metaDataContent
+        const meta = rmrk.metaDataContent
         name = meta.name;
         image = meta.image.replace("ipfs://",'https://ipfs.io/');
         description = meta.description;
@@ -238,7 +245,7 @@ const entityGossip = async (rmrk: Entity) => {
 
     let json = JSON.stringify(result,null,2); // pretty
 
-    sendToGossip(json);
+    // sendToGossip(json);
 
 }
 
