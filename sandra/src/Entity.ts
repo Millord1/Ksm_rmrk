@@ -40,6 +40,13 @@ export class Entity{
 
     }
 
+    public getRefValue(concept:any){
+
+       this.factory.sandraManager.somethingToConcept(concept);
+
+    }
+
+
     public joinEntity(verb:string,entity:Entity,sandraManager:SandraManager,refArray?:Reference[]){
         this.subjectConcept.setTriplet(sandraManager.get(verb),entity.subjectConcept,false,refArray);
         this.factory.joinFactory(entity.factory,verb)

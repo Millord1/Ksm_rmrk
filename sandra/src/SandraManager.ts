@@ -70,6 +70,23 @@ export class SandraManager {
 
     }
 
+    public somethingToConcept(something:any):Concept{
+
+       if (something instanceof Concept) return something ;
+       if (typeof something === 'string'){
+          return this.get(something);
+
+       }
+       if (typeof something === "number"){
+
+            let concept =  [...this.conceptMap.values()].filter((item: Concept) => item.unid === something);
+            return concept[0];
+       }
+
+
+
+    }
+
 
 
 

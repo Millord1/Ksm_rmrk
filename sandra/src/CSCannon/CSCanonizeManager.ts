@@ -5,6 +5,9 @@ import {AssetFactory} from "./AssetFactory.js";
 import {Asset, AssetInterface} from "./Asset.js";
 import {BlockchainTokenFactory} from "./BlockchainTokenFactory.js";
 import {ContractStandardFactory} from "./ContractStandardFactory.js";
+import {EntityFactory} from "../EntityFactory.js";
+import {Gossiper} from "../Gossiper.js";
+import {Blockchain} from "./Blockchain.js";
 
 interface CanonizeOptions{
 
@@ -19,6 +22,7 @@ export class CSCanonizeManager {
     private assetFactory:AssetFactory ;
     private tokenFactory: BlockchainTokenFactory;
     private contractStandardFactory: ContractStandardFactory;
+    private activeBlockchainFactory:EntityFactory;
 
     constructor(options?:CanonizeOptions,sandra:SandraManager = new SandraManager()) {
 
@@ -27,6 +31,9 @@ export class CSCanonizeManager {
         this.assetFactory = new AssetFactory(sandra);
         this.tokenFactory = new BlockchainTokenFactory(this);
         this.contractStandardFactory = new ContractStandardFactory(sandra);
+
+        this.activeBlockchainFactory = new EntityFactory('activeBlockchain','activeBlockchainFile',
+            this.sandra,this.sandra.get('blockchain'));
 
 
     }
@@ -71,6 +78,12 @@ export class CSCanonizeManager {
     public getSandra():SandraManager{
 
         return this.sandra ;
+
+    }
+
+    public gossipActiveBlockchain(blockchain:Blockchain,gossiper:Gossiper){
+
+      //  this.activeBlockchainFactory.
 
     }
 

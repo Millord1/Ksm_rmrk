@@ -45,7 +45,6 @@ export class EntityFactory {
 
     entity.referenceArray.forEach(element => {
 
-
         factory.sandraManager.registerNewReference(element);
         factory.refMap.set(element.concept.unid,element.concept.shortname);
 
@@ -61,8 +60,6 @@ export class EntityFactory {
             refMapByConcept = this.entityByRevValMap.get(element.concept);
         }
 
-
-
         if (refMapByConcept.has(element.value)) {
             let existingElement = refMapByConcept.get(element.value);
             // @ts-ignore
@@ -73,6 +70,16 @@ export class EntityFactory {
         }
 
     })
+
+    }
+
+    public getOrUpdateEntity(entity:Entity,onRefConcept?:Concept){
+
+        const updateOn = onRefConcept ? onRefConcept : this.updateOnExistingRef ;
+
+        this.entityArray.find(element => element.getRefValue(updateOn))
+
+
 
     }
 
