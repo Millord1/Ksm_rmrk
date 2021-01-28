@@ -53,27 +53,87 @@ class RmrkJetski {
                     const hash = ex.hash.toHex();
                     const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
                     if (remark.indexOf("") === 0) {
-                        const uri = util_1.hexToString(remark);
-                        let lisibleUri = decodeURIComponent(uri);
-                        lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                        const splitted = lisibleUri.split('::');
-                        const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
-                        let meta;
-                        if (data.metadata !== "") {
-                            meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
-                        }
-                        else {
-                            meta = null;
-                        }
-                        const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
-                        const rmrkReader = reader.readInteraction(lisibleUri, meta);
-                        if (rmrkReader instanceof Interaction_js_1.Interaction) {
-                            blockRmrks.push(rmrkReader);
-                        }
+                        this.rmrkToObject(remark, tx)
+                            .catch((e) => {
+                            console.error(e);
+                        })
+                            .then((rmrk) => {
+                            if (rmrk instanceof Interaction_js_1.Interaction) {
+                                blockRmrks.push(rmrk);
+                            }
+                        });
+                        // const uri = hexToString(remark);
+                        // let lisibleUri = decodeURIComponent(uri);
+                        // lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+                        //
+                        // const splitted = lisibleUri.split('::');
+                        //
+                        // const data = Entity.dataTreatment(splitted, Entity.entityObj);
+                        //
+                        // let meta: Metadata|null;
+                        //
+                        // if(data.metadata !== ""){
+                        //     meta = await Entity.getMetaDataContent(data.metadata);
+                        // }else{
+                        //     meta = null;
+                        // }
+                        //
+                        // const reader = new RmrkReader(this.chain, tx);
+                        // const rmrk = reader.readInteraction(lisibleUri, meta);
+                        //
+                        // if(rmrk instanceof Interaction){
+                        //     blockRmrks.push(rmrk);
+                        // }
+                    }
+                }
+                else if (section === "utility" && method === "batch") {
+                    const arg = args.toString();
+                    const rmrkJson = JSON.parse(arg);
+                    let remark = "";
+                    const signer = ex.signer.toString();
+                    const hash = ex.hash.toHex();
+                    const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+                    for (const index of rmrkJson) {
+                        remark = index.args._remark;
+                        this.rmrkToObject(remark, tx)
+                            .catch((e) => {
+                            console.error(e);
+                        })
+                            .then((rmrk) => {
+                            if (rmrk instanceof Interaction_js_1.Interaction) {
+                                blockRmrks.push(rmrk);
+                            }
+                        });
                     }
                 }
             }
             return blockRmrks;
+        });
+    }
+    rmrkToObject(remark, tx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                const uri = util_1.hexToString(remark);
+                let lisibleUri = decodeURIComponent(uri);
+                lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+                const splitted = lisibleUri.split('::');
+                const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
+                let meta;
+                if (data.metadata !== "") {
+                    meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
+                }
+                else {
+                    meta = null;
+                }
+                const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
+                const rmrk = reader.readInteraction(lisibleUri, meta);
+                if (rmrk instanceof Interaction_js_1.Interaction) {
+                    resolve(rmrk);
+                }
+                else {
+                    reject('This rmrk is null');
+                }
+            }));
         });
     }
 }

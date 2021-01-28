@@ -44,7 +44,7 @@ export class RmrkJetski
         let blockId = blockNumber ;
         let blockTimestamp: string = '0';
 
-        const blockRmrks : Array<Remark> = [];
+        const blockRmrks : Array<Interaction> = [];
 
         for (const ex of block.block.extrinsics){
 
@@ -70,33 +70,105 @@ export class RmrkJetski
 
                 if(remark.indexOf("") === 0){
 
-                    const uri = hexToString(remark);
-                    let lisibleUri = decodeURIComponent(uri);
-                    lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+                    this.rmrkToObject(remark, tx)
+                        .catch((e)=>{
+                            console.error(e);
+                        })
+                        .then((rmrk)=>{
+                            if(rmrk instanceof Interaction){
+                                blockRmrks.push(rmrk);
+                            }
+                        });
 
-                    const splitted = lisibleUri.split('::');
-
-                    const data = Entity.dataTreatment(splitted, Entity.entityObj);
-
-                    let meta: Metadata|null;
-
-                    if(data.metadata !== ""){
-                        meta = await Entity.getMetaDataContent(data.metadata);
-                    }else{
-                        meta = null;
-                    }
-
-                    const reader = new RmrkReader(this.chain, tx);
-                    const rmrkReader = reader.readInteraction(lisibleUri, meta);
-
-                    if(rmrkReader instanceof Interaction){
-                        blockRmrks.push(rmrkReader);
-                    }
+                    // const uri = hexToString(remark);
+                    // let lisibleUri = decodeURIComponent(uri);
+                    // lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+                    //
+                    // const splitted = lisibleUri.split('::');
+                    //
+                    // const data = Entity.dataTreatment(splitted, Entity.entityObj);
+                    //
+                    // let meta: Metadata|null;
+                    //
+                    // if(data.metadata !== ""){
+                    //     meta = await Entity.getMetaDataContent(data.metadata);
+                    // }else{
+                    //     meta = null;
+                    // }
+                    //
+                    // const reader = new RmrkReader(this.chain, tx);
+                    // const rmrk = reader.readInteraction(lisibleUri, meta);
+                    //
+                    // if(rmrk instanceof Interaction){
+                    //     blockRmrks.push(rmrk);
+                    // }
                 }
+
+
+            }
+            else if(section === "utility" && method === "batch"){
+
+                const arg = args.toString();
+                const rmrkJson = JSON.parse(arg);
+
+                let remark: string = "";
+                const signer = ex.signer.toString();
+                const hash = ex.hash.toHex();
+
+                const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+
+                for (const index of rmrkJson){
+
+                    remark = index.args._remark
+
+                    this.rmrkToObject(remark, tx)
+                        .catch((e)=>{
+                            console.error(e);
+                        })
+                        .then((rmrk)=>{
+                            if(rmrk instanceof Interaction){
+                                blockRmrks.push(rmrk);
+                            }
+                        });
+                }
+
             }
         }
 
         return blockRmrks;
+    }
+
+
+
+    private async rmrkToObject(remark: string, tx: Transaction): Promise<Interaction> {
+
+        return new Promise( async (resolve, reject) => {
+
+            const uri = hexToString(remark);
+            let lisibleUri = decodeURIComponent(uri);
+            lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+
+            const splitted = lisibleUri.split('::');
+
+            const data = Entity.dataTreatment(splitted, Entity.entityObj);
+
+            let meta: Metadata|null;
+
+            if(data.metadata !== ""){
+                meta = await Entity.getMetaDataContent(data.metadata);
+            }else{
+                meta = null;
+            }
+
+            const reader = new RmrkReader(this.chain, tx);
+            const rmrk = reader.readInteraction(lisibleUri, meta);
+
+            if(rmrk instanceof Interaction){
+                resolve (rmrk);
+            }else{
+                reject ('This rmrk is null');
+            }
+        })
     }
 
 
@@ -109,6 +181,10 @@ function getTimestamp(ex:any): string  {
     
     return secondTimestamp.toString();
 }
+
+
+
+
 
 // 4960570
 
