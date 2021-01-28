@@ -12,7 +12,7 @@ export interface AssetInterface{
     assetId: string,
     metadataUrl?: string,
     imageUrl?: string,
-    description:string,
+    description?:string,
 
 
 }
@@ -50,11 +50,12 @@ export class Asset extends Entity
     }
 
 
-
+    public getImageUrl(){
+       return this.getRefValue(AssetFactory.imageUrl);
+    }
 
     public setImageUrl(imgUrl: string){
-        // TODO createOrUpdateRef
-      //  this.imgUrl = imgUrl;
+       this.createOrUpdateRef(AssetFactory.imageUrl,imgUrl);
     }
 
     public setMetaDatasUrl(metaDatasUrl: string){

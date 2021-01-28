@@ -73,15 +73,39 @@ export class EntityFactory {
 
     }
 
-    public getOrUpdateEntity(entity:Entity,onRefConcept?:Concept){
+    public addOrUpdateEntity(entity:Entity,onRefConcept?:Concept):this{
 
         const updateOn = onRefConcept ? onRefConcept : this.updateOnExistingRef ;
 
-        this.entityArray.find(element => element.getRefValue(updateOn))
+       let entityOnFactoryConstraint = this.entityArray.find(element => element.getRefValue(this.updateOnExistingRef))
+        if (entityOnFactoryConstraint !== undefined && onRefConcept && onRefConcept != this.updateOnExistingRef){
+            //user want to update entity but the constraint provided violate factory constraint
+            throw new Error("Factory integrity constraint violation entity exist with "
+                +this.updateOnExistingRef.shortname + "while checking on integrity on"+onRefConcept.shortname)
 
+        }
+        let entityExist = this.entityArray.find(element => element.getRefValue(updateOn))
+        if (entityExist !== undefined){
+            entityExist = entity ;
+            return this ;
+        }
+        this.addEntity(entity);
+        return this ;
+
+    }
+
+    public getEntitiesWithRefValue(refConcept:any,value:string):any{
+
+        let concept = this.sandraManager.somethingToConcept(refConcept);
+        let entities = this.entityArray.filter(element => element.getRefValue(concept) === value);
+       if ( entities !== undefined) {
+           return entities ;
+       }
+       return null ;
 
 
     }
+
 
     public joinFactory(entityFactory:EntityFactory,onVerb:string){
 

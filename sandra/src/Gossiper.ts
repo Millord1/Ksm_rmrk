@@ -4,6 +4,9 @@ import {Entity} from "./Entity";
 import {SandraManager} from "./SandraManager.js";
 import {Reference} from "./Reference.js";
 
+
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
 interface simpleReferenceForDisplay {
 
     conceptUnid:number,
@@ -11,7 +14,7 @@ interface simpleReferenceForDisplay {
 
 }
 
-interface ApiConnector {
+export interface ApiConnector {
 
     gossipUrl:string
     jwt:string
@@ -201,16 +204,34 @@ export class Gossiper{
 
     }
 
-    public async gossipToUrl(connector:ApiConnector){
+    public async gossipToUrl(connector:ApiConnector,flush?:boolean):Promise<any>{
 
-        return new Promise((resolve) => {
+
+
+        return new Promise((resolve:any,reject:any) => {
             const xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("POST", connector.gossipUrl);
+            let flushData = '';
+            if (flush) flushData = '&flush=true';
+
+            xmlhttp.open("POST", connector.gossipUrl+'?jwt='+connector.jwt+flushData);
+            console.log(connector.gossipUrl+'?jwt='+connector.jwt+flushData);
             xmlhttp.setRequestHeader("Content-Type", "application/json");
-            xmlhttp.send(this.exposeGossip(true));
-            xmlhttp.addEventListener("load", r => {
-                resolve(r);
-            });
+
+            xmlhttp.send(JSON.stringify(this.exposeGossip(true)))
+            console.log(JSON.stringify(this.exposeGossip(true)));
+
+
+            xmlhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = this.responseText;
+
+                    resolve (response);
+                }else if (this.readyState == 4)
+                    reject ('Bad request :' + this.status);
+
+            }
+
 
         });
 
