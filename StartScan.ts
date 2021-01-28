@@ -252,6 +252,8 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
     }
 
+    console.log(result);
+
     let json = JSON.stringify(result,null,2); // pretty
 
     sendToGossip(json, processExit);
@@ -269,10 +271,13 @@ function sendToGossip(json: string, processExit: boolean){
     xmlhttp.send(json);
     xmlhttp.addEventListener("load", ()=>{
         console.log("complete");
+
+        if(processExit){
+            setTimeout(()=>{
+                process.exit();
+            }, 500);
+        }
     });
 
-    if(processExit){
-        process.exit();
-    }
 }
 
