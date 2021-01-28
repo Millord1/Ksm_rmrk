@@ -261,6 +261,8 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
+    console.log('send');
+
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
     xmlhttp.setRequestHeader("Content-Type", "application/json");
