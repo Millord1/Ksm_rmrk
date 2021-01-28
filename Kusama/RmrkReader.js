@@ -8,6 +8,7 @@ const Send_js_1 = require("../classes/Rmrk/Interactions/Send.js");
 const List_js_1 = require("../classes/Rmrk/Interactions/List.js");
 const Buy_js_1 = require("../classes/Rmrk/Interactions/Buy.js");
 const Consume_js_1 = require("../classes/Rmrk/Interactions/Consume.js");
+const Emote_js_1 = require("../classes/Rmrk/Interactions/Emote.js");
 class RmrkReader {
     constructor(chain, transaction) {
         this.chain = chain;
@@ -39,6 +40,9 @@ class RmrkReader {
                 break;
             case 'consume':
                 interactObj = new Consume_js_1.Consume(rmrk, this.chain, this.transaction, meta);
+                break;
+            case 'emote':
+                interactObj = new Emote_js_1.Emote(rmrk, this.chain, this.transaction, meta);
                 break;
             default:
                 interactObj = null;

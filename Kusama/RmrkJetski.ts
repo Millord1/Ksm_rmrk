@@ -109,7 +109,7 @@ export class RmrkJetski
             else if(section === "utility" && method === "batch"){
 
                 const arg = args.toString();
-                const rmrkJson = JSON.parse(arg);
+                const batch = JSON.parse(arg);
 
                 let remark: string = "";
                 const signer = ex.signer.toString();
@@ -117,9 +117,9 @@ export class RmrkJetski
 
                 const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
-                for (const index of rmrkJson){
+                for (const rmrkObj of batch){
 
-                    remark = index.args._remark
+                    remark = rmrkObj.args._remark
 
                     this.rmrkToObject(remark, tx)
                         .catch((e)=>{

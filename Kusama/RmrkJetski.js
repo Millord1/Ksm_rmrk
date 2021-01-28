@@ -88,13 +88,13 @@ class RmrkJetski {
                 }
                 else if (section === "utility" && method === "batch") {
                     const arg = args.toString();
-                    const rmrkJson = JSON.parse(arg);
+                    const batch = JSON.parse(arg);
                     let remark = "";
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
                     const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-                    for (const index of rmrkJson) {
-                        remark = index.args._remark;
+                    for (const rmrkObj of batch) {
+                        remark = rmrkObj.args._remark;
                         this.rmrkToObject(remark, tx)
                             .catch((e) => {
                             console.error(e);
