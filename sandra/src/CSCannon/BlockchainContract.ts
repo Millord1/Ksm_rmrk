@@ -32,4 +32,12 @@ export class BlockchainContract extends Entity{
 
     }
 
+    public setStandard(standard:ContractStandard):this{
+
+        this.joinEntity(BlockchainContractFactory.CONTRACT_STANDARD,standard,this.factory.sandraManager)
+
+        return this ;
+
+    }
+
 }

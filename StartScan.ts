@@ -227,12 +227,16 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
         myContract.bindToCollection(myCollection);
 
         let rmrkToken = new RmrkContractStandard(canonizeManager);
-        rmrkToken.setSn(nft.token.sn);
-        let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
+        myContract.setStandard(rmrkToken);
 
-        tokenPath.bindToAssetWithContract(myContract, myAsset);
+       // rmrkToken.setSn(nft.token.sn);
+        //let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
 
-        let gossiper = new Gossiper(canonizeManager.getTokenFactory());
+        myAsset.bindContract(myContract);
+
+        //tokenPath.bindToAssetWithContract(myContract, myAsset);
+
+        let gossiper = new Gossiper(canonizeManager.getAssetFactory());
         result = gossiper.exposeGossip();
 
 
@@ -255,6 +259,7 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
     console.log(result);
 
     let json = JSON.stringify(result,null,2); // pretty
+    console.log(json);
 
     sendToGossip(json, processExit);
 

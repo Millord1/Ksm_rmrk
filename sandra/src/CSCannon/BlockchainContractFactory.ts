@@ -11,6 +11,7 @@ export class BlockchainContractFactory extends EntityFactory{
     private sandra:SandraManager ;
     public  static JOIN_COLLECTION = 'inCollection';
     public  static  EXPLICIT_TOKEN_LISTING_SHORTNAME = 'explicitListing';
+    public  static CONTRACT_STANDARD = 'contractStandard';
 
 
     public constructor(sandra:SandraManager) {

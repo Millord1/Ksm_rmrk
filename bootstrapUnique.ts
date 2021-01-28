@@ -10,13 +10,14 @@ import {AssetFactory} from "./sandra/src/CSCannon/AssetFactory.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 import {BlockchainTokenFactory} from "./sandra/src/CSCannon/BlockchainTokenFactory.js";
 import {UniqueBlockchain} from "./sandra/src/CSCannon/Substrate/Unique/UniqueBlockchain.js";
+import {UniqueContractStandard} from "./sandra/src/CSCannon/Interfaces/UniqueContractStandard.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 //enter a jwt granting access to crystal suite
 let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJnb3NzaXAiLCJmbHVzaCI6dHJ1ZSwiZXhwIjoxMDQ0NDE5MjUyMDQwMDAwfQ.i3MRmP56AEvIvWGdnj1TKuLZNaqLYaqzXaWijtT-Cc8';
 
-//initialisation
+//initialisation do not change
 let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
 let sandra = canonizeManager.getSandra();
 
@@ -24,57 +25,47 @@ let sandra = canonizeManager.getSandra();
 let unique = new UniqueBlockchain(sandra);
 
 // this will erase all data in your datagraph environment (specified in the jwt) note some jwt allow or disallow flush
+// remove this part if you don't want to delete your database data
 canonizeManager.flushWithBlockchainSupport([unique]).then(r=>{
 
     console.log("flushed and added blockchain support");
     console.log(r);
 
-}).catch(
-
-    err=>{console.log(err)}
-    )
+}).catch(err=>{console.log(err)})
 
 
+let uniqueCollectionId = "1" ; //On unique a collection is identified by a numerical id. On CScannon this equals a collection and a contract with the same identifier
 
-
-
-
-
-let myCollection = canonizeManager.createCollection({id:'my veryfirst collection',imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
+let myCollection = canonizeManager.createCollection({id:uniqueCollectionId,imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
 
 let myAsset = canonizeManager.createAsset({assetId:'A great asset I made',imageUrl:"https://picsum.photos/400",description:'hello'});
-let myCOntract = kusama.contractFactory.getOrCreate('241B8516516F381A-FRACTAL');
+let myContract = unique.contractFactory.getOrCreate(uniqueCollectionId);
 
+//we add both the asset and the contract to the collection
 myAsset.bindCollection(myCollection);
-myCOntract.bindToCollection(myCollection);
+myContract.bindToCollection(myCollection);
 
-let rmrkToken = new RmrkContractStandard(canonizeManager);
-rmrkToken.setSn("0000000000000003");
-let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
+//now we instanciate the token
+let uniqueTokenId = "1" ;
+let uniqueToken = new UniqueContractStandard(canonizeManager);
+uniqueToken.setTokenId(uniqueTokenId);
 
+// now we bind our asset to a specific unique token
+let tokenPath = uniqueToken.generateTokenPathEntity(canonizeManager);
+tokenPath.bindToAssetWithContract(myContract,myAsset);
 
-tokenPath.bindToAssetWithContract(myCOntract,myAsset);
-
-console.log(myAsset.getRefValue('assetId'));
-
-myAsset.setImageUrl('myNew');
-
-
-
-console.log(myAsset.getImageUrl());
+//now that we build all relation between token and asset we are ready to publish it to the server
+let gossiper = new Gossiper(canonizeManager.getTokenFactory()); //it's important to gossip the token factory as it joins everything up to the collection
+let result = gossiper.exposeGossip();
 
 
-let myAsset1 = canonizeManager.createAsset({assetId:'a1',imageUrl:"https://picsum.photos/400",description:'hello'});
-let myAsset2 = canonizeManager.createAsset({assetId:'a2',imageUrl:"https://picsum.photos/400",description:'hello'});
-let myAsset3 = canonizeManager.createAsset({assetId:'a3',imageUrl:"https://picsum.photos/400",description:'hello'});
+let json = JSON.stringify(result);
+console.log(json);
 
-let found = canonizeManager.getAssetFactory().getEntitiesWithRefValue('description','hello');
-
-if (found){
-
-    console.log("XXXXXXXXXXXXXXX")
-    console.log("found")
-    console.log("XXXXXXXXXXXXXXX")
-    console.log(found);
-
-}
+const xmlhttp = new XMLHttpRequest();
+xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+xmlhttp.setRequestHeader("Content-Type", "application/json");
+xmlhttp.send(json);
+xmlhttp.addEventListener("load", ()=>{
+    console.log("complete");
+});

@@ -19,6 +19,10 @@ class BlockchainContract extends Entity_js_1.Entity {
         this.joinEntity(BlockchainContractFactory_js_1.BlockchainContractFactory.JOIN_COLLECTION, collection, this.factory.sandraManager);
         return this;
     }
+    setStandard(standard) {
+        this.joinEntity(BlockchainContractFactory_js_1.BlockchainContractFactory.CONTRACT_STANDARD, standard, this.factory.sandraManager);
+        return this;
+    }
 }
 exports.BlockchainContract = BlockchainContract;
 //# sourceMappingURL=BlockchainContract.js.map
