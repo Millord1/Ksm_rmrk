@@ -119,19 +119,22 @@ export class RmrkJetski
 
                 for (const rmrkObj of batch){
 
-                    remark = rmrkObj.args._remark
+                    if(rmrkObj.args.hasOwnProperty('_remark')){
 
-                    this.rmrkToObject(remark, tx)
-                        .catch((e)=>{
-                            console.error(e);
-                        })
-                        .then((rmrk)=>{
-                            if(rmrk instanceof Interaction){
-                                blockRmrks.push(rmrk);
-                            }
-                        });
+                        remark = rmrkObj.args._remark
+
+                        this.rmrkToObject(remark, tx)
+                            .catch((e)=>{
+                                console.error(e);
+                            })
+                            .then((rmrk)=>{
+                                if(rmrk instanceof Interaction){
+                                    blockRmrks.push(rmrk);
+                                }
+                            });
+
+                    }
                 }
-
             }
         }
 
