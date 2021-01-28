@@ -12,10 +12,24 @@ import {BlockchainTokenFactory} from "./sandra/src/CSCannon/BlockchainTokenFacto
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let canonizeManager = new CSCanonizeManager();
+let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJnb3NzaXAiLCJmbHVzaCI6dHJ1ZSwiZXhwIjoxMDQ0NDE5MjUyMDQwMDAwfQ.i3MRmP56AEvIvWGdnj1TKuLZNaqLYaqzXaWijtT-Cc8';
+
+let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
 
 let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain(sandra);
+
+canonizeManager.flushWithBlockchainSupport([kusama]).then(r=>{
+
+    console.log("flushed and added blockchain support");
+    console.log(r);
+
+}).catch(
+
+    err=>{console.log(err)}
+    )
+
+
 
 
 console.log(kusama.addressFactory.entityByRevValMap);
@@ -38,20 +52,42 @@ let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
 
 tokenPath.bindToAssetWithContract(myCOntract,myAsset);
 
+console.log(myAsset.getRefValue('assetId'));
+
+myAsset.setImageUrl('myNew');
 
 
 
-let gossiper = new Gossiper(canonizeManager.getTokenFactory());
-let result = gossiper.exposeGossip();
+console.log(myAsset.getImageUrl());
 
-let json = JSON.stringify(result,null,2); // pretty
-//let json = JSON.stringify(result);
-console.log(json);
 
-const xmlhttp = new XMLHttpRequest();
-xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-xmlhttp.setRequestHeader("Content-Type", "application/json");
-xmlhttp.send(json);
-xmlhttp.addEventListener("load", ()=>{
-    console.log("complete");
-});
+let myAsset1 = canonizeManager.createAsset({assetId:'a1',imageUrl:"https://picsum.photos/400",description:'hello'});
+let myAsset2 = canonizeManager.createAsset({assetId:'a2',imageUrl:"https://picsum.photos/400",description:'hello'});
+let myAsset3 = canonizeManager.createAsset({assetId:'a3',imageUrl:"https://picsum.photos/400",description:'hello'});
+
+let found = canonizeManager.getAssetFactory().getEntitiesWithRefValue('description','hello');
+
+if (found){
+
+    console.log("XXXXXXXXXXXXXXX")
+    console.log("found")
+    console.log("XXXXXXXXXXXXXXX")
+    console.log(found);
+
+}
+
+
+// let gossiper = new Gossiper(canonizeManager.getTokenFactory());
+// let result = gossiper.exposeGossip();
+//
+// let json = JSON.stringify(result,null,2); // pretty
+// //let json = JSON.stringify(result);
+// console.log(json);
+//
+// const xmlhttp = new XMLHttpRequest();
+// xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+// xmlhttp.setRequestHeader("Content-Type", "application/json");
+// xmlhttp.send(json);
+// xmlhttp.addEventListener("load", ()=>{
+//     console.log("complete");
+// });

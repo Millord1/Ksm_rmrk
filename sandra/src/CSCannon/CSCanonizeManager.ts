@@ -6,12 +6,16 @@ import {Asset, AssetInterface} from "./Asset.js";
 import {BlockchainTokenFactory} from "./BlockchainTokenFactory.js";
 import {ContractStandardFactory} from "./ContractStandardFactory.js";
 import {EntityFactory} from "../EntityFactory.js";
-import {Gossiper} from "../Gossiper.js";
+import {ApiConnector, Gossiper} from "../Gossiper.js";
 import {Blockchain} from "./Blockchain.js";
+import {Entity} from "../Entity.js";
+import {Reference} from "../Reference.js";
+
 
 interface CanonizeOptions{
 
-    default:string
+    default?:string
+    connector?:ApiConnector
 
 }
 
@@ -23,6 +27,7 @@ export class CSCanonizeManager {
     private tokenFactory: BlockchainTokenFactory;
     private contractStandardFactory: ContractStandardFactory;
     private activeBlockchainFactory:EntityFactory;
+    private apiConnector?:ApiConnector;
 
     constructor(options?:CanonizeOptions,sandra:SandraManager = new SandraManager()) {
 
@@ -35,6 +40,7 @@ export class CSCanonizeManager {
         this.activeBlockchainFactory = new EntityFactory('activeBlockchain','activeBlockchainFile',
             this.sandra,this.sandra.get('blockchain'));
 
+        this.apiConnector = options?.connector ? options.connector : undefined ;
 
     }
 
@@ -81,9 +87,34 @@ export class CSCanonizeManager {
 
     }
 
-    public gossipActiveBlockchain(blockchain:Blockchain,gossiper:Gossiper){
+    public async gossipActiveBlockchain(apiConnector?:ApiConnector,flush?:boolean):Promise<any>{
 
-      //  this.activeBlockchainFactory.
+      if (apiConnector !== undefined){
+          let gossiper = new Gossiper(this.activeBlockchainFactory,this.sandra.get('blockchain'));
+          return await gossiper.gossipToUrl(apiConnector,flush);
+      }
+
+        if (this.apiConnector !== undefined){
+            let gossiper = new Gossiper(this.activeBlockchainFactory,this.sandra.get('blockchain'));
+            return await gossiper.gossipToUrl(this.apiConnector,flush);
+        }
+
+      throw new Error("No API connector set pass it into this function or on the constructor");
+
+    }
+
+    public async flushWithBlockchainSupport(blockchains:Blockchain[],apiConnector?:ApiConnector):Promise<any>{
+
+        const result = await blockchains.forEach(blockchain => {
+            let entity = new Entity(this.activeBlockchainFactory,[new Reference(this.sandra.get('blockchain'),blockchain.getName())]);
+            entity.setTriplet('onBlockchain',blockchain.getName(),this.sandra);
+            this.activeBlockchainFactory.addOrUpdateEntity(entity);
+
+        })
+
+        return this.gossipActiveBlockchain(apiConnector,true)
+
+
 
     }
 
