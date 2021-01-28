@@ -18,6 +18,7 @@ export class Entity{
     public constructor(factory:EntityFactory, references:Array<Reference>=[]) {
 
         this.id = 0 ;
+
         factory.sandraManager.registerNewEntity(this);
 
         this.subjectConcept = factory.sandraManager.get('entity:subject:'+this.id);
@@ -40,10 +41,29 @@ export class Entity{
 
     }
 
-    public getRefValue(concept:any){
+    public getRefValue(concept:any):string{
 
-       this.factory.sandraManager.somethingToConcept(concept);
+      const foundConcept =  this.factory.sandraManager.somethingToConcept(concept);
+      const ref = this.referenceArray.find(ref => ref.concept == foundConcept);
+      return ref ? ref.value : '';
 
+    }
+
+    public createOrUpdateRef(concept:any,value:string):Reference{
+
+        const foundConcept =  this.factory.sandraManager.somethingToConcept(concept);
+
+        let ref = this.referenceArray.find(ref => ref.concept == foundConcept);
+
+        if (typeof ref === undefined){
+            // @ts-ignore
+            ref = new Reference(foundConcept,value);
+          this.addReference(ref);
+        }
+        // @ts-ignore
+        ref.value = value ;
+
+        return <Reference>ref ;
     }
 
 
@@ -56,6 +76,10 @@ export class Entity{
 
     public setTriplet(verb:string,target:string,sandraManager:SandraManager,refArray?:Reference[]){
         this.subjectConcept.setTriplet(sandraManager.get(verb),sandraManager.get(target),false,refArray);
+
+    }
+    public setPureShortnameTriplet(verb:string,target:string,sandraManager:SandraManager,refArray?:Reference[]){
+        this.subjectConcept.setTriplet(sandraManager.get(verb),sandraManager.get(target),true,refArray);
 
     }
 
