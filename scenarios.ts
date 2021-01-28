@@ -1,6 +1,11 @@
 import {Option} from "commander";
 import {forceScan} from "./StartScan.js";
+import {BatchReader} from "./BatchReader.js";
+import {Kusama} from "./classes/Blockchains/Kusama.js";
 const {program} = require('commander');
+
+const fs = require('fs');
+const path = require('path');
 
 export const defaultWalker =  (opts: Option) => {
 
@@ -53,6 +58,41 @@ export const obxiumBlocks = (opts: Option) => {
         setTimeout(function(){console.log("reading " + blockIndex); forceScan(blockIndex); }, speed*index);
         index++ ;
     });
+
+
+}
+
+
+export const batchBlock = (opts: Option) => {
+
+    let blockNumber = 5965646;
+
+    let index:number = 0 ;
+    let speed:number = 2000 ;
+
+    const batchReader = new BatchReader(new Kusama());
+
+    for (let i = blockNumber; i>5965350; i--){
+
+        const blocks = fs.readFileSync(path.resolve(__dirname, "batchBlocks.json"));
+        const previousBlock = JSON.parse(blocks);
+
+        setTimeout(function (){
+
+            console.log('reading ' + i);
+            batchReader.getBatchBlocks(i).then((array) => {
+                if(array.length > 0){
+                    previousBlock.push(array);
+                    const json = JSON.stringify(previousBlock);
+                    console.log('write block ' + i);
+                    fs.writeFileSync(path.resolve(__dirname, "batchBlocks.json"), json);
+                }
+            });
+
+        }, speed * index);
+
+        index ++;
+    }
 
 
 }

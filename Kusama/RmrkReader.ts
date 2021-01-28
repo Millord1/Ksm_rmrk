@@ -9,6 +9,7 @@ import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 import {Transaction} from "../classes/Transaction.js";
 import {Metadata} from "../classes/Metadata.js";
 import {Interaction} from "../classes/Rmrk/Interaction.js";
+import {Emote} from "../classes/Rmrk/Interactions/Emote.js";
 
 
 export class RmrkReader
@@ -31,7 +32,7 @@ export class RmrkReader
         let interaction = splitted[1];
         interaction = interaction.toLowerCase();
 
-        let interactObj;
+        let interactObj: Interaction|null;
 
         switch (interaction){
 
@@ -61,6 +62,10 @@ export class RmrkReader
 
             case 'consume' :
                 interactObj = new Consume(rmrk, this.chain, this.transaction, meta);
+                break;
+
+            case 'emote':
+                interactObj = new Emote(rmrk, this.chain, this.transaction, meta);
                 break;
 
             default :

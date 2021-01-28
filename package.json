@@ -20,7 +20,8 @@
     "typescript": "^2.4.1",
     "fetch": "node ./index.js fetch",
     "hello": "node ./index hello",
-    "bruno": "node ./index bruno"
+    "bruno": "node ./index bruno",
+    "batch": "node ./index batch"
   },
   "repository": {
     "type": "git",

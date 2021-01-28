@@ -275,19 +275,19 @@ function sendToGossip(json: string, processExit: boolean){
 
     // console.log('send');
 
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(json);
-    xmlhttp.addEventListener("load", ()=>{
-        console.log("complete");
-
-        if(processExit){
-            setTimeout(()=>{
-                process.exit();
-            }, 500);
-        }
-    });
+    // const xmlhttp = new XMLHttpRequest();
+    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+    // xmlhttp.setRequestHeader("Content-Type", "application/json");
+    // xmlhttp.send(json);
+    // xmlhttp.addEventListener("load", ()=>{
+    //     console.log("complete");
+    //
+    //     if(processExit){
+    //         setTimeout(()=>{
+    //             process.exit();
+    //         }, 500);
+    //     }
+    // });
 
 }
 
