@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Gossiper = void 0;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class Gossiper {
     constructor(entityFactory, updateOnReference) {
         this.showAllTriplets = false;
@@ -111,16 +112,26 @@ class Gossiper {
         });
         return simpleRefArray;
     }
-    gossipToUrl(connector) {
+    gossipToUrl(connector, flush) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("POST", connector.gossipUrl);
+                let flushData = '';
+                if (flush)
+                    flushData = '&flush=true';
+                xmlhttp.open("POST", connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
+                console.log(connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
                 xmlhttp.setRequestHeader("Content-Type", "application/json");
-                xmlhttp.send(this.exposeGossip(true));
-                xmlhttp.addEventListener("load", r => {
-                    resolve(r);
-                });
+                xmlhttp.send(JSON.stringify(this.exposeGossip(true)));
+                console.log(JSON.stringify(this.exposeGossip(true)));
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let response = this.responseText;
+                        resolve(response);
+                    }
+                    else if (this.readyState == 4)
+                        reject('Bad request :' + this.status);
+                };
             });
         });
     }
