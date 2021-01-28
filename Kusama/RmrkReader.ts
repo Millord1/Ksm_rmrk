@@ -8,6 +8,7 @@ import {Buy} from "../classes/Rmrk/Interactions/Buy.js";
 import {Consume} from "../classes/Rmrk/Interactions/Consume.js";
 import {Transaction} from "../classes/Transaction.js";
 import {Metadata} from "../classes/Metadata.js";
+import {Interaction} from "../classes/Rmrk/Interaction.js";
 
 
 export class RmrkReader
@@ -23,7 +24,7 @@ export class RmrkReader
     }
 
 
-    public readInteraction(rmrk: string, meta: Metadata|null){
+    public readInteraction(rmrk: string, meta: Metadata|null): Interaction|null{
 
         const splitted = rmrk.split('::');
 
@@ -35,46 +36,35 @@ export class RmrkReader
         switch (interaction){
 
             case 'mint':
-
                 interactObj = new Mint(rmrk, this.chain, this.transaction, meta);
-
                 break;
 
             case 'changeissuer':
-
                 interactObj = new ChangeIssuer(rmrk, this.chain, this.transaction);
-
                 break;
 
             case 'mintnft':
-
                 interactObj = new MintNft(rmrk, this.chain, this.transaction, meta);
-
                 break;
 
             case 'send' :
-
                 interactObj = new Send(rmrk, this.chain, this.transaction, meta);
-
                 break;
 
             case 'list' :
-
                 interactObj = new List(rmrk, this.chain, this.transaction, meta);
-
                 break;
 
             case 'buy' :
-
                 interactObj = new Buy(rmrk, this.chain, this.transaction, meta);
-
                 break;
 
             case 'consume' :
-            default :
-
                 interactObj = new Consume(rmrk, this.chain, this.transaction, meta);
+                break;
 
+            default :
+                interactObj = null;
                 break;
         }
 

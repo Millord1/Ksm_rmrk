@@ -38,8 +38,10 @@ class RmrkReader {
                 interactObj = new Buy_js_1.Buy(rmrk, this.chain, this.transaction, meta);
                 break;
             case 'consume':
-            default:
                 interactObj = new Consume_js_1.Consume(rmrk, this.chain, this.transaction, meta);
+                break;
+            default:
+                interactObj = null;
                 break;
         }
         return interactObj;

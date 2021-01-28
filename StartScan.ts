@@ -17,7 +17,6 @@ import {Entity} from "./classes/Rmrk/Entity.js";
 import {Remark} from "./classes/Rmrk/Remark.js";
 import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
-import {Interaction} from "./classes/Rmrk/Interaction.js";
 
 // const fs = require('fs');
 // const path = require('path');
@@ -57,6 +56,8 @@ export const testScan = async (opts: Option) => {
 
             result.forEach(value => {
 
+                console.log(result);
+
                 let collName : string = "";
                 let sn: string = "";
 
@@ -65,7 +66,7 @@ export const testScan = async (opts: Option) => {
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
-                    if(sn != ""){
+                    if(sn != "" && collName != ""){
                         eventGossip(value, sn, collName);
                     }
 
@@ -78,7 +79,9 @@ export const testScan = async (opts: Option) => {
                     value.transaction.source = '0x0';
                     value.transaction.destination.address = source;
 
-                    if(sn != ""){
+                    console.log(value);
+
+                    if(sn != "" && collName != ""){
                         entityGossip(value.nft)
                         eventGossip(value, sn, collName);
                     }
@@ -125,7 +128,9 @@ export const forceScan = async (block:number) => {
                     collName = value.nft.token.contractId;
                     sn = value.nft.token.sn
 
-                    eventGossip(value, sn, collName, false);
+                    if(sn != "" && collName != ""){
+                        eventGossip(value, sn, collName, false);
+                    }
 
                 }else if(value instanceof MintNft){
 
@@ -136,8 +141,10 @@ export const forceScan = async (block:number) => {
                     value.transaction.source = '0x0';
                     value.transaction.destination.address = source;
 
-                    entityGossip(value.nft, false);
-                    eventGossip(value, sn, collName, false);
+                    if(sn != "" && collName != ""){
+                        entityGossip(value.nft, false)
+                        eventGossip(value, sn, collName, false);
+                    }
 
                 }else if (value instanceof Mint){
 
@@ -252,8 +259,6 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
     }
 
-    console.log(result);
-
     let json = JSON.stringify(result,null,2); // pretty
 
     sendToGossip(json, processExit);
@@ -263,7 +268,7 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
-    console.log('send');
+    // console.log('send');
 
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
