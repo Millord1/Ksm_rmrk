@@ -10,6 +10,9 @@ import {ApiConnector, Gossiper} from "../Gossiper.js";
 import {Blockchain} from "./Blockchain.js";
 import {Entity} from "../Entity.js";
 import {Reference} from "../Reference.js";
+import {AssetSolverFactory} from "./AssetSolvers/AssetSolverFactory.js";
+import {LocalSolver} from "./AssetSolvers/LocalSolver.js";
+import {AssetSolver} from "./AssetSolvers/AssetSolver.js";
 
 
 interface CanonizeOptions{
@@ -28,6 +31,8 @@ export class CSCanonizeManager {
     private contractStandardFactory: ContractStandardFactory;
     private activeBlockchainFactory:EntityFactory;
     private apiConnector?:ApiConnector;
+    private assetSolverFactory:AssetSolverFactory;
+    private localSolver:LocalSolver ;
 
     constructor(options?:CanonizeOptions,sandra:SandraManager = new SandraManager()) {
 
@@ -37,6 +42,9 @@ export class CSCanonizeManager {
         this.tokenFactory = new BlockchainTokenFactory(this);
         this.contractStandardFactory = new ContractStandardFactory(sandra);
 
+        this.assetSolverFactory = new AssetSolverFactory(this);
+        this.localSolver = new LocalSolver(this);
+
         this.activeBlockchainFactory = new EntityFactory('activeBlockchain','activeBlockchainFile',
             this.sandra,this.sandra.get('blockchain'));
 
@@ -44,7 +52,11 @@ export class CSCanonizeManager {
 
     }
 
-    public createCollection(collectionInterface:AssetCollectionInterface):AssetCollection{
+    public createCollection(collectionInterface:AssetCollectionInterface,solver?:AssetSolver):AssetCollection{
+
+        let assetSolver = solver ? solver : this.localSolver ;
+        let collection = new AssetCollection(this.assetCollectionFactory,collectionInterface,this.sandra);
+        collection.joinEntity(AssetSolverFactory.COLLECTION_JOIN_VERB,assetSolver,this.sandra);
 
        return new AssetCollection(this.assetCollectionFactory,collectionInterface,this.sandra);
 
@@ -91,17 +103,21 @@ export class CSCanonizeManager {
 
       if (apiConnector !== undefined){
           let gossiper = new Gossiper(this.activeBlockchainFactory,this.sandra.get('blockchain'));
-          return await gossiper.gossipToUrl(apiConnector,flush);
+          let flushCall = await flush ? await gossiper.flushDatagraph(apiConnector) : null;
+          return await gossiper.gossipToUrl(apiConnector);
       }
 
         if (this.apiConnector !== undefined){
             let gossiper = new Gossiper(this.activeBlockchainFactory,this.sandra.get('blockchain'));
-            return await gossiper.gossipToUrl(this.apiConnector,flush);
+            let flushCall = await flush ? await gossiper.flushDatagraph(this.apiConnector) : null;
+            return await gossiper.gossipToUrl(this.apiConnector);
         }
 
       throw new Error("No API connector set pass it into this function or on the constructor");
 
     }
+
+
 
     public async flushWithBlockchainSupport(blockchains:Blockchain[],apiConnector?:ApiConnector):Promise<any>{
 
@@ -117,6 +133,14 @@ export class CSCanonizeManager {
 
 
     }
+
+    public getAssetSolverFactory(){
+
+        return this.assetSolverFactory ;
+
+    }
+
+
 
 
 

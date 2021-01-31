@@ -55,7 +55,7 @@ export class Entity{
 
         let ref = this.referenceArray.find(ref => ref.concept == foundConcept);
 
-        if (typeof ref === undefined){
+        if ( ref === undefined){
             // @ts-ignore
             ref = new Reference(foundConcept,value);
           this.addReference(ref);
