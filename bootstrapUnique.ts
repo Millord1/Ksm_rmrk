@@ -15,7 +15,7 @@ import {UniqueContractStandard} from "./sandra/src/CSCannon/Interfaces/UniqueCon
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 //enter a jwt granting access to crystal suite
-let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJnb3NzaXAiLCJmbHVzaCI6dHJ1ZSwiZXhwIjoxMDQ0NDE5MjUyMDQwMDAwfQ.i3MRmP56AEvIvWGdnj1TKuLZNaqLYaqzXaWijtT-Cc8';
+let jwt = '';
 
 //initialisation do not change
 let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
