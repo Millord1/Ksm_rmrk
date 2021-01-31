@@ -218,7 +218,7 @@ export class Gossiper{
             xmlhttp.setRequestHeader("Content-Type", "application/json");
 
             xmlhttp.send(JSON.stringify(this.exposeGossip(true)))
-            console.log(JSON.stringify(this.exposeGossip(true)));
+            //console.log(JSON.stringify(this.exposeGossip(true)));
 
 
             xmlhttp.onreadystatechange = function () {

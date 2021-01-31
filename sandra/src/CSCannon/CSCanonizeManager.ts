@@ -13,6 +13,7 @@ import {Reference} from "../Reference.js";
 import {AssetSolverFactory} from "./AssetSolvers/AssetSolverFactory.js";
 import {LocalSolver} from "./AssetSolvers/LocalSolver.js";
 import {AssetSolver} from "./AssetSolvers/AssetSolver.js";
+import {BlockchainEventFactory} from "./BlockchainEventFactory.js";
 
 
 interface CanonizeOptions{
@@ -130,13 +131,51 @@ export class CSCanonizeManager {
 
         return this.gossipActiveBlockchain(apiConnector,true)
 
-
-
     }
 
     public getAssetSolverFactory(){
 
         return this.assetSolverFactory ;
+
+    }
+
+    public async gossipOrbsBindings(apiConnector?:ApiConnector){
+
+        let gossiper = null ;
+        //if the asset are bound directely to token we are going to dispatch that.
+        if (this.tokenFactory.entityArray.length > 0){
+            console.log("There are token binding so we are publishing token binding")
+             gossiper = new Gossiper(this.tokenFactory);
+        }
+        else{
+            console.log("No token binding assets may be bound directely to contract")
+             gossiper = new Gossiper(this.assetFactory);
+        }
+
+
+        return   gossiper.gossipToUrl(this.getApiConnector(apiConnector))
+
+    }
+
+    public async gossipBlockchainEvents(blockchain:Blockchain ,apiConnector?:ApiConnector){
+        let gossiper = new Gossiper(blockchain.eventFactory);
+        return   gossiper.gossipToUrl(this.getApiConnector(apiConnector))
+
+    }
+
+    private getApiConnector(apiConnector?:ApiConnector){
+
+        if (apiConnector !== undefined){
+            return apiConnector ;
+        }
+
+        if (this.apiConnector !== undefined){
+            return this.apiConnector ;
+        }
+
+        throw new Error("No API connector set pass it into this function or on the constructor");
+
+
 
     }
 

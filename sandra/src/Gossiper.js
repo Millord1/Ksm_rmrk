@@ -123,7 +123,7 @@ class Gossiper {
                 console.log(connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
                 xmlhttp.setRequestHeader("Content-Type", "application/json");
                 xmlhttp.send(JSON.stringify(this.exposeGossip(true)));
-                console.log(JSON.stringify(this.exposeGossip(true)));
+                //console.log(JSON.stringify(this.exposeGossip(true)));
                 xmlhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         let response = this.responseText;

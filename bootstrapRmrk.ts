@@ -20,23 +20,22 @@ let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://localh
 let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain(sandra);
 
-let flushing = canonizeManager.flushWithBlockchainSupport([kusama]).then(r=>{
-
-    console.log("flushed and added blockchain support");
-    console.log(r);
-    bootstrapCollection();
-
-}).catch(
-
-    err=>{console.log(err)}
-    )
+bootstrap();
 
 
+async function bootstrap(){
 
-function bootstrapCollection () {
-    console.log(kusama.addressFactory.entityByRevValMap);
 
-    let rmrkContractStandard = new RmrkContractStandard(canonizeManager);
+    const flush = await flushDatagraph() // add remove this to erase the full database
+    const createTestCollection = await bootstrapCollection();
+    const createTestEvent = await bootstrapEvents();
+
+}
+
+
+
+async function bootstrapCollection () {
+    console.log("Creating Collection")
 
     let myCollection = canonizeManager.createCollection({
         id: 'myCollection',
@@ -46,10 +45,12 @@ function bootstrapCollection () {
     });
 
     let myAsset = canonizeManager.createAsset({
-        assetId: 'A great asset I made',
+        assetId: 'MyGreatAsset',
         imageUrl: "https://picsum.photos/400",
         description: 'hello'
     });
+
+    let rmrkContractStandard = new RmrkContractStandard(canonizeManager);
     let myCOntract = kusama.contractFactory.getOrCreate('241B8516516F381A-FRACTAL').setStandard(rmrkContractStandard);
 
 
@@ -57,43 +58,49 @@ function bootstrapCollection () {
     myCOntract.bindToCollection(myCollection);
     myAsset.bindContract(myCOntract);
 
-//now that we build all relation between token and asset we are ready to publish it to the server
-    let gossiper = new Gossiper(canonizeManager.getAssetFactory()); //it's important to gossip the token factory as it joins everything up to the collection
-    let result = gossiper.exposeGossip();
+    //now that we build all relation between token and asset we are ready to publish it to the server
+    let response = await canonizeManager.gossipOrbsBindings();
+    console.log(JSON.parse(response));
+
+}
+
+async function bootstrapEvents (){
+    console.log("Creating Events")
+
+    let rmrkToken = new RmrkContractStandard(canonizeManager);
+    let myCOntract = kusama.contractFactory.getOrCreate('241B8516516F381A-FRACTAL')
+    rmrkToken.setSn("0000000000000003");
+    rmrkToken.generateTokenPathEntity(canonizeManager);
+    let event = new BlockchainEvent(kusama.eventFactory,
+        'address1',
+        'addressDest1', myCOntract,
+        'txid1111',
+        '1111111',
+        "1",
+        kusama,
+        3,
+        rmrkToken,
+        canonizeManager.getSandra());
+
+    let response = await canonizeManager.gossipBlockchainEvents(kusama);
+
+    console.log(JSON.parse(response));
+
+}
 
 
-    let json = JSON.stringify(result);
+async function flushDatagraph (){
 
-    console.log(json);
+    let flushing = await canonizeManager.flushWithBlockchainSupport([kusama]).then(r=>{
+        console.log("flushed and added blockchain support");
+        console.log(JSON.parse(r));
+        return r ;
 
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(json);
-    xmlhttp.addEventListener("load", () => {
-        console.log("complete");
 
-        let rmrkToken = new RmrkContractStandard(canonizeManager);
-        rmrkToken.setSn("0000000000000003");
-        let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
-        let event = new BlockchainEvent(kusama.eventFactory, 'address1', 'addressDest1', myCOntract, 'txid1111', '1111111', "1", kusama, 3, rmrkToken, sandra);
+    }).catch(
 
-        let xmlhttp = new XMLHttpRequest();
-        let gossiper2 = new Gossiper(kusama.eventFactory, sandra.get('txId'));
-        let result2 = gossiper2.exposeGossip();
-
-        let json2 = JSON.stringify(result2);
-        console.log(json);
-
-        xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.send(json2);
-        xmlhttp.addEventListener("load", () => {
-            console.log("complete");
-        });
-
-    });
-
+        err=>{console.log(err)}
+    )
 }
 
 
