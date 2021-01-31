@@ -92,6 +92,8 @@ async function bootstrapEvents (){
     let uniqueTokenId = "1" ;
     let uniqueCollectionId = "1" ;
     let timestamp = (Date.now()/1000).toString(); //Important the timestamp should be the block timestamp
+    let blockId = 777 ;
+    let quantity = "1" ;
 
     let uniqueToken = new UniqueContractStandard(canonizeManager);
     let myContract = currentBlockchain.contractFactory.getOrCreate(uniqueCollectionId).setStandard(uniqueToken)
@@ -99,24 +101,26 @@ async function bootstrapEvents (){
 
     let event = new BlockchainEvent(currentBlockchain.eventFactory,
         'address1',
-        'addressDest1', myContract,
+        'addressDest1',
+        myContract,
         'txid1',
         timestamp,
-        "1",
+        quantity,
         currentBlockchain,
-        3,
+        blockId,
         uniqueToken,
         canonizeManager.getSandra());
 
 
     let event2 = new BlockchainEvent(currentBlockchain.eventFactory,
         'address3',
-        'address4', myContract,
+        'address4',
+        myContract,
         'txid2',
         timestamp+10,
-        "1",
+        quantity,
         currentBlockchain,
-        3,
+        blockId+1,
         uniqueToken,
         canonizeManager.getSandra());
 
@@ -144,50 +148,5 @@ async function flushDatagraph (){
 }
 
 
-//
-//
-// // this will erase all data in your datagraph environment (specified in the jwt) note some jwt allow or disallow flush
-// // remove this part if you don't want to delete your database data
-// canonizeManager.flushWithBlockchainSupport([unique]).then(r=>{
-//
-//     console.log("flushed and added blockchain support");
-//     console.log(r);
-//
-// }).catch(err=>{console.log(err)})
-//
-//
-// let uniqueCollectionId = "1" ; //On unique a collection is identified by a numerical id. On CScannon this equals a collection and a contract with the same identifier
-//
-// let myCollection = canonizeManager.createCollection({id:uniqueCollectionId,imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
-//
-// let myAsset = canonizeManager.createAsset({assetId:'A great asset I made',imageUrl:"https://picsum.photos/400",description:'hello'});
-// let myContract = unique.contractFactory.getOrCreate(uniqueCollectionId);
-//
-// //we add both the asset and the contract to the collection
-// myAsset.bindCollection(myCollection);
-// myContract.bindToCollection(myCollection);
-//
-// //now we instanciate the token
-// let uniqueTokenId = "1" ;
-// let uniqueToken = new UniqueContractStandard(canonizeManager);
-// uniqueToken.setTokenId(uniqueTokenId);
-//
-// // now we bind our asset to a specific unique token
-// let tokenPath = uniqueToken.generateTokenPathEntity(canonizeManager);
-// tokenPath.bindToAssetWithContract(myContract,myAsset);
-//
-// //now that we build all relation between token and asset we are ready to publish it to the server
-// let gossiper = new Gossiper(canonizeManager.getTokenFactory()); //it's important to gossip the token factory as it joins everything up to the collection
-// let result = gossiper.exposeGossip();
-//
-//
-// let json = JSON.stringify(result);
-// console.log(json);
-//
-// const xmlhttp = new XMLHttpRequest();
-// xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-// xmlhttp.setRequestHeader("Content-Type", "application/json");
-// xmlhttp.send(json);
-// xmlhttp.addEventListener("load", ()=>{
-//     console.log("complete");
-// });
+
+
