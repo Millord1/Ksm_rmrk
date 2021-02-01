@@ -65,16 +65,22 @@ export const obxiumBlocks = (opts: Option) => {
 
 export const batchBlock = (opts: Option) => {
 
-    let blockNumber = 5965646;
+    let blockNumber = 5962804;
 
     let index:number = 0 ;
     let speed:number = 2000 ;
 
+    const fileToRead = path.resolve(__dirname, "batchBlocks.json");
+
     const batchReader = new BatchReader(new Kusama());
 
-    for (let i = blockNumber; i>5965350; i--){
+    if( !fs.existsSync(fileToRead) ){
+        fs.writeFileSync(fileToRead, []);
+    }
 
-        const blocks = fs.readFileSync(path.resolve(__dirname, "batchBlocks.json"));
+    for (let i = blockNumber; i>5962802; i--){
+
+        const blocks = fs.readFileSync(fileToRead);
         const previousBlock = JSON.parse(blocks);
 
         setTimeout(function (){
@@ -85,7 +91,7 @@ export const batchBlock = (opts: Option) => {
                     previousBlock.push(array);
                     const json = JSON.stringify(previousBlock);
                     console.log('write block ' + i);
-                    fs.writeFileSync(path.resolve(__dirname, "batchBlocks.json"), json);
+                    fs.writeFileSync(fileToRead, json);
                 }
             });
 
