@@ -75,6 +75,8 @@ export const batchBlock = (opts: Option) => {
     const batchReader = new BatchReader(new Kusama());
 
     if( !fs.existsSync(fileToRead) ){
+
+        fs.closeSync(fs.openSync(fileToRead, 'w'));
         fs.writeFileSync(fileToRead, []);
     }
 
