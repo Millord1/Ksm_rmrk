@@ -282,7 +282,7 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
     }
 
     let json = JSON.stringify(result,null,2); // pretty
-    console.log(json);
+    // console.log(json);
 
     sendToGossip(json, processExit);
 
@@ -291,21 +291,18 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
-    // console.log('send');
+    console.log('send');
 
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(json);
-    xmlhttp.addEventListener("load", ()=>{
-        console.log("complete");
+    // 5954879
 
-        if(processExit){
-            setTimeout(()=>{
-                process.exit();
-            }, 500);
-        }
-    });
+    // const xmlhttp = new XMLHttpRequest();
+    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+    // xmlhttp.setRequestHeader("Content-Type", "application/json");
+    // xmlhttp.send(json);
+    // xmlhttp.addEventListener("load", ()=>{
+    //     console.log("complete");
+    //
+    // });
 
 }
 
