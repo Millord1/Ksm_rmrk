@@ -106,7 +106,8 @@ export class RmrkJetski
 
 
             }
-            else if(section === "utility" && method === "batch"){
+
+            if(section === "utility" && method === "batch"){
 
                 const arg = args.toString();
                 const batch = JSON.parse(arg);
