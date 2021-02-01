@@ -19,10 +19,9 @@ import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 
-// const fs = require('fs');
-// const path = require('path');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
+let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJrc21qZXRza2kiLCJmbHVzaCI6ZmFsc2UsImV4cCI6MTA0NDY5NTk0NTQ0ODAwMH0.STcvv0wGBU7SOQKMNhK9I-9YducCl5Wz1a3N7q_cydM';
 
 export const testScan = async (opts: Option) => {
 
@@ -49,127 +48,70 @@ export const testScan = async (opts: Option) => {
 
 
     //@ts-ignore
-    const blockNumber = opts.block;
+    let blockN: number = opts.block;
 
-    const scan = new RmrkJetski(blockchain);
+        setInterval(() => {
 
-    console.log('read : ' + blockNumber);
+            if(blockN === 2000){
+                clearInterval();
+            }
 
-    scan.getRmrks(blockNumber).then(
-        result => {
+            const scan = new RmrkJetski(blockchain);
 
-            console.log(result);
+            console.log('reading ' + blockN);
 
-            result.forEach(value => {
+            scan.getRmrks(blockN).then(
+                result => {
 
-                let collName : string = "";
-                let sn: string = "";
+                    result.forEach(value => {
 
-                if(value instanceof Send){
+                        if(typeof value === 'object'){
 
-                    collName = value.nft.token.contractId;
-                    sn = value.nft.token.sn
+                            let collName : string = "";
+                            let sn: string = "";
 
-                    if(sn != "" && collName != ""){
-                        eventGossip(value, sn, collName);
-                    }
+                            if(value instanceof Send){
 
-                }else if (value instanceof MintNft){
+                                collName = value.nft.token.contractId;
+                                sn = value.nft.token.sn
 
-                    collName = value.nft.token.contractId;
-                    sn = value.nft.token.sn
+                                if(sn != "" && collName != ""){
+                                    eventGossip(value, sn, collName);
+                                }
 
-                    const source = value.transaction.source;
-                    value.transaction.source = '0x0';
-                    value.transaction.destination.address = source;
+                            }else if (value instanceof MintNft){
 
-                    console.log(value);
+                                collName = value.nft.token.contractId;
+                                sn = value.nft.token.sn
 
-                    if(sn != "" && collName != ""){
-                        entityGossip(value.nft)
-                        eventGossip(value, sn, collName);
-                    }
+                                const source = value.transaction.source;
+                                value.transaction.source = '0x0';
+                                value.transaction.destination.address = source;
 
-                }else if (value instanceof Mint){
+                                console.log(value);
 
-                    // collName = value.collection.name;
+                                if(sn != "" && collName != ""){
+                                    entityGossip(value.nft)
+                                    eventGossip(value, sn, collName);
+                                }
 
-                    entityGossip(value.collection);
-                }
+                            }else if (value instanceof Mint){
 
-            })
-        },
+                                // collName = value.collection.name;
 
-    )
+                                entityGossip(value.collection);
+                            }
 
+                        }
 
-    // //@ts-ignore
-    // let blockN: number = opts.block;
-    //
-    //     setInterval(() => {
-    //
-    //         if(blockN === 2000){
-    //             clearInterval();
-    //         }
-    //
-    //         const scan = new RmrkJetski(blockchain);
-    //
-    //         console.log('read : ' + blockN);
-    //
-    //         scan.getRmrks(blockN).then(
-    //             result => {
-    //
-    //                 result.forEach(value => {
-    //
-    //                     let collName : string = "";
-    //                     let sn: string = "";
-    //
-    //                     if(value instanceof Send){
-    //
-    //                         console.log('Send');
-    //
-    //                         collName = value.nft.token.contractId;
-    //                         sn = value.nft.token.sn
-    //
-    //                         if(sn != "" && collName != ""){
-    //                             eventGossip(value, sn, collName);
-    //                         }
-    //
-    //                     }else if (value instanceof MintNft){
-    //
-    //                         console.log('MintNft');
-    //
-    //                         collName = value.nft.token.contractId;
-    //                         sn = value.nft.token.sn
-    //
-    //                         const source = value.transaction.source;
-    //                         value.transaction.source = '0x0';
-    //                         value.transaction.destination.address = source;
-    //
-    //                         console.log(value);
-    //
-    //                         if(sn != "" && collName != ""){
-    //                             entityGossip(value.nft)
-    //                             eventGossip(value, sn, collName);
-    //                         }
-    //
-    //                     }else if (value instanceof Mint){
-    //
-    //                         console.log('Mint');
-    //
-    //                         // collName = value.collection.name;
-    //
-    //                         entityGossip(value.collection);
-    //                     }
-    //
-    //                 })
-    //             },
-    //
-    //         );
-    //
-    //         blockN --;
-    //
-    //     }, 1000);
+                    })
+                },
+
+            );
+
+            blockN --;
+
+        }, 250);
 
 
 
@@ -241,7 +183,7 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
     const recipient = value.transaction.destination.address;
 
 
-    let canonizeManager = new CSCanonizeManager();
+    let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
     let blockchain = new KusamaBlockchain(sandra);
 
@@ -274,7 +216,7 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
 
 const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
-    let canonizeManager = new CSCanonizeManager();
+    let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra = canonizeManager.getSandra();
 
     let kusama = new KusamaBlockchain(sandra);
@@ -349,21 +291,21 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
-    console.log('send');
+    // console.log('send');
 
-    // const xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    // xmlhttp.setRequestHeader("Content-Type", "application/json");
-    // xmlhttp.send(json);
-    // xmlhttp.addEventListener("load", ()=>{
-    //     console.log("complete");
-    //
-    //     if(processExit){
-    //         setTimeout(()=>{
-    //             process.exit();
-    //         }, 500);
-    //     }
-    // });
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send(json);
+    xmlhttp.addEventListener("load", ()=>{
+        console.log("complete");
+
+        if(processExit){
+            setTimeout(()=>{
+                process.exit();
+            }, 500);
+        }
+    });
 
 }
 

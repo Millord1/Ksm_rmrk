@@ -50,10 +50,9 @@ class RmrkJetski {
                     }
                     blockRmrks.push(this.getContent(ex, method, section, blockId, blockTimestamp, args));
                 }
-                Promise.all(blockRmrks)
+                return Promise.all(blockRmrks)
                     .then(value => {
-                    console.log(value);
-                    return value;
+                    resolve(value);
                 }).catch((e) => {
                     // console.log(e);
                 });
@@ -104,7 +103,7 @@ class RmrkJetski {
                     }
                 }
                 else {
-                    reject('no rmrk');
+                    resolve('no rmrk');
                 }
             });
         });

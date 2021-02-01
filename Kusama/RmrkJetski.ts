@@ -35,7 +35,7 @@ export class RmrkJetski
     }
 
 
-    public async getRmrks(blockNumber: number): Promise<Array<Remark>>{
+    public async getRmrks(blockNumber: number): Promise<Array<Remark|string>>{
 
         return new Promise ( async (resolve) => {
 
@@ -46,7 +46,7 @@ export class RmrkJetski
             let blockId = blockNumber ;
             let blockTimestamp: string = '0';
 
-            let blockRmrks : Array<Promise<Interaction>> = [];
+            let blockRmrks : Array<Promise<Interaction|string>> = [];
 
             for (const ex of block.block.extrinsics){
 
@@ -63,10 +63,9 @@ export class RmrkJetski
 
             }
 
-            Promise.all(blockRmrks)
+            return Promise.all(blockRmrks)
                 .then(value => {
-                    console.log(value);
-                    return value;
+                    resolve (value);
                 }).catch((e)=>{
                 // console.log(e);
             });
@@ -77,7 +76,14 @@ export class RmrkJetski
 
 
 
-    private async getContent(ex: any, method: string, section: string, blockId: number, blockTimestamp: string, args: any): Promise<Interaction>{
+    private async getContent(
+        ex: any,
+        method: string,
+        section: string,
+        blockId: number,
+        blockTimestamp: string,
+        args: any
+    ): Promise<Interaction|string>{
 
         return new Promise((resolve, reject)=>{
 
@@ -133,7 +139,7 @@ export class RmrkJetski
                     }
                 }
             }else{
-                reject ('no rmrk');
+                resolve ('no rmrk');
             }
 
         })
