@@ -80,7 +80,7 @@ export const batchBlock = (opts: Option) => {
         fs.writeFileSync(fileToRead, []);
     }
 
-    for (let i = blockNumber; i>5962802; i--){
+    for (let i = blockNumber; i>5962504; i--){
 
         const blocks = fs.readFileSync(fileToRead);
         const previousBlock = JSON.parse(blocks);
