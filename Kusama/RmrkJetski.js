@@ -35,18 +35,34 @@ class RmrkJetski {
     }
     getRmrks(blockNumber) {
         return __awaiter(this, void 0, void 0, function* () {
-            const api = yield this.getApi();
-            const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
-            const block = yield api.rpc.chain.getBlock(blockHash);
-            let blockId = blockNumber;
-            let blockTimestamp = '0';
-            const blockRmrks = [];
-            for (const ex of block.block.extrinsics) {
-                const { method: { args, method, section } } = ex;
-                //note timestamp extrinsic always comes first on a block
-                if (section === "timestamp" && method === "set") {
-                    blockTimestamp = getTimestamp(ex);
+            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                const api = yield this.getApi();
+                const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
+                const block = yield api.rpc.chain.getBlock(blockHash);
+                let blockId = blockNumber;
+                let blockTimestamp = '0';
+                let blockRmrks = [];
+                for (const ex of block.block.extrinsics) {
+                    const { method: { args, method, section } } = ex;
+                    //note timestamp extrinsic always comes first on a block
+                    if (section === "timestamp" && method === "set") {
+                        blockTimestamp = getTimestamp(ex);
+                    }
+                    blockRmrks.push(this.getContent(ex, method, section, blockId, blockTimestamp, args));
                 }
+                Promise.all(blockRmrks)
+                    .then(value => {
+                    console.log(value);
+                    return value;
+                }).catch((e) => {
+                    // console.log(e);
+                });
+            }));
+        });
+    }
+    getContent(ex, method, section, blockId, blockTimestamp, args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
                 if (section === "system" && method === "remark") {
                     const remark = args.toString();
                     const signer = ex.signer.toString();
@@ -59,34 +75,13 @@ class RmrkJetski {
                         })
                             .then((rmrk) => {
                             if (rmrk instanceof Interaction_js_1.Interaction) {
-                                blockRmrks.push(rmrk);
+                                console.log('resolved');
+                                resolve(rmrk);
                             }
                         });
-                        // const uri = hexToString(remark);
-                        // let lisibleUri = decodeURIComponent(uri);
-                        // lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                        //
-                        // const splitted = lisibleUri.split('::');
-                        //
-                        // const data = Entity.dataTreatment(splitted, Entity.entityObj);
-                        //
-                        // let meta: Metadata|null;
-                        //
-                        // if(data.metadata !== ""){
-                        //     meta = await Entity.getMetaDataContent(data.metadata);
-                        // }else{
-                        //     meta = null;
-                        // }
-                        //
-                        // const reader = new RmrkReader(this.chain, tx);
-                        // const rmrk = reader.readInteraction(lisibleUri, meta);
-                        //
-                        // if(rmrk instanceof Interaction){
-                        //     blockRmrks.push(rmrk);
-                        // }
                     }
                 }
-                if (section === "utility" && method === "batch") {
+                else if (section === "utility" && method === "batch") {
                     const arg = args.toString();
                     const batch = JSON.parse(arg);
                     let remark = "";
@@ -102,14 +97,16 @@ class RmrkJetski {
                             })
                                 .then((rmrk) => {
                                 if (rmrk instanceof Interaction_js_1.Interaction) {
-                                    blockRmrks.push(rmrk);
+                                    resolve(rmrk);
                                 }
                             });
                         }
                     }
                 }
-            }
-            return blockRmrks;
+                else {
+                    reject('no rmrk');
+                }
+            });
         });
     }
     rmrkToObject(remark, tx) {

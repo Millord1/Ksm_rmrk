@@ -24,6 +24,7 @@ program.command("bruno")
     .action(obxiumBlocks);
 
 program.command('batch')
+    .option("--block <block>", "block number")
     .action(batchBlock);
 
 program.parse(process.argv);

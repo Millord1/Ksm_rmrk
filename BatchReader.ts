@@ -35,6 +35,7 @@ export class BatchReader
 
         const api = await this.getApi();
         const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+
         const block = await api.rpc.chain.getBlock(blockHash);
 
         let blockId = blockNumber ;
@@ -46,7 +47,6 @@ export class BatchReader
             const { method: {
                 args, method, section
             }} = ex;
-
 
             if(section === "utility" && method === "batch"){
 
@@ -60,7 +60,6 @@ export class BatchReader
                         blockArray.push(blockId);
                     }
                 }
-
             }
         }
 

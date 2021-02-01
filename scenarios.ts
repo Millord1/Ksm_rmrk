@@ -7,6 +7,8 @@ const {program} = require('commander');
 const fs = require('fs');
 const path = require('path');
 
+var exec = require('child_process').exec, child;
+
 export const defaultWalker =  (opts: Option) => {
 
 
@@ -65,14 +67,14 @@ export const obxiumBlocks = (opts: Option) => {
 
 export const batchBlock = (opts: Option) => {
 
-    let blockNumber = 5962804;
+    //@ts-ignore
+    let blockNumber = opts.block;
+    const blockToScan = blockNumber - 200;
 
     let index:number = 0 ;
-    let speed:number = 2000 ;
+    let speed:number = 250 ;
 
     const fileToRead = path.resolve(__dirname, "batchBlocks.json");
-
-    const batchReader = new BatchReader(new Kusama());
 
     if( !fs.existsSync(fileToRead) ){
 
@@ -80,7 +82,9 @@ export const batchBlock = (opts: Option) => {
         fs.writeFileSync(fileToRead, []);
     }
 
-    for (let i = blockNumber; i>5962504; i--){
+    for (let i = blockNumber; i>blockToScan; i--){
+
+        const batchReader = new BatchReader(new Kusama());
 
         const blocks = fs.readFileSync(fileToRead);
         const previousBlock = JSON.parse(blocks);
@@ -101,6 +105,8 @@ export const batchBlock = (opts: Option) => {
 
         index ++;
     }
+
+
 
 
 }

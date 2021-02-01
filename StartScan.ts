@@ -17,6 +17,7 @@ import {Entity} from "./classes/Rmrk/Entity.js";
 import {Remark} from "./classes/Rmrk/Remark.js";
 import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
+import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 
 // const fs = require('fs');
 // const path = require('path');
@@ -25,7 +26,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 export const testScan = async (opts: Option) => {
 
-    let blockchain;
+    let blockchain: Blockchain;
 
     // @ts-ignore
     switch (opts.chain.toLowerCase()){
@@ -47,16 +48,19 @@ export const testScan = async (opts: Option) => {
     }
 
 
+    //@ts-ignore
+    const blockNumber = opts.block;
 
     const scan = new RmrkJetski(blockchain);
 
-    // @ts-ignore
-    scan.getRmrks(opts.block).then(
+    console.log('read : ' + blockNumber);
+
+    scan.getRmrks(blockNumber).then(
         result => {
 
-            result.forEach(value => {
+            console.log(result);
 
-                console.log(result);
+            result.forEach(value => {
 
                 let collName : string = "";
                 let sn: string = "";
@@ -96,7 +100,79 @@ export const testScan = async (opts: Option) => {
             })
         },
 
-    );
+    )
+
+
+    // //@ts-ignore
+    // let blockN: number = opts.block;
+    //
+    //     setInterval(() => {
+    //
+    //         if(blockN === 2000){
+    //             clearInterval();
+    //         }
+    //
+    //         const scan = new RmrkJetski(blockchain);
+    //
+    //         console.log('read : ' + blockN);
+    //
+    //         scan.getRmrks(blockN).then(
+    //             result => {
+    //
+    //                 result.forEach(value => {
+    //
+    //                     let collName : string = "";
+    //                     let sn: string = "";
+    //
+    //                     if(value instanceof Send){
+    //
+    //                         console.log('Send');
+    //
+    //                         collName = value.nft.token.contractId;
+    //                         sn = value.nft.token.sn
+    //
+    //                         if(sn != "" && collName != ""){
+    //                             eventGossip(value, sn, collName);
+    //                         }
+    //
+    //                     }else if (value instanceof MintNft){
+    //
+    //                         console.log('MintNft');
+    //
+    //                         collName = value.nft.token.contractId;
+    //                         sn = value.nft.token.sn
+    //
+    //                         const source = value.transaction.source;
+    //                         value.transaction.source = '0x0';
+    //                         value.transaction.destination.address = source;
+    //
+    //                         console.log(value);
+    //
+    //                         if(sn != "" && collName != ""){
+    //                             entityGossip(value.nft)
+    //                             eventGossip(value, sn, collName);
+    //                         }
+    //
+    //                     }else if (value instanceof Mint){
+    //
+    //                         console.log('Mint');
+    //
+    //                         // collName = value.collection.name;
+    //
+    //                         entityGossip(value.collection);
+    //                     }
+    //
+    //                 })
+    //             },
+    //
+    //         );
+    //
+    //         blockN --;
+    //
+    //     }, 1000);
+
+
+
 }
 
 
@@ -273,7 +349,7 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
-    // console.log('send');
+    console.log('send');
 
     // const xmlhttp = new XMLHttpRequest();
     // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
