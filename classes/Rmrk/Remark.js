@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Remark = void 0;
 class Remark {
     constructor(version, rmrk, chain, transaction) {
-        this.defaultVersion = '0.1';
+        this.defaultVersion = '1.0.0';
         this.rmrk = rmrk;
         this.chain = chain;
         if (version === null) {

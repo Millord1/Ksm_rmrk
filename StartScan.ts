@@ -17,15 +17,15 @@ import {Entity} from "./classes/Rmrk/Entity.js";
 import {Remark} from "./classes/Rmrk/Remark.js";
 import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
+import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 
-// const fs = require('fs');
-// const path = require('path');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
+let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJrc21qZXRza2kiLCJmbHVzaCI6ZmFsc2UsImV4cCI6MTA0NDY5NTk0NTQ0ODAwMH0.STcvv0wGBU7SOQKMNhK9I-9YducCl5Wz1a3N7q_cydM';
 
 export const testScan = async (opts: Option) => {
 
-    let blockchain;
+    let blockchain: Blockchain;
 
     // @ts-ignore
     switch (opts.chain.toLowerCase()){
@@ -47,56 +47,74 @@ export const testScan = async (opts: Option) => {
     }
 
 
+    //@ts-ignore
+    let blockN: number = opts.block;
 
-    const scan = new RmrkJetski(blockchain);
+        setInterval(() => {
 
-    // @ts-ignore
-    scan.getRmrks(opts.block).then(
-        result => {
+            if(blockN === 2000){
+                clearInterval();
+            }
 
-            result.forEach(value => {
+            const scan = new RmrkJetski(blockchain);
 
-                console.log(result);
+            console.log('reading ' + blockN);
 
-                let collName : string = "";
-                let sn: string = "";
+            scan.getRmrks(blockN).then(
+                result => {
 
-                if(value instanceof Send){
+                    result.forEach(value => {
 
-                    collName = value.nft.token.contractId;
-                    sn = value.nft.token.sn
+                        if(typeof value === 'object'){
 
-                    if(sn != "" && collName != ""){
-                        eventGossip(value, sn, collName);
-                    }
+                            let collName : string = "";
+                            let sn: string = "";
 
-                }else if (value instanceof MintNft){
+                            if(value instanceof Send){
 
-                    collName = value.nft.token.contractId;
-                    sn = value.nft.token.sn
+                                collName = value.nft.token.contractId;
+                                sn = value.nft.token.sn
 
-                    const source = value.transaction.source;
-                    value.transaction.source = '0x0';
-                    value.transaction.destination.address = source;
+                                if(sn != "" && collName != ""){
+                                    eventGossip(value, sn, collName);
+                                }
 
-                    console.log(value);
+                            }else if (value instanceof MintNft){
 
-                    if(sn != "" && collName != ""){
-                        entityGossip(value.nft)
-                        eventGossip(value, sn, collName);
-                    }
+                                collName = value.nft.token.contractId;
+                                sn = value.nft.token.sn
 
-                }else if (value instanceof Mint){
+                                const source = value.transaction.source;
+                                value.transaction.source = '0x0';
+                                value.transaction.destination.address = source;
 
-                    // collName = value.collection.name;
+                                console.log(value);
 
-                    entityGossip(value.collection);
-                }
+                                if(sn != "" && collName != ""){
+                                    entityGossip(value.nft)
+                                    eventGossip(value, sn, collName);
+                                }
 
-            })
-        },
+                            }else if (value instanceof Mint){
 
-    );
+                                // collName = value.collection.name;
+
+                                entityGossip(value.collection);
+                            }
+
+                        }
+
+                    })
+                },
+
+            );
+
+            blockN --;
+
+        }, 250);
+
+
+
 }
 
 
@@ -165,7 +183,7 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
     const recipient = value.transaction.destination.address;
 
 
-    let canonizeManager = new CSCanonizeManager();
+    let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
     let blockchain = new KusamaBlockchain(sandra);
 
@@ -198,7 +216,7 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
 
 const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
-    let canonizeManager = new CSCanonizeManager();
+    let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra = canonizeManager.getSandra();
 
     let kusama = new KusamaBlockchain(sandra);
@@ -275,19 +293,19 @@ function sendToGossip(json: string, processExit: boolean){
 
     // console.log('send');
 
-    // const xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    // xmlhttp.setRequestHeader("Content-Type", "application/json");
-    // xmlhttp.send(json);
-    // xmlhttp.addEventListener("load", ()=>{
-    //     console.log("complete");
-    //
-    //     if(processExit){
-    //         setTimeout(()=>{
-    //             process.exit();
-    //         }, 500);
-    //     }
-    // });
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send(json);
+    xmlhttp.addEventListener("load", ()=>{
+        console.log("complete");
+
+        if(processExit){
+            setTimeout(()=>{
+                process.exit();
+            }, 500);
+        }
+    });
 
 }
 

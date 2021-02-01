@@ -35,36 +35,63 @@ export class RmrkJetski
     }
 
 
-    public async getRmrks(blockNumber: number): Promise<Array<Remark>>{
+    public async getRmrks(blockNumber: number): Promise<Array<Remark|string>>{
 
-        const api = await this.getApi();
-        const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-        const block = await api.rpc.chain.getBlock(blockHash);
+        return new Promise ( async (resolve) => {
 
-        let blockId = blockNumber ;
-        let blockTimestamp: string = '0';
+            const api = await this.getApi();
+            const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+            const block = await api.rpc.chain.getBlock(blockHash);
 
-        const blockRmrks : Array<Interaction> = [];
+            let blockId = blockNumber ;
+            let blockTimestamp: string = '0';
 
-        for (const ex of block.block.extrinsics){
+            let blockRmrks : Array<Promise<Interaction|string>> = [];
 
-            const { method: {
-                args, method, section
-            }} = ex;
+            for (const ex of block.block.extrinsics){
 
+                const { method: {
+                    args, method, section
+                }} = ex;
 
-            //note timestamp extrinsic always comes first on a block
-            if(section === "timestamp" && method === "set"){
-                blockTimestamp = getTimestamp(ex);
+                //note timestamp extrinsic always comes first on a block
+                if(section === "timestamp" && method === "set"){
+                    blockTimestamp = getTimestamp(ex);
+                }
+
+                blockRmrks.push(this.getContent(ex, method, section, blockId, blockTimestamp, args));
+
             }
 
+            return Promise.all(blockRmrks)
+                .then(value => {
+                    resolve (value);
+                }).catch((e)=>{
+                // console.log(e);
+            });
+        })
+
+
+    }
+
+
+
+    private async getContent(
+        ex: any,
+        method: string,
+        section: string,
+        blockId: number,
+        blockTimestamp: string,
+        args: any
+    ): Promise<Interaction|string>{
+
+        return new Promise((resolve, reject)=>{
 
             if(section === "system" && method === "remark"){
 
                 const remark = args.toString();
                 const signer = ex.signer.toString();
                 const hash = ex.hash.toHex();
-
 
                 const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
@@ -76,37 +103,13 @@ export class RmrkJetski
                         })
                         .then((rmrk)=>{
                             if(rmrk instanceof Interaction){
-                                blockRmrks.push(rmrk);
+                                console.log('resolved');
+                                resolve (rmrk);
                             }
                         });
-
-                    // const uri = hexToString(remark);
-                    // let lisibleUri = decodeURIComponent(uri);
-                    // lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                    //
-                    // const splitted = lisibleUri.split('::');
-                    //
-                    // const data = Entity.dataTreatment(splitted, Entity.entityObj);
-                    //
-                    // let meta: Metadata|null;
-                    //
-                    // if(data.metadata !== ""){
-                    //     meta = await Entity.getMetaDataContent(data.metadata);
-                    // }else{
-                    //     meta = null;
-                    // }
-                    //
-                    // const reader = new RmrkReader(this.chain, tx);
-                    // const rmrk = reader.readInteraction(lisibleUri, meta);
-                    //
-                    // if(rmrk instanceof Interaction){
-                    //     blockRmrks.push(rmrk);
-                    // }
                 }
 
-
-            }
-            else if(section === "utility" && method === "batch"){
+            }else if(section === "utility" && method === "batch"){
 
                 const arg = args.toString();
                 const batch = JSON.parse(arg);
@@ -129,18 +132,19 @@ export class RmrkJetski
                             })
                             .then((rmrk)=>{
                                 if(rmrk instanceof Interaction){
-                                    blockRmrks.push(rmrk);
+                                    resolve (rmrk);
                                 }
                             });
 
                     }
                 }
+            }else{
+                resolve ('no rmrk');
             }
-        }
 
-        return blockRmrks;
+        })
+
     }
-
 
 
     private async rmrkToObject(remark: string, tx: Transaction): Promise<Interaction> {
