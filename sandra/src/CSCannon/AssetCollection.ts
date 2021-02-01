@@ -18,6 +18,7 @@ export class AssetCollection extends Entity
 {
 
 
+
     //canonical vocabulary
     public COLLECTION_ID:string = 'collectionId';
     public NAME:string = 'name';
@@ -36,5 +37,22 @@ export class AssetCollection extends Entity
         collectionInterface.description ? this.addReference(new Reference(sandra.get(this.DESCRIPTION), collectionInterface.description )): null;
     }
 
+    public getImageUrl():string
+    {
+        return this.getRefValue(this.MAIN_IMAGE) ? this.getRefValue(this.MAIN_IMAGE) : '' ;
+
+    }
+
+    public getName():string
+    {
+        return this.getRefValue(this.NAME) ? this.getRefValue(this.NAME) : '' ;
+
+    }
+
+    public getDescription():string
+    {
+        return this.getRefValue(this.DESCRIPTION) ? this.getRefValue(this.DESCRIPTION) : '' ;
+
+    }
 
 }

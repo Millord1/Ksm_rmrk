@@ -26,7 +26,7 @@ interface CanonizeOptions{
 export class CSCanonizeManager {
 
     private sandra: SandraManager;
-    private assetCollectionFactory ;
+    private assetCollectionFactory:AssetCollectionFactory ;
     private assetFactory:AssetFactory ;
     private tokenFactory: BlockchainTokenFactory;
     private contractStandardFactory: ContractStandardFactory;

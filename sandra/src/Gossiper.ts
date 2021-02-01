@@ -18,6 +18,7 @@ export interface ApiConnector {
 
     gossipUrl:string
     jwt:string
+    apiUrl?:string
 
 
 }
@@ -161,10 +162,6 @@ export class Gossiper{
             })
 
         }
-
-
-
-
         return myData ;
 
     }
