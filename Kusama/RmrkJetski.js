@@ -33,10 +33,10 @@ class RmrkJetski {
             return myApi;
         });
     }
-    getRmrks(blockNumber) {
+    getRmrks(blockNumber, api) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                const api = yield this.getApi();
+                // const api = await this.getApi();
                 const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
                 const block = yield api.rpc.chain.getBlock(blockHash);
                 let blockId = blockNumber;
