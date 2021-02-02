@@ -5,12 +5,11 @@ let canonizeManager = new CSCanonizeManager();
 
 let api = new CsCannonApiManager(canonizeManager,'https://gossip.everdreamsoft.com/')
 
-api.getCollections().then(collections=>{console.log(
+api.getCollections().then(collections=>{
 
     collections.forEach(collection =>{
 
         collection.getName();
+        console.log(collection)
 
-    })
-
-)});
+})});

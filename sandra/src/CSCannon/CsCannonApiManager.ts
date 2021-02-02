@@ -2,7 +2,15 @@ import {CSCanonizeManager} from "./CSCanonizeManager";
 import {ApiConnector} from "../Gossiper";
 import {AssetCollection, AssetCollectionInterface} from "./AssetCollection";
 
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+let XMLHttpRequest:any = null ;
+
+let nodeXMLHttp = false ;
+
+try {
+     XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+}catch (e){
+    console.log(e)
+}
 
 export class CsCannonApiManager {
     private canonize: CSCanonizeManager;
@@ -42,7 +50,8 @@ export class CsCannonApiManager {
             const xmlhttp = new XMLHttpRequest();
 
             xmlhttp.open("GET", url+base+path);
-            xmlhttp.send()
+            xmlhttp.send();
+            console.log(url+base+path);
             xmlhttp.onreadystatechange = function () {
 
                 if (this.readyState == 4 && this.status == 200) {

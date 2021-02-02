@@ -1,5 +1,5 @@
-import {EntityFactory} from "../EntityFactory";
-import {SandraManager} from "../SandraManager";
+import {EntityFactory} from "../EntityFactory.js";
+
 import {CSCanonizeManager} from "./CSCanonizeManager.js";
 
 export class BlockchainTokenFactory extends EntityFactory{
