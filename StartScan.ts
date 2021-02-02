@@ -65,6 +65,8 @@ export const testScan = async (opts: Option) => {
 
                     result.forEach(value => {
 
+                        console.log(value);
+
                         if(typeof value === 'object'){
 
                             let collName : string = "";
@@ -88,8 +90,6 @@ export const testScan = async (opts: Option) => {
                                 value.transaction.source = '0x0';
                                 value.transaction.destination.address = source;
 
-                                console.log(value);
-
                                 if(sn != "" && collName != ""){
                                     entityGossip(value.nft)
                                     eventGossip(value, sn, collName);
@@ -111,7 +111,7 @@ export const testScan = async (opts: Option) => {
 
             blockN --;
 
-        }, 250);
+        }, 500);
 
 
 
@@ -293,7 +293,7 @@ function sendToGossip(json: string, processExit: boolean){
 
     console.log('send');
 
-    // 5954879
+    // 5954211
 
     // const xmlhttp = new XMLHttpRequest();
     // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");

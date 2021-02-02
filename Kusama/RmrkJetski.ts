@@ -11,7 +11,7 @@ import {Metadata} from "../classes/Metadata.js";
 export class RmrkJetski
 {
     wsProvider: WsProvider;
-    api: any;
+    // api: any;
     chain: Blockchain;
 
 
@@ -21,15 +21,17 @@ export class RmrkJetski
         this.wsProvider = new WsProvider(this.chain.wsProvider);
     }
 
-    private async getApi(){
+    private async getApi(): Promise<ApiPromise>{
 
         let myApi: any;
 
-        if (typeof this.api === 'undefined'){
-            myApi = await ApiPromise.create({ provider: this.wsProvider });
-        }else{
-            myApi = this.api;
-        }
+        // if (typeof this.api === 'undefined'){
+        //     myApi = await ApiPromise.create({ provider: this.wsProvider });
+        // }else{
+        //     myApi = this.api;
+        // }
+
+        myApi = ApiPromise.create({ provider: this.wsProvider });
 
         return myApi;
     }
@@ -59,7 +61,39 @@ export class RmrkJetski
                     blockTimestamp = getTimestamp(ex);
                 }
 
-                blockRmrks.push(this.getContent(ex, method, section, blockId, blockTimestamp, args));
+
+                if(section === "system" && method === "remark"){
+
+                    const remark = args.toString();
+                    const signer = ex.signer.toString();
+                    const hash = ex.hash.toHex();
+
+                    const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+
+                    if(remark.indexOf("") === 0){
+                        blockRmrks.push(this.rmrkToObject(remark, tx));
+                    }
+                }
+
+
+                if(section === "utility" && method === "batch"){
+
+                    const arg = args.toString();
+                    const batch = JSON.parse(arg);
+
+                    const signer = ex.signer.toString();
+                    const hash = ex.hash.toHex();
+
+                    const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+
+                    for (const rmrkObj of batch){
+
+                        if(rmrkObj.args.hasOwnProperty('_remark')){
+                            blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
+                        }
+
+                    }
+                }
 
             }
 
@@ -67,7 +101,7 @@ export class RmrkJetski
                 .then(value => {
                     resolve (value);
                 }).catch((e)=>{
-                // console.log(e);
+                    console.log(e);
             });
         })
 
@@ -76,80 +110,9 @@ export class RmrkJetski
 
 
 
-    private async getContent(
-        ex: any,
-        method: string,
-        section: string,
-        blockId: number,
-        blockTimestamp: string,
-        args: any
-    ): Promise<Interaction|string>{
+    private async rmrkToObject(remark: string, tx: Transaction): Promise<Interaction|string> {
 
-        return new Promise((resolve, reject)=>{
-
-            if(section === "system" && method === "remark"){
-
-                const remark = args.toString();
-                const signer = ex.signer.toString();
-                const hash = ex.hash.toHex();
-
-                const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-
-                if(remark.indexOf("") === 0){
-
-                    this.rmrkToObject(remark, tx)
-                        .catch((e)=>{
-                            console.error(e);
-                        })
-                        .then((rmrk)=>{
-                            if(rmrk instanceof Interaction){
-                                console.log('resolved');
-                                resolve (rmrk);
-                            }
-                        });
-                }
-
-            }else if(section === "utility" && method === "batch"){
-
-                const arg = args.toString();
-                const batch = JSON.parse(arg);
-
-                let remark: string = "";
-                const signer = ex.signer.toString();
-                const hash = ex.hash.toHex();
-
-                const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-
-                for (const rmrkObj of batch){
-
-                    if(rmrkObj.args.hasOwnProperty('_remark')){
-
-                        remark = rmrkObj.args._remark
-
-                        this.rmrkToObject(remark, tx)
-                            .catch((e)=>{
-                                console.error(e);
-                            })
-                            .then((rmrk)=>{
-                                if(rmrk instanceof Interaction){
-                                    resolve (rmrk);
-                                }
-                            });
-
-                    }
-                }
-            }else{
-                resolve ('no rmrk');
-            }
-
-        })
-
-    }
-
-
-    private async rmrkToObject(remark: string, tx: Transaction): Promise<Interaction> {
-
-        return new Promise( async (resolve, reject) => {
+        return new Promise( async (resolve) => {
 
             const uri = hexToString(remark);
             let lisibleUri = decodeURIComponent(uri);
@@ -173,7 +136,7 @@ export class RmrkJetski
             if(rmrk instanceof Interaction){
                 resolve (rmrk);
             }else{
-                reject ('This rmrk is null');
+                resolve ('no rmrk');
             }
         })
     }
