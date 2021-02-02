@@ -49,15 +49,21 @@ export const testScan = async (opts: Option) => {
 
     //@ts-ignore
     let blockN: number = opts.block;
+    //@ts-ignore
+    let nbOfBlocksToScan: number = opts.nb;
+
+    if(nbOfBlocksToScan == 0){
+        nbOfBlocksToScan = blockN;
+    }
+
+    const limitBlock: number = blockN - nbOfBlocksToScan;
+
+    let processExit: boolean = false;
 
     const scan = new RmrkJetski(blockchain);
     const api = await scan.getApi();
 
         setInterval(() => {
-
-            if(blockN === 2000){
-                clearInterval();
-            }
 
             console.log('reading ' + blockN);
 
@@ -77,7 +83,7 @@ export const testScan = async (opts: Option) => {
                                 sn = value.nft.token.sn
 
                                 if(sn != "" && collName != ""){
-                                    eventGossip(value, sn, collName);
+                                    eventGossip(value, sn, collName, processExit);
                                 }
 
                             }else if (value instanceof MintNft){
@@ -90,20 +96,24 @@ export const testScan = async (opts: Option) => {
                                 value.transaction.destination.address = source;
 
                                 if(sn != "" && collName != ""){
-                                    entityGossip(value.nft)
-                                    eventGossip(value, sn, collName);
+                                    entityGossip(value.nft, processExit)
+                                    eventGossip(value, sn, collName, processExit);
                                 }
 
                             }else if (value instanceof Mint){
 
                                 // collName = value.collection.name;
 
-                                entityGossip(value.collection);
+                                entityGossip(value.collection, processExit);
                             }
 
                         }
 
                     })
+
+                    if(blockN === limitBlock){
+                        process.exit();
+                    }
                 },
 
             );
@@ -290,13 +300,15 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(json);
-    xmlhttp.addEventListener("load", ()=>{
-        console.log("complete");
-    });
+    console.log('send');
+
+    // const xmlhttp = new XMLHttpRequest();
+    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossip");
+    // xmlhttp.setRequestHeader("Content-Type", "application/json");
+    // xmlhttp.send(json);
+    // xmlhttp.addEventListener("load", ()=>{
+    //     console.log("complete");
+    // });
 
 }
 
