@@ -7,7 +7,6 @@ import {KusamaBlockchain} from "./sandra/src/CSCannon/Substrate/Kusama/KusamaBlo
 import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
 import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
-import {Gossiper} from "./sandra/src/Gossiper.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
 import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
@@ -18,10 +17,25 @@ import {Remark} from "./classes/Rmrk/Remark.js";
 import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
+import {strict as assert} from "assert";
+import {load} from "ts-dotenv";
 
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJrc21qZXRza2kiLCJmbHVzaCI6ZmFsc2UsImV4cCI6MTA0NDY5NTk0NTQ0ODAwMH0.STcvv0wGBU7SOQKMNhK9I-9YducCl5Wz1a3N7q_cydM';
+
+const getJwt = ()=>{
+
+    const env = load({
+        JWT: String
+    })
+
+    assert.ok(env.JWT != "jwt_code");
+    assert.ok(env.JWT != "");
+    assert.ok(env.JWT != null);
+    assert.ok(env.JWT != undefined);
+
+    return env.JWT;
+}
+
 
 export const testScan = async (opts: Option) => {
 
@@ -49,15 +63,19 @@ export const testScan = async (opts: Option) => {
 
     //@ts-ignore
     let blockN: number = opts.block;
+    //@ts-ignore
+    let nbOfBlocksToScan: number = opts.nb;
+
+    if(nbOfBlocksToScan == 0){
+        nbOfBlocksToScan = blockN;
+    }
+
+    const limitBlock: number = blockN - nbOfBlocksToScan;
 
     const scan = new RmrkJetski(blockchain);
     const api = await scan.getApi();
 
         setInterval(() => {
-
-            if(blockN === 2000){
-                clearInterval();
-            }
 
             console.log('reading ' + blockN);
 
@@ -96,14 +114,17 @@ export const testScan = async (opts: Option) => {
 
                             }else if (value instanceof Mint){
 
-                                // collName = value.collection.name;
-
+                                // collName = value.collection.name
                                 entityGossip(value.collection);
                             }
 
                         }
 
                     })
+
+                    if(blockN === limitBlock || blockN === 1){
+                        process.exit();
+                    }
                 },
 
             );
@@ -146,7 +167,7 @@ export const forceScan = async (block:number) => {
                     sn = value.nft.token.sn
 
                     if(sn != "" && collName != ""){
-                        eventGossip(value, sn, collName, false);
+                        eventGossip(value, sn, collName);
                     }
 
                 }else if(value instanceof MintNft){
@@ -159,14 +180,14 @@ export const forceScan = async (block:number) => {
                     value.transaction.destination.address = source;
 
                     if(sn != "" && collName != ""){
-                        entityGossip(value.nft, false)
-                        eventGossip(value, sn, collName, false);
+                        entityGossip(value.nft)
+                        eventGossip(value, sn, collName);
                     }
 
                 }else if (value instanceof Mint){
 
                     // collName = value.collection.name;
-                    entityGossip(value.collection, false);
+                    entityGossip(value.collection);
                 }
 
 
@@ -177,10 +198,11 @@ export const forceScan = async (block:number) => {
 
 
 
-const eventGossip = (value: Remark, sn: string, collName: string, processExit: boolean = true) => {
+const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
 
+    const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
@@ -204,13 +226,15 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
 
     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
-    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});;
+    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});
 
 }
 
 
 
-const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
+const entityGossip = async (rmrk: Entity) => {
+
+    const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra = canonizeManager.getSandra();
@@ -276,23 +300,6 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
     }
 
-    let json = JSON.stringify(result,null,2); // pretty
-    // console.log(json);
-
-
-
 }
 
-
-function sendToGossip(json: string, processExit: boolean){
-
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(json);
-    xmlhttp.addEventListener("load", ()=>{
-        console.log("complete");
-    });
-
-}
 

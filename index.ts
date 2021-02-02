@@ -14,6 +14,7 @@ program.command("hello").action(helloWorld);
 program.command("fetch")
     .option("--chain <chain>", "chain name")
     .option("--block <block>", "block number")
+    .option("--nb <nb>", "number of blocks to scan", 0)
     .action(testScan);
 
 program.command("story")

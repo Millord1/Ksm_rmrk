@@ -5,3 +5,4 @@ rmrk.json
 .idea/
 vendor/
 .idea/workspace.xml
+.env
