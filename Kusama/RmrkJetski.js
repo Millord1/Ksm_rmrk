@@ -48,10 +48,9 @@ class RmrkJetski {
                     }
                     const timestampToDate = Number(blockTimestamp) * 1000;
                     const date = new Date(timestampToDate);
-                    const month = date.getMonth() + 1;
-                    const humanDate = month + '/' + date.getDay() + '/' + date.getFullYear();
-                    var d = new Date(timestampToDate);
-                    console.log('block ' + blockNumber + ' ' + d);
+
+                    console.log('block ' + blockNumber + ' ' + date);
+
                     if (section === "system" && method === "remark") {
                         const remark = args.toString();
                         const signer = ex.signer.toString();
@@ -90,18 +89,23 @@ class RmrkJetski {
                 let lisibleUri = decodeURIComponent(uri);
                 lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                 const splitted = lisibleUri.split('::');
-                const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
-                let meta;
-                if (data.metadata !== "") {
-                    meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
-                }
-                else {
-                    meta = null;
-                }
-                const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
-                const rmrk = reader.readInteraction(lisibleUri, meta);
-                if (rmrk instanceof Interaction_js_1.Interaction) {
-                    resolve(rmrk);
+                if (splitted.length > 4) {
+                    const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
+                    let meta;
+                    if (data.metadata !== "") {
+                        meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
+                    }
+                    else {
+                        meta = null;
+                    }
+                    const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
+                    const rmrk = reader.readInteraction(lisibleUri, meta);
+                    if (rmrk instanceof Interaction_js_1.Interaction) {
+                        resolve(rmrk);
+                    }
+                    else {
+                        resolve('no rmrk');
+                    }
                 }
                 else {
                     resolve('no rmrk');
