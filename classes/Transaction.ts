@@ -45,4 +45,12 @@ export class Transaction
         return this;
     }
 
+
+    public static createTransaction(signer: string, receiver: string, chain: Blockchain){
+
+        const destination = chain.getAddressClass(receiver)
+
+        return new Transaction(chain, 0, '0', '0', signer, destination);
+    }
+
 }

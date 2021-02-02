@@ -1,6 +1,7 @@
-import {Blockchain} from "./Blockchain.js";
+
 import {KusamaAddress} from "../Addresses/KusamaAddress.js";
 import {PolkadotContract} from "../Contract/PolkadotContract.js";
+import {Blockchain} from "./Blockchain.js";
 
 
 export class Polkadot extends Blockchain

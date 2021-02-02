@@ -39,11 +39,11 @@ const getJwt = ()=>{
 
 export const testScan = async (opts: Option) => {
 
+
     let blockchain: Blockchain;
 
-    // @ts-ignore
+    //@ts-ignore
     switch (opts.chain.toLowerCase()){
-
         case "polkadot":
             blockchain = new Polkadot();
             break;
@@ -60,7 +60,6 @@ export const testScan = async (opts: Option) => {
             break;
     }
 
-
     //@ts-ignore
     let blockN: number = opts.block;
     //@ts-ignore
@@ -76,8 +75,6 @@ export const testScan = async (opts: Option) => {
     const api = await scan.getApi();
 
         setInterval(() => {
-
-            console.log('reading ' + blockN);
 
             scan.getRmrks(blockN, api).then(
                 result => {

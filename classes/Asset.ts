@@ -14,8 +14,6 @@ export class Asset extends Entity
     token: Token;
     instance: string;
 
-    // TODO Instance ?
-
     constructor(
         rmrk: string,
         chain: Blockchain,
