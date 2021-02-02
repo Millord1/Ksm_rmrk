@@ -36,7 +36,6 @@ class RmrkJetski {
     getRmrks(blockNumber, api) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                // const api = await this.getApi();
                 const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
                 const block = yield api.rpc.chain.getBlock(blockHash);
                 let blockId = blockNumber;
@@ -44,16 +43,13 @@ class RmrkJetski {
                 let blockRmrks = [];
                 for (const ex of block.block.extrinsics) {
                     const { method: { args, method, section } } = ex;
-                    //note timestamp extrinsic always comes first on a block
                     if (section === "timestamp" && method === "set") {
                         blockTimestamp = getTimestamp(ex);
                     }
                     const timestampToDate = Number(blockTimestamp) * 1000;
                     const date = new Date(timestampToDate);
-                    const day = date.getDay();
-                    let month = date.getMonth() + 1;
-                    const year = date.getFullYear();
-                    const humanDate = month + '/' + day + '/' + year;
+                    const month = date.getMonth() + 1;
+                    const humanDate = month + '/' + date.getDay() + '/' + date.getFullYear();
                     console.log('block ' + blockNumber + ' date : ' + humanDate);
                     if (section === "system" && method === "remark") {
                         const remark = args.toString();

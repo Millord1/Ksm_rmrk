@@ -41,7 +41,6 @@ export class RmrkJetski
 
         return new Promise ( async (resolve) => {
 
-            // const api = await this.getApi();
             const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             const block = await api.rpc.chain.getBlock(blockHash);
 
@@ -56,21 +55,19 @@ export class RmrkJetski
                     args, method, section
                 }} = ex;
 
-                //note timestamp extrinsic always comes first on a block
+
                 if(section === "timestamp" && method === "set"){
                     blockTimestamp = getTimestamp(ex);
                 }
 
                 const timestampToDate = Number(blockTimestamp) * 1000;
                 const date = new Date(timestampToDate);
+                const month: number = date.getMonth() + 1;
 
-                const day: number = date.getDay();
-                let month: number = date.getMonth() + 1;
-                const year: number = date.getFullYear();
-
-                const humanDate = month+'/'+day+'/'+year;
+                const humanDate = month+ '/'+ date.getDay()+ '/' +date.getFullYear();
 
                 console.log('block ' + blockNumber + ' date : ' + humanDate);
+
 
                 if(section === "system" && method === "remark"){
 
