@@ -58,8 +58,6 @@ export const testScan = async (opts: Option) => {
 
     const limitBlock: number = blockN - nbOfBlocksToScan;
 
-    let processExit: boolean = false;
-
     const scan = new RmrkJetski(blockchain);
     const api = await scan.getApi();
 
@@ -83,7 +81,7 @@ export const testScan = async (opts: Option) => {
                                 sn = value.nft.token.sn
 
                                 if(sn != "" && collName != ""){
-                                    eventGossip(value, sn, collName, processExit);
+                                    eventGossip(value, sn, collName);
                                 }
 
                             }else if (value instanceof MintNft){
@@ -93,25 +91,23 @@ export const testScan = async (opts: Option) => {
 
                                 const source = value.transaction.source;
                                 value.transaction.source = '0x0';
-                                value.transaction.destination.address = source;
-
+                                value.transaction.destination.address = source
                                 if(sn != "" && collName != ""){
-                                    entityGossip(value.nft, processExit)
-                                    eventGossip(value, sn, collName, processExit);
+                                    entityGossip(value.nft)
+                                    eventGossip(value, sn, collName);
                                 }
 
                             }else if (value instanceof Mint){
 
-                                // collName = value.collection.name;
-
-                                entityGossip(value.collection, processExit);
+                                // collName = value.collection.name
+                                entityGossip(value.collection);
                             }
 
                         }
 
                     })
 
-                    if(blockN === limitBlock){
+                    if(blockN === limitBlock || blockN === 1){
                         process.exit();
                     }
                 },
@@ -156,7 +152,7 @@ export const forceScan = async (block:number) => {
                     sn = value.nft.token.sn
 
                     if(sn != "" && collName != ""){
-                        eventGossip(value, sn, collName, false);
+                        eventGossip(value, sn, collName);
                     }
 
                 }else if(value instanceof MintNft){
@@ -169,14 +165,14 @@ export const forceScan = async (block:number) => {
                     value.transaction.destination.address = source;
 
                     if(sn != "" && collName != ""){
-                        entityGossip(value.nft, false)
-                        eventGossip(value, sn, collName, false);
+                        entityGossip(value.nft)
+                        eventGossip(value, sn, collName);
                     }
 
                 }else if (value instanceof Mint){
 
                     // collName = value.collection.name;
-                    entityGossip(value.collection, false);
+                    entityGossip(value.collection);
                 }
 
 
@@ -187,7 +183,7 @@ export const forceScan = async (block:number) => {
 
 
 
-const eventGossip = (value: Remark, sn: string, collName: string, processExit: boolean = true) => {
+const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
 
@@ -217,13 +213,13 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
     let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
     const json = JSON.stringify(gossiper.exposeGossip());
 
-    sendToGossip(json, processExit);
+    sendToGossip(json);
 
 }
 
 
 
-const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
+const entityGossip = async (rmrk: Entity) => {
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra = canonizeManager.getSandra();
@@ -293,12 +289,12 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
     let json = JSON.stringify(result,null,2); // pretty
     // console.log(json);
 
-    sendToGossip(json, processExit);
+    sendToGossip(json);
 
 }
 
 
-function sendToGossip(json: string, processExit: boolean){
+function sendToGossip(json: string){
 
     console.log('send');
 
