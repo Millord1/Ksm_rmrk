@@ -48,7 +48,9 @@ class RmrkJetski {
                     }
                     const timestampToDate = Number(blockTimestamp) * 1000;
                     const date = new Date(timestampToDate);
+
                     console.log('block ' + blockNumber + ' ' + date);
+
                     if (section === "system" && method === "remark") {
                         const remark = args.toString();
                         const signer = ex.signer.toString();
