@@ -62,12 +62,8 @@ export class RmrkJetski
 
                 const timestampToDate = Number(blockTimestamp) * 1000;
                 const date = new Date(timestampToDate);
-                const month: number = date.getMonth() + 1;
 
-                const humanDate = month+ '/'+ date.getDay()+ '/' +date.getFullYear();
-
-                console.log('block ' + blockNumber + ' date : ' + humanDate);
-
+                console.log('block ' + blockNumber + ' ' + date);
 
                 if(section === "system" && method === "remark"){
 
@@ -127,24 +123,31 @@ export class RmrkJetski
 
             const splitted = lisibleUri.split('::');
 
-            const data = Entity.dataTreatment(splitted, Entity.entityObj);
+            if(splitted.length > 4){
 
-            let meta: Metadata|null;
+                const data = Entity.dataTreatment(splitted, Entity.entityObj);
 
-            if(data.metadata !== ""){
-                meta = await Entity.getMetaDataContent(data.metadata);
-            }else{
-                meta = null;
-            }
+                let meta: Metadata|null;
 
-            const reader = new RmrkReader(this.chain, tx);
-            const rmrk = reader.readInteraction(lisibleUri, meta);
+                if(data.metadata !== ""){
+                    meta = await Entity.getMetaDataContent(data.metadata);
+                }else{
+                    meta = null;
+                }
 
-            if(rmrk instanceof Interaction){
-                resolve (rmrk);
+                const reader = new RmrkReader(this.chain, tx);
+                const rmrk = reader.readInteraction(lisibleUri, meta);
+
+                if(rmrk instanceof Interaction){
+                    resolve (rmrk);
+                }else{
+                    resolve ('no rmrk');
+                }
             }else{
                 resolve ('no rmrk');
             }
+
+
         })
     }
 

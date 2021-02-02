@@ -74,62 +74,63 @@ export const testScan = async (opts: Option) => {
     const scan = new RmrkJetski(blockchain);
     const api = await scan.getApi();
 
-        setInterval(() => {
+    setInterval(() => {
 
-            scan.getRmrks(blockN, api).then(
-                result => {
+        scan.getRmrks(blockN, api).then(
+            result => {
 
-                    result.forEach(value => {
+                result.forEach(value => {
 
-                        if(typeof value === 'object'){
+                    if(typeof value === 'object'){
 
-                            let collName : string = "";
-                            let sn: string = "";
+                        console.log(value);
 
-                            if(value instanceof Send){
+                        let collName : string = "";
+                        let sn: string = "";
 
-                                collName = value.nft.token.contractId;
-                                sn = value.nft.token.sn
+                        if(value instanceof Send){
 
-                                if(sn != "" && collName != ""){
+                            collName = value.nft.token.contractId;
+                            sn = value.nft.token.sn
+
+                            if(sn != "" && collName != ""){
                                     eventGossip(value, sn, collName);
-                                }
-
-                            }else if (value instanceof MintNft){
-
-                                collName = value.nft.token.contractId;
-                                sn = value.nft.token.sn
-
-                                const source = value.transaction.source;
-                                value.transaction.source = '0x0';
-                                value.transaction.destination.address = source;
-
-                                if(sn != "" && collName != ""){
-                                    entityGossip(value.nft)
-                                    eventGossip(value, sn, collName);
-                                }
-
-                            }else if (value instanceof Mint){
-
-                                // collName = value.collection.name
-                                entityGossip(value.collection);
                             }
 
+                        }else if (value instanceof MintNft){
+
+                            collName = value.nft.token.contractId;
+                            sn = value.nft.token.sn
+
+                            const source = value.transaction.source;
+                            value.transaction.source = '0x0';
+                            value.transaction.destination.address = source;
+
+                            if(sn != "" && collName != ""){
+                                entityGossip(value.nft)
+                                eventGossip(value, sn, collName);
+                            }
+
+                        }else if (value instanceof Mint){
+
+                            // collName = value.collection.name
+                            entityGossip(value.collection);
                         }
 
-                    })
-
-                    if(blockN === limitBlock || blockN === 1){
-                        process.exit();
                     }
-                },
 
-            );
+                })
 
-            blockN --;
+                if(blockN === limitBlock || blockN === 1){
+                    process.exit();
+                }
+            },
 
-        }, 250);
+        );
 
+        blockN --;
+
+    }, 250);
 
 
 }
@@ -249,7 +250,13 @@ const entityGossip = async (rmrk: Entity) => {
 
     if(rmrk.metaDataContent != null){
         const meta = rmrk.metaDataContent
-        name = meta.name;
+
+        if(meta.name != 'undefined'){
+            name = "-"+meta.name;
+        }else{
+            name = "";
+        }
+
         image = meta.image.replace("ipfs://",'https://ipfs.io/');
         description = meta.description;
     }
@@ -261,7 +268,7 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
-        let myAsset = canonizeManager.createAsset({assetId: collectionId+'-'+name, imageUrl: image,description:description});
+        let myAsset = canonizeManager.createAsset({assetId: collectionId + name, imageUrl: image,description:description});
         let myCollection = canonizeManager.createCollection({id: collectionId});
 
 

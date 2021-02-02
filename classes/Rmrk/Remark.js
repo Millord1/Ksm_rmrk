@@ -14,6 +14,7 @@ class Remark {
     }
 }
 exports.Remark = Remark;
+Remark.versionForCreate = '1.0.0';
 Remark.entityObj = {
     version: "",
     name: "",

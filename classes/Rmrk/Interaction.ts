@@ -34,7 +34,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         const obj = Remark.entityObj;
 
-        if(data.length === 3){
+        if(data.length === 4){
 
             // Actual Rmrks (not allowed)
 
@@ -58,9 +58,9 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
 
             // Normalization
-            obj.collection = data[0];
-            obj.name = data[1];
-            obj.sn = data[2];
+            obj.collection = data[1];
+            obj.name = data[2];
+            obj.sn = data[3];
 
         }
 

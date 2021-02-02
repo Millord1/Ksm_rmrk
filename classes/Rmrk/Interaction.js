@@ -24,7 +24,7 @@ class Interaction extends Remark_js_1.Remark {
     }
     checkDatasLength(data) {
         const obj = Remark_js_1.Remark.entityObj;
-        if (data.length === 3) {
+        if (data.length === 4) {
             // Actual Rmrks (not allowed)
             // let collection: string = "";
             //
@@ -44,9 +44,9 @@ class Interaction extends Remark_js_1.Remark {
             //
             // obj.collection = collection;
             // Normalization
-            obj.collection = data[0];
-            obj.name = data[1];
-            obj.sn = data[2];
+            obj.collection = data[1];
+            obj.name = data[2];
+            obj.sn = data[3];
         }
         return obj;
     }
