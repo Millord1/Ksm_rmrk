@@ -91,7 +91,8 @@ export const testScan = async (opts: Option) => {
 
                                 const source = value.transaction.source;
                                 value.transaction.source = '0x0';
-                                value.transaction.destination.address = source
+                                value.transaction.destination.address = source;
+
                                 if(sn != "" && collName != ""){
                                     entityGossip(value.nft)
                                     eventGossip(value, sn, collName);
@@ -210,10 +211,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
-    let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
-    const json = JSON.stringify(gossiper.exposeGossip());
-
-    sendToGossip(json);
+    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});;
 
 }
 
@@ -266,8 +264,7 @@ const entityGossip = async (rmrk: Entity) => {
 
         //tokenPath.bindToAssetWithContract(myContract, myAsset);
 
-        let gossiper = new Gossiper(canonizeManager.getAssetFactory());
-        result = gossiper.exposeGossip();
+        canonizeManager.gossipOrbsBindings().then(r=>{console.log("asset gossiped")});
 
 
     }else if (rmrk instanceof Collection){
@@ -281,8 +278,8 @@ const entityGossip = async (rmrk: Entity) => {
 
         myContract.bindToCollection(myCollection);
 
-        let gossiper = new Gossiper(canonizeManager.getAssetCollectionFactory());
-        result = gossiper.exposeGossip();
+        canonizeManager.gossipCollection().then(r=>{console.log("collection gossiped")});
+
 
     }
 
@@ -296,15 +293,13 @@ const entityGossip = async (rmrk: Entity) => {
 
 function sendToGossip(json: string){
 
-    console.log('send');
-
-    // const xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossip");
-    // xmlhttp.setRequestHeader("Content-Type", "application/json");
-    // xmlhttp.send(json);
-    // xmlhttp.addEventListener("load", ()=>{
-    //     console.log("complete");
-    // });
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send(json);
+    xmlhttp.addEventListener("load", ()=>{
+        console.log("complete");
+    });
 
 }
 

@@ -41,7 +41,7 @@ export class Asset extends Entity
 
 
     public bindContract(contract: BlockchainContract){
-        this.joinEntity(AssetFactory.tokenJoinVerb, contract, this.sandra);
+        this.joinEntity(AssetFactory.tokenJoinVerb, contract, this.sandra, [new Reference(this.sandra.get('sn'),'canonizer')]);
     }
 
 
