@@ -50,22 +50,21 @@ export const testScan = async (opts: Option) => {
     //@ts-ignore
     let blockN: number = opts.block;
 
+    const scan = new RmrkJetski(blockchain);
+    const api = await scan.getApi();
+
         setInterval(() => {
 
             if(blockN === 2000){
                 clearInterval();
             }
 
-            const scan = new RmrkJetski(blockchain);
-
             console.log('reading ' + blockN);
 
-            scan.getRmrks(blockN).then(
+            scan.getRmrks(blockN, api).then(
                 result => {
 
                     result.forEach(value => {
-
-                        console.log(value);
 
                         if(typeof value === 'object'){
 
@@ -111,7 +110,7 @@ export const testScan = async (opts: Option) => {
 
             blockN --;
 
-        }, 500);
+        }, 250);
 
 
 
@@ -132,7 +131,7 @@ export const forceScan = async (block:number) => {
 
     const scan = new RmrkJetski(blockchain);
 
-
+    //@ts-ignore
     scan.getRmrks(block).then(
         result => {
 
@@ -291,18 +290,13 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
 function sendToGossip(json: string, processExit: boolean){
 
-    console.log('send');
-
-    // 5954211
-
-    // const xmlhttp = new XMLHttpRequest();
-    // xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    // xmlhttp.setRequestHeader("Content-Type", "application/json");
-    // xmlhttp.send(json);
-    // xmlhttp.addEventListener("load", ()=>{
-    //     console.log("complete");
-    //
-    // });
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send(json);
+    xmlhttp.addEventListener("load", ()=>{
+        console.log("complete");
+    });
 
 }
 

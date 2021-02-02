@@ -21,7 +21,7 @@ export class RmrkJetski
         this.wsProvider = new WsProvider(this.chain.wsProvider);
     }
 
-    private async getApi(): Promise<ApiPromise>{
+    public async getApi(): Promise<ApiPromise>{
 
         let myApi: any;
 
@@ -37,11 +37,11 @@ export class RmrkJetski
     }
 
 
-    public async getRmrks(blockNumber: number): Promise<Array<Remark|string>>{
+    public async getRmrks(blockNumber: number, api: ApiPromise): Promise<Array<Remark|string>>{
 
         return new Promise ( async (resolve) => {
 
-            const api = await this.getApi();
+            // const api = await this.getApi();
             const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             const block = await api.rpc.chain.getBlock(blockHash);
 
