@@ -48,6 +48,13 @@ class RmrkJetski {
                     if (section === "timestamp" && method === "set") {
                         blockTimestamp = getTimestamp(ex);
                     }
+                    const timestampToDate = Number(blockTimestamp) * 1000;
+                    const date = new Date(timestampToDate);
+                    const day = date.getDay();
+                    let month = date.getMonth() + 1;
+                    const year = date.getFullYear();
+                    const humanDate = month + '/' + day + '/' + year;
+                    console.log('block ' + blockNumber + ' date : ' + humanDate);
                     if (section === "system" && method === "remark") {
                         const remark = args.toString();
                         const signer = ex.signer.toString();

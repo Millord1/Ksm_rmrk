@@ -77,7 +77,7 @@ export const testScan = async (opts: Option) => {
 
         setInterval(() => {
 
-            console.log('reading ' + blockN);
+            // console.log('reading ' + blockN);
 
             scan.getRmrks(blockN, api).then(
                 result => {
