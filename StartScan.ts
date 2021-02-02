@@ -39,8 +39,26 @@ const getJwt = ()=>{
 
 export const testScan = async (opts: Option) => {
 
+
+    let blockchain: Blockchain;
+
     //@ts-ignore
-    let blockchain: Blockchain = Blockchain.getBlockchain(opts.chain.toLowerCase());
+    switch (opts.chain.toLowerCase()){
+        case "polkadot":
+            blockchain = new Polkadot();
+            break;
+
+        case "unique":
+            // TODO remake Unique Blockchain
+            //@ts-ignore
+            blockchain = new Unique();
+            break;
+
+        case "kusama":
+        default:
+            blockchain = new Kusama();
+            break;
+    }
 
     //@ts-ignore
     let blockN: number = opts.block;

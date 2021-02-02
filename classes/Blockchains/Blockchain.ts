@@ -37,29 +37,29 @@ export abstract class Blockchain implements BlockchainInterface
     }
 
 
-    public static getBlockchain(chain: string): Blockchain{
-
-        let blockchain: Blockchain;
-
-        switch (chain){
-            case "polkadot":
-                blockchain = new Polkadot();
-                break;
-
-            case "unique":
-                // TODO remake Unique Blockchain
-                //@ts-ignore
-                blockchain = new Unique();
-                break;
-
-            case "kusama":
-            default:
-                blockchain = new Kusama();
-                break;
-        }
-
-        return blockchain;
-    }
+    // public static getBlockchain(chain: string): Blockchain{
+    //
+    //     let blockchain: Blockchain;
+    //
+    //     switch (chain){
+    //         case "polkadot":
+    //             blockchain = new Polkadot();
+    //             break;
+    //
+    //         case "unique":
+    //             // TODO remake Unique Blockchain
+    //             //@ts-ignore
+    //             blockchain = new Unique();
+    //             break;
+    //
+    //         case "kusama":
+    //         default:
+    //             blockchain = new Kusama();
+    //             break;
+    //     }
+    //
+    //     return blockchain;
+    // }
 
 
     toJsonSerialize = () : BlockchainInterface => ({
