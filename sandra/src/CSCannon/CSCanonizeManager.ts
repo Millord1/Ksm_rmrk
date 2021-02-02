@@ -139,6 +139,14 @@ export class CSCanonizeManager {
 
     }
 
+
+    public async gossipCollection(apiConnector?:ApiConnector){
+
+        let gossiper = new Gossiper(this.assetCollectionFactory);
+        return   gossiper.gossipToUrl(this.getApiConnector(apiConnector))
+
+    }
+
     public async gossipOrbsBindings(apiConnector?:ApiConnector){
 
         let gossiper = null ;

@@ -30,6 +30,7 @@ export class CsCannonApiManager {
 
         response.data.forEach((collection:AssetCollectionInterface) => {
 
+
            let oneCollection = this.canonize.createCollection(collection);
            collections.push(oneCollection)
 

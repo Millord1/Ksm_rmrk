@@ -204,10 +204,7 @@ const eventGossip = (value: Remark, sn: string, collName: string, processExit: b
 
     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
-    let gossiper = new Gossiper(blockchain.eventFactory, sandra.get(KusamaBlockchain.TXID_CONCEPT_NAME));
-    const json = JSON.stringify(gossiper.exposeGossip());
-
-    sendToGossip(json, processExit);
+    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});;
 
 }
 
@@ -260,8 +257,7 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
         //tokenPath.bindToAssetWithContract(myContract, myAsset);
 
-        let gossiper = new Gossiper(canonizeManager.getAssetFactory());
-        result = gossiper.exposeGossip();
+        canonizeManager.gossipOrbsBindings().then(r=>{console.log("asset gossiped")});
 
 
     }else if (rmrk instanceof Collection){
@@ -275,15 +271,15 @@ const entityGossip = async (rmrk: Entity, processExit: boolean = true) => {
 
         myContract.bindToCollection(myCollection);
 
-        let gossiper = new Gossiper(canonizeManager.getAssetCollectionFactory());
-        result = gossiper.exposeGossip();
+        canonizeManager.gossipCollection().then(r=>{console.log("collection gossiped")});
+
 
     }
 
     let json = JSON.stringify(result,null,2); // pretty
     // console.log(json);
 
-    sendToGossip(json, processExit);
+
 
 }
 
