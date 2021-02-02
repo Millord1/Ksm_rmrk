@@ -123,7 +123,7 @@ export class RmrkJetski
 
             const splitted = lisibleUri.split('::');
 
-            if(splitted.length > 4){
+            if(splitted.length >= 3){
 
                 const data = Entity.dataTreatment(splitted, Entity.entityObj);
 
