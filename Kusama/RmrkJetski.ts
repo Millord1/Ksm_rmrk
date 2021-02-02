@@ -66,7 +66,8 @@ export class RmrkJetski
 
                 const humanDate = month+ '/'+ date.getDay()+ '/' +date.getFullYear();
 
-                console.log('block ' + blockNumber + ' date : ' + humanDate);
+                var d = new Date(timestampToDate);
+                console.log('block ' + blockNumber + ' ' + d);
 
 
                 if(section === "system" && method === "remark"){

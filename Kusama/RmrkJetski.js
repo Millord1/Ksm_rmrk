@@ -50,7 +50,8 @@ class RmrkJetski {
                     const date = new Date(timestampToDate);
                     const month = date.getMonth() + 1;
                     const humanDate = month + '/' + date.getDay() + '/' + date.getFullYear();
-                    console.log('block ' + blockNumber + ' date : ' + humanDate);
+                    var d = new Date(timestampToDate);
+                    console.log('block ' + blockNumber + ' ' + d);
                     if (section === "system" && method === "remark") {
                         const remark = args.toString();
                         const signer = ex.signer.toString();
