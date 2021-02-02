@@ -7,7 +7,6 @@ import {KusamaBlockchain} from "./sandra/src/CSCannon/Substrate/Kusama/KusamaBlo
 import {BlockchainAddress} from "./sandra/src/CSCannon/BlockchainAddress.js";
 import {BlockchainContract} from "./sandra/src/CSCannon/BlockchainContract.js";
 import {BlockchainEvent} from "./sandra/src/CSCannon/BlockchainEvent.js";
-import {Gossiper} from "./sandra/src/Gossiper.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
 import {Mint} from "./classes/Rmrk/Interactions/Mint.js";
@@ -18,10 +17,25 @@ import {Remark} from "./classes/Rmrk/Remark.js";
 import {Collection} from "./classes/Collection.js";
 import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
+import {strict as assert} from "assert";
+import {load} from "ts-dotenv";
 
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJrc21qZXRza2kiLCJmbHVzaCI6ZmFsc2UsImV4cCI6MTA0NDY5NTk0NTQ0ODAwMH0.STcvv0wGBU7SOQKMNhK9I-9YducCl5Wz1a3N7q_cydM';
+
+const getJwt = ()=>{
+
+    const env = load({
+        JWT: String
+    })
+
+    assert.ok(env.JWT != "jwt_code");
+    assert.ok(env.JWT != "");
+    assert.ok(env.JWT != null);
+    assert.ok(env.JWT != undefined);
+
+    return env.JWT;
+}
+
 
 export const testScan = async (opts: Option) => {
 
@@ -188,6 +202,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
 
+    const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
@@ -211,13 +226,15 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
-    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});;
+    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});
 
 }
 
 
 
 const entityGossip = async (rmrk: Entity) => {
+
+    const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra = canonizeManager.getSandra();
@@ -283,23 +300,6 @@ const entityGossip = async (rmrk: Entity) => {
 
     }
 
-    let json = JSON.stringify(result,null,2); // pretty
-    // console.log(json);
-
-    sendToGossip(json);
-
 }
 
-
-function sendToGossip(json: string){
-
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://arkam.everdreamsoft.com/alex/gossipTest");
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(json);
-    xmlhttp.addEventListener("load", ()=>{
-        console.log("complete");
-    });
-
-}
 
