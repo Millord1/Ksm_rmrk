@@ -63,11 +63,14 @@ class RmrkJetski {
                         const batch = JSON.parse(arg);
                         const signer = ex.signer.toString();
                         const hash = ex.hash.toHex();
+                        let i = 1;
                         for (const rmrkObj of batch) {
-                            const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+                            const txHash = hash + '-' + i;
+                            const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
                             if (rmrkObj.args.hasOwnProperty('_remark')) {
                                 blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
                             }
+                            i += 1;
                         }
                     }
                 }
@@ -90,7 +93,8 @@ class RmrkJetski {
                 if (splitted.length >= 3) {
                     const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
                     let meta;
-                    if (data.metadata !== "") {
+                    console.log(data);
+                    if (data.metadata != "") {
                         meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
                     }
                     else {

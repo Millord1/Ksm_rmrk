@@ -9,7 +9,7 @@ class Asset extends Entity_js_1.Entity {
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
         this.instance = obj.instance;
-        this.assetId = transaction.blockId + '-' + obj.id;
+        this.assetId = transaction.blockId + '-' + obj.collection + '-' + obj.name;
         this.token = new Token_js_1.Token(obj.transferable, obj.sn, obj.collection);
     }
     static createNftFromInteraction(rmrk, chain, transaction, meta) {

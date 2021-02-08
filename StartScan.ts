@@ -131,26 +131,80 @@ export const testScan = async (opts: Option) => {
 
         blockN --;
 
-    }, 100);
+    }, 1000 / 15);
 
 
 }
 
+
+export const forceScan = async (block:number) => {
+
+    let blockchain;
+
+
+
+    blockchain = new Kusama();
+
+
+
+    const scan = new RmrkJetski(blockchain);
+
+    //@ts-ignore
+    scan.getRmrks(block).then(
+        result => {
+
+            result.forEach(value => {
+
+                let collName : string = "";
+                let sn: string = "";
+
+                if(value instanceof Send){
+
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
+
+                    if(sn != "" && collName != ""){
+                        eventGossip(value, sn, collName);
+                    }
+
+                }else if(value instanceof MintNft){
+
+                    collName = value.nft.token.contractId;
+                    sn = value.nft.token.sn
+
+                    const source = value.transaction.source;
+                    value.transaction.source = '0x0';
+                    value.transaction.destination.address = source;
+
+                    if(sn != "" && collName != ""){
+                        entityGossip(value.nft)
+                        eventGossip(value, sn, collName);
+                    }
+
+                }else if (value instanceof Mint){
+
+                    // collName = value.collection.name;
+                    entityGossip(value.collection);
+                }
+
+
+            })
+        }
+    );
+}
 
 
 
 const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
+    const signer = value.transaction.source;
 
     const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
     let blockchain = new KusamaBlockchain(sandra);
-
-
-    const signer = value.transaction.source;
 
     let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 

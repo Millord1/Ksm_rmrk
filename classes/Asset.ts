@@ -26,7 +26,7 @@ export class Asset extends Entity
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
         this.instance = obj.instance;
-        this.assetId = transaction.blockId + '-' + obj.id;
+        this.assetId = transaction.blockId + '-' + obj.collection + '-' + obj.name;
 
         this.token = new Token(obj.transferable, obj.sn, obj.collection);
     }
@@ -46,7 +46,6 @@ export class Asset extends Entity
         return new Asset(rmrk, chain, null, transaction, obj, meta);
 
     }
-
 
 
     public toJson(needStringify : boolean = true, needSubstrate: boolean = true){
