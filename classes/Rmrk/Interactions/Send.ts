@@ -3,7 +3,7 @@ import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
 import {Transaction} from "../../Transaction.js";
 import {Metadata} from "../../Metadata.js";
-
+import {stringToHex} from "@polkadot/util";
 
 export class Send extends Interaction
 {

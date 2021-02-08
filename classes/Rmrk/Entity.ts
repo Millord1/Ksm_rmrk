@@ -4,6 +4,7 @@ import {PublicEntity, EntityInterface, MetaDataInputs} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
 
+
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
@@ -65,8 +66,6 @@ export abstract class Entity extends Remark implements PublicEntity
         return obj;
 
     }
-
-
 
 
 

@@ -50,3 +50,25 @@ export interface MetaDataInputs
     attributes: Array<Object>;
     background_color: string;
 }
+
+
+export interface AssetRmrk
+{
+    collection: string,
+    name: string,
+    transferable: boolean|null,
+    sn: string,
+    metadata: string|undefined
+}
+
+
+export interface CollectionRmrk
+{
+    version: string,
+    name: string,
+    max: number,
+    issuer: string,
+    symbol: string,
+    id: string,
+    metadata: string|undefined
+}

@@ -96,6 +96,7 @@ export class RmrkJetski
                         }
 
                     }
+
                 }
 
             }
@@ -146,7 +147,6 @@ export class RmrkJetski
             }else{
                 resolve ('no rmrk');
             }
-
 
         })
     }

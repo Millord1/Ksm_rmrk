@@ -1,7 +1,7 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Asset} from "../Asset.js";
-import {EntityInterface, PublicInteraction} from "../Interfaces.js";
+import {AssetRmrk, CollectionRmrk, EntityInterface, PublicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
 
@@ -10,6 +10,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
 {
 
     interaction: string;
+
 
     protected constructor(rmrk: string, interaction:string, chain: Blockchain, version: string|null, transaction: Transaction) {
         super(version, rmrk, chain, transaction);
@@ -30,37 +31,53 @@ export abstract class Interaction extends Remark implements PublicInteraction
     }
 
 
+    public static getComputedId(asset: Asset): string{
+
+        const blockId = asset.transaction.blockId;
+        const collectionId = asset.token.contractId;
+        const assetName = asset.name;
+        const sn = asset.token.sn;
+
+        return blockId + '-' + collectionId + '-' + assetName + '-' + sn;
+
+    }
+
+
+
     private checkDatasLength(data: Array<string>): EntityInterface{
 
         const obj = Remark.entityObj;
 
-        if(data.length === 4){
+        if(this.version === 'RMRK0.1' || this.version === "0.1"){
+            // Not allowed
 
-            // Actual Rmrks (not allowed)
+            let collection: string = "";
 
-            // let collection: string = "";
-            //
-            // obj.sn = data[data.length -1];
-            // data.splice(data.length -1, 1);
-            //
-            // obj.name = data[data.length -1];
-            // data.splice(data.length -1, 1);
-            //
-            // for (let i = 0; i<data.length; i++){
-            //     if(i != data.length-1){
-            //         collection += data[i] + '-';
-            //     }else{
-            //         collection += data[i];
-            //     }
-            // }
-            //
-            // obj.collection = collection;
+            obj.sn = data[data.length -1];
+            data.splice(data.length -1, 1);
 
+            obj.name = data[data.length -1];
+            data.splice(data.length -1, 1);
 
+            for (let i = 0; i<data.length; i++){
+                if(i != data.length-1){
+                    collection += data[i] + '-';
+                }else{
+                    collection += data[i];
+                }
+            }
+
+            obj.collection = collection;
+
+        }
+        else if (this.version === "1.0.0"){
             // Normalization
-            obj.collection = data[1];
-            obj.name = data[2];
-            obj.sn = data[3];
+
+            if(data.length === 4){
+                obj.collection = data[1];
+                obj.name = data[2];
+                obj.sn = data[3];
+            }
 
         }
 

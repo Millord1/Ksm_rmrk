@@ -48,9 +48,7 @@ class RmrkJetski {
                     }
                     const timestampToDate = Number(blockTimestamp) * 1000;
                     const date = new Date(timestampToDate);
-
                     console.log('block ' + blockNumber + ' ' + date);
-
                     if (section === "system" && method === "remark") {
                         const remark = args.toString();
                         const signer = ex.signer.toString();
@@ -89,7 +87,7 @@ class RmrkJetski {
                 let lisibleUri = decodeURIComponent(uri);
                 lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
                 const splitted = lisibleUri.split('::');
-                if (splitted.length > 4) {
+                if (splitted.length >= 3) {
                     const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
                     let meta;
                     if (data.metadata !== "") {

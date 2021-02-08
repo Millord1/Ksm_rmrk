@@ -19,10 +19,10 @@ import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
+import {RemarkConverter} from "./classes/RemarkConverter.js";
 
 
-
-const getJwt = ()=>{
+export const getJwt = ()=>{
 
     const env = load({
         JWT: String
@@ -63,7 +63,7 @@ export const testScan = async (opts: Option) => {
     //@ts-ignore
     let blockN: number = opts.block;
     //@ts-ignore
-    let nbOfBlocksToScan: number = opts.nb;
+    let nbOfBlocksToScan: number = Number(opts.nb);
 
     if(nbOfBlocksToScan == 0){
         nbOfBlocksToScan = blockN;
@@ -82,8 +82,6 @@ export const testScan = async (opts: Option) => {
                 result.forEach(value => {
 
                     if(typeof value === 'object'){
-
-                        console.log(value);
 
                         let collName : string = "";
                         let sn: string = "";
@@ -130,7 +128,7 @@ export const testScan = async (opts: Option) => {
 
         blockN --;
 
-    }, 250);
+    }, 100);
 
 
 }
@@ -251,14 +249,20 @@ const entityGossip = async (rmrk: Entity) => {
     if(rmrk.metaDataContent != null){
         const meta = rmrk.metaDataContent
 
-        if(meta.name != 'undefined'){
+        if(meta.name != undefined){
             name = "-"+meta.name;
         }else{
             name = "";
         }
 
+        if(meta.description != 'undefined'){
+            description = meta.description;
+        }else{
+            description = "No description";
+        }
+
         image = meta.image.replace("ipfs://",'https://ipfs.io/');
-        description = meta.description;
+
     }
 
     if(rmrk instanceof Asset){
@@ -268,9 +272,10 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(collectionId);
 
+        // assetId = computedId
+
         let myAsset = canonizeManager.createAsset({assetId: collectionId + name, imageUrl: image,description:description});
         let myCollection = canonizeManager.createCollection({id: collectionId});
-
 
         myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
@@ -287,6 +292,9 @@ const entityGossip = async (rmrk: Entity) => {
 
         canonizeManager.gossipOrbsBindings().then(r=>{console.log("asset gossiped")});
 
+        let converter = new RemarkConverter();
+
+        converter.createSendRemark(myAsset, new KusamaBlockchain(sandra), sandra, 'me', 'you');
 
     }else if (rmrk instanceof Collection){
 

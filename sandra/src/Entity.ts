@@ -70,8 +70,6 @@ export class Entity{
     public joinEntity(verb:string,entity:Entity,sandraManager:SandraManager,refArray?:Reference[]){
         this.subjectConcept.setTriplet(sandraManager.get(verb),entity.subjectConcept,false,refArray);
         this.factory.joinFactory(entity.factory,verb)
-
-
     }
 
     public setTriplet(verb:string,target:string,sandraManager:SandraManager,refArray?:Reference[]){
