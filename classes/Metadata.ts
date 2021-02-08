@@ -4,7 +4,7 @@ import {MetaDataInputs} from "./Interfaces.js";
 export class Metadata
 {
 
-    private url: string;
+    public url: string;
 
     public external_url: string = "";
     public image: string = "";

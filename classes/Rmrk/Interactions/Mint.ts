@@ -3,6 +3,8 @@ import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Collection} from "../../Collection.js";
 import {Transaction} from "../../Transaction.js";
 import {Metadata} from "../../Metadata.js";
+import {CollectionRmrk} from "../../Interfaces.js";
+import {stringToHex} from "@polkadot/util";
 
 export class Mint extends Interaction
 {

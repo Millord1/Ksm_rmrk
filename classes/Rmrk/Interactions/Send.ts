@@ -4,17 +4,20 @@ import {Asset} from "../../Asset.js";
 import {Transaction} from "../../Transaction.js";
 import {Metadata} from "../../Metadata.js";
 
-
 export class Send extends Interaction
 {
 
     public nft: Asset;
+
+    public static computedId: string = "";
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
         super(rmrk, Send.name, chain, null, transaction);
         const splitted = this.rmrkToArray();
 
         this.version = splitted[2];
+
+        Send.computedId = splitted[3];
 
         this.nft = this.nftFromComputedId(splitted[3], meta);
 

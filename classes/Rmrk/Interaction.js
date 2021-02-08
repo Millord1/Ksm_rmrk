@@ -22,31 +22,39 @@ class Interaction extends Remark_js_1.Remark {
         let nftDatas = this.checkDatasLength(computed.split('-'));
         return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
     }
+    static getComputedId(asset) {
+        const blockId = asset.transaction.blockId;
+        const collectionId = asset.token.contractId;
+        const assetName = asset.name;
+        const sn = asset.token.sn;
+        return blockId + '-' + collectionId + '-' + assetName + '-' + sn;
+    }
     checkDatasLength(data) {
         const obj = Remark_js_1.Remark.entityObj;
-        if (data.length === 4) {
-            // Actual Rmrks (not allowed)
-            // let collection: string = "";
-            //
-            // obj.sn = data[data.length -1];
-            // data.splice(data.length -1, 1);
-            //
-            // obj.name = data[data.length -1];
-            // data.splice(data.length -1, 1);
-            //
-            // for (let i = 0; i<data.length; i++){
-            //     if(i != data.length-1){
-            //         collection += data[i] + '-';
-            //     }else{
-            //         collection += data[i];
-            //     }
-            // }
-            //
-            // obj.collection = collection;
+        if (this.version === 'RMRK0.1' || this.version === "0.1") {
+            // Not allowed
+            let collection = "";
+            obj.sn = data[data.length - 1];
+            data.splice(data.length - 1, 1);
+            obj.name = data[data.length - 1];
+            data.splice(data.length - 1, 1);
+            for (let i = 0; i < data.length; i++) {
+                if (i != data.length - 1) {
+                    collection += data[i] + '-';
+                }
+                else {
+                    collection += data[i];
+                }
+            }
+            obj.collection = collection;
+        }
+        else if (this.version === "1.0.0") {
             // Normalization
-            obj.collection = data[1];
-            obj.name = data[2];
-            obj.sn = data[3];
+            if (data.length === 4) {
+                obj.collection = data[1];
+                obj.name = data[2];
+                obj.sn = data[3];
+            }
         }
         return obj;
     }

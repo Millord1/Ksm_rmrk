@@ -19,10 +19,11 @@ import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
+import {RemarkConverter} from "./classes/RemarkConverter.js";
+import {Interaction} from "./classes/Rmrk/Interaction.js";
 
 
-
-const getJwt = ()=>{
+export const getJwt = ()=>{
 
     const env = load({
         JWT: String
@@ -63,7 +64,7 @@ export const testScan = async (opts: Option) => {
     //@ts-ignore
     let blockN: number = opts.block;
     //@ts-ignore
-    let nbOfBlocksToScan: number = opts.nb;
+    let nbOfBlocksToScan: number = Number(opts.nb);
 
     if(nbOfBlocksToScan == 0){
         nbOfBlocksToScan = blockN;
@@ -83,8 +84,6 @@ export const testScan = async (opts: Option) => {
 
                     if(typeof value === 'object'){
 
-                        console.log(value);
-
                         let collName : string = "";
                         let sn: string = "";
 
@@ -98,6 +97,8 @@ export const testScan = async (opts: Option) => {
                             }
 
                         }else if (value instanceof MintNft){
+
+                            // console.log(value);
 
                             collName = value.nft.token.contractId;
                             sn = value.nft.token.sn
@@ -130,12 +131,10 @@ export const testScan = async (opts: Option) => {
 
         blockN --;
 
-    }, 250);
+    }, 1000 / 15);
 
 
 }
-
-
 
 
 export const forceScan = async (block:number) => {
@@ -144,7 +143,7 @@ export const forceScan = async (block:number) => {
 
 
 
-            blockchain = new Kusama();
+    blockchain = new Kusama();
 
 
 
@@ -199,15 +198,13 @@ export const forceScan = async (block:number) => {
 const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
+    const signer = value.transaction.source;
 
     const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
     let blockchain = new KusamaBlockchain(sandra);
-
-
-    const signer = value.transaction.source;
 
     let address = new BlockchainAddress(blockchain.addressFactory, signer, sandra);
 
@@ -232,6 +229,8 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
 const entityGossip = async (rmrk: Entity) => {
 
+    // console.log(rmrk);
+
     const jwt = getJwt();
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
@@ -244,21 +243,20 @@ const entityGossip = async (rmrk: Entity) => {
 
     let result: any;
 
-    let name: string = "";
     let image: string = "";
     let description: string = "";
 
     if(rmrk.metaDataContent != null){
         const meta = rmrk.metaDataContent
 
-        if(meta.name != 'undefined'){
-            name = "-"+meta.name;
+        if(meta.description != 'undefined'){
+            description = meta.description;
         }else{
-            name = "";
+            description = "No description";
         }
 
         image = meta.image.replace("ipfs://",'https://ipfs.io/');
-        description = meta.description;
+
     }
 
     if(rmrk instanceof Asset){
@@ -266,11 +264,10 @@ const entityGossip = async (rmrk: Entity) => {
         collectionId = rmrk.token.contractId;
         nft = rmrk ;
 
-        let myContract = kusama.contractFactory.getOrCreate(collectionId);
+        let myContract = kusama.contractFactory.getOrCreate(rmrk.assetId);
 
-        let myAsset = canonizeManager.createAsset({assetId: collectionId + name, imageUrl: image,description:description});
+        let myAsset = canonizeManager.createAsset({assetId: rmrk.assetId, imageUrl: image,description:description});
         let myCollection = canonizeManager.createCollection({id: collectionId});
-
 
         myAsset.bindCollection(myCollection);
         myContract.bindToCollection(myCollection);
@@ -282,6 +279,9 @@ const entityGossip = async (rmrk: Entity) => {
         //let tokenPath = rmrkToken.generateTokenPathEntity(canonizeManager);
 
         myAsset.bindContract(myContract);
+
+        // let converter = new RemarkConverter();
+        // converter.createSendRemark(myAsset, new KusamaBlockchain(sandra), sandra, 'me', 'you');
 
         //tokenPath.bindToAssetWithContract(myContract, myAsset);
 

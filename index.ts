@@ -1,6 +1,6 @@
 
 import {testScan} from "./StartScan.js";
-import {batchBlock, defaultWalker, obxiumBlocks} from "./scenarios.js";
+import {defaultWalker} from "./scenarios.js";
 
 const {program} = require('commander');
 
@@ -18,14 +18,6 @@ program.command("fetch")
     .action(testScan);
 
 program.command("story")
-
     .action(defaultWalker);
-
-program.command("bruno")
-    .action(obxiumBlocks);
-
-program.command('batch')
-    .option("--block <block>", "block number")
-    .action(batchBlock);
 
 program.parse(process.argv);

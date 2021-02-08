@@ -1,6 +1,5 @@
 import {Option} from "commander";
 import {forceScan} from "./StartScan.js";
-import {BatchReader} from "./BatchReader.js";
 import {Kusama} from "./classes/Blockchains/Kusama.js";
 const {program} = require('commander');
 
@@ -64,49 +63,49 @@ export const obxiumBlocks = (opts: Option) => {
 
 }
 
-
-export const batchBlock = (opts: Option) => {
-
-    //@ts-ignore
-    let blockNumber = opts.block;
-    const blockToScan = blockNumber - 200;
-
-    let index:number = 0 ;
-    let speed:number = 250 ;
-
-    const fileToRead = path.resolve(__dirname, "batchBlocks.json");
-
-    if( !fs.existsSync(fileToRead) ){
-
-        fs.closeSync(fs.openSync(fileToRead, 'w'));
-        fs.writeFileSync(fileToRead, []);
-    }
-
-    for (let i = blockNumber; i>blockToScan; i--){
-
-        const batchReader = new BatchReader(new Kusama());
-
-        const blocks = fs.readFileSync(fileToRead);
-        const previousBlock = JSON.parse(blocks);
-
-        setTimeout(function (){
-
-            console.log('reading ' + i);
-            batchReader.getBatchBlocks(i).then((array) => {
-                if(array.length > 0){
-                    previousBlock.push(array);
-                    const json = JSON.stringify(previousBlock);
-                    console.log('write block ' + i);
-                    fs.writeFileSync(fileToRead, json);
-                }
-            });
-
-        }, speed * index);
-
-        index ++;
-    }
-
-
+//
+// export const batchBlock = (opts: Option) => {
+//
+//     //@ts-ignore
+//     let blockNumber = opts.block;
+//     const blockToScan = blockNumber - 200;
+//
+//     let index:number = 0 ;
+//     let speed:number = 250 ;
+//
+//     const fileToRead = path.resolve(__dirname, "batchBlocks.json");
+//
+//     if( !fs.existsSync(fileToRead) ){
+//
+//         fs.closeSync(fs.openSync(fileToRead, 'w'));
+//         fs.writeFileSync(fileToRead, []);
+//     }
+//
+//     for (let i = blockNumber; i>blockToScan; i--){
+//
+//         const batchReader = new BatchReader(new Kusama());
+//
+//         const blocks = fs.readFileSync(fileToRead);
+//         const previousBlock = JSON.parse(blocks);
+//
+//         setTimeout(function (){
+//
+//             console.log('reading ' + i);
+//             batchReader.getBatchBlocks(i).then((array) => {
+//                 if(array.length > 0){
+//                     previousBlock.push(array);
+//                     const json = JSON.stringify(previousBlock);
+//                     console.log('write block ' + i);
+//                     fs.writeFileSync(fileToRead, json);
+//                 }
+//             });
+//
+//         }, speed * index);
+//
+//         index ++;
+//     }
 
 
-}
+
+
+// }

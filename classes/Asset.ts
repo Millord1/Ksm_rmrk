@@ -13,6 +13,7 @@ export class Asset extends Entity
     name: string;
     token: Token;
     instance: string;
+    assetId: string;
 
     constructor(
         rmrk: string,
@@ -25,6 +26,7 @@ export class Asset extends Entity
         super(rmrk, Asset.name, chain, version, transaction, meta);
         this.name = obj.name;
         this.instance = obj.instance;
+        this.assetId = transaction.blockId + '-' + obj.collection + '-' + obj.name;
 
         this.token = new Token(obj.transferable, obj.sn, obj.collection);
     }
@@ -36,14 +38,14 @@ export class Asset extends Entity
         const splitted = rmrk.split('::');
 
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        const nftDatas = splitted[2].split(',');
+
+        const nftDatas = splitted[3].split(',');
 
         const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
 
         return new Asset(rmrk, chain, null, transaction, obj, meta);
 
     }
-
 
 
     public toJson(needStringify : boolean = true, needSubstrate: boolean = true){

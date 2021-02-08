@@ -4,6 +4,7 @@ import {PublicEntity, EntityInterface, MetaDataInputs} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
 
+
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
@@ -68,8 +69,6 @@ export abstract class Entity extends Remark implements PublicEntity
 
 
 
-
-
     public static async getMetaDataContent(urlIpfs: string): Promise<Metadata>{
 
         return new Promise((resolve, reject) => {
@@ -108,8 +107,9 @@ export abstract class Entity extends Remark implements PublicEntity
                     }
 
                     metaData = new Metadata(urlToCall, response);
-
+                    console.log(metaData);
                     resolve (metaData);
+
                 }else if(this.readyState == 4 && this.status == 404){
                     reject ('Bad request :' + this.status);
                 }

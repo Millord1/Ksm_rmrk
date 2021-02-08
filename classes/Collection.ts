@@ -13,12 +13,13 @@ export class Collection extends Entity
     name: string;
     contract: BlockchainContract;
 
-    constructor(rmrk: string,
-                chain: Blockchain,
-                version: string,
-                transaction:Transaction,
-                obj: EntityInterface,
-                meta: Metadata|null
+    constructor(
+        rmrk: string,
+        chain: Blockchain,
+        version: string,
+        transaction:Transaction,
+        obj: EntityInterface,
+        meta: Metadata|null
     ) {
         super(rmrk, Collection.name, chain, version, transaction, meta);
 
