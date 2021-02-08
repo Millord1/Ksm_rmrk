@@ -63,8 +63,8 @@ class RmrkJetski {
                         const batch = JSON.parse(arg);
                         const signer = ex.signer.toString();
                         const hash = ex.hash.toHex();
-                        const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
                         for (const rmrkObj of batch) {
+                            const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
                             if (rmrkObj.args.hasOwnProperty('_remark')) {
                                 blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
                             }

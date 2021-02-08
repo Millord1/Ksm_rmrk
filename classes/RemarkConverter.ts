@@ -41,7 +41,8 @@ export class RemarkConverter
         name: "",
         transferable: null,
         sn: "",
-        metadata: ""
+        metadata: "",
+        id: ""
     }
 
 
@@ -87,16 +88,13 @@ export class RemarkConverter
 
         // let token = canonizeManager.getAssetFactory().;
 
-        // console.log(token);
-        // asset.brotherEntityMap.forEach((value)=>{
-        //     console.log(value);
-        // })
-
-        canonizeManager.getAssetFactory().joinedFactory.forEach((value)=>{
-            console.log(value);
-        })
-
         // TODO
+        // const factory = asset.subjectConcept.triplets.get(sandra.get(AssetFactory.collectionJoinVerb));
+        // if(factory != undefined){
+        //     console.log(sandra.entityMap.get(factory[0].unid));
+        // }
+        //
+        // console.log(factory);
 
         const assetData = assetId.split('-');
         let assetName: string = assetData[1];
@@ -136,6 +134,7 @@ export class RemarkConverter
             asset.transferable = entity.token.transferable;
             asset.sn = entity.token.sn;
             asset.metadata = entity.metaDataContent?.url;
+            asset.id = entity.assetId;
 
             return asset;
 
@@ -151,7 +150,8 @@ export class RemarkConverter
 
         if(interaction instanceof Send){
 
-            const computedId = Interaction.getComputedId(interaction.nft);
+            // const computedId = Interaction.getComputedId(interaction.nft);
+            const computedId = interaction.nft.assetId;
             const destination = interaction.transaction.destination.address;
             return 'rmrk::' + Send.name + '::' + computedId + '::' + destination;
 

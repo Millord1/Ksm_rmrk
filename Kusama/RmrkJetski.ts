@@ -87,9 +87,9 @@ export class RmrkJetski
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
 
-                    const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-
                     for (const rmrkObj of batch){
+
+                        const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
                         if(rmrkObj.args.hasOwnProperty('_remark')){
                             blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));

@@ -70,7 +70,8 @@ export abstract class Interaction extends Remark implements PublicInteraction
             obj.collection = collection;
 
         }
-        else if (this.version === "1.0.0"){
+        else
+            if (this.version === "1.0.0"){
             // Normalization
 
             if(data.length === 4){

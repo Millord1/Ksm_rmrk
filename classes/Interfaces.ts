@@ -58,7 +58,8 @@ export interface AssetRmrk
     name: string,
     transferable: boolean|null,
     sn: string,
-    metadata: string|undefined
+    metadata: string|undefined,
+    id: string
 }
 
 
