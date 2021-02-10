@@ -47,6 +47,20 @@ class Entity {
     setPureShortnameTriplet(verb, target, sandraManager, refArray) {
         this.subjectConcept.setTriplet(sandraManager.get(verb), sandraManager.get(target), true, refArray);
     }
+    getJoinedEntitiesOnVerb(verb) {
+        const sandra = this.factory.sandraManager;
+        const concept = sandra.somethingToConcept(verb);
+        const results = this.subjectConcept.triplets.get(concept);
+        let entityResult = [];
+        if (results) {
+            results.forEach(concept => {
+                //find corresponding entity
+                const entities = [...sandra.entityList.values()].filter((item) => item.subjectConcept === concept);
+                entities.forEach(foundEntity => { entityResult.push(foundEntity); });
+            });
+        }
+        return entityResult;
+    }
 }
 exports.Entity = Entity;
 //# sourceMappingURL=Entity.js.map

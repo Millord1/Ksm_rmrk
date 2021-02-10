@@ -46,6 +46,7 @@ class SandraManager {
             let concept = [...this.conceptMap.values()].filter((item) => item.unid === something);
             return concept[0];
         }
+        return this.get('null_concept');
     }
 }
 exports.SandraManager = SandraManager;

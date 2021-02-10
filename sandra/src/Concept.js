@@ -32,6 +32,29 @@ class Concept {
             }
         }
     }
+    getTriplets(verb, target, notEntity = false, refs) {
+        let verbExist = false;
+        if (this.triplets.get(verb)) {
+            // @ts-ignore
+            this.triplets.get(verb).push(target);
+            verbExist = true;
+        }
+        else {
+            this.triplets.set(verb, [target]);
+            //this.tripletsReferences.set(verb,[target]);
+        }
+        if (notEntity)
+            this.isPureShortname = true;
+        if (refs) {
+            if (verbExist) {
+                // @ts-ignore
+                this.tripletsReferences.get(verb).push({ concept: target, refs: refs });
+            }
+            else {
+                this.tripletsReferences.set(verb, [{ concept: target, refs: refs }]);
+            }
+        }
+    }
 }
 exports.Concept = Concept;
 //# sourceMappingURL=Concept.js.map

@@ -83,6 +83,8 @@ export class SandraManager {
             return concept[0];
        }
 
+       return this.get('null_concept');
+
 
 
     }
