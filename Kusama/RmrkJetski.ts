@@ -85,15 +85,15 @@ export class RmrkJetski
                     const batch = JSON.parse(arg);
 
                     const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
+                    let hash = ex.hash.toHex();
 
                     let i = 1;
 
                     for (const rmrkObj of batch){
 
-                        const txHash = hash + '-' + i;
+                        hash = hash + '-' +i;
 
-                        const tx = new Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
+                        const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
                         if(rmrkObj.args.hasOwnProperty('_remark')){
                             blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
@@ -133,8 +133,6 @@ export class RmrkJetski
                 const data = Entity.dataTreatment(splitted, Entity.entityObj);
 
                 let meta: Metadata|null;
-
-                console.log(data);
 
                 if(data.metadata != ""){
                     meta = await Entity.getMetaDataContent(data.metadata);

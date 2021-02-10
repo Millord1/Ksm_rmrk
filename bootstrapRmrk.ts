@@ -15,7 +15,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJnb3NzaXAiLCJmbHVzaCI6dHJ1ZSwiZXhwIjoxMDQ0NDE5MjUyMDQwMDAwfQ.i3MRmP56AEvIvWGdnj1TKuLZNaqLYaqzXaWijtT-Cc8';
 
 //let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
-let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://localhost/CrystalControlCenter8/public/alex/gossip',jwt:jwt}});
+let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
 
 let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain(sandra);

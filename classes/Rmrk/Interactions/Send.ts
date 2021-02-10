@@ -13,14 +13,13 @@ export class Send extends Interaction
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
         super(rmrk, Send.name, chain, null, transaction);
+
         const splitted = this.rmrkToArray();
 
         this.version = splitted[2];
-
         Send.computedId = splitted[3];
 
         this.nft = this.nftFromComputedId(splitted[3], meta);
-
         this.transaction.setDestination(this.chain.getAddressClass(splitted[4]));
     }
 

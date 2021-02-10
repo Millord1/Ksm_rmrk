@@ -108,6 +108,8 @@ export class RemarkConverter
 
         const tx = Transaction.createTransaction(owner, receiver, blockchain);
 
+
+
     }
 
 

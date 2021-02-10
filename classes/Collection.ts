@@ -33,7 +33,6 @@ export class Collection extends Entity
     public static createCollectionFromInteraction(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null){
 
         const splitted = rmrk.split('::');
-
         splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
 
         const obj = Entity.dataTreatment(splitted, Remark.entityObj);
@@ -49,7 +48,6 @@ export class Collection extends Entity
 
         // @ts-ignore
         json['chain'] = this.chain.toJson(needSubstrate);
-
         // @ts-ignore
         json['metadata'] = this.metadata;
         // @ts-ignore
