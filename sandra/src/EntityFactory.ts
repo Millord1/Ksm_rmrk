@@ -109,12 +109,18 @@ export class EntityFactory {
 
     public joinFactory(entityFactory:EntityFactory,onVerb:string){
 
-
        if ( this.joinedFactory.find(e => e.onVerb === onVerb) ) return ;
 
         let createOnRef = entityFactory.updateOnExistingRef ;
         this.joinedFactory.push({entityFactory,onVerb,createOnRef} );
+    }
 
+    public getJoinedFactory(entityFactory:EntityFactory,onVerb:string){
+
+        if ( this.joinedFactory.find(e => e.onVerb === onVerb) ) return ;
+
+        let createOnRef = entityFactory.updateOnExistingRef ;
+        this.joinedFactory.push({entityFactory,onVerb,createOnRef} );
     }
 
 

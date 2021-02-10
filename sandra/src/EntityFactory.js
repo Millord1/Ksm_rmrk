@@ -73,6 +73,12 @@ class EntityFactory {
         let createOnRef = entityFactory.updateOnExistingRef;
         this.joinedFactory.push({ entityFactory, onVerb, createOnRef });
     }
+    getJoinedFactory(entityFactory, onVerb) {
+        if (this.joinedFactory.find(e => e.onVerb === onVerb))
+            return;
+        let createOnRef = entityFactory.updateOnExistingRef;
+        this.joinedFactory.push({ entityFactory, onVerb, createOnRef });
+    }
 }
 exports.EntityFactory = EntityFactory;
 //# sourceMappingURL=EntityFactory.js.map

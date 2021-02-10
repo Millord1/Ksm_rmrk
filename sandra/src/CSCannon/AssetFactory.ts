@@ -14,6 +14,7 @@ export class AssetFactory extends EntityFactory
     public static tokenJoinVerb = 'bindToContract';
     public static collectionJoinVerb = 'bindToCollection';
     public static description = 'description';
+    public static ASSET_NAME = 'name';
 
     public constructor(sandra: SandraManager) {
         super('blockchainAsset', 'blockchainAssetFile', sandra);

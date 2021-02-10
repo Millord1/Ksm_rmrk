@@ -81,5 +81,23 @@ export class Entity{
 
     }
 
+    public getJoinedEntitiesOnVerb(verb:any):Entity[]{
+        const sandra = this.factory.sandraManager ;
+        const concept = sandra.somethingToConcept(verb);
+
+        const results = this.subjectConcept.triplets.get(concept);
+        let entityResult:Entity[] = [];
+        if (results) {
+            results.forEach(concept => {
+                //find corresponding entity
+                const entities =  [...sandra.entityList.values()].filter((item: Entity) => item.subjectConcept === concept);
+                entities.forEach(foundEntity =>{entityResult.push(foundEntity)})
+
+            })
+        }
+        return entityResult ;
+
+    }
+
 
 }

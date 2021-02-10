@@ -86,6 +86,8 @@ export const testScan = async (opts: Option) => {
 
                     if(typeof value === 'object'){
 
+                        console.log(value);
+
                         let collName : string = "";
                         let sn: string = "";
 

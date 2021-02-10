@@ -13,6 +13,7 @@ export interface AssetInterface{
     metadataUrl?: string,
     imageUrl?: string,
     description?:string,
+    name?:string,
 
 
 }
@@ -20,22 +21,17 @@ export interface AssetInterface{
 export class Asset extends Entity
 {
 
-   // public assetId: string;
-   // public metaDatasUrl: string;
-   // public imgUrl: string;
     private sandra: SandraManager;
 
     public constructor(factory: AssetFactory, assetInterface:AssetInterface, sandra: SandraManager) {
         super(factory);
-
 
         this.sandra = sandra ;
         this.addReference(new Reference(sandra.get(AssetFactory.ID), assetInterface.assetId));
         assetInterface.imageUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.imageUrl)) : null ;
         assetInterface.metadataUrl ? this.addReference(new Reference(sandra.get(AssetFactory.metaDataUrl), assetInterface.metadataUrl)) : null ;
         assetInterface.description? this.addReference(new Reference(sandra.get(AssetFactory.description), assetInterface.description)) : null ;
-
-       // assetInterface.imageUrl ? this.addReference(new Reference(sandra.get(AssetFactory.imageUrl), assetInterface.imageUrl )): null;
+        assetInterface.name? this.addReference(new Reference(sandra.get(AssetFactory.ASSET_NAME), assetInterface.name)) : null ;
 
     }
 
@@ -44,6 +40,18 @@ export class Asset extends Entity
         this.joinEntity(AssetFactory.tokenJoinVerb, contract, this.sandra, [new Reference(this.sandra.get('sn'),'canonizer')]);
     }
 
+
+    public getJoinedContracts():BlockchainContract[]{
+
+        // @ts-ignore
+        return this.getJoinedEntitiesOnVerb(AssetFactory.tokenJoinVerb)
+    }
+
+    public getJoinedCollections():AssetCollection[]{
+
+        // @ts-ignore
+        return this.getJoinedEntitiesOnVerb(AssetFactory.collectionJoinVerb)
+    }
 
     public bindCollection(assetCollection: AssetCollection){
         this.joinEntity(AssetFactory.collectionJoinVerb, assetCollection, this.sandra);
