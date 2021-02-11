@@ -52,7 +52,6 @@ export abstract class Entity extends Remark implements PublicEntity
                     if(datas[1] === "ipfs") {
 
                         const url = datas[2].slice(4);
-
                         datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
                     }
 
@@ -76,8 +75,7 @@ export abstract class Entity extends Remark implements PublicEntity
             let urlToCall : string = "";
 
             urlIpfs = urlIpfs.replace('ipfs/','');
-
-            urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
+            urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
 
             const get = new XMLHttpRequest();
 
@@ -102,12 +100,10 @@ export abstract class Entity extends Remark implements PublicEntity
                             attributes : [],
                             background_color : "",
                         };
-
                         console.error(error.message + "\n for the MetaData url : " + urlToCall);
                     }
 
                     metaData = new Metadata(urlToCall, response);
-                    console.log(metaData);
                     resolve (metaData);
 
                 }else if(this.readyState == 4 && this.status == 404){

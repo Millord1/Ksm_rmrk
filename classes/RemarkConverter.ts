@@ -3,24 +3,18 @@ import {Asset} from "../sandra/src/CSCannon/Asset.js";
 import {Blockchain} from "../sandra/src/CSCannon/Blockchain.js";
 import {SandraManager} from "../sandra/src/SandraManager.js";
 import {AssetFactory} from "../sandra/src/CSCannon/AssetFactory.js";
-import {Transaction} from "./Transaction.js";
-import {Blockchain as rmrkChain} from "./Blockchains/Blockchain.js";
-import {Polkadot} from "./Blockchains/Polkadot.js";
-import {Unique} from "./Blockchains/Unique.js";
-import {Kusama} from "./Blockchains/Kusama.js";
 import {Remark} from "./Rmrk/Remark.js";
 import {Send} from "./Rmrk/Interactions/Send.js";
 import {MintNft} from "./Rmrk/Interactions/MintNft.js";
 import {Interaction} from "./Rmrk/Interaction.js";
-import {CSCanonizeManager} from "../sandra/src/CSCannon/CSCanonizeManager.js";
-import {getJwt} from "../StartScan.js";
-import {BlockchainTokenFactory} from "../sandra/src/CSCannon/BlockchainTokenFactory.js";
 import {AssetRmrk, CollectionRmrk} from "./Interfaces.js";
 import {Collection} from "./Collection.js";
 import {Entity} from "./Rmrk/Entity.js";
 import {Asset as rmrkAsset} from "./Asset.js";
 import {Mint} from "./Rmrk/Interactions/Mint.js";
 import {stringToHex} from "@polkadot/util";
+import {AssetCollectionFactory} from "../sandra/src/CSCannon/AssetCollectionFactory.js";
+import {AssetCollection} from "../sandra/src/CSCannon/AssetCollection.js";
 
 
 export class RemarkConverter
@@ -46,72 +40,123 @@ export class RemarkConverter
     }
 
 
+    private computedIdSeparator: string = '-';
+    private rmrkSeparator: string = '::';
+
     constructor() {
     }
 
 
-    public getChain(chain: string): rmrkChain{
+    public createMintRemark(collection: AssetCollection, max: number, metaDataUrl: string, collectionId: string, symbol: string = ""): string
+    {
 
-        let blockchain: rmrkChain;
-
-        switch(chain.toLowerCase()){
-            case "polkadot":
-                blockchain = new Polkadot();
-                break;
-
-            case "unique":
-                // TODO remake Unique Blockchain
-                //@ts-ignore
-                blockchain = new Unique();
-                break;
-
-            case "kusama":
-            default:
-                blockchain = new Kusama();
-                break;
+        const collectionObj : CollectionRmrk = {
+            version: Remark.defaultVersion,
+            name: collection.getRefValue(AssetCollectionFactory.MAIN_NAME),
+            max: max,
+            issuer: "",
+            symbol: symbol,
+            id: collectionId,
+            metadata: metaDataUrl
         }
 
-        return blockchain;
+        const uri = this.objToUri(collectionObj);
+        const rmrk = 'rmrk' + this.rmrkSeparator + Mint.name + this.rmrkSeparator + Remark.defaultVersion + this.rmrkSeparator + uri;
+
+        return stringToHex(rmrk);
     }
 
 
-    public createSendRemark(asset: Asset, chain: Blockchain, sandra: SandraManager, owner: string, receiver: string){
+    public createSendRemark(asset: Asset, chain: Blockchain, receiver: string, sandra: SandraManager): string
+    {
+        const cscToRemark = this.assetRmrkFromCscAsset(asset, sandra);
+        const contract = asset.getJoinedContracts();
 
-        const jwt = getJwt();
+        const blockId = contract[0].getRefValue('id');
+        const blockData = blockId.split('-');
+        const blockNumber: number = (blockData.length > 2) ? Number(blockData[0]) : 0;
 
-        let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
+        const computedId = this.assetInterfaceToComputedId(cscToRemark, blockNumber);
 
-        const metaUrl = asset.getRefValue(sandra.get(AssetFactory.metaDataUrl));
-        console.log('metaUrl ' + metaUrl);
-        const assetId = asset.getRefValue(sandra.get(AssetFactory.ID));
-        console.log('ID ' + assetId);
+        const rmrk = 'rmrk' + this.rmrkSeparator + Send.name + this.rmrkSeparator + computedId + receiver;
 
-        // let token = canonizeManager.getAssetFactory().;
-
-        // TODO
-        // const factory = asset.subjectConcept.triplets.get(sandra.get(AssetFactory.collectionJoinVerb));
-        // if(factory != undefined){
-        //     console.log(sandra.entityMap.get(factory[0].unid));
-        // }
-        //
-        // console.log(factory);
-
-        const assetData = assetId.split('-');
-        let assetName: string = assetData[1];
-        let collectionId : string = assetData[0];
-
-        const blockchain = this.getChain(chain.name);
-
-        const entity = Remark.entityObj;
-        entity.name = assetName;
-        entity.collection = collectionId;
-
-        const tx = Transaction.createTransaction(owner, receiver, blockchain);
-
+        return stringToHex(rmrk);
     }
 
 
-    public getObjectForRmrk(entity: Entity): CollectionRmrk|AssetRmrk|null{
+    public createMintNftRemark(asset: Asset, collection: AssetCollection, transferable: boolean = true): string
+    {
+
+        const assetRmrkObj : AssetRmrk = {
+            collection: collection.getRefValue(AssetCollectionFactory.MAIN_NAME),
+            name: asset.getRefValue(AssetFactory.ASSET_NAME),
+            transferable: transferable,
+            sn: "",
+            metadata: asset.getRefValue(AssetFactory.metaDataUrl),
+            id: asset.getRefValue(AssetFactory.ID)
+        }
+
+        const uri = this.objToUri(assetRmrkObj);
+        const rmrk = 'rmrk' + this.rmrkSeparator + MintNft.name + this.rmrkSeparator + Remark.defaultVersion + uri;
+
+        return stringToHex(rmrk);
+    }
+
+
+
+    public toRmrk(interaction: Interaction): string{
+
+        if(interaction instanceof Send){
+
+            const computedId = interaction.nft.assetId + '-' + interaction.nft.token.sn;
+            const destination = interaction.transaction.destination.address;
+            return 'rmrk' + this.rmrkSeparator + Send.name + this.rmrkSeparator + computedId + this.rmrkSeparator + destination;
+
+        }else if(interaction instanceof MintNft){
+
+            const asset = this.getObjInterfaceFromEntity(interaction.nft);
+            if(asset != null){
+                return 'rmrk' + this.rmrkSeparator + MintNft.name + this.rmrkSeparator + interaction.version + this.rmrkSeparator + this.objToUri(asset);
+            }
+
+        }else if(interaction instanceof Mint){
+
+            const collection = this.getObjInterfaceFromEntity(interaction.collection);
+            if(collection != null){
+                return 'rmrk' + this.rmrkSeparator + Mint.name + this.rmrkSeparator + interaction.version + this.rmrkSeparator + this.objToUri(collection);
+            }
+
+        }
+
+        return "";
+    }
+
+
+
+    public toHexRmrk(interaction: Interaction): string{
+        return stringToHex(this.toRmrk(interaction));
+    }
+
+
+
+    private assetRmrkFromCscAsset(asset: Asset, sandra: SandraManager): AssetRmrk
+    {
+
+        const collection = asset.getJoinedCollections()[0];
+
+        const cscToRemark : AssetRmrk = this.assetToRmrk;
+
+        cscToRemark.collection = collection.getRefValue(sandra.get(AssetCollectionFactory.MAIN_NAME));
+        cscToRemark.name = asset.getRefValue(sandra.get(AssetFactory.ASSET_NAME));
+        cscToRemark.transferable = null;
+        cscToRemark.metadata = asset.getRefValue(sandra.get(AssetFactory.metaDataUrl));
+        cscToRemark.id = asset.getRefValue(sandra.get(AssetFactory.ID));
+
+        return cscToRemark;
+    }
+
+
+    public getObjInterfaceFromEntity(entity: Entity): CollectionRmrk|AssetRmrk|null{
 
         if(entity instanceof Collection){
 
@@ -145,43 +190,20 @@ export class RemarkConverter
     }
 
 
-
-    public toRmrk(interaction: Interaction): string{
-
-        if(interaction instanceof Send){
-
-            // const computedId = Interaction.getComputedId(interaction.nft);
-            const computedId = interaction.nft.assetId;
-            const destination = interaction.transaction.destination.address;
-            return 'rmrk::' + Send.name + '::' + computedId + '::' + destination;
-
-        }else if(interaction instanceof MintNft){
-
-            const asset = this.getObjectForRmrk(interaction.nft);
-            if(asset != null){
-                return 'rmrk::' + MintNft.name + '::' + interaction.version + '::' + RemarkConverter.objToUri(asset);
-            }
-
-        }else if(interaction instanceof Mint){
-
-            const collection = this.getObjectForRmrk(interaction.collection);
-            if(collection != null){
-                return 'rmrk::' + Mint.name + '::' + interaction.version + '::' + RemarkConverter.objToUri(collection);
-            }
-
-        }
-
-        return "";
-    }
-
-
-    public toHexRmrk(interaction: Interaction): string{
-        return stringToHex(this.toRmrk(interaction));
-    }
-
-    private static objToUri(obj: CollectionRmrk|AssetRmrk): string{
+    private objToUri(obj: CollectionRmrk|AssetRmrk): string{
         const toEncode = JSON.stringify(obj);
         return encodeURIComponent(toEncode);
+    }
+
+
+    private assetInterfaceToComputedId(assetInterface: AssetRmrk, blockId: number){
+        return blockId + this.computedIdSeparator + assetInterface.collection + this.computedIdSeparator + assetInterface.id + this.computedIdSeparator + assetInterface.sn;
+    }
+
+
+    public RemarkFromCsc(assetInterface: AssetRmrk, blockId: number, recipient: string){
+        const cumputedId = this.assetInterfaceToComputedId(assetInterface, blockId);
+        return 'rmrk' + this.rmrkSeparator + Send.name + this.rmrkSeparator + Remark.defaultVersion + cumputedId + this.rmrkSeparator + recipient;
     }
 
 

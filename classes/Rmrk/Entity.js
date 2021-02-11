@@ -52,7 +52,7 @@ class Entity extends Remark_js_1.Remark {
             return new Promise((resolve, reject) => {
                 let urlToCall = "";
                 urlIpfs = urlIpfs.replace('ipfs/', '');
-                urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
+                urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
                 const get = new XMLHttpRequest();
                 let response;
                 let metaData;
@@ -75,7 +75,6 @@ class Entity extends Remark_js_1.Remark {
                             console.error(error.message + "\n for the MetaData url : " + urlToCall);
                         }
                         metaData = new Metadata_js_1.Metadata(urlToCall, response);
-                        console.log(metaData);
                         resolve(metaData);
                     }
                     else if (this.readyState == 4 && this.status == 404) {

@@ -27,53 +27,69 @@ export class RmrkReader
 
     public readInteraction(rmrk: string, meta: Metadata|null): Interaction|null{
 
-        const splitted = rmrk.split('::');
+        if(rmrk.includes('::')){
 
-        let interaction = splitted[1];
-        interaction = interaction.toLowerCase();
+            const splitted = rmrk.split('::');
 
-        let interactObj: Interaction|null;
+            if(splitted.length >= 2){
 
-        switch (interaction){
+                let interaction = splitted[1];
+                interaction = interaction.toLowerCase();
 
-            case 'mint':
-                interactObj = new Mint(rmrk, this.chain, this.transaction, meta);
-                break;
+                let interactObj: Interaction|null;
 
-            case 'changeissuer':
-                interactObj = new ChangeIssuer(rmrk, this.chain, this.transaction);
-                break;
+                switch (interaction){
 
-            case 'mintnft':
-                interactObj = new MintNft(rmrk, this.chain, this.transaction, meta);
-                break;
+                    case 'mint':
+                        interactObj = new Mint(rmrk, this.chain, this.transaction, meta);
+                        break;
 
-            case 'send' :
-                interactObj = new Send(rmrk, this.chain, this.transaction, meta);
-                break;
+                    case 'changeissuer':
+                        interactObj = new ChangeIssuer(rmrk, this.chain, this.transaction);
+                        break;
 
-            case 'list' :
-                interactObj = new List(rmrk, this.chain, this.transaction, meta);
-                break;
+                    case 'mintnft':
+                        interactObj = new MintNft(rmrk, this.chain, this.transaction, meta);
+                        break;
 
-            case 'buy' :
-                interactObj = new Buy(rmrk, this.chain, this.transaction, meta);
-                break;
+                    case 'send' :
+                        interactObj = new Send(rmrk, this.chain, this.transaction, meta);
+                        break;
 
-            case 'consume' :
-                interactObj = new Consume(rmrk, this.chain, this.transaction, meta);
-                break;
+                    case 'list' :
+                        interactObj = new List(rmrk, this.chain, this.transaction, meta);
+                        break;
 
-            case 'emote':
-                interactObj = new Emote(rmrk, this.chain, this.transaction, meta);
-                break;
+                    case 'buy' :
+                        interactObj = new Buy(rmrk, this.chain, this.transaction, meta);
+                        break;
 
-            default :
-                interactObj = null;
-                break;
+                    case 'consume' :
+                        interactObj = new Consume(rmrk, this.chain, this.transaction, meta);
+                        break;
+
+                    case 'emote':
+                        interactObj = new Emote(rmrk, this.chain, this.transaction, meta);
+                        break;
+
+                    default :
+                        interactObj = null;
+                        break;
+                }
+
+                return interactObj;
+
+            }else{
+
+                return null;
+            }
+
+        }else{
+
+            return null;
         }
 
-        return interactObj;
+
     }
 
 
