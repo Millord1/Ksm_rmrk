@@ -122,12 +122,12 @@ export const testScan = async (opts: Option) => {
                         }
                     }
                 })
-                if(blockN === limitBlock || blockN === 1 || blockN == blockToStpo){
+                if(blockN === limitBlock || blockN == blockToStpo){
                     process.exit();
                 }
             },
         );
-        blockN --;
+        blockN ++;
 
     }, 1000 / 15);
 
