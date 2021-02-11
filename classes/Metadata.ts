@@ -1,4 +1,5 @@
 import {MetaDataInputs} from "./Interfaces.js";
+import {Entity} from "./Rmrk/Entity.js";
 
 
 export class Metadata
@@ -23,8 +24,6 @@ export class Metadata
          this.name = meta.name;
          this.background_color = meta.background_color;
          this.attributes = meta.attributes;
-
-         // if(metas.attributes.isArray())
     }
 
 

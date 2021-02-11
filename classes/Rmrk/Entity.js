@@ -41,18 +41,38 @@ class Entity extends Remark_js_1.Remark {
                     }
                     datas[1] = datas[2];
                 }
+                else if (typeof datas[1] === 'string') {
+                    datas[1] = datas[1];
+                }
+                datas[1] = datas[1];
                 // @ts-ignore
                 obj[datas[0]] = datas[1];
             });
         });
         return obj;
     }
+    static unicodeVerifier(stringToScan) {
+        let isUnicode = false;
+        if (stringToScan != undefined || stringToScan != null) {
+            for (let i = 0; i < stringToScan.length; i++) {
+                isUnicode = !Number.isNaN(stringToScan.charCodeAt(i));
+            }
+        }
+        if (isUnicode) {
+            return encodeURIComponent(stringToScan);
+        }
+        return stringToScan;
+    }
     static getMetaDataContent(urlIpfs) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
                 let urlToCall = "";
-                urlIpfs = urlIpfs.replace('ipfs/', '');
+                if (urlIpfs.includes('ipfs/')) {
+                    urlIpfs = urlIpfs.replace('ipfs/', '');
+                }
+                console.log(urlIpfs);
                 urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
+                console.log(urlToCall);
                 const get = new XMLHttpRequest();
                 let response;
                 let metaData;
@@ -79,6 +99,9 @@ class Entity extends Remark_js_1.Remark {
                     }
                     else if (this.readyState == 4 && this.status == 404) {
                         reject('Bad request :' + this.status);
+                    }
+                    else if (this.readyState == 4 && this.status == 400) {
+                        reject('Bad url : ' + urlToCall);
                     }
                 };
             });
