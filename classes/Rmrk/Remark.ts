@@ -5,7 +5,7 @@ import {EntityInterface} from "../Interfaces.js";
 
 export abstract class Remark
 {
-    private defaultVersion = '0.1';
+    public static defaultVersion = '0.1';
 
     public transaction: Transaction;
 
@@ -32,7 +32,7 @@ export abstract class Remark
         this.chain = chain;
 
         if(version === null){
-            version = this.defaultVersion;
+            version = Remark.defaultVersion;
         }
 
         this.transaction = transaction;

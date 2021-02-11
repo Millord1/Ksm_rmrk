@@ -21,8 +21,10 @@ import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 
 
-// blockId starting point : 6135457
-// 5725940
+// blockId starting point : 6160749
+// 5346800
+
+// 6135221
 
 export const getJwt = ()=>{
 
@@ -246,8 +248,7 @@ const entityGossip = async (rmrk: Entity) => {
             description = "No description";
         }
 
-        image = meta.image.replace("ipfs://",'https://ipfs.io/');
-
+        image = meta.image.replace("ipfs://",'https://cloudflare-ipfs.com/');
     }
 
     if(rmrk instanceof Asset){
@@ -256,7 +257,7 @@ const entityGossip = async (rmrk: Entity) => {
 
         let myContract = kusama.contractFactory.getOrCreate(rmrk.assetId);
 
-        let myAsset = canonizeManager.createAsset({assetId: rmrk.assetId, imageUrl: image,description:description});
+        let myAsset = canonizeManager.createAsset({assetId: rmrk.assetId, imageUrl: image,description:description, name:rmrk.name});
         let myCollection = canonizeManager.createCollection({id: collectionId});
 
         myAsset.bindCollection(myCollection);

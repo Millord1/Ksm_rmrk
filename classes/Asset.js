@@ -14,8 +14,15 @@ class Asset extends Entity_js_1.Entity {
     }
     static createNftFromInteraction(rmrk, chain, transaction, meta) {
         const splitted = rmrk.split('::');
-        splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
-        const nftDatas = splitted[3].split(',');
+        // splitted[2] = splitted[2].replace(/[&\/\\"']/g, '');
+        // let nftDatas: Array<string> = [];
+        //
+        // if(splitted.length >= 3){
+        //     nftDatas = splitted[3].split(',');
+        // }else{
+        //     nftDatas = splitted[splitted.length - 1].split(',');
+        // }
+        const nftDatas = splitted[splitted.length - 1].split(',');
         const obj = Entity_js_1.Entity.dataTreatment(nftDatas, Remark_js_1.Remark.entityObj);
         return new Asset(rmrk, chain, null, transaction, obj, meta);
     }
