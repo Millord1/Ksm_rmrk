@@ -85,13 +85,14 @@ export class RmrkJetski
                     const batch = JSON.parse(arg);
 
                     const signer = ex.signer.toString();
-                    let hash = ex.hash.toHex();
+                    const hash = ex.hash.toHex();
+                    let txHash: string = '';
 
                     let i = 1;
 
                     for (const rmrkObj of batch){
 
-                        hash = hash + '-' +i;
+                        txHash = hash + '-' +i;
 
                         const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
@@ -135,7 +136,12 @@ export class RmrkJetski
                 let meta: Metadata|null;
 
                 if(data.metadata != ""){
-                    meta = await Entity.getMetaDataContent(data.metadata);
+                    try{
+                        meta = await Entity.getMetaDataContent(data.metadata);
+                    }catch(e){
+                        console.log(e);
+                        meta = null;
+                    }
                 }else{
                     meta = null;
                 }

@@ -54,17 +54,39 @@ export abstract class Entity extends Remark implements PublicEntity
                         const url = datas[2].slice(4);
                         datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
                     }
-
                     datas[1] = datas[2];
+
+                }else if(typeof datas[1] === 'string'){
+                    datas[1] = datas[1];
                 }
+
+                datas[1] = datas[1];
+
                 // @ts-ignore
                 obj[datas[0]] = datas[1];
             })
         })
-
         return obj;
-
     }
+
+
+
+    public static unicodeVerifier(stringToScan: string): string{
+
+        let isUnicode: boolean = false;
+
+        if(stringToScan != undefined || stringToScan != null){
+            for(let i = 0; i<stringToScan.length; i++ ){
+                isUnicode = !Number.isNaN(stringToScan.charCodeAt(i));
+            }
+        }
+
+        if(isUnicode){
+            return encodeURIComponent(stringToScan);
+        }
+        return stringToScan;
+    }
+
 
 
 
@@ -74,9 +96,12 @@ export abstract class Entity extends Remark implements PublicEntity
 
             let urlToCall : string = "";
 
-            urlIpfs = urlIpfs.replace('ipfs/','');
+            if(urlIpfs.includes('ipfs/')){
+                urlIpfs = urlIpfs.replace('ipfs/','');
+            }
+            console.log(urlIpfs);
             urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
-
+            console.log(urlToCall);
             const get = new XMLHttpRequest();
 
             let response: MetaDataInputs;
@@ -92,6 +117,7 @@ export abstract class Entity extends Remark implements PublicEntity
                     try{
                         response = JSON.parse(this.responseText);
                     }catch(error){
+
                         response = {
                             external_url : "",
                             image : "",
@@ -108,6 +134,8 @@ export abstract class Entity extends Remark implements PublicEntity
 
                 }else if(this.readyState == 4 && this.status == 404){
                     reject ('Bad request :' + this.status);
+                }else if(this.readyState == 4 && this.status == 400){
+                    reject('Bad url : ' + urlToCall);
                 }
             }
 
