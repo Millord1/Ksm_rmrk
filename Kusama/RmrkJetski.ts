@@ -42,78 +42,81 @@ export class RmrkJetski
         return new Promise ( async (resolve) => {
 
             const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-            const block = await api.rpc.chain.getBlock(blockHash);
 
-            let blockId = blockNumber ;
-            let blockTimestamp: string = '0';
+            if(blockHash){
 
-            let blockRmrks : Array<Promise<Interaction|string>> = [];
+                const block = await api.rpc.chain.getBlock(blockHash);
 
-            for (const ex of block.block.extrinsics){
+                let blockId = blockNumber ;
+                let blockTimestamp: string = '0';
 
-                const { method: {
-                    args, method, section
-                }} = ex;
+                let blockRmrks : Array<Promise<Interaction|string>> = [];
+
+                for (const ex of block.block.extrinsics){
+
+                    const { method: {
+                        args, method, section
+                    }} = ex;
 
 
-                if(section === "timestamp" && method === "set"){
-                    blockTimestamp = getTimestamp(ex);
-                }
-
-                const timestampToDate = Number(blockTimestamp) * 1000;
-                const date = new Date(timestampToDate);
-
-                console.log('block ' + blockNumber + ' ' + date);
-
-                if(section === "system" && method === "remark"){
-
-                    const remark = args.toString();
-                    const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
-
-                    const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-
-                    if(remark.indexOf("") === 0){
-                        blockRmrks.push(this.rmrkToObject(remark, tx));
+                    if(section === "timestamp" && method === "set"){
+                        blockTimestamp = getTimestamp(ex);
                     }
-                }
 
+                    const timestampToDate = Number(blockTimestamp) * 1000;
+                    const date = new Date(timestampToDate);
 
-                if(section === "utility" && method === "batch"){
+                    console.log('block ' + blockNumber + ' ' + date);
 
-                    const arg = args.toString();
-                    const batch = JSON.parse(arg);
+                    if(section === "system" && method === "remark"){
 
-                    const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
-                    let txHash: string = '';
-
-                    let i = 1;
-
-                    for (const rmrkObj of batch){
-
-                        txHash = hash + '-' +i;
+                        const remark = args.toString();
+                        const signer = ex.signer.toString();
+                        const hash = ex.hash.toHex();
 
                         const tx = new Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
 
-                        if(rmrkObj.args.hasOwnProperty('_remark')){
-                            blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
+                        if(remark.indexOf("") === 0){
+                            blockRmrks.push(this.rmrkToObject(remark, tx));
                         }
-                        i += 1;
+                    }
+
+
+                    if(section === "utility" && method === "batch"){
+
+                        const arg = args.toString();
+                        const batch = JSON.parse(arg);
+
+                        const signer = ex.signer.toString();
+                        const hash = ex.hash.toHex();
+
+                        let i = 1;
+
+                        for (const rmrkObj of batch){
+
+                            const txHash = hash + '-' +i;
+
+                            const tx = new Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
+
+                            if(rmrkObj.args.hasOwnProperty('_remark')){
+                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
+                            }
+                            i += 1;
+
+                        }
+
                     }
 
                 }
 
+                return Promise.all(blockRmrks)
+                    .then(value => {
+                        resolve (value);
+                    }).catch((e)=>{
+                        console.log(e);
+                    });
             }
-
-            return Promise.all(blockRmrks)
-                .then(value => {
-                    resolve (value);
-                }).catch((e)=>{
-                    console.log(e);
-            });
         })
-
 
     }
 
