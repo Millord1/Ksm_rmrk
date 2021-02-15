@@ -70,7 +70,6 @@ class Entity extends Remark_js_1.Remark {
                 if (urlIpfs.includes('ipfs/')) {
                     urlIpfs = urlIpfs.replace('ipfs/', '');
                 }
-                console.log(urlIpfs);
                 urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
                 console.log(urlToCall);
                 const get = new XMLHttpRequest();
