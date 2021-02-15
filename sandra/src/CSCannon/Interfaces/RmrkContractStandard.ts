@@ -17,6 +17,7 @@ export class RmrkContractStandard extends ContractStandard{
     constructor(canonizeManager:CSCanonizeManager,tokenSn?:string) {
         let factory = canonizeManager.getContractStandardFactory();
         super(factory);
+        this.name = 'RmrkStandard';
 
         this.sandra = canonizeManager.getSandra() ;
 
@@ -40,16 +41,9 @@ export class RmrkContractStandard extends ContractStandard{
 
         if (!this.getSpecifierArray().get(this.sandra.get('sn')))  throw new Error("Sn not specified for rmrk token");
 
-       return <string>this.getSpecifierArray().get(this.sandra.get('sn'));
+        return <string>this.getSpecifierArray().get(this.sandra.get('sn'));
 
     }
-
-
-
-
-
-
-
 
 
 

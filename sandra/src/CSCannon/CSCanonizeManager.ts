@@ -14,6 +14,8 @@ import {AssetSolverFactory} from "./AssetSolvers/AssetSolverFactory.js";
 import {LocalSolver} from "./AssetSolvers/LocalSolver.js";
 import {AssetSolver} from "./AssetSolvers/AssetSolver.js";
 import {BlockchainEventFactory} from "./BlockchainEventFactory.js";
+import {RmrkContractStandard} from "./Interfaces/RmrkContractStandard.js";
+import {ContractStandard} from "./ContractStandard.js";
 
 
 interface CanonizeOptions{
@@ -34,6 +36,7 @@ export class CSCanonizeManager {
     private apiConnector?:ApiConnector;
     private assetSolverFactory:AssetSolverFactory;
     private localSolver:LocalSolver ;
+    private contractStandardMap:Map<string,ContractStandard>  ;
 
     constructor(options?:CanonizeOptions,sandra:SandraManager = new SandraManager()) {
 
@@ -45,6 +48,10 @@ export class CSCanonizeManager {
 
         this.assetSolverFactory = new AssetSolverFactory(this);
         this.localSolver = new LocalSolver(this);
+
+        this.contractStandardMap = new Map<string, ContractStandard>();
+
+        this.contractStandardMap =this.registerCompatibleStandards();
 
         this.activeBlockchainFactory = new EntityFactory('activeBlockchain','activeBlockchainFile',
             this.sandra,this.sandra.get('blockchain'));
@@ -186,6 +193,30 @@ export class CSCanonizeManager {
 
 
     }
+
+    private registerCompatibleStandards(){
+
+        // add compatible standards here
+        const standard = new RmrkContractStandard(this);
+
+        this.contractStandardMap.set(standard.getName(),standard);
+
+        return this.contractStandardMap ;
+
+    }
+
+    public getStandardFromName(name:string){
+
+        const standard = this.contractStandardMap.get(name);
+
+        if (!standard) return null ;
+
+        return standard ;
+
+
+
+    }
+
 
 
 
