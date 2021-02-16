@@ -34,6 +34,7 @@ export class CSCanonizeManager {
     private apiConnector?:ApiConnector;
     private assetSolverFactory:AssetSolverFactory;
     private localSolver:LocalSolver ;
+    public static  mintIssuerAddressString:string = '0x0000000000000000000000000000000000000000' ;
 
     constructor(options?:CanonizeOptions,sandra:SandraManager = new SandraManager()) {
 

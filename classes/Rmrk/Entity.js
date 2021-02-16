@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
 const Remark_js_1 = require("./Remark.js");
@@ -56,45 +65,47 @@ class Entity extends Remark_js_1.Remark {
         // }
         return slugify(stringToScan, { replacement: ' ' });
     }
-    static async getMetaDataContent(urlIpfs) {
-        return new Promise((resolve, reject) => {
-            let urlToCall = "";
-            if (urlIpfs.includes('ipfs/')) {
-                urlIpfs = urlIpfs.replace('ipfs/', '');
-            }
-            urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
-            console.log(urlToCall);
-            const get = new XMLHttpRequest();
-            let response;
-            let metaData;
-            get.open("GET", urlToCall);
-            get.send();
-            get.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    try {
-                        response = JSON.parse(this.responseText);
+    static getMetaDataContent(urlIpfs) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                let urlToCall = "";
+                if (urlIpfs.includes('ipfs/')) {
+                    urlIpfs = urlIpfs.replace('ipfs/', '');
+                }
+                urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
+                console.log(urlToCall);
+                const get = new XMLHttpRequest();
+                let response;
+                let metaData;
+                get.open("GET", urlToCall);
+                get.send();
+                get.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        try {
+                            response = JSON.parse(this.responseText);
+                        }
+                        catch (error) {
+                            response = {
+                                external_url: "",
+                                image: "",
+                                description: "",
+                                name: "",
+                                attributes: [],
+                                background_color: "",
+                            };
+                            console.error(error.message + "\n for the MetaData url : " + urlToCall);
+                        }
+                        metaData = new Metadata_js_1.Metadata(urlToCall, response);
+                        resolve(metaData);
                     }
-                    catch (error) {
-                        response = {
-                            external_url: "",
-                            image: "",
-                            description: "",
-                            name: "",
-                            attributes: [],
-                            background_color: "",
-                        };
-                        console.error(error.message + "\n for the MetaData url : " + urlToCall);
+                    else if (this.readyState == 4 && this.status == 404) {
+                        reject('Bad request :' + this.status);
                     }
-                    metaData = new Metadata_js_1.Metadata(urlToCall, response);
-                    resolve(metaData);
-                }
-                else if (this.readyState == 4 && this.status == 404) {
-                    reject('Bad request :' + this.status);
-                }
-                else if (this.readyState == 4 && this.status == 400) {
-                    reject('Bad url : ' + urlToCall);
-                }
-            };
+                    else if (this.readyState == 4 && this.status == 400) {
+                        reject('Bad url : ' + urlToCall);
+                    }
+                };
+            });
         });
     }
 }

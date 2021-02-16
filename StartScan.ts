@@ -134,7 +134,7 @@ export const testScan = async (opts: Option) => {
         );
         blockN ++;
 
-    }, 1000 / 20);
+    }, 1000 / 100);
 
 
 }
