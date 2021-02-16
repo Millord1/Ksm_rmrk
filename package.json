@@ -24,11 +24,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "typescript": "^2.4.1",
-    "fetch": "node ./index.js fetch",
+    "fetch": "node --max_old_space_size=2048 ./index.js fetch",
     "hello": "node ./index hello",
     "bruno": "node ./index bruno",
     "batch": "node ./index batch",
-    "tests": "jest"
+    "tests": "node ./index tests"
   },
   "repository": {
     "type": "git",

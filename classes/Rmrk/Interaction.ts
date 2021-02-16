@@ -1,7 +1,7 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
 import {Asset} from "../Asset.js";
-import {AssetRmrk, CollectionRmrk, EntityInterface, PublicInteraction} from "../Interfaces.js";
+import {EntityInterface, PublicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
 
@@ -27,7 +27,10 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         let nftDatas = this.checkDatasLength(computed.split('-'));
 
-        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, computed, meta);
+        const computedSplit = computed.split('-');
+        const assetId = computedSplit[0] + '-' + computedSplit[1];
+
+        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, assetId, meta);
     }
 
 

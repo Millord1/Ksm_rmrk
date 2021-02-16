@@ -100,8 +100,9 @@ export abstract class Entity extends Remark implements PublicEntity
                 urlIpfs = urlIpfs.replace('ipfs/','');
             }
 
-            urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
-            console.log(urlToCall);
+            // urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
+            urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
+
             const get = new XMLHttpRequest();
 
             let response: MetaDataInputs;
