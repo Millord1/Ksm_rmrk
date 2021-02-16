@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Gossiper = void 0;
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -112,47 +103,43 @@ class Gossiper {
         });
         return simpleRefArray;
     }
-    gossipToUrl(connector, flush) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                const xmlhttp = new XMLHttpRequest();
-                let flushData = '';
-                if (flush)
-                    flushData = '&flush=true';
-                xmlhttp.open("POST", connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
-                console.log(connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
-                xmlhttp.setRequestHeader("Content-Type", "application/json");
-                xmlhttp.send(JSON.stringify(this.exposeGossip(true)));
-                //console.log(JSON.stringify(this.exposeGossip(true)));
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        let response = this.responseText;
-                        resolve(response);
-                    }
-                    else if (this.readyState == 4)
-                        reject('Bad request :' + this.status);
-                };
-            });
+    async gossipToUrl(connector, flush) {
+        return new Promise((resolve, reject) => {
+            const xmlhttp = new XMLHttpRequest();
+            let flushData = '';
+            if (flush)
+                flushData = '&flush=true';
+            xmlhttp.open("POST", connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
+            console.log(connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(JSON.stringify(this.exposeGossip(true)));
+            //console.log(JSON.stringify(this.exposeGossip(true)));
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = this.responseText;
+                    resolve(response);
+                }
+                else if (this.readyState == 4)
+                    reject('Bad request :' + this.status);
+            };
         });
     }
-    flushDatagraph(connector) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                const xmlhttp = new XMLHttpRequest();
-                let flushData = '&flush=true';
-                xmlhttp.open("POST", connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
-                console.log(connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
-                xmlhttp.setRequestHeader("Content-Type", "application/json");
-                xmlhttp.send();
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        let response = this.responseText;
-                        resolve(response);
-                    }
-                    else if (this.readyState == 4)
-                        reject('Bad request :' + this.status);
-                };
-            });
+    async flushDatagraph(connector) {
+        return new Promise((resolve, reject) => {
+            const xmlhttp = new XMLHttpRequest();
+            let flushData = '&flush=true';
+            xmlhttp.open("POST", connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
+            console.log(connector.gossipUrl + '?jwt=' + connector.jwt + flushData);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = this.responseText;
+                    resolve(response);
+                }
+                else if (this.readyState == 4)
+                    reject('Bad request :' + this.status);
+            };
         });
     }
 }

@@ -1,7 +1,6 @@
 import {MetaDataInputs} from "./Interfaces.js";
 import {Entity} from "./Rmrk/Entity.js";
 
-
 export class Metadata
 {
 
@@ -20,8 +19,8 @@ export class Metadata
          this.url = url;
          this.external_url = meta.external_url;
          this.image = meta.image;
-         this.description = meta.description;
-         this.name = meta.name;
+         this.description = meta.description ? Entity.unicodeVerifier(meta.description) : meta.description;
+         this.name = meta.name ? Entity.unicodeVerifier(meta.name) : meta.name;
          this.background_color = meta.background_color;
          this.attributes = meta.attributes;
     }
