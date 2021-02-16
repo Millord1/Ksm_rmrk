@@ -13,7 +13,7 @@ class Remark {
     }
 }
 exports.Remark = Remark;
-Remark.defaultVersion = '0.1';
+Remark.defaultVersion = '1.0.0';
 Remark.entityObj = {
     version: "",
     name: "",

@@ -20,7 +20,7 @@ class Interaction extends Remark_js_1.Remark {
     }
     nftFromComputedId(computed, meta) {
         let nftDatas = this.checkDatasLength(computed.split('-'));
-        return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
+        return new Asset_js_1.Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, computed, meta);
     }
     static getComputedId(asset) {
         const blockId = asset.transaction.blockId;

@@ -5,7 +5,7 @@ import {EntityInterface} from "../Interfaces.js";
 
 export abstract class Remark
 {
-    public static defaultVersion = '0.1';
+    public static defaultVersion = '1.0.0';
 
     public transaction: Transaction;
 

@@ -4,7 +4,7 @@ import {PublicEntity, EntityInterface, MetaDataInputs} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
 
-
+const slugify = require('slugify');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
@@ -51,16 +51,21 @@ export abstract class Entity extends Remark implements PublicEntity
 
                     if(datas[1] === "ipfs") {
 
-                        const url = datas[2].slice(4);
-                        datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
+                        // const url = datas[2].slice(4);
+                        // datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
+
+                        if(protocol === "ipfs"){
+                            datas[2] = Entity.unicodeVerifier(datas[2].slice(4));
+                        }else{
+                            datas[2] = datas[2];
+                        }
+
                     }
                     datas[1] = datas[2];
 
                 }else if(typeof datas[1] === 'string'){
-                    datas[1] = datas[1];
+                    datas[1] = Entity.unicodeVerifier(datas[1]);
                 }
-
-                datas[1] = datas[1];
 
                 // @ts-ignore
                 obj[datas[0]] = datas[1];
@@ -73,18 +78,13 @@ export abstract class Entity extends Remark implements PublicEntity
 
     public static unicodeVerifier(stringToScan: string): string{
 
-        let isUnicode: boolean = false;
+        // let isUnicode: boolean = false;
+        //
+        // for(let i = 0; i<stringToScan.length; i++){
+        //     isUnicode = stringToScan.charCodeAt(i) > 255;
+        // }
 
-        if(stringToScan != undefined || stringToScan != null){
-            for(let i = 0; i<stringToScan.length; i++ ){
-                isUnicode = !Number.isNaN(stringToScan.charCodeAt(i));
-            }
-        }
-
-        if(isUnicode){
-            return encodeURIComponent(stringToScan);
-        }
-        return stringToScan;
+        return slugify(stringToScan, {replacement: ' '});
     }
 
 

@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RmrkJetski = void 0;
 const api_1 = require("@polkadot/api");
@@ -21,105 +12,99 @@ class RmrkJetski {
         this.chain = chain;
         this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
     }
-    getApi() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let myApi;
-            // if (typeof this.api === 'undefined'){
-            //     myApi = await ApiPromise.create({ provider: this.wsProvider });
-            // }else{
-            //     myApi = this.api;
-            // }
-            myApi = api_1.ApiPromise.create({ provider: this.wsProvider });
-            return myApi;
-        });
+    async getApi() {
+        let myApi;
+        // if (typeof this.api === 'undefined'){
+        //     myApi = await ApiPromise.create({ provider: this.wsProvider });
+        // }else{
+        //     myApi = this.api;
+        // }
+        myApi = api_1.ApiPromise.create({ provider: this.wsProvider });
+        return myApi;
     }
-    getRmrks(blockNumber, api) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                const blockHash = yield api.rpc.chain.getBlockHash(blockNumber);
-                if (blockHash) {
-                    const block = yield api.rpc.chain.getBlock(blockHash);
-                    let blockId = blockNumber;
-                    let blockTimestamp = '0';
-                    let blockRmrks = [];
-                    for (const ex of block.block.extrinsics) {
-                        const { method: { args, method, section } } = ex;
-                        if (section === "timestamp" && method === "set") {
-                            blockTimestamp = getTimestamp(ex);
-                        }
-                        const timestampToDate = Number(blockTimestamp) * 1000;
-                        const date = new Date(timestampToDate);
-                        console.log('block ' + blockNumber + ' ' + date);
-                        if (section === "system" && method === "remark") {
-                            const remark = args.toString();
-                            const signer = ex.signer.toString();
-                            const hash = ex.hash.toHex();
-                            const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-                            if (remark.indexOf("") === 0) {
-                                blockRmrks.push(this.rmrkToObject(remark, tx));
-                            }
-                        }
-                        if (section === "utility" && method === "batch") {
-                            const arg = args.toString();
-                            const batch = JSON.parse(arg);
-                            const signer = ex.signer.toString();
-                            const hash = ex.hash.toHex();
-                            let i = 1;
-                            for (const rmrkObj of batch) {
-                                const txHash = hash + '-' + i;
-                                const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
-                                if (rmrkObj.args.hasOwnProperty('_remark')) {
-                                    blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
-                                }
-                                i += 1;
-                            }
+    async getRmrks(blockNumber, api) {
+        return new Promise(async (resolve) => {
+            const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+            if (blockHash) {
+                const block = await api.rpc.chain.getBlock(blockHash);
+                let blockId = blockNumber;
+                let blockTimestamp = '0';
+                let blockRmrks = [];
+                for (const ex of block.block.extrinsics) {
+                    const { method: { args, method, section } } = ex;
+                    if (section === "timestamp" && method === "set") {
+                        blockTimestamp = getTimestamp(ex);
+                    }
+                    const timestampToDate = Number(blockTimestamp) * 1000;
+                    const date = new Date(timestampToDate);
+                    console.log('block ' + blockNumber + ' ' + date);
+                    if (section === "system" && method === "remark") {
+                        const remark = args.toString();
+                        const signer = ex.signer.toString();
+                        const hash = ex.hash.toHex();
+                        const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+                        if (remark.indexOf("") === 0) {
+                            blockRmrks.push(this.rmrkToObject(remark, tx));
                         }
                     }
-                    return Promise.all(blockRmrks)
-                        .then(value => {
-                        resolve(value);
-                    }).catch((e) => {
-                        console.log(e);
-                    });
+                    if (section === "utility" && method === "batch") {
+                        const arg = args.toString();
+                        const batch = JSON.parse(arg);
+                        const signer = ex.signer.toString();
+                        const hash = ex.hash.toHex();
+                        let i = 1;
+                        for (const rmrkObj of batch) {
+                            const txHash = hash + '-' + i;
+                            const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
+                            if (rmrkObj.args.hasOwnProperty('_remark')) {
+                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
+                            }
+                            i += 1;
+                        }
+                    }
                 }
-            }));
+                return Promise.all(blockRmrks)
+                    .then(value => {
+                    resolve(value);
+                }).catch((e) => {
+                    console.log(e);
+                });
+            }
         });
     }
-    rmrkToObject(remark, tx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                const uri = util_1.hexToString(remark);
-                let lisibleUri = decodeURIComponent(uri);
-                lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
-                const splitted = lisibleUri.split('::');
-                if (splitted.length >= 3) {
-                    const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
-                    let meta;
-                    if (data.metadata != "") {
-                        try {
-                            meta = yield Entity_js_1.Entity.getMetaDataContent(data.metadata);
-                        }
-                        catch (e) {
-                            console.log(e);
-                            meta = null;
-                        }
+    async rmrkToObject(remark, tx) {
+        return new Promise(async (resolve) => {
+            const uri = util_1.hexToString(remark);
+            let lisibleUri = decodeURIComponent(uri);
+            lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
+            const splitted = lisibleUri.split('::');
+            if (splitted.length >= 3) {
+                const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
+                let meta;
+                if (data.metadata != "") {
+                    try {
+                        meta = await Entity_js_1.Entity.getMetaDataContent(data.metadata);
                     }
-                    else {
+                    catch (e) {
+                        console.log(e);
                         meta = null;
                     }
-                    const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
-                    const rmrk = reader.readInteraction(lisibleUri, meta);
-                    if (rmrk instanceof Interaction_js_1.Interaction) {
-                        resolve(rmrk);
-                    }
-                    else {
-                        resolve('no rmrk');
-                    }
+                }
+                else {
+                    meta = null;
+                }
+                const reader = new RmrkReader_js_1.RmrkReader(this.chain, tx);
+                const rmrk = reader.readInteraction(lisibleUri, meta);
+                if (rmrk instanceof Interaction_js_1.Interaction) {
+                    resolve(rmrk);
                 }
                 else {
                     resolve('no rmrk');
                 }
-            }));
+            }
+            else {
+                resolve('no rmrk');
+            }
         });
     }
 }

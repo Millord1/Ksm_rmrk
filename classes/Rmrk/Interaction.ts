@@ -27,7 +27,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         let nftDatas = this.checkDatasLength(computed.split('-'));
 
-        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, meta);
+        return new Asset(this.rmrk, this.chain, this.version, this.transaction, nftDatas, computed, meta);
     }
 
 

@@ -20,9 +20,14 @@ import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 
+// 5821680
 
 // blockId starting point : 6164547
 // 5125500
+
+// 1er fevrier 6024550
+
+// 1er dec 5144100
 
 // 6064550
 
@@ -67,7 +72,7 @@ export const testScan = async (opts: Option) => {
     //@ts-ignore
     let blockN: number = opts.block;
     //@ts-ignore
-    let blockToStpo : number = opts.limit;
+    let blockToStop : number = opts.limit;
     //@ts-ignore
     let nbOfBlocksToScan: number = Number(opts.nb);
 
@@ -122,14 +127,14 @@ export const testScan = async (opts: Option) => {
                         }
                     }
                 })
-                if(blockN === limitBlock || blockN == blockToStpo){
+                if(blockN === limitBlock || blockN == blockToStop){
                     process.exit();
                 }
             },
         );
         blockN ++;
 
-    }, 1000 / 15);
+    }, 1000 / 20);
 
 
 }
@@ -159,7 +164,7 @@ export const forceScan = async (block:number) => {
                 if(value instanceof Send){
 
                     collName = value.nft.assetId;
-                    sn = value.nft.token.sn
+                    sn = value.nft.token.sn;
 
                     if(sn != "" && collName != ""){
                         eventGossip(value, sn, collName);
