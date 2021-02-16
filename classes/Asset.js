@@ -24,7 +24,7 @@ class Asset extends Entity_js_1.Entity {
         // }
         const nftDatas = splitted[splitted.length - 1].split(',');
         const obj = Entity_js_1.Entity.dataTreatment(nftDatas, Remark_js_1.Remark.entityObj);
-        const assetId = transaction.blockId + '-' + obj.collection + '-' + obj.name;
+        const assetId = transaction.blockId + '-' + obj.collection + '-' + obj.instance;
         return new Asset(rmrk, chain, null, transaction, obj, assetId, meta);
     }
     toJson(needStringify = true, needSubstrate = true) {

@@ -106,7 +106,7 @@ export const testScan = async (opts: Option) => {
                             sn = value.nft.token.sn
 
                             if(sn != "" && collName != ""){
-                                // eventGossip(value, sn, collName);
+                                eventGossip(value, sn, collName);
                             }
 
                         }else if (value instanceof MintNft){
@@ -119,13 +119,13 @@ export const testScan = async (opts: Option) => {
                             value.transaction.destination.address = source;
 
                             if(sn != "" && collName != ""){
-                                // entityGossip(value.nft)
-                                // eventGossip(value, sn, collName);
+                                entityGossip(value.nft)
+                                eventGossip(value, sn, collName);
                             }
 
                         }else if (value instanceof Mint){
 
-                            // entityGossip(value.collection);
+                            entityGossip(value.collection);
                         }
                     }
                 })
