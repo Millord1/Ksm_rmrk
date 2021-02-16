@@ -20,7 +20,7 @@ import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 
-// 5821680
+// 6043026
 
 // blockId starting point : 6164547
 // 5125500
@@ -47,7 +47,6 @@ export const getJwt = ()=>{
 
 
 export const testScan = async (opts: Option) => {
-
 
     let blockchain: Blockchain;
 
@@ -91,6 +90,9 @@ export const testScan = async (opts: Option) => {
             result => {
                 result.forEach(value => {
 
+                    // const used = process.memoryUsage().heapUsed / 1024 / 1024;
+                    // console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+
                     if(typeof value === 'object'){
 
                         console.log(value);
@@ -104,7 +106,7 @@ export const testScan = async (opts: Option) => {
                             sn = value.nft.token.sn
 
                             if(sn != "" && collName != ""){
-                                eventGossip(value, sn, collName);
+                                // eventGossip(value, sn, collName);
                             }
 
                         }else if (value instanceof MintNft){
@@ -117,13 +119,13 @@ export const testScan = async (opts: Option) => {
                             value.transaction.destination.address = source;
 
                             if(sn != "" && collName != ""){
-                                entityGossip(value.nft)
-                                eventGossip(value, sn, collName);
+                                // entityGossip(value.nft)
+                                // eventGossip(value, sn, collName);
                             }
 
                         }else if (value instanceof Mint){
 
-                            entityGossip(value.collection);
+                            // entityGossip(value.collection);
                         }
                     }
                 })
@@ -134,7 +136,7 @@ export const testScan = async (opts: Option) => {
         );
         blockN ++;
 
-    }, 1000 / 100);
+    }, 1000 / 75);
 
 
 }
