@@ -134,7 +134,7 @@ export abstract class Entity extends Remark implements PublicEntity
                     resolve (metaData);
 
                 }else if(this.readyState == 4 && this.status == 404){
-                    reject ('Bad request :' + this.status);
+                    reject ('Bad request : ' + this.status + ' ' + urlToCall);
                 }else if(this.readyState == 4 && this.status == 400){
                     reject('Bad url : ' + urlToCall);
                 }
