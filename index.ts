@@ -1,6 +1,7 @@
 
 import {testScan} from "./StartScan.js";
 import {defaultWalker} from "./scenarios.js";
+import {testJetski} from "./Tests/JetskiTests.js";
 
 const {program} = require('commander');
 
@@ -20,5 +21,7 @@ program.command("fetch")
 
 program.command("story")
     .action(defaultWalker);
+
+program.command("tests").action(testJetski);
 
 program.parse(process.argv);
