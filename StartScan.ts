@@ -22,7 +22,6 @@ import {load} from "ts-dotenv";
 
 // 6043026
 
-// blockId starting point : 6164547
 // 5125500
 
 // 1er fevrier 6024550
@@ -95,8 +94,6 @@ export const testScan = async (opts: Option) => {
 
                     if(typeof value === 'object'){
 
-                        console.log(value);
-
                         let collName : string = "";
                         let sn: string = "";
 
@@ -115,7 +112,7 @@ export const testScan = async (opts: Option) => {
                             sn = value.nft.token.sn
 
                             const source = value.transaction.source;
-                            value.transaction.source = '0x0';
+                            value.transaction.source = CSCanonizeManager.mintIssuerAddressString;
                             value.transaction.destination.address = source;
 
                             if(sn != "" && collName != ""){
@@ -136,7 +133,7 @@ export const testScan = async (opts: Option) => {
         );
         blockN ++;
 
-    }, 1000 / 75);
+    }, 1000 / 100);
 
 
 }
