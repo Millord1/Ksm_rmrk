@@ -12,13 +12,16 @@ export class KusamaBlockchain extends Blockchain
 
         super(sandra);
 
+        this.name = 'kusama';
+
         this.addressFactory.is_a = 'kusamaAddress';
         this.addressFactory.contained_in_file = 'kusamaAddressFile';
+        this.addressFactory.onBlockchain = this.name ;
 
         this.contractFactory.is_a = 'rmrkContract';
         this.contractFactory.contained_in_file = 'blockchainContractFile';
 
-        this.name = 'kusama';
+
 
 
     }

@@ -6,7 +6,10 @@ export class BlockchainAddressFactory extends EntityFactory {
 
     public is_a:string = 'blockchainAddress';
     public contained_in_file:string = 'blockchainAddressFile';
+    public onBlockchain:string = 'genericBlockchain';
     private sandra:SandraManager ;
+
+    static ON_BLOCKCHAIN = 'onBlockchain'
 
 
 

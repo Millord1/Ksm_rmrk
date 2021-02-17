@@ -8,6 +8,7 @@ class BlockchainAddressFactory extends EntityFactory_js_1.EntityFactory {
         super('blockchainAddress', 'blockchainAddressFile', sandra);
         this.is_a = 'blockchainAddress';
         this.contained_in_file = 'blockchainAddressFile';
+        this.onBlockchain = 'genericBlockchain';
         this.sandra = sandra;
         this.updateOnExistingRef = sandra.get('address');
     }
@@ -25,4 +26,5 @@ class BlockchainAddressFactory extends EntityFactory_js_1.EntityFactory {
     }
 }
 exports.BlockchainAddressFactory = BlockchainAddressFactory;
+BlockchainAddressFactory.ON_BLOCKCHAIN = 'onBlockchain';
 //# sourceMappingURL=BlockchainAddressFactory.js.map

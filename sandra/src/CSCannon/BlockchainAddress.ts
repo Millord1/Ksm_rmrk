@@ -13,6 +13,8 @@ export class BlockchainAddress extends Entity{
         super(factory);
 
         this.addReference(new Reference(sandraManager.get('address'),address));
+        this.setTriplet(BlockchainAddressFactory.ON_BLOCKCHAIN,factory.onBlockchain,sandraManager);
+        console.log(factory.onBlockchain + " XXXXXXXX");
 
     }
 
