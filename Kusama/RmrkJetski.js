@@ -7,6 +7,7 @@ const RmrkReader_js_1 = require("./RmrkReader.js");
 const Transaction_js_1 = require("../classes/Transaction.js");
 const Entity_js_1 = require("../classes/Rmrk/Entity.js");
 const Interaction_js_1 = require("../classes/Rmrk/Interaction.js");
+const Metadata_js_1 = require("../classes/Metadata.js");
 class RmrkJetski {
     constructor(chain) {
         this.chain = chain;
@@ -57,7 +58,7 @@ class RmrkJetski {
                             const txHash = hash + '-' + i;
                             const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
                             if (rmrkObj.args.hasOwnProperty('_remark')) {
-                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
+                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx, i));
                             }
                             i += 1;
                         }
@@ -72,7 +73,7 @@ class RmrkJetski {
             }
         });
     }
-    async rmrkToObject(remark, tx) {
+    async rmrkToObject(remark, tx, batchIndex) {
         return new Promise(async (resolve) => {
             const uri = util_1.hexToString(remark);
             let lisibleUri = decodeURIComponent(uri);
@@ -83,7 +84,7 @@ class RmrkJetski {
                 let meta;
                 if (data.metadata != "") {
                     try {
-                        meta = await Entity_js_1.Entity.getMetaDataContent(data.metadata);
+                        meta = await Metadata_js_1.Metadata.getMetaDataContent(data.metadata, batchIndex);
                     }
                     catch (e) {
                         console.log(e);

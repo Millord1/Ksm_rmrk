@@ -1,11 +1,10 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {PublicEntity, EntityInterface, MetaDataInputs} from "../Interfaces.js";
+import {PublicEntity, EntityInterface} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
 
 const slugify = require('slugify');
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 export abstract class Entity extends Remark implements PublicEntity
@@ -51,9 +50,6 @@ export abstract class Entity extends Remark implements PublicEntity
 
                     if(datas[1] === "ipfs") {
 
-                        // const url = datas[2].slice(4);
-                        // datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
-
                         if(protocol === "ipfs"){
                             datas[2] = Entity.unicodeVerifier(datas[2].slice(4));
                         }else{
@@ -85,63 +81,6 @@ export abstract class Entity extends Remark implements PublicEntity
         // }
 
         return slugify(stringToScan, {replacement: ' '});
-    }
-
-
-
-
-    public static async getMetaDataContent(urlIpfs: string): Promise<Metadata>{
-
-        return new Promise((resolve, reject) => {
-
-            let urlToCall : string = "";
-
-            if(urlIpfs.includes('ipfs/')){
-                urlIpfs = urlIpfs.replace('ipfs/','');
-            }
-
-            // urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
-            urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
-
-            const get = new XMLHttpRequest();
-
-            let response: MetaDataInputs;
-            let metaData : Metadata;
-
-            get.open("GET", urlToCall);
-            get.send();
-
-            get.onreadystatechange = function () {
-
-                if (this.readyState == 4 && this.status == 200) {
-
-                    try{
-                        response = JSON.parse(this.responseText);
-                    }catch(error){
-
-                        response = {
-                            external_url : "",
-                            image : "",
-                            description : "",
-                            name : "",
-                            attributes : [],
-                            background_color : "",
-                        };
-                        console.error(error.message + "\n for the MetaData url : " + urlToCall);
-                    }
-
-                    metaData = new Metadata(urlToCall, response);
-                    resolve (metaData);
-
-                }else if(this.readyState == 4 && this.status == 404){
-                    reject ('Bad request : ' + this.status + ' ' + urlToCall);
-                }else if(this.readyState == 4 && this.status == 400){
-                    reject('Bad url : ' + urlToCall);
-                }
-            }
-
-        });
-
     }
 
 
