@@ -1,5 +1,5 @@
 
-import {testScan} from "./StartScan.js";
+import {scanOneBlock, testScan} from "./StartScan.js";
 import {defaultWalker} from "./scenarios.js";
 import {testJetski} from "./Tests/JetskiTests.js";
 
@@ -23,5 +23,9 @@ program.command("story")
     .action(defaultWalker);
 
 program.command("tests").action(testJetski);
+
+program.command("scan")
+    .option("--block <block>", "Block number")
+    .action(scanOneBlock);
 
 program.parse(process.argv);
