@@ -99,7 +99,7 @@ export const testScan = async (opts: Option) => {
         );
         blockN ++;
 
-    }, 1000);
+    }, 1000 / 100);
 
 
 }
@@ -147,7 +147,7 @@ export const scanOneBlock = async (opts: Option) => {
                 dispatchForCanonizer(rmrk);
             }
         })
-        process.exit();
+
     })
 
 }
