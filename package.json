@@ -28,7 +28,8 @@
     "hello": "node ./index hello",
     "bruno": "node ./index bruno",
     "batch": "node ./index batch",
-    "tests": "node ./index tests"
+    "tests": "node ./index tests",
+    "scan": "node ./index scan"
   },
   "repository": {
     "type": "git",

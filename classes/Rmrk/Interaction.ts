@@ -38,10 +38,10 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         const blockId = asset.transaction.blockId;
         const collectionId = asset.token.contractId;
-        const assetName = asset.name;
+        const instance = asset.instance;
         const sn = asset.token.sn;
 
-        return blockId + '-' + collectionId + '-' + assetName + '-' + sn;
+        return blockId + '-' + collectionId + '-' + instance + '-' + sn;
 
     }
 
@@ -51,32 +51,31 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         const obj = Remark.entityObj;
 
-        // if(this.version === 'RMRK0.1' || this.version === "0.1"){
-        //     // Not allowed
-        //
-        //     let collection: string = "";
-        //
-        //     obj.sn = data[data.length -1];
-        //     data.splice(data.length -1, 1);
-        //
-        //     obj.name = data[data.length -1];
-        //     data.splice(data.length -1, 1);
-        //
-        //     for (let i = 0; i<data.length; i++){
-        //         if(i != data.length-1){
-        //             collection += data[i] + '-';
-        //         }else{
-        //             collection += data[i];
-        //         }
-        //     }
-        //
-        //     obj.collection = collection;
-        //
-        // }
-        // else
+        if(this.version === 'RMRK0.1' || this.version === "0.1"){
+            // Not allowed
+
+            let collection: string = "";
+
+            obj.sn = data[data.length -1];
+            data.splice(data.length -1, 1);
+
+            obj.name = data[data.length -1];
+            data.splice(data.length -1, 1);
+
+            for (let i = 0; i<data.length; i++){
+                if(i != data.length-1){
+                    collection += data[i] + '-';
+                }else{
+                    collection += data[i];
+                }
+            }
+
+            obj.collection = collection;
+
+        }else
             if (this.version === "1.0.0" || this.version === "RMRK1.0.0"){
             // Normalization
-            console.log(data);
+
             if(data.length === 4){
                 obj.collection = data[1] + '-' + data[2];
                 obj.name = data[2];
@@ -84,7 +83,7 @@ export abstract class Interaction extends Remark implements PublicInteraction
             }else if(data.length > 4){
                 obj.collection = data[1] + '-' + data[2];
                 obj.name = data[3];
-                obj.sn = data[4];
+                obj.sn = data[data.length - 1];
             }
 
         }

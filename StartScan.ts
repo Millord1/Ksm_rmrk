@@ -20,15 +20,14 @@ import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 
-// 6043026
-
-// 5125500
+// Booda Hiker batch MintNft 6095478
+// Booda Hiker Mint 6095347
 
 // 1er fevrier 6024550
 
 // 1er dec 5144100
 
-// 6064550
+// Last block scanned 6247236
 
 export const getJwt = ()=>{
 
@@ -82,48 +81,15 @@ export const testScan = async (opts: Option) => {
 
     const scan = new RmrkJetski(blockchain);
     const api = await scan.getApi();
-
+    
     setInterval(() => {
 
         scan.getRmrks(blockN, api).then(
             result => {
                 result.forEach(value => {
 
-                    // const used = process.memoryUsage().heapUsed / 1024 / 1024;
-                    // console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
-
                     if(typeof value === 'object'){
-
-                        let collName : string = "";
-                        let sn: string = "";
-
-                        if(value instanceof Send){
-
-                            collName = value.nft.assetId;
-                            sn = value.nft.token.sn
-
-                            if(sn != "" && collName != ""){
-                                eventGossip(value, sn, collName);
-                            }
-
-                        }else if (value instanceof MintNft){
-
-                            collName = value.nft.assetId;
-                            sn = value.nft.token.sn
-
-                            const source = value.transaction.source;
-                            value.transaction.source = CSCanonizeManager.mintIssuerAddressString;
-                            value.transaction.destination.address = source;
-
-                            if(sn != "" && collName != ""){
-                                entityGossip(value.nft)
-                                eventGossip(value, sn, collName);
-                            }
-
-                        }else if (value instanceof Mint){
-
-                            entityGossip(value.collection);
-                        }
+                        dispatchForCanonizer(value);
                     }
                 })
                 if(blockN === limitBlock || blockN == blockToStop){
@@ -133,7 +99,7 @@ export const testScan = async (opts: Option) => {
         );
         blockN ++;
 
-    }, 1000 / 100);
+    }, 1000);
 
 
 }
@@ -143,11 +109,7 @@ export const forceScan = async (block:number) => {
 
     let blockchain;
 
-
-
     blockchain = new Kusama();
-
-
 
     const scan = new RmrkJetski(blockchain);
 
@@ -157,42 +119,75 @@ export const forceScan = async (block:number) => {
 
             result.forEach(value => {
 
-                let collName : string = "";
-                let sn: string = "";
-
-                if(value instanceof Send){
-
-                    collName = value.nft.assetId;
-                    sn = value.nft.token.sn;
-
-                    if(sn != "" && collName != ""){
-                        eventGossip(value, sn, collName);
-                    }
-
-                }else if(value instanceof MintNft){
-
-                    collName = value.nft.assetId;
-                    sn = value.nft.token.sn
-
-                    const source = value.transaction.source;
-                    value.transaction.source = '0x0';
-                    value.transaction.destination.address = source;
-
-                    if(sn != "" && collName != ""){
-                        entityGossip(value.nft)
-                        eventGossip(value, sn, collName);
-                    }
-
-                }else if (value instanceof Mint){
-
-                    // collName = value.collection.name;
-                    entityGossip(value.collection);
+                if(typeof value === 'object'){
+                    dispatchForCanonizer(value);
                 }
-
 
             })
         }
     );
+}
+
+
+
+export const scanOneBlock = async (opts: Option) => {
+
+    // @ts-ignore
+    const blockN = opts.block;
+
+    const chain = new Kusama();
+    const jetski = new RmrkJetski(chain);
+    const api = await jetski.getApi();
+
+    jetski.getRmrks(blockN, api).then(result =>{
+
+        result.forEach((rmrk)=>{
+
+            if(typeof rmrk === "object"){
+                dispatchForCanonizer(rmrk);
+            }
+        })
+        process.exit();
+    })
+
+}
+
+
+
+
+const dispatchForCanonizer = (value: Remark) => {
+
+    let collName : string = "";
+    let sn: string = "";
+
+    if(value instanceof Send){
+
+        collName = value.nft.assetId;
+        sn = value.nft.token.sn
+
+        if(sn != "" && collName != ""){
+            eventGossip(value, sn, collName);
+        }
+
+    }else if (value instanceof MintNft){
+
+        collName = value.nft.assetId;
+        sn = value.nft.token.sn
+
+        const source = value.transaction.source;
+        value.transaction.source = CSCanonizeManager.mintIssuerAddressString;
+        value.transaction.destination.address = source;
+
+        if(sn != "" && collName != ""){
+            entityGossip(value.nft)
+            eventGossip(value, sn, collName);
+        }
+
+    }else if (value instanceof Mint){
+
+        entityGossip(value.collection);
+    }
+
 }
 
 
@@ -203,6 +198,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
     const signer = value.transaction.source;
 
     const jwt = getJwt();
+
 
     let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
     let sandra =  canonizeManager.getSandra();
@@ -223,7 +219,7 @@ const eventGossip = (value: Remark, sn: string, collName: string) => {
 
     let event = new BlockchainEvent(blockchain.eventFactory, address, receiver, contract, txId, timestamp, '1', blockchain, blockId, contractStandard, sandra);
 
-    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped")});
+    canonizeManager.gossipBlockchainEvents(blockchain).then(r=>{console.log("event gossiped " + blockId)});
 
 }
 
@@ -242,6 +238,7 @@ const entityGossip = async (rmrk: Entity) => {
 
     let image: string = "";
     let description: string = "";
+    const blockId: number = rmrk.transaction.blockId;
 
     if(rmrk.metaDataContent != null){
         const meta = rmrk.metaDataContent
@@ -275,11 +272,10 @@ const entityGossip = async (rmrk: Entity) => {
         // let converter = new RemarkConverter();
         // converter.createSendRemark(myAsset, new KusamaBlockchain(sandra), sandra, 'me', 'you');
 
-        canonizeManager.gossipOrbsBindings().then(r=>{console.log("asset gossiped")});
+        canonizeManager.gossipOrbsBindings().then(r=>{console.log("asset gossiped " + blockId)});
 
 
     }else if (rmrk instanceof Collection){
-
 
         collectionId = rmrk.contract.id;
 
@@ -289,7 +285,7 @@ const entityGossip = async (rmrk: Entity) => {
 
         myContract.bindToCollection(myCollection);
 
-        canonizeManager.gossipCollection().then(r=>{console.log("collection gossiped")});
+        canonizeManager.gossipCollection().then(r=>{console.log("collection gossiped " + blockId)});
 
     }
 

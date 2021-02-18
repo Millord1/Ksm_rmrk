@@ -8,6 +8,7 @@ import {Remark} from "../classes/Rmrk/Remark.js";
 import {Interaction} from "../classes/Rmrk/Interaction.js";
 import {Metadata} from "../classes/Metadata.js";
 
+
 export class RmrkJetski
 {
     wsProvider: WsProvider;
@@ -99,7 +100,7 @@ export class RmrkJetski
                             const tx = new Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
 
                             if(rmrkObj.args.hasOwnProperty('_remark')){
-                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx));
+                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx, i));
                             }
                             i += 1;
 
@@ -122,7 +123,7 @@ export class RmrkJetski
 
 
 
-    private async rmrkToObject(remark: string, tx: Transaction): Promise<Interaction|string> {
+    private async rmrkToObject(remark: string, tx: Transaction, batchIndex?:number): Promise<Interaction|string> {
 
         return new Promise( async (resolve) => {
 
@@ -140,7 +141,8 @@ export class RmrkJetski
 
                 if(data.metadata != ""){
                     try{
-                        meta = await Entity.getMetaDataContent(data.metadata);
+
+                        meta = await Metadata.getMetaDataContent(data.metadata, batchIndex);
                     }catch(e){
                         console.log(e);
                         meta = null;

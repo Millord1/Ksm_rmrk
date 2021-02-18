@@ -2,9 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
 const Remark_js_1 = require("./Remark.js");
-const Metadata_js_1 = require("../Metadata.js");
 const slugify = require('slugify');
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class Entity extends Remark_js_1.Remark {
     constructor(rmrk, standard, chain, version, transaction, meta) {
         super(version, rmrk, chain, transaction);
@@ -28,8 +26,6 @@ class Entity extends Remark_js_1.Remark {
                 if (datas[0] === "metadata") {
                     const protocol = datas[2].slice(0, 4);
                     if (datas[1] === "ipfs") {
-                        // const url = datas[2].slice(4);
-                        // datas[2] = (protocol === "ipfs") ? protocol + '/' + url : protocol + url;
                         if (protocol === "ipfs") {
                             datas[2] = Entity.unicodeVerifier(datas[2].slice(4));
                         }
@@ -55,47 +51,6 @@ class Entity extends Remark_js_1.Remark {
         //     isUnicode = stringToScan.charCodeAt(i) > 255;
         // }
         return slugify(stringToScan, { replacement: ' ' });
-    }
-    static async getMetaDataContent(urlIpfs) {
-        return new Promise((resolve, reject) => {
-            let urlToCall = "";
-            if (urlIpfs.includes('ipfs/')) {
-                urlIpfs = urlIpfs.replace('ipfs/', '');
-            }
-            // urlToCall = "https://cloudflare-ipfs.com/ipfs/" + urlIpfs;
-            urlToCall = "https://ipfs.io/ipfs/" + urlIpfs;
-            const get = new XMLHttpRequest();
-            let response;
-            let metaData;
-            get.open("GET", urlToCall);
-            get.send();
-            get.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    try {
-                        response = JSON.parse(this.responseText);
-                    }
-                    catch (error) {
-                        response = {
-                            external_url: "",
-                            image: "",
-                            description: "",
-                            name: "",
-                            attributes: [],
-                            background_color: "",
-                        };
-                        console.error(error.message + "\n for the MetaData url : " + urlToCall);
-                    }
-                    metaData = new Metadata_js_1.Metadata(urlToCall, response);
-                    resolve(metaData);
-                }
-                else if (this.readyState == 4 && this.status == 404) {
-                    reject('Bad request : ' + this.status + ' ' + urlToCall);
-                }
-                else if (this.readyState == 4 && this.status == 400) {
-                    reject('Bad url : ' + urlToCall);
-                }
-            };
-        });
     }
 }
 exports.Entity = Entity;
