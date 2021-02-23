@@ -19,6 +19,8 @@ import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
+import {Metadata} from "./classes/Metadata.js";
+import {ApiPromise} from "@polkadot/api";
 
 // Booda Hiker batch MintNft 6095478
 // Booda Hiker Mint 6095347
@@ -27,7 +29,7 @@ import {load} from "ts-dotenv";
 
 // 1er dec 5144100
 
-// Last block scanned 6247236
+// Last block scanned 6324180
 
 export const getJwt = ()=>{
 
@@ -68,39 +70,47 @@ export const testScan = async (opts: Option) => {
 
     //@ts-ignore
     let blockN: number = opts.block;
-    //@ts-ignore
-    let blockToStop : number = opts.limit;
-    //@ts-ignore
-    let nbOfBlocksToScan: number = Number(opts.nb);
 
-    if(nbOfBlocksToScan == 0){
-        nbOfBlocksToScan = blockN;
-    }
+    let currentBlock: number = 0;
 
-    const limitBlock: number = blockN - nbOfBlocksToScan;
+    let api: ApiPromise;
 
     const scan = new RmrkJetski(blockchain);
-    const api = await scan.getApi();
+    api = await scan.getApi();
     
-    setInterval(() => {
+    setInterval(async () => {
 
-        scan.getRmrks(blockN, api).then(
-            result => {
-                result.forEach(value => {
+        if(currentBlock != blockN){
 
-                    if(typeof value === 'object'){
-                        dispatchForCanonizer(value);
+            currentBlock = blockN;
+
+            api.isReady.catch( async (e)=>{
+                console.log( 'api : ' + e);
+                api = await scan.getApi();
+            });
+
+            scan.getRmrks(blockN, api).then(
+                result => {
+                    if(result.length > 0){
+
+                        result.forEach(value => {
+                            if(typeof value === 'object'){
+                                // console.log(value);
+                                dispatchForCanonizer(value);
+                            }
+                        })
+                        blockN ++;
+
+                    }else{
+                        blockN ++;
                     }
-                })
-                if(blockN === limitBlock || blockN == blockToStop){
-                    process.exit();
                 }
-            },
-        );
-        blockN ++;
-
-    }, 1000 / 100);
-
+            ).catch((e)=>{
+                console.log(e);
+                currentBlock --;
+            });
+        }
+    }, 1000 / 20);
 
 }
 
@@ -112,15 +122,16 @@ export const forceScan = async (block:number) => {
     blockchain = new Kusama();
 
     const scan = new RmrkJetski(blockchain);
+    const api = await scan.getApi();
 
-    //@ts-ignore
-    scan.getRmrks(block).then(
+    scan.getRmrks(block, api).then(
         result => {
 
             result.forEach(value => {
 
                 if(typeof value === 'object'){
                     dispatchForCanonizer(value);
+                    // console.log(value);
                 }
 
             })
@@ -145,6 +156,7 @@ export const scanOneBlock = async (opts: Option) => {
 
             if(typeof rmrk === "object"){
                 dispatchForCanonizer(rmrk);
+                // console.log(rmrk);
             }
         })
 
@@ -155,7 +167,7 @@ export const scanOneBlock = async (opts: Option) => {
 
 
 
-const dispatchForCanonizer = (value: Remark) => {
+const dispatchForCanonizer = async (value: Remark) => {
 
     let collName : string = "";
     let sn: string = "";
@@ -171,6 +183,11 @@ const dispatchForCanonizer = (value: Remark) => {
 
     }else if (value instanceof MintNft){
 
+        // if(value.nft.metaDataContent == null){
+        //     const data = Entity.dataTreatment(value.rmrk.split('::'), Entity.entityObj);
+        //     value.nft.metaDataContent = await Metadata.getMetaDataContent(data.metadata)
+        // }
+
         collName = value.nft.assetId;
         sn = value.nft.token.sn
 
@@ -184,6 +201,11 @@ const dispatchForCanonizer = (value: Remark) => {
         }
 
     }else if (value instanceof Mint){
+
+        // if(value.collection.metaDataContent == null){
+        //     const data = Entity.dataTreatment(value.rmrk.split('::'), Entity.entityObj);
+        //     value.collection.metaDataContent = await Metadata.getMetaDataContent(data.metadata)
+        // }
 
         entityGossip(value.collection);
     }
@@ -268,9 +290,6 @@ const entityGossip = async (rmrk: Entity) => {
         myContract.setStandard(rmrkToken);
 
         myAsset.bindContract(myContract);
-
-        // let converter = new RemarkConverter();
-        // converter.createSendRemark(myAsset, new KusamaBlockchain(sandra), sandra, 'me', 'you');
 
         canonizeManager.gossipOrbsBindings().then(r=>{console.log("asset gossiped " + blockId)});
 

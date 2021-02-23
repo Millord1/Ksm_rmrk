@@ -55,12 +55,13 @@ class Interaction extends Remark_js_1.Remark {
             if (data.length === 4) {
                 obj.collection = data[1] + '-' + data[2];
                 obj.name = data[2];
-                obj.sn = data[3];
+                obj.sn = data[3].match(/^[0-9]{16}/) ? data[3] : '';
             }
             else if (data.length > 4) {
                 obj.collection = data[1] + '-' + data[2];
                 obj.name = data[3];
-                obj.sn = data[data.length - 1];
+                // obj.sn = data[data.length - 1];
+                obj.sn = data[data.length - 1].match(/^[0-9]{16}/) ? data[data.length - 1] : '';
             }
         }
         return obj;

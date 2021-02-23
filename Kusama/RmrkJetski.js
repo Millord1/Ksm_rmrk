@@ -24,57 +24,69 @@ class RmrkJetski {
         return myApi;
     }
     async getRmrks(blockNumber, api) {
-        return new Promise(async (resolve) => {
-            const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-            if (blockHash) {
-                const block = await api.rpc.chain.getBlock(blockHash);
-                let blockId = blockNumber;
-                let blockTimestamp = '0';
-                let blockRmrks = [];
-                for (const ex of block.block.extrinsics) {
-                    const { method: { args, method, section } } = ex;
-                    if (section === "timestamp" && method === "set") {
-                        blockTimestamp = getTimestamp(ex);
-                    }
-                    const timestampToDate = Number(blockTimestamp) * 1000;
-                    const date = new Date(timestampToDate);
-                    console.log('block ' + blockNumber + ' ' + date);
-                    if (section === "system" && method === "remark") {
-                        const remark = args.toString();
-                        const signer = ex.signer.toString();
-                        const hash = ex.hash.toHex();
-                        const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
-                        if (remark.indexOf("") === 0) {
-                            blockRmrks.push(this.rmrkToObject(remark, tx));
-                        }
-                    }
-                    if (section === "utility" && method === "batch") {
-                        const arg = args.toString();
-                        const batch = JSON.parse(arg);
-                        const signer = ex.signer.toString();
-                        const hash = ex.hash.toHex();
-                        let i = 1;
-                        for (const rmrkObj of batch) {
-                            const txHash = hash + '-' + i;
-                            const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
-                            if (rmrkObj.args.hasOwnProperty('_remark')) {
-                                blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx, i));
-                            }
-                            i += 1;
-                        }
+        return new Promise(async (resolve, reject) => {
+            let blockRmrks = [];
+            let blockHash;
+            try {
+                blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+            }
+            catch (e) {
+                reject('no block');
+            }
+            const block = await api.rpc.chain.getBlock(blockHash);
+            let blockId = blockNumber;
+            let blockTimestamp = '0';
+            for (const ex of block.block.extrinsics) {
+                const { method: { args, method, section } } = ex;
+                if (section === "timestamp" && method === "set") {
+                    blockTimestamp = getTimestamp(ex);
+                }
+                const timestampToDate = Number(blockTimestamp) * 1000;
+                const date = new Date(timestampToDate);
+                console.log('block ' + blockNumber + ' ' + date);
+                if (section === "system" && method === "remark") {
+                    const remark = args.toString();
+                    const signer = ex.signer.toString();
+                    const hash = ex.hash.toHex();
+                    const tx = new Transaction_js_1.Transaction(this.chain, blockId, hash, blockTimestamp, signer, null);
+                    if (remark.indexOf("") === 0) {
+                        // const buildRemark = await this.rmrkToObject(remark, tx);
+                        blockRmrks.push(this.rmrkToObject(remark, tx));
                     }
                 }
-                return Promise.all(blockRmrks)
-                    .then(value => {
-                    resolve(value);
-                }).catch((e) => {
-                    console.log(e);
-                });
+                if (section === "utility" && method === "batch") {
+                    const arg = args.toString();
+                    const batch = JSON.parse(arg);
+                    const signer = ex.signer.toString();
+                    const hash = ex.hash.toHex();
+                    let i = 1;
+                    for (const rmrkObj of batch) {
+                        // let batchHashId: string = "";
+                        //
+                        // if(i > 0){
+                        //     batchHashId = '-' + i;
+                        // }
+                        const txHash = hash + '-' + i;
+                        const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
+                        if (rmrkObj.args.hasOwnProperty('_remark')) {
+                            // const buildRemark = await this.rmrkToObject(rmrkObj.args._remark, tx, i);
+                            blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx, i));
+                        }
+                        i += 1;
+                    }
+                }
             }
+            return Promise.all(blockRmrks)
+                .then(value => {
+                resolve(value);
+            }).catch((e) => {
+                console.log(e);
+            });
         });
     }
     async rmrkToObject(remark, tx, batchIndex) {
         return new Promise(async (resolve) => {
+            // const isBatch: boolean = batchIndex != undefined;
             const uri = util_1.hexToString(remark);
             let lisibleUri = decodeURIComponent(uri);
             lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
@@ -84,7 +96,11 @@ class RmrkJetski {
                 let meta;
                 if (data.metadata != "") {
                     try {
-                        meta = await Metadata_js_1.Metadata.getMetaDataContent(data.metadata, batchIndex);
+                        meta = await Metadata_js_1.Metadata.getMetaDataContent(data.metadata, batchIndex)
+                            .catch((e) => {
+                            console.log(e);
+                            return null;
+                        });
                     }
                     catch (e) {
                         console.log(e);
