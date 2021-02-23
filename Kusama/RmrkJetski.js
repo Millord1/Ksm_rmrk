@@ -27,16 +27,22 @@ class RmrkJetski {
         return new Promise(async (resolve, reject) => {
             let blockRmrks = [];
             let blockHash;
+            // let block: any;
             try {
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             }
             catch (e) {
-                reject('no block');
+                // console.error(e);
+                reject('No block');
             }
+            // const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             const block = await api.rpc.chain.getBlock(blockHash);
             let blockId = blockNumber;
             let blockTimestamp = '0';
-            for (const ex of block.block.extrinsics) {
+            if (block.block == null) {
+                reject(null);
+            }
+            for (const ex of block.block ? block.block.extrinsics : []) {
                 const { method: { args, method, section } } = ex;
                 if (section === "timestamp" && method === "set") {
                     blockTimestamp = getTimestamp(ex);

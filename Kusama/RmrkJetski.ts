@@ -7,6 +7,7 @@ import {Entity} from "../classes/Rmrk/Entity.js";
 import {Remark} from "../classes/Rmrk/Remark.js";
 import {Interaction} from "../classes/Rmrk/Interaction.js";
 import {Metadata} from "../classes/Metadata.js";
+import {RpcPromiseResult} from "@polkadot/api/types";
 
 
 export class RmrkJetski
@@ -47,19 +48,26 @@ export class RmrkJetski
             let blockRmrks : Array<Promise<Interaction|string>> = [];
 
             let blockHash: any;
+            // let block: any;
 
             try{
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             }catch(e){
-                reject('no block')
+                // console.error(e);
+                reject('No block')
             }
 
+            // const blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             const block = await api.rpc.chain.getBlock(blockHash);
 
             let blockId = blockNumber ;
             let blockTimestamp: string = '0';
 
-            for (const ex of block.block.extrinsics){
+            if(block.block == null){
+                reject(null)
+            }
+
+            for (const ex of block.block ? block.block.extrinsics : []){
 
                 const { method: {
                     args, method, section
