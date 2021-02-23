@@ -51,6 +51,7 @@ export class Asset extends Entity
         const nftDatas = splitted[splitted.length - 1].split(',');
 
         const obj = Entity.dataTreatment(nftDatas, Remark.entityObj);
+
         const assetId = transaction.blockId + '-' + obj.collection + '-' + obj.instance;
 
         return new Asset(rmrk, chain, null, transaction, obj, assetId, meta);

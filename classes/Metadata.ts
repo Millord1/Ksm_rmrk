@@ -1,5 +1,6 @@
 import {MetaDataInputs} from "./Interfaces.js";
 import {Entity} from "./Rmrk/Entity.js";
+import {Global} from "./Global.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -14,7 +15,7 @@ export class Metadata
     public attributes: Array<Object> = [];
     public background_color: string = "";
 
-    private static delayForCalls: number = 500;
+    private static delayForCalls: number = 1000;
 
 
      constructor(url: string, meta: MetaDataInputs) {
@@ -29,12 +30,19 @@ export class Metadata
     }
 
 
+
+
     public static async getMetaDataContent(metaUrl: string, batchIndex: number = 0): Promise<Metadata>
     {
 
         batchIndex = batchIndex > 0 ? batchIndex - 1 : batchIndex;
 
         const timeToWait: number = batchIndex * this.delayForCalls;
+
+        // if(batchIndex != 0){
+        //     Global.lastCall = Date.now();
+        // }
+
 
         return new Promise((resolve, reject) => {
 
@@ -89,7 +97,7 @@ export class Metadata
                         resolve(metaData)
 
                     }else if(this.readyState == 4 && this.status == 404){
-                        reject ('Bad request : ' + this.status + ' ' + urlToCall);
+                        reject ('request : ' + this.status);
                     }else if(this.readyState == 4 && this.status == 400){
                         reject('Bad url : ' + urlToCall);
                     }
