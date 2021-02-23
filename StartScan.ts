@@ -19,17 +19,13 @@ import {Asset} from "./classes/Asset.js";
 import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
-import {Metadata} from "./classes/Metadata.js";
 import {ApiPromise} from "@polkadot/api";
-
-// Booda Hiker batch MintNft 6095478
-// Booda Hiker Mint 6095347
 
 // 1er fevrier 6024550
 
 // 1er dec 5144100
 
-// Last block scanned 6324180
+// Last block scanned 6335031
 
 export const getJwt = ()=>{
 
@@ -89,8 +85,8 @@ export const testScan = async (opts: Option) => {
                 api = await scan.getApi();
             });
 
-            scan.getRmrks(blockN, api).then(
-                result => {
+            scan.getRmrks(blockN, api)
+                .then(result => {
                     if(result.length > 0){
 
                         result.forEach(value => {
@@ -99,20 +95,22 @@ export const testScan = async (opts: Option) => {
                                 dispatchForCanonizer(value);
                             }
                         })
-                        blockN ++;
-
-                    }else{
-                        blockN ++;
                     }
-                }
-            ).catch((e)=>{
-                console.log(e);
-                currentBlock --;
-            });
+                    blockN ++;
+                })
+                .catch( async (e)=>{
+                    console.error(e);
+                    console.log('Waiting for block ...');
+                    setTimeout(()=>{
+                        currentBlock --;
+                    }, 10000);
+
+                })
         }
-    }, 1000 / 20);
+    }, 1000 / 50);
 
 }
+
 
 
 export const forceScan = async (block:number) => {
