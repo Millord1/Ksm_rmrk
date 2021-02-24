@@ -73,17 +73,21 @@ export abstract class Interaction extends Remark implements PublicInteraction
             obj.collection = collection;
 
         }else
-            if (this.version === "1.0.0" || this.version === "RMRK1.0.0"){
+            if (this.version === "1.0.0" || this.version === "RMRK1.0.0")
+            {
             // Normalization
 
             if(data.length === 4){
                 obj.collection = data[1] + '-' + data[2];
                 obj.name = data[2];
-                obj.sn = data[3];
+
+                obj.sn = data[3].match(/^[0-9]{16}/) ? data[3] : '';
+
             }else if(data.length > 4){
                 obj.collection = data[1] + '-' + data[2];
                 obj.name = data[3];
-                obj.sn = data[data.length - 1];
+                // obj.sn = data[data.length - 1];
+                obj.sn = data[data.length - 1].match(/^[0-9]{16}/) ? data[data.length - 1] : '';
             }
 
         }
