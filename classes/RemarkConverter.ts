@@ -15,6 +15,7 @@ import {Mint} from "./Rmrk/Interactions/Mint.js";
 import {stringToHex} from "@polkadot/util";
 import {AssetCollectionFactory} from "../sandra/src/CSCannon/AssetCollectionFactory.js";
 import {AssetCollection} from "../sandra/src/CSCannon/AssetCollection.js";
+import {BlockchainContract} from "../sandra/src/CSCannon/BlockchainContract.js";
 
 
 export class RemarkConverter
@@ -63,43 +64,44 @@ export class RemarkConverter
         const uri = this.objToUri(collectionObj);
         const rmrk = 'rmrk' + this.rmrkSeparator + Mint.name + this.rmrkSeparator + Remark.defaultVersion + this.rmrkSeparator + uri;
 
-        return stringToHex(rmrk);
+        return rmrk;
     }
 
 
-    public createSendRemark(asset: Asset, chain: Blockchain, receiver: string, sandra: SandraManager): string
+    public createSendRemark(asset: Asset, contract: BlockchainContract, chain: Blockchain, receiver: string, sandra: SandraManager): string
     {
         const cscToRemark = this.assetRmrkFromCscAsset(asset, sandra);
-        const contract = asset.getJoinedContracts();
 
-        const blockId = contract[0].getRefValue('id');
+        const blockId = contract.getRefValue('id');
         const blockData = blockId.split('-');
         const blockNumber: number = (blockData.length > 2) ? Number(blockData[0]) : 0;
 
         const computedId = this.assetInterfaceToComputedId(cscToRemark, blockNumber);
 
-        const rmrk = 'rmrk' + this.rmrkSeparator + Send.name + this.rmrkSeparator + computedId + receiver;
+        const rmrk = 'rmrk' + this.rmrkSeparator + Send.name + this.rmrkSeparator + Remark.defaultVersion + this.rmrkSeparator + computedId + receiver;
 
-        return stringToHex(rmrk);
+        return rmrk;
     }
 
 
     public createMintNftRemark(asset: Asset, collection: AssetCollection, transferable: boolean = true): string
     {
 
+        // TODO Missing: sn
+
         const assetRmrkObj : AssetRmrk = {
             collection: collection.getRefValue(AssetCollectionFactory.MAIN_NAME),
             name: asset.getRefValue(AssetFactory.ASSET_NAME),
             transferable: transferable,
-            sn: "",
+            sn: "001",
             metadata: asset.getRefValue(AssetFactory.metaDataUrl),
             id: asset.getRefValue(AssetFactory.ID)
         }
 
         const uri = this.objToUri(assetRmrkObj);
-        const rmrk = 'rmrk' + this.rmrkSeparator + MintNft.name + this.rmrkSeparator + Remark.defaultVersion + uri;
+        const rmrk = 'rmrk' + this.rmrkSeparator + MintNft.name + this.rmrkSeparator + Remark.defaultVersion + this.rmrkSeparator + uri;
 
-        return stringToHex(rmrk);
+        return rmrk;
     }
 
 
@@ -131,11 +133,6 @@ export class RemarkConverter
         return "";
     }
 
-
-
-    public toHexRmrk(interaction: Interaction): string{
-        return stringToHex(this.toRmrk(interaction));
-    }
 
 
 
