@@ -55,4 +55,10 @@ export class AssetCollection extends Entity
 
     }
 
+    public getId():string
+    {
+        return this.getRefValue(this.COLLECTION_ID) ? this.getRefValue(this.COLLECTION_ID) : '' ;
+
+    }
+
 }

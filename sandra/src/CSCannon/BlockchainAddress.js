@@ -11,7 +11,9 @@ class BlockchainAddress extends Entity_js_1.Entity {
         super(factory);
         this.addReference(new Reference_js_1.Reference(sandraManager.get('address'), address));
         this.setTriplet(BlockchainAddressFactory_js_1.BlockchainAddressFactory.ON_BLOCKCHAIN, factory.onBlockchain, sandraManager);
-        console.log(factory.onBlockchain + " XXXXXXXX");
+    }
+    getAddress() {
+        return this.getRefValue('address') ? this.getRefValue('address') : '';
     }
 }
 exports.BlockchainAddress = BlockchainAddress;

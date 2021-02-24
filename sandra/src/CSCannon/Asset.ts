@@ -62,9 +62,26 @@ export class Asset extends Entity
        return this.getRefValue(AssetFactory.imageUrl);
     }
 
+
+
     public setImageUrl(imgUrl: string){
        this.createOrUpdateRef(AssetFactory.imageUrl,imgUrl);
     }
+
+    public getId(){
+        return this.getRefValue(AssetFactory.ID);
+    }
+
+    public getDescription(){
+        return this.getRefValue(AssetFactory.description);
+    }
+
+    public setDescription(description:string){
+        return this.getRefValue(AssetFactory.description);
+    }
+
+
+
 
     public setMetaDatasUrl(metaDatasUrl: string){
         // TODO createOrUpdateRef
