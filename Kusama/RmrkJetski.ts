@@ -144,7 +144,7 @@ export class RmrkJetski
 
 
 
-    private async rmrkToObject(remark: string, tx: Transaction, batchIndex?:number): Promise<Interaction|string> {
+    public async rmrkToObject(remark: string, tx: Transaction, batchIndex?:number): Promise<Interaction|string> {
 
         return new Promise( async (resolve) => {
 
@@ -155,10 +155,11 @@ export class RmrkJetski
             lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
 
             const splitted = lisibleUri.split('::');
+            const dataToTreat = splitted[splitted.length - 1].split(',');
 
             if(splitted.length >= 3){
 
-                const data = Entity.dataTreatment(splitted, Entity.entityObj);
+                const data = Entity.dataTreatment(dataToTreat, Entity.entityObj);
 
                 let meta: Metadata|null;
 

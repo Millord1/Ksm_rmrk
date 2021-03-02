@@ -25,7 +25,7 @@ import {ApiPromise} from "@polkadot/api";
 
 // 1er dec 5144100
 
-// Last block scanned 6335031
+// Last block scanned 6341638
 
 export const getJwt = ()=>{
 
