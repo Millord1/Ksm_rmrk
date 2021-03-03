@@ -61,7 +61,7 @@ class RmrkConverterTest
 
 
         const rmrkConverter = new RemarkConverter();
-        const myRmrk = rmrkConverter.createMintNftRemark(myAsset, myCollection, true);
+        const myRmrk = rmrkConverter.createMintNftRemark(myAsset, myCollection, '001', true);
 
         console.log(myRmrk);
         console.log(stringToHex(myRmrk));

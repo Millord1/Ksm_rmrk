@@ -84,7 +84,7 @@ export class RemarkConverter
     }
 
 
-    public createMintNftRemark(asset: Asset, collection: AssetCollection, transferable: boolean = true): string
+    public createMintNftRemark(asset: Asset, collection: AssetCollection, serialNumber: string, transferable: boolean = true): string
     {
 
         // TODO Missing: sn
@@ -93,7 +93,7 @@ export class RemarkConverter
             collection: collection.getRefValue(AssetCollectionFactory.MAIN_NAME),
             name: asset.getRefValue(AssetFactory.ASSET_NAME),
             transferable: transferable,
-            sn: "001",
+            sn: serialNumber,
             metadata: asset.getRefValue(AssetFactory.metaDataUrl),
             id: asset.getRefValue(AssetFactory.ID)
         }
