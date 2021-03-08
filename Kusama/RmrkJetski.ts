@@ -23,21 +23,14 @@ export class RmrkJetski
         this.wsProvider = new WsProvider(this.chain.wsProvider);
     }
 
-    public async getApi(): Promise<ApiPromise>{
+    public async getApi(): Promise<ApiPromise>
+    {
 
         let myApi: any;
-
-        // if (typeof this.api === 'undefined'){
-        //     myApi = await ApiPromise.create({ provider: this.wsProvider });
-        // }else{
-        //     myApi = this.api;
-        // }
-
         myApi = ApiPromise.create({ provider: this.wsProvider });
 
         return myApi;
     }
-
 
 
 

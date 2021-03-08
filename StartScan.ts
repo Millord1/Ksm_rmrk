@@ -25,7 +25,7 @@ import {ApiPromise} from "@polkadot/api";
 
 // 1er fevrier 6024550
 
-// Last block scanned 6460500
+// Last block scanned 6516636
 
 export const getJwt = ()=>{
 
@@ -73,17 +73,21 @@ export const testScan = async (opts: Option) => {
 
     const scan = new RmrkJetski(blockchain);
     api = await scan.getApi();
+
+    let isConnected: boolean = api.isConnected;
     
     setInterval(async () => {
 
-        if(currentBlock != blockN){
+        if(!api.isConnected){
+            getNewApi(scan).then(newApi=>{
+                api = newApi;
+                isConnected = api.isConnected;
+            });
+        }
+
+        if(isConnected && currentBlock != blockN){
 
             currentBlock = blockN;
-
-            api.isReady.catch( async (e)=>{
-                console.log( 'api : ' + e);
-                api = await scan.getApi();
-            });
 
             scan.getRmrks(blockN, api)
                 .then(result => {
@@ -110,6 +114,32 @@ export const testScan = async (opts: Option) => {
     }, 1000 / 50);
 
 }
+
+
+
+// @ts-ignore
+const getNewApi = async (scan: RmrkJetski): Promise<ApiPromise> =>{
+
+    return new Promise((resolve)=>{
+
+        setInterval(async()=>{
+            scan.getApi()
+                .then(api=>{
+                    if(api.isConnected){
+                        clearInterval();
+                        resolve (api);
+                    }
+                })
+                .catch(e=>{
+                    console.log(e);
+                })
+
+        },1000);
+    })
+
+}
+
+
 
 
 

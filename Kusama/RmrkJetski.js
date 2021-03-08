@@ -15,11 +15,6 @@ class RmrkJetski {
     }
     async getApi() {
         let myApi;
-        // if (typeof this.api === 'undefined'){
-        //     myApi = await ApiPromise.create({ provider: this.wsProvider });
-        // }else{
-        //     myApi = this.api;
-        // }
         myApi = api_1.ApiPromise.create({ provider: this.wsProvider });
         return myApi;
     }
