@@ -27,7 +27,7 @@ class Entity extends Remark_js_1.Remark {
                     const protocol = datas[2].slice(0, 4);
                     if (datas[1] === "ipfs") {
                         if (protocol === "ipfs") {
-                            datas[2] = Entity.unicodeVerifier(datas[2].slice(4));
+                            datas[2] = Entity.slugification(datas[2].slice(4));
                         }
                         else {
                             datas[2] = datas[2];
@@ -36,7 +36,7 @@ class Entity extends Remark_js_1.Remark {
                     datas[1] = datas[2];
                 }
                 else if (typeof datas[1] === 'string') {
-                    datas[1] = Entity.unicodeVerifier(datas[1]);
+                    datas[1] = Entity.slugification(datas[1]);
                 }
                 // @ts-ignore
                 obj[datas[0]] = datas[1];
@@ -44,7 +44,7 @@ class Entity extends Remark_js_1.Remark {
         });
         return obj;
     }
-    static unicodeVerifier(stringToScan) {
+    static slugification(stringToScan) {
         // let isUnicode: boolean = false;
         //
         // for(let i = 0; i<stringToScan.length; i++){

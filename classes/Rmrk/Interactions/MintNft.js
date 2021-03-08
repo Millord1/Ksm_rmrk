@@ -13,7 +13,7 @@ class MintNft extends Interaction_js_1.Interaction {
             this.version = splitted[2];
         }
         else {
-            this.version = '0.1';
+            this.version = '1.0.0';
         }
         this.nft = Asset_js_1.Asset.createNftFromInteraction(rmrk, chain, transaction, meta);
     }

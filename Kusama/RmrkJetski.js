@@ -67,11 +67,6 @@ class RmrkJetski {
                     const hash = ex.hash.toHex();
                     let i = 1;
                     for (const rmrkObj of batch) {
-                        // let batchHashId: string = "";
-                        //
-                        // if(i > 0){
-                        //     batchHashId = '-' + i;
-                        // }
                         const txHash = hash + '-' + i;
                         const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
                         if (rmrkObj.args.hasOwnProperty('_remark')) {
@@ -97,8 +92,9 @@ class RmrkJetski {
             let lisibleUri = decodeURIComponent(uri);
             lisibleUri = lisibleUri.replace(/[&\/\\{}]/g, '');
             const splitted = lisibleUri.split('::');
+            const dataToTreat = splitted[splitted.length - 1].split(',');
             if (splitted.length >= 3) {
-                const data = Entity_js_1.Entity.dataTreatment(splitted, Entity_js_1.Entity.entityObj);
+                const data = Entity_js_1.Entity.dataTreatment(dataToTreat, Entity_js_1.Entity.entityObj);
                 let meta;
                 if (data.metadata != "") {
                     try {

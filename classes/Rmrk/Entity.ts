@@ -51,7 +51,7 @@ export abstract class Entity extends Remark implements PublicEntity
                     if(datas[1] === "ipfs") {
 
                         if(protocol === "ipfs"){
-                            datas[2] = Entity.unicodeVerifier(datas[2].slice(4));
+                            datas[2] = Entity.slugification(datas[2].slice(4));
                         }else{
                             datas[2] = datas[2];
                         }
@@ -60,7 +60,7 @@ export abstract class Entity extends Remark implements PublicEntity
                     datas[1] = datas[2];
 
                 }else if(typeof datas[1] === 'string'){
-                    datas[1] = Entity.unicodeVerifier(datas[1]);
+                    datas[1] = Entity.slugification(datas[1]);
                 }
 
                 // @ts-ignore
@@ -72,7 +72,7 @@ export abstract class Entity extends Remark implements PublicEntity
 
 
 
-    public static unicodeVerifier(stringToScan: string): string{
+    public static slugification(stringToScan: string): string{
 
         // let isUnicode: boolean = false;
         //

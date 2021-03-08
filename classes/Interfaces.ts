@@ -49,27 +49,6 @@ export interface MetaDataInputs
     name: string;
     attributes: Array<Object>;
     background_color: string;
+    animation_url: string;
 }
 
-
-export interface AssetRmrk
-{
-    collection: string,
-    name: string,
-    transferable: boolean|null,
-    sn: string,
-    metadata: string|undefined,
-    id: string
-}
-
-
-export interface CollectionRmrk
-{
-    version: string,
-    name: string,
-    max: number,
-    issuer: string,
-    symbol: string,
-    id: string,
-    metadata: string|undefined
-}

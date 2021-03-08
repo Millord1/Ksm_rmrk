@@ -3,8 +3,6 @@ import {Blockchain} from "../../Blockchains/Blockchain.js";
 import {Asset} from "../../Asset.js";
 import {Transaction} from "../../Transaction.js";
 import {Metadata} from "../../Metadata.js";
-import {AssetRmrk} from "../../Interfaces.js";
-import {stringToHex} from "@polkadot/util";
 
 
 export class MintNft extends Interaction
@@ -22,7 +20,7 @@ export class MintNft extends Interaction
         if(isCorrectVersion){
             this.version = splitted[2];
         }else{
-            this.version = '0.1';
+            this.version = '1.0.0';
         }
 
         this.nft = Asset.createNftFromInteraction(rmrk,chain,transaction, meta);

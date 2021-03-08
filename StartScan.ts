@@ -21,11 +21,11 @@ import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 import {ApiPromise} from "@polkadot/api";
 
-// 1er fevrier 6024550
-
 // 1er dec 5144100
 
-// Last block scanned 6341638
+// 1er fevrier 6024550
+
+// Last block scanned 6460500
 
 export const getJwt = ()=>{
 
@@ -89,7 +89,7 @@ export const testScan = async (opts: Option) => {
                 .then(result => {
                     if(result.length > 0){
 
-                        result.forEach(value => {
+                        result.forEach(async value => {
                             if(typeof value === 'object'){
                                 // console.log(value);
                                 dispatchForCanonizer(value);
@@ -129,7 +129,7 @@ export const forceScan = async (block:number) => {
 
                 if(typeof value === 'object'){
                     dispatchForCanonizer(value);
-                    // console.log(value);
+                    console.log(value);
                 }
 
             })
@@ -176,15 +176,10 @@ const dispatchForCanonizer = async (value: Remark) => {
         sn = value.nft.token.sn
 
         if(sn != "" && collName != ""){
-            eventGossip(value, sn, collName);
+            await eventGossip(value, sn, collName);
         }
 
     }else if (value instanceof MintNft){
-
-        // if(value.nft.metaDataContent == null){
-        //     const data = Entity.dataTreatment(value.rmrk.split('::'), Entity.entityObj);
-        //     value.nft.metaDataContent = await Metadata.getMetaDataContent(data.metadata)
-        // }
 
         collName = value.nft.assetId;
         sn = value.nft.token.sn
@@ -194,25 +189,18 @@ const dispatchForCanonizer = async (value: Remark) => {
         value.transaction.destination.address = source;
 
         if(sn != "" && collName != ""){
-            entityGossip(value.nft)
-            eventGossip(value, sn, collName);
+            entityGossip(value.nft).then( async ()=>{await eventGossip(value, sn, collName)} );
         }
 
     }else if (value instanceof Mint){
-
-        // if(value.collection.metaDataContent == null){
-        //     const data = Entity.dataTreatment(value.rmrk.split('::'), Entity.entityObj);
-        //     value.collection.metaDataContent = await Metadata.getMetaDataContent(data.metadata)
-        // }
-
-        entityGossip(value.collection);
+        await entityGossip(value.collection);
     }
 
 }
 
 
 
-const eventGossip = (value: Remark, sn: string, collName: string) => {
+const eventGossip = async (value: Remark, sn: string, collName: string) => {
 
     const recipient = value.transaction.destination.address;
     const signer = value.transaction.source;
@@ -269,7 +257,10 @@ const entityGossip = async (rmrk: Entity) => {
             description = "No description";
         }
 
-        image = meta.image.replace("ipfs://",'https://cloudflare-ipfs.com/');
+        if(meta.image != undefined){
+            image = meta.image.replace("ipfs://",'https://cloudflare-ipfs.com/');
+        }
+
     }
 
     if(rmrk instanceof Asset){
