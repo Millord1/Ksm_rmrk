@@ -109,12 +109,6 @@ export class RmrkJetski
 
                     for (const rmrkObj of batch){
 
-                        // let batchHashId: string = "";
-                        //
-                        // if(i > 0){
-                        //     batchHashId = '-' + i;
-                        // }
-
                         const txHash = hash + '-' + i;
 
                         const tx = new Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);

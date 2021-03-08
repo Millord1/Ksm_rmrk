@@ -1,9 +1,14 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {Asset} from "../Asset.js";
+import {Asset as rmrkAsset, Asset} from "../Asset.js";
 import {EntityInterface, PublicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
+import {Send} from "./Interactions/Send";
+import {MintNft} from "./Interactions/MintNft";
+import {Mint} from "./Interactions/Mint";
+import {Entity} from "./Entity";
+import {Collection} from "../Collection";
 
 
 export abstract class Interaction extends Remark implements PublicInteraction
@@ -51,28 +56,6 @@ export abstract class Interaction extends Remark implements PublicInteraction
 
         const obj = Remark.entityObj;
 
-        if(this.version === 'RMRK0.1' || this.version === "0.1"){
-            // Not allowed
-
-            let collection: string = "";
-
-            obj.sn = data[data.length -1];
-            data.splice(data.length -1, 1);
-
-            obj.name = data[data.length -1];
-            data.splice(data.length -1, 1);
-
-            for (let i = 0; i<data.length; i++){
-                if(i != data.length-1){
-                    collection += data[i] + '-';
-                }else{
-                    collection += data[i];
-                }
-            }
-
-            obj.collection = collection;
-
-        }else
             if (this.version === "1.0.0" || this.version === "RMRK1.0.0")
             {
             // Normalization
