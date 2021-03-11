@@ -9,6 +9,7 @@ import {CSCanonizeManager} from "./sandra/src/CSCannon/CSCanonizeManager.js";
 import {AssetFactory} from "./sandra/src/CSCannon/AssetFactory.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
 import {BlockchainTokenFactory} from "./sandra/src/CSCannon/BlockchainTokenFactory.js";
+import {WestendBlockchain} from "./sandra/src/CSCannon/Substrate/Westend/WestendBlockchain";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -19,6 +20,7 @@ let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.
 
 let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain(sandra);
+let westend = new WestendBlockchain(sandra);
 
 bootstrap();
 
@@ -91,7 +93,7 @@ async function bootstrapEvents (){
 
 async function flushDatagraph (){
 
-    let flushing = await canonizeManager.flushWithBlockchainSupport([kusama]).then(r=>{
+    let flushing = await canonizeManager.flushWithBlockchainSupport([kusama,westend]).then(r=>{
         console.log("flushed and added blockchain support");
         console.log(JSON.parse(r));
         return r ;
