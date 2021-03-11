@@ -20,7 +20,7 @@ export class BlockchainAddressFactory extends EntityFactory {
         this.updateOnExistingRef = sandra.get('address');
     }
 
-    public getOrCreate(address:string){
+    public getOrCreate(address:string):BlockchainAddress{
         if (this.entityByRevValMap.has(this.sandra.get('address'))){
             let addressRefMap = this.entityByRevValMap.get(this.sandra.get('address'));
 
