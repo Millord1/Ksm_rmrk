@@ -1,4 +1,4 @@
-import {RemarkConverter} from "./classes/RemarkConverter.js";
+import {RemarkConverter} from "./RemarkConverter.js";
 import {RmrkJetski} from "./Kusama/RmrkJetski.js";
 import {Kusama} from "./classes/Blockchains/Kusama.js";
 import {RmrkContractStandard} from "./sandra/src/CSCannon/Interfaces/RmrkContractStandard.js";
@@ -10,29 +10,6 @@ import {Transaction} from "./classes/Transaction.js";
 
 class RmrkConverterTest
 {
-
-    private static testBlock: number = 6341638;
-
-
-    public static async rmrkConvertFromBlock()
-    {
-        const rmrkConverter = new RemarkConverter();
-        const scan = new RmrkJetski(new Kusama());
-        const api = await scan.getApi();
-
-        const interaction = await scan.getRmrks(this.testBlock, api);
-
-        let result: string;
-
-        interaction.forEach(elem =>{
-            if(typeof elem == 'object'){
-                result = rmrkConverter.toRmrk(elem);
-                console.log(result);
-            }
-        })
-
-    }
-
 
 
     public static async mintNftFromCanonizer()
@@ -60,8 +37,8 @@ class RmrkConverterTest
         tokenPath.bindToAssetWithContract(myCOntract,myAsset);
 
 
-        const rmrkConverter = new RemarkConverter();
-        const myRmrk = rmrkConverter.createMintNftRemark(myAsset, myCollection, true);
+        const rmrkConverter = new RemarkConverter(sandra);
+        const myRmrk = rmrkConverter.createMintNftRemark(myAsset, myCollection, '001', true);
 
         console.log(myRmrk);
         console.log(stringToHex(myRmrk));
@@ -78,7 +55,7 @@ class RmrkConverterTest
 
         let myCollection = canonizeManager.createCollection({id:'my veryfirst collection',imageUrl:'https://picsum.photos/400',name:'my veryfirst collection',description:'dolor'});
 
-        const rmrkConverter = new RemarkConverter();
+        const rmrkConverter = new RemarkConverter(sandra);
         const myRmrk = rmrkConverter.createMintRemark(myCollection, 50, 'ipfs:ipfs/123456789', '0A123456');
 
 
@@ -114,8 +91,8 @@ class RmrkConverterTest
         tokenPath.bindToAssetWithContract(myCOntract,myAsset);
 
 
-        const rmrkConverter = new RemarkConverter();
-        const myRmrk = rmrkConverter.createSendRemark(myAsset, myCOntract, kusama, 'you', sandra);
+        const rmrkConverter = new RemarkConverter(sandra);
+        const myRmrk = rmrkConverter.createSendRemark(myAsset, myCOntract, kusama, '000001', 'you');
 
         console.log(myRmrk);
         console.log(stringToHex(myRmrk));
@@ -139,19 +116,16 @@ class RmrkConverterTest
 
 }
 
-// Basic From Kusama block
-// RmrkConverterTest.rmrkConvertFromBlock();
-
 // Mint NFT
-// RmrkConverterTest.mintNftFromCanonizer().then(r=>{
-//     RmrkConverterTest.revertRemark(r);
-// });
+RmrkConverterTest.mintNftFromCanonizer().then(r=>{
+    RmrkConverterTest.revertRemark(r);
+});
 
 // Mint
-// RmrkConverterTest.mintFromCanonizer().then(r=>{
-//     console.log(r);
-//     RmrkConverterTest.revertRemark(r);
-// })
+RmrkConverterTest.mintFromCanonizer().then(r=>{
+    console.log(r);
+    RmrkConverterTest.revertRemark(r);
+})
 
 // Send
 RmrkConverterTest.sendFromCanonizer().then(r=>{

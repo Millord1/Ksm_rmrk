@@ -1,6 +1,5 @@
 import {MetaDataInputs} from "./Interfaces.js";
 import {Entity} from "./Rmrk/Entity.js";
-import {Global} from "./Global.js";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -14,6 +13,7 @@ export class Metadata
     public name: string = "";
     public attributes: Array<Object> = [];
     public background_color: string = "";
+    public animation_url: string = "";
 
     private static delayForCalls: number = 1000;
 
@@ -22,11 +22,16 @@ export class Metadata
 
          this.url = url;
          this.external_url = meta.external_url;
-         this.image = meta.image;
-         this.description = meta.description ? Entity.unicodeVerifier(meta.description) : meta.description;
-         this.name = meta.name ? Entity.unicodeVerifier(meta.name) : meta.name;
+         this.description = meta.description ? Entity.slugification(meta.description) : meta.description;
+         this.name = meta.name ? Entity.slugification(meta.name) : meta.name;
          this.background_color = meta.background_color;
          this.attributes = meta.attributes;
+
+         if(meta.image !== "" || meta.image != undefined){
+             this.image = meta.image
+         }else{
+             this.image = meta.animation_url;
+         }
     }
 
 
@@ -63,7 +68,7 @@ export class Metadata
                 // urlToCall = "https://cloudflare-ipfs.com/ipfs/" + metaUrl;
                 urlToCall = "https://ipfs.io/ipfs/" + metaUrl;
             }
-
+            console.log(urlToCall);
             const get = new XMLHttpRequest();
 
             let response: MetaDataInputs;
@@ -89,6 +94,7 @@ export class Metadata
                                 name : "",
                                 attributes : [],
                                 background_color : "",
+                                animation_url: ""
                             };
                             console.error(error.message + "\n for the MetaData url : " + urlToCall);
                         }

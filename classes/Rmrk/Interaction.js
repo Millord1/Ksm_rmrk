@@ -33,24 +33,7 @@ class Interaction extends Remark_js_1.Remark {
     }
     checkDatasLength(data) {
         const obj = Remark_js_1.Remark.entityObj;
-        if (this.version === 'RMRK0.1' || this.version === "0.1") {
-            // Not allowed
-            let collection = "";
-            obj.sn = data[data.length - 1];
-            data.splice(data.length - 1, 1);
-            obj.name = data[data.length - 1];
-            data.splice(data.length - 1, 1);
-            for (let i = 0; i < data.length; i++) {
-                if (i != data.length - 1) {
-                    collection += data[i] + '-';
-                }
-                else {
-                    collection += data[i];
-                }
-            }
-            obj.collection = collection;
-        }
-        else if (this.version === "1.0.0" || this.version === "RMRK1.0.0") {
+        if (this.version === "1.0.0" || this.version === "RMRK1.0.0") {
             // Normalization
             if (data.length === 4) {
                 obj.collection = data[1] + '-' + data[2];
