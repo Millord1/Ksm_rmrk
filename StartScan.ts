@@ -57,7 +57,6 @@ function launchJetskiLoop(scan: RmrkJetski, api: ApiPromise, currentBlock: numbe
             console.log('API is disconnected, waiting for reconnect...');
             api = await scan.getApi();
             console.log('API reconnected, loop will now restart');
-            currentBlock--;
             launchJetskiLoop(scan, api, --currentBlock, blockN);
         } else {
 
