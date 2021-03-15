@@ -46,55 +46,21 @@ export const getJwt = ()=>{
     return env.JWT;
 }
 
+function launchJetskiLoop(scan: RmrkJetski, api: ApiPromise, currentBlock: number, blockN: number) {
 
-export const testScan = async (opts: Option) => {
+    // Assign setInterval return to a var so we can interrupt it later
+    let interval: NodeJS.Timeout = setInterval(async () => {
 
-    let blockchain: Blockchain;
+        // Checks if API is disconnected, break loop, wait for a reconnect, relaunch loop
+        if (!api.isConnected) {
+            clearInterval(interval);
+            console.log('API is disconnected, waiting for reconnect...');
+            api = await scan.getApi();
+            console.log('API reconnected, loop will now restart');
+            currentBlock--;
+            launchJetskiLoop(scan, api, --currentBlock, blockN);
+        } else {
 
-    //@ts-ignore
-    switch (opts.chain.toLowerCase()){
-        case "polkadot":
-            blockchain = new Polkadot();
-            break;
-
-        case "unique":
-            // TODO remake Unique Blockchain
-            //@ts-ignore
-            blockchain = new Unique();
-            break;
-
-        case "kusama":
-        default:
-            blockchain = new Kusama();
-            break;
-    }
-
-    //@ts-ignore
-    let blockN: number = opts.block;
-
-    let api: ApiPromise;
-
-    const scan = new RmrkJetski(blockchain);
-    api = await scan.getApi();
-
-    let currentBlock: number = 0;
-
-    setInterval(async () => {
-
-        // if(!api.isConnected){
-        //
-        //     await api.disconnect();
-        //
-        //     console.log(api.isConnected);
-        //
-        //     exec(`yarn fetch --chain=${blockchain.name} --block=${blockN}`);
-        //     // setTimeout(async()=>{
-        //     //     api = await scan.getApi();
-        //     // }, 2000);
-        //     console.log('disconnected');
-        //     currentBlock --;
-        //
-        // }else
             if(currentBlock != blockN){
             currentBlock = blockN;
 
@@ -119,10 +85,46 @@ export const testScan = async (opts: Option) => {
                     }, 10000);
 
                 })
+            }
         }
     }, 1000 / 50);
 }
 
+    export const testScan = async (opts: Option) => {
+
+        let blockchain: Blockchain;
+
+        //@ts-ignore
+        switch (opts.chain.toLowerCase()){
+            case "polkadot":
+                blockchain = new Polkadot();
+                break;
+
+            case "unique":
+                // TODO remake Unique Blockchain
+                //@ts-ignore
+                blockchain = new Unique();
+                break;
+
+            case "kusama":
+            default:
+                blockchain = new Kusama();
+                break;
+        }
+
+        //@ts-ignore
+        let blockN: number = opts.block;
+
+        let api: ApiPromise;
+
+        const scan = new RmrkJetski(blockchain);
+        api = await scan.getApi();
+
+        let currentBlock: number = 0;
+
+        // Launches the jetski loop
+        launchJetskiLoop(scan, api, currentBlock, blockN);
+}
 
 
 
