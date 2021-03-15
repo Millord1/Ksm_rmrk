@@ -11,6 +11,9 @@ export class Transaction
     public source: string;
     public blockchain: Blockchain;
 
+    public transferValue?: string;
+    public transferDestination?: string;
+
     public destination: BlockchainAddress;
 
 
@@ -43,6 +46,14 @@ export class Transaction
     public setDestination(destination: BlockchainAddress){
         this.destination = destination;
         return this;
+    }
+
+    public setTransferValue(value: string){
+        this.transferValue = value;
+    }
+
+    public setTransferDest(destination: string){
+        this.transferDestination = destination;
     }
 
 

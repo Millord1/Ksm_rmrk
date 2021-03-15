@@ -20,12 +20,17 @@ import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 import {ApiPromise} from "@polkadot/api";
+import {Buy} from "./classes/Rmrk/Interactions/Buy";
+
+const { exec } = require('child_process');
 
 // 1er dec 5144100
 
 // 1er fevrier 6024550
 
-// Last block scanned 6516636
+// Last block scanned 6556754
+
+// Buy 6546060 6546088
 
 export const getJwt = ()=>{
 
@@ -67,26 +72,30 @@ export const testScan = async (opts: Option) => {
     //@ts-ignore
     let blockN: number = opts.block;
 
-    let currentBlock: number = 0;
-
     let api: ApiPromise;
 
     const scan = new RmrkJetski(blockchain);
     api = await scan.getApi();
 
-    let isConnected: boolean = api.isConnected;
-    
+    let currentBlock: number = 0;
+
     setInterval(async () => {
 
-        if(!api.isConnected){
-            getNewApi(scan).then(newApi=>{
-                api = newApi;
-                isConnected = api.isConnected;
-            });
-        }
-
-        if(isConnected && currentBlock != blockN){
-
+        // if(!api.isConnected){
+        //
+        //     await api.disconnect();
+        //
+        //     console.log(api.isConnected);
+        //
+        //     exec(`yarn fetch --chain=${blockchain.name} --block=${blockN}`);
+        //     // setTimeout(async()=>{
+        //     //     api = await scan.getApi();
+        //     // }, 2000);
+        //     console.log('disconnected');
+        //     currentBlock --;
+        //
+        // }else
+            if(currentBlock != blockN){
             currentBlock = blockN;
 
             scan.getRmrks(blockN, api)
@@ -95,7 +104,7 @@ export const testScan = async (opts: Option) => {
 
                         result.forEach(async value => {
                             if(typeof value === 'object'){
-                                // console.log(value);
+                                console.log(value);
                                 dispatchForCanonizer(value);
                             }
                         })
@@ -112,32 +121,8 @@ export const testScan = async (opts: Option) => {
                 })
         }
     }, 1000 / 50);
-
 }
 
-
-
-// @ts-ignore
-const getNewApi = async (scan: RmrkJetski): Promise<ApiPromise> =>{
-
-    return new Promise((resolve)=>{
-
-        setInterval(async()=>{
-            scan.getApi()
-                .then(api=>{
-                    if(api.isConnected){
-                        clearInterval();
-                        resolve (api);
-                    }
-                })
-                .catch(e=>{
-                    console.log(e);
-                })
-
-        },1000);
-    })
-
-}
 
 
 
@@ -200,6 +185,8 @@ const dispatchForCanonizer = async (value: Remark) => {
     let collName : string = "";
     let sn: string = "";
 
+    // TODO Reactivate for Buy
+    // if(value instanceof Send || value instanceof Buy){
     if(value instanceof Send){
 
         collName = value.nft.assetId;
@@ -232,8 +219,14 @@ const dispatchForCanonizer = async (value: Remark) => {
 
 const eventGossip = async (value: Remark, sn: string, collName: string) => {
 
-    const recipient = value.transaction.destination.address;
     const signer = value.transaction.source;
+    const recipient: string = value.transaction.destination.address;
+
+    // TODO Activate For Buy
+
+    // if (value instanceof Buy){
+    //     recipient = value.transaction.transferDestination ? value.transaction.transferDestination : value.transaction.destination.address
+    // }
 
     const jwt = getJwt();
 

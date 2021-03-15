@@ -14,9 +14,9 @@ class RmrkJetski {
         this.wsProvider = new api_1.WsProvider(this.chain.wsProvider);
     }
     async getApi() {
-        let myApi;
-        myApi = api_1.ApiPromise.create({ provider: this.wsProvider });
-        return myApi;
+        let api;
+        api = await api_1.ApiPromise.create({ provider: this.wsProvider });
+        return api;
     }
     async getRmrks(blockNumber, api) {
         return new Promise(async (resolve, reject) => {
@@ -61,9 +61,32 @@ class RmrkJetski {
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
                     let i = 1;
+                    // TODO For Buy
+                    // let isRemark: boolean = false;
+                    // let transferDest: string = "";
+                    // let transferValue: string = "";
+                    //
+                    // for(let i = 0; i<batch.length; i++){
+                    //
+                    //     if(batch[i].args.hasOwnProperty('_remark')){
+                    //         isRemark = true;
+                    //     }
+                    //
+                    //     if(isRemark){
+                    //         if(batch[i].args.hasOwnProperty('dest') && batch[i].args.hasOwnProperty('value')){
+                    //             transferDest = batch[i].args.dest.Id;
+                    //             transferValue = batch[i].args.value;
+                    //         }
+                    //     }
+                    // }
                     for (const rmrkObj of batch) {
                         const txHash = hash + '-' + i;
                         const tx = new Transaction_js_1.Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
+                        // TODO For Buy
+                        // if(transferDest != "" && transferValue != ""){
+                        //     tx.setTransferValue(transferValue);
+                        //     tx.setTransferDest(transferDest);
+                        // }
                         if (rmrkObj.args.hasOwnProperty('_remark')) {
                             // const buildRemark = await this.rmrkToObject(rmrkObj.args._remark, tx, i);
                             blockRmrks.push(this.rmrkToObject(rmrkObj.args._remark, tx, i));

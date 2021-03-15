@@ -26,10 +26,10 @@ export class RmrkJetski
     public async getApi(): Promise<ApiPromise>
     {
 
-        let myApi: any;
-        myApi = ApiPromise.create({ provider: this.wsProvider });
+        let api: any;
+        api = await ApiPromise.create({ provider: this.wsProvider });
 
-        return myApi;
+        return api;
     }
 
 
@@ -100,11 +100,38 @@ export class RmrkJetski
 
                     let i = 1;
 
+                    // TODO For Buy
+
+                    // let isRemark: boolean = false;
+                    // let transferDest: string = "";
+                    // let transferValue: string = "";
+                    //
+                    // for(let i = 0; i<batch.length; i++){
+                    //
+                    //     if(batch[i].args.hasOwnProperty('_remark')){
+                    //         isRemark = true;
+                    //     }
+                    //
+                    //     if(isRemark){
+                    //         if(batch[i].args.hasOwnProperty('dest') && batch[i].args.hasOwnProperty('value')){
+                    //             transferDest = batch[i].args.dest.Id;
+                    //             transferValue = batch[i].args.value;
+                    //         }
+                    //     }
+                    // }
+
+
                     for (const rmrkObj of batch){
 
                         const txHash = hash + '-' + i;
 
                         const tx = new Transaction(this.chain, blockId, txHash, blockTimestamp, signer, null);
+
+                        // TODO For Buy
+                        // if(transferDest != "" && transferValue != ""){
+                        //     tx.setTransferValue(transferValue);
+                        //     tx.setTransferDest(transferDest);
+                        // }
 
                         if(rmrkObj.args.hasOwnProperty('_remark')){
                             // const buildRemark = await this.rmrkToObject(rmrkObj.args._remark, tx, i);
@@ -190,8 +217,6 @@ function getTimestamp(ex:any): string  {
     
     return secondTimestamp.toString();
 }
-
-
 
 
 

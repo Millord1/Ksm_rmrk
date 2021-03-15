@@ -1,14 +1,9 @@
 import {Remark} from "./Remark.js";
 import {Blockchain} from "../Blockchains/Blockchain.js";
-import {Asset as rmrkAsset, Asset} from "../Asset.js";
+import {Asset} from "../Asset.js";
 import {EntityInterface, PublicInteraction} from "../Interfaces.js";
 import {Transaction} from "../Transaction.js";
 import {Metadata} from "../Metadata.js";
-import {Send} from "./Interactions/Send";
-import {MintNft} from "./Interactions/MintNft";
-import {Mint} from "./Interactions/Mint";
-import {Entity} from "./Entity";
-import {Collection} from "../Collection";
 
 
 export abstract class Interaction extends Remark implements PublicInteraction

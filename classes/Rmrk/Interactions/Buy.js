@@ -8,13 +8,6 @@ class Buy extends Interaction_js_1.Interaction {
         const splitted = this.rmrkToArray();
         this.nft = this.nftFromComputedId(splitted[3], meta);
     }
-    toJson() {
-        const json = this.toJsonSerialize();
-        // @ts-ignore
-        json['nftId'] = this.nft.toJson(false);
-        json['interaction'] = this.interaction;
-        return JSON.stringify(json);
-    }
 }
 exports.Buy = Buy;
 //# sourceMappingURL=Buy.js.map

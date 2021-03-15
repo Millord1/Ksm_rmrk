@@ -1,7 +1,7 @@
 {
   "name": "rmrk",
   "version": "1.0.0",
-  "description": "<pre>\r     <code>\r         npm install --save @polkadot/api\r     </code>\r </pre>",
+  "description": "<pre>\r     <code>\r         npm install\r     </code>\r </pre>",
   "main": "index.js",
   "dependencies": {
     "@polkadot/api": "^3.3.1",
