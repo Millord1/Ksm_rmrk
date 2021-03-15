@@ -7,6 +7,8 @@ import {Metadata} from "../../Metadata.js";
 export class Buy extends Interaction
 {
 
+    // TODO in Buy batch, the second part is send of KSM but isn't rmrk so is ignored
+
     nft: Asset;
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction, meta: Metadata|null) {
@@ -16,14 +18,16 @@ export class Buy extends Interaction
     }
 
 
-    public toJson(){
 
-        const json = this.toJsonSerialize();
-        // @ts-ignore
-        json['nftId'] = this.nft.toJson(false);
-        json['interaction'] = this.interaction;
 
-        return JSON.stringify(json);
-    }
+    // public toJson(){
+    //
+    //     const json = this.toJsonSerialize();
+    //     // @ts-ignore
+    //     json['nftId'] = this.nft.toJson(false);
+    //     json['interaction'] = this.interaction;
+    //
+    //     return JSON.stringify(json);
+    // }
 
 }
