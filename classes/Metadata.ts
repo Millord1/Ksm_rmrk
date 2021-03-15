@@ -13,7 +13,6 @@ export class Metadata
     public name: string = "";
     public attributes: Array<Object> = [];
     public background_color: string = "";
-    public animation_url: string = "";
 
     private static delayForCalls: number = 1000;
 
@@ -27,10 +26,10 @@ export class Metadata
          this.background_color = meta.background_color;
          this.attributes = meta.attributes;
 
-         if(meta.image !== "" || meta.image != undefined){
-             this.image = meta.image
-         }else{
+         if(meta.image == "" || meta.image == undefined){
              this.image = meta.animation_url;
+         }else{
+             this.image = meta.image
          }
     }
 
