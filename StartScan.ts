@@ -152,7 +152,7 @@ export const forceScan = async (block:number) => {
             result.forEach(value => {
 
                 if(typeof value === 'object'){
-                    dispatchForCanonizer(value);
+                    // dispatchForCanonizer(value);
                     console.log(value);
                 }
 
@@ -165,37 +165,37 @@ export const forceScan = async (block:number) => {
 
 export const scanOneBlock = async (opts: Option) => {
 
-    let blockchain: Blockchain;
+    let chain: Blockchain;
 
     //@ts-ignore
     switch (opts.chain.toLowerCase()){
         case "polkadot":
-            blockchain = new Polkadot();
+            chain = new Polkadot();
             break;
 
         case "unique":
             // TODO remake Unique Blockchain
             // @ts-ignore
-            blockchain = new Unique();
+            chain = new Unique();
             break;
 
         case 'westend':
-            blockchain = new WestEnd();
+            chain = new WestEnd();
             break;
 
         case "kusama":
         default:
-            blockchain = new Kusama();
+            chain = new Kusama();
             break;
 
     }
 
-    console.log(blockchain.constructor.name);
+    console.log(chain.constructor.name);
 
     // @ts-ignore
     const blockN = opts.block;
 
-    const chain = new Kusama();
+    // const chain = new Kusama();
     const jetski = new RmrkJetski(chain);
     const api = await jetski.getApi();
 
