@@ -160,6 +160,31 @@ export const forceScan = async (block:number) => {
 
 export const scanOneBlock = async (opts: Option) => {
 
+    let blockchain: Blockchain;
+
+    //@ts-ignore
+    switch (opts.chain.toLowerCase()){
+        case "polkadot":
+            blockchain = new Polkadot();
+            break;
+
+        case "unique":
+            // TODO remake Unique Blockchain
+            // @ts-ignore
+            blockchain = new Unique();
+            break;
+
+        case 'westend':
+            blockchain = new WestEnd();
+            break;
+
+        case "kusama":
+        default:
+            blockchain = new Kusama();
+            break;
+
+    }
+
     // @ts-ignore
     const blockN = opts.block;
 
