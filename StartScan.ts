@@ -114,6 +114,8 @@ export const testScan = async (opts: Option) => {
 
     }
 
+    console.log(blockchain.constructor.name);
+
     //@ts-ignore
     let blockN: number = opts.block;
 
@@ -184,6 +186,8 @@ export const scanOneBlock = async (opts: Option) => {
             break;
 
     }
+
+    console.log(blockchain.constructor.name);
 
     // @ts-ignore
     const blockN = opts.block;
