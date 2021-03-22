@@ -5,7 +5,7 @@ export class WestEnd extends SubstrateChain
 {
 
     public constructor() {
-        super("Westend", "WE", "", true, "wss://westend-rpc.polkadot.io");
+        super("Westend", "WND", "", true, "wss://westend-rpc.polkadot.io");
     }
 
 }
