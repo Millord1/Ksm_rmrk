@@ -114,7 +114,10 @@ export const testScan = async (opts: Option) => {
 
     }
 
+    console.log("scanning blockchain");
     console.log(blockchain.constructor.name);
+
+
 
     //@ts-ignore
     let blockN: number = opts.block;
@@ -349,7 +352,7 @@ const entityGossip = async (rmrk: Entity) => {
 
         myContract.bindToCollection(myCollection);
 
-        canonizeManager.gossipCollection().then(r=>{console.log("collection gossiped " + blockId)});
+        canonizeManager.gossipCollection().then(r=>{console.log("collection gossiped " + blockId + r)});
 
     }
 

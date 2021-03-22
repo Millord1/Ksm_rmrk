@@ -131,6 +131,16 @@ export class CSCanonizeManager {
         })
 
         return this.gossipActiveBlockchain(apiConnector,true)
+    }
+
+    public addBlockchainSupport(blockchains:Blockchain[]){
+
+        blockchains.forEach(blockchain => {
+            let entity = new Entity(this.activeBlockchainFactory, [new Reference(this.sandra.get('blockchain'), blockchain.getName())]);
+            entity.setTriplet('onBlockchain', blockchain.getName(), this.sandra);
+            this.activeBlockchainFactory.addOrUpdateEntity(entity);
+        })
+
 
     }
 
