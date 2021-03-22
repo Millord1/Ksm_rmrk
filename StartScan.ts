@@ -20,17 +20,15 @@ import {Blockchain} from "./classes/Blockchains/Blockchain.js";
 import {strict as assert} from "assert";
 import {load} from "ts-dotenv";
 import {ApiPromise} from "@polkadot/api";
-import {Buy} from "./classes/Rmrk/Interactions/Buy";
-
-const { exec } = require('child_process');
+import {WestEnd} from "./classes/Blockchains/WestEnd";
 
 // 1er dec 5144100
 
 // 1er fevrier 6024550
 
-// Last block scanned 6556754
+// Last block scanned 6715824
 
-// Buy 6546060 6546088
+// Buy 6546060
 
 export const getJwt = ()=>{
 
@@ -61,68 +59,73 @@ function launchJetskiLoop(scan: RmrkJetski, api: ApiPromise, currentBlock: numbe
         } else {
 
             if(currentBlock != blockN){
-            currentBlock = blockN;
+                currentBlock = blockN;
 
-            scan.getRmrks(blockN, api)
-                .then(result => {
-                    if(result.length > 0){
+                scan.getRmrks(blockN, api)
+                    .then(result => {
+                        if(result.length > 0){
 
-                        result.forEach(async value => {
-                            if(typeof value === 'object'){
-                                console.log(value);
-                                dispatchForCanonizer(value);
-                            }
-                        })
-                    }
-                    blockN ++;
-                })
-                .catch( async (e)=>{
-                    console.error(e);
-                    console.log('Waiting for block ...');
-                    setTimeout(()=>{
-                        currentBlock --;
-                    }, 10000);
+                            result.forEach(async value => {
+                                if(typeof value === 'object'){
+                                    console.log(value);
+                                    dispatchForCanonizer(value);
+                                }
+                            })
+                        }
+                        blockN ++;
+                    })
+                    .catch( async (e)=>{
+                        console.error(e);
+                        console.log('Waiting for block ...');
+                        setTimeout(()=>{
+                            currentBlock --;
+                        }, 10000);
 
-                })
+                    })
             }
         }
     }, 1000 / 50);
 }
 
-    export const testScan = async (opts: Option) => {
+export const testScan = async (opts: Option) => {
 
-        let blockchain: Blockchain;
+    let blockchain: Blockchain;
 
-        //@ts-ignore
-        switch (opts.chain.toLowerCase()){
-            case "polkadot":
-                blockchain = new Polkadot();
-                break;
+    //@ts-ignore
+    switch (opts.chain.toLowerCase()){
+        case "polkadot":
+            blockchain = new Polkadot();
+            break;
 
-            case "unique":
-                // TODO remake Unique Blockchain
-                //@ts-ignore
-                blockchain = new Unique();
-                break;
+        case "unique":
+            // TODO remake Unique Blockchain
+            // @ts-ignore
+            blockchain = new Unique();
+        break;
 
-            case "kusama":
+        case 'westend':
+            blockchain = new WestEnd();
+            break;
+
+        case "kusama":
             default:
-                blockchain = new Kusama();
-                break;
-        }
+            blockchain = new Kusama();
+            break;
 
-        //@ts-ignore
-        let blockN: number = opts.block;
+    }
 
-        let api: ApiPromise;
+    //@ts-ignore
+    let blockN: number = opts.block;
 
-        const scan = new RmrkJetski(blockchain);
-        api = await scan.getApi();
+    let api: ApiPromise;
 
-        let currentBlock: number = 0;
+    const scan = new RmrkJetski(blockchain);
+    api = await scan.getApi();
 
-        // Launches the jetski loop
-        launchJetskiLoop(scan, api, currentBlock, blockN);
+    let currentBlock: number = 0;
+
+    // Launches the jetski loop
+    launchJetskiLoop(scan, api, currentBlock, blockN);
 }
 
 
@@ -169,8 +172,8 @@ export const scanOneBlock = async (opts: Option) => {
         result.forEach((rmrk)=>{
 
             if(typeof rmrk === "object"){
-                dispatchForCanonizer(rmrk);
-                // console.log(rmrk);
+                // dispatchForCanonizer(rmrk);
+                console.log(rmrk);
             }
         })
 
