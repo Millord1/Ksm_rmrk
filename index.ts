@@ -16,6 +16,7 @@ program.command("story")
 program.command("tests").action(testJetski);
 
 program.command("scan")
+    .option("--chain <chain>", "blockchain name", "kusama")
     .option("--block <block>", "Block number")
     .action(scanOneBlock);
 
