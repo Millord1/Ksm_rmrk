@@ -3,6 +3,7 @@ import {AssetCollectionFactory} from "./AssetCollectionFactory.js";
 import {Reference} from "../Reference.js";
 import {SandraManager} from "../SandraManager.js";
 import {AssetFactory} from "./AssetFactory.js";
+import {BlockchainAddress} from "./BlockchainAddress.js";
 
 
 export interface AssetCollectionInterface{
@@ -58,6 +59,12 @@ export class AssetCollection extends Entity
     public getId():string
     {
         return this.getRefValue(this.COLLECTION_ID) ? this.getRefValue(this.COLLECTION_ID) : '' ;
+
+    }
+
+    public setOwner(owner:BlockchainAddress){
+
+        this.joinEntity(AssetCollectionFactory.COLLECTION_OWNER,owner,this.factory.sandraManager);
 
     }
 

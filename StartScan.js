@@ -111,7 +111,7 @@ const forceScan = async (block) => {
     scan.getRmrks(block, api).then(result => {
         result.forEach(value => {
             if (typeof value === 'object') {
-                dispatchForCanonizer(value);
+                // dispatchForCanonizer(value);
                 console.log(value);
             }
         });
@@ -119,29 +119,29 @@ const forceScan = async (block) => {
 };
 exports.forceScan = forceScan;
 const scanOneBlock = async (opts) => {
-    let blockchain;
+    let chain;
     //@ts-ignore
     switch (opts.chain.toLowerCase()) {
         case "polkadot":
-            blockchain = new Polkadot_js_1.Polkadot();
+            chain = new Polkadot_js_1.Polkadot();
             break;
         case "unique":
             // TODO remake Unique Blockchain
             // @ts-ignore
-            blockchain = new Unique_js_1.Unique();
+            chain = new Unique_js_1.Unique();
             break;
         case 'westend':
-            blockchain = new WestEnd_1.WestEnd();
+            chain = new WestEnd_1.WestEnd();
             break;
         case "kusama":
         default:
-            blockchain = new Kusama_js_1.Kusama();
+            chain = new Kusama_js_1.Kusama();
             break;
     }
-    console.log(blockchain.constructor.name);
+    console.log(chain.constructor.name);
     // @ts-ignore
     const blockN = opts.block;
-    const chain = new Kusama_js_1.Kusama();
+    // const chain = new Kusama();
     const jetski = new RmrkJetski_js_1.RmrkJetski(chain);
     const api = await jetski.getApi();
     jetski.getRmrks(blockN, api).then(result => {

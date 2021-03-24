@@ -16,4 +16,5 @@ AssetCollectionFactory.IMAGE_EXTENSION = 'imageExtension';
 AssetCollectionFactory.MAIN_IMAGE = 'imageUrl';
 AssetCollectionFactory.MAIN_NAME = 'name';
 AssetCollectionFactory.DESCRIPTION = 'descriptiopn';
+AssetCollectionFactory.COLLECTION_OWNER = 'owner';
 //# sourceMappingURL=AssetCollectionFactory.js.map

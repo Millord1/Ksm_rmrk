@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AssetCollection = void 0;
 const Entity_js_1 = require("../Entity.js");
+const AssetCollectionFactory_js_1 = require("./AssetCollectionFactory.js");
 const Reference_js_1 = require("../Reference.js");
 class AssetCollection extends Entity_js_1.Entity {
     constructor(factory, collectionInterface, sandra) {
@@ -28,6 +29,9 @@ class AssetCollection extends Entity_js_1.Entity {
     }
     getId() {
         return this.getRefValue(this.COLLECTION_ID) ? this.getRefValue(this.COLLECTION_ID) : '';
+    }
+    setOwner(owner) {
+        this.joinEntity(AssetCollectionFactory_js_1.AssetCollectionFactory.COLLECTION_OWNER, owner, this.factory.sandraManager);
     }
 }
 exports.AssetCollection = AssetCollection;
