@@ -1,35 +1,28 @@
 {
   "name": "rmrk",
   "version": "1.0.0",
-  "description": "<pre>\r     <code>\r         npm install\r     </code>\r </pre>",
+  "description": "<pre>\r     <code>\r         npm install --save @polkadot/api\r     </code>\r </pre>",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "^3.11.1",
+    "@polkadot/api": "^3.3.1",
+    "canonizer": "0.0.4",
     "commander": "^6.2.1",
-    "jquery": "^3.6.0",
-    "slugify": "^1.4.7",
+    "slugify": "^1.5.0",
     "ts-dotenv": "^0.8.3",
     "xmlhttprequest": "^1.8.0",
     "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
-    "@types/jquery": "^3.5.5",
-    "@types/mocha": "^8.2.1",
-    "@types/node": "^14.14.31",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.3",
+    "@types/node": "^14.14.35",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.2"
+    "typescript": "^4.1.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "typescript": "^2.4.1",
-    "fetch": "node --max_old_space_size=2048 ./index.js fetch",
-    "bruno": "node ./index bruno",
-    "batch": "node ./index batch",
-    "tests": "node ./index tests",
-    "scan": "node ./index scan"
+    "fetch": "node --max_old_space_size=2048 ./src/index.js fetch",
+    "scan": "node ./src/index.js scan",
+    "hello": "node ./src/index.js hello"
   },
   "repository": {
     "type": "git",
