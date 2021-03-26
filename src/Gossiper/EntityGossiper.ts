@@ -72,11 +72,10 @@ export class EntityGossiper extends GossiperManager
                 }
 
                 let assetContract = this.chain.contractFactory.getOrCreate(assetId);
-                const source = new BlockchainAddress(this.chain.addressFactory, this.source, sandra);
 
                 let myAsset = canonizeManager.createAsset({assetId: assetId, imageUrl: this.image,description:this.description, name:assetName});
                 let myCollection = canonizeManager.createCollection({id: this.collectionId});
-                myCollection.setOwner(source);
+
 
                 myAsset.bindCollection(myCollection);
                 assetContract.bindToCollection(myCollection);
@@ -100,7 +99,10 @@ export class EntityGossiper extends GossiperManager
 
                 let myContract = this.chain.contractFactory.getOrCreate(this.collectionId);
 
+                const source = new BlockchainAddress(this.chain.addressFactory, this.source, sandra);
+
                 let canonizeCollection = canonizeManager.createCollection({id: this.collectionId, imageUrl: this.image, name: collection, description: this.description});
+                canonizeCollection.setOwner(source);
 
                 myContract.bindToCollection(canonizeCollection);
 
