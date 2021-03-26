@@ -76,7 +76,6 @@ export class EntityGossiper extends GossiperManager
                 let myAsset = canonizeManager.createAsset({assetId: assetId, imageUrl: this.image,description:this.description, name:assetName});
                 let myCollection = canonizeManager.createCollection({id: this.collectionId});
 
-
                 myAsset.bindCollection(myCollection);
                 assetContract.bindToCollection(myCollection);
 
