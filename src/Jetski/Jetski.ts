@@ -98,8 +98,7 @@ export class Jetski
                     }
                 }
 
-
-                if(section === "utility" && method === "batch"){
+                if(section === "utility" && method.includes("batch")){
                     // If rmrks are in batch
 
                     const arg = args.toString();
