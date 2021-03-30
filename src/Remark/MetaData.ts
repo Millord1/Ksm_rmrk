@@ -28,7 +28,7 @@ export class MetaData
 
     private static ipfsUrl: string = "https://ipfs.io/ipfs/";
     private static cloudFlareUrl: string = "https://cloudflare-ipfs.com/ipfs/";
-    private static delayForCalls: number = 1000;
+    private static delayForCalls: number = 500;
 
     constructor(url: string, data: MetadataInputs) {
         this.url = url;
@@ -131,6 +131,7 @@ export class MetaData
                     }else if(this.readyState == 4 && this.status == 400){
                         reject('Bad url : ' + url);
                     }else if(this.readyState == 4 && this.status == 500){
+                        console.error(url);
                         reject('Something is bad with this request, error ' + this.status);
                     }
 

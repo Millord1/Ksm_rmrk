@@ -98,8 +98,7 @@ export class Jetski
                     }
                 }
 
-
-                if(section === "utility" && method === "batch"){
+                if(section === "utility" && method.includes("batch")){
                     // If rmrks are in batch
 
                     const arg = args.toString();
@@ -124,12 +123,10 @@ export class Jetski
 
                         if(rmrkObj.args.hasOwnProperty('_remark')){
                             // If batch have rmrk
-                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx, i));
+                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
                         }
                         i += 1;
-
                     }
-
                 }
 
             }
@@ -267,7 +264,7 @@ export class Jetski
 
 
 
-    public getObjectFromRemark(remark: string, transaction: Transaction, batchIndex?: number): Promise<Interaction|string>
+    public getObjectFromRemark(remark: string, transaction: Transaction): Promise<Interaction|string>
     {
         // Promise create an object with rmrk
         return new Promise((resolve)=>{

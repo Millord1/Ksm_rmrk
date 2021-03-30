@@ -3,6 +3,9 @@ import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {Buy} from "../Remark/Interactions/Buy";
 import {List} from "../Remark/Interactions/List";
 import {BlockchainAddress} from "canonizer/src/canonizer/BlockchainAddress";
+import {BlockchainOrder} from "canonizer/src/canonizer/BlockchainOrder";
+import {BlockchainContract} from "canonizer/src/canonizer/BlockchainContract";
+import {RmrkContractStandard} from "canonizer/src/canonizer/Interfaces/RmrkContractStandard";
 
 
 export class OrderGossiper extends GossiperManager
@@ -53,10 +56,24 @@ export class OrderGossiper extends GossiperManager
         const canonizeManager = this.canonizeManager;
         const sandra = canonizeManager.getSandra();
 
-        // TODO ContractStandard
-
         const source = new BlockchainAddress(this.chain.addressFactory, this.signer, sandra);
 
+        const buyAmount = String(this.amount);
+        const sellPrice = String(this.value);
+        const total = String(this.total);
+
+        const txId = this.txId;
+        const timestamp = this.timestamp;
+
+        // TODO when implemented in Canonizer
+        const ksmContractStd = null;
+        // const ksmContractStd = new KsmContractStandard(canonizeManager);
+
+        const rmrkStd = new RmrkContractStandard(canonizeManager);
+
+        const contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
+
+        return new BlockchainOrder(this.chain.eventFactory, source, this.buyContractId, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
 
     }
 
