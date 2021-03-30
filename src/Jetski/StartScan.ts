@@ -12,10 +12,11 @@ import {Collection} from "../Remark/Entities/Collection";
 import {Entity} from "../Remark/Entities/Entity";
 import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
+import { Polkadot } from "../Blockchains/Polkadot";
 
 
 // Verify : 6312038
-// 6334378
+// 6802595
 
 
 function getBlockchain(chainName: string)
@@ -25,6 +26,9 @@ function getBlockchain(chainName: string)
 
         case "westend":
             return new WestEnd();
+
+        case "polkadot":
+            return new Polkadot();
 
         case "kusama":
         default:
