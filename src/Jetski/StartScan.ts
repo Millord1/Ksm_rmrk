@@ -13,15 +13,19 @@ import {Entity} from "../Remark/Entities/Entity";
 import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
 import { Polkadot } from "../Blockchains/Polkadot";
+import {Global} from "../globals";
 
 const fs = require('fs');
 const path = require('path');
-
 
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
+
+
+const threadLock: string = "src/Files/thread.lock.json"
+const save: string = "_lastBlock.json";
 
 // Verify : 6312038
 // 6827717
@@ -29,7 +33,11 @@ const readline = require('readline').createInterface({
 // WE Start 4887870
 // WE last 4990872
 
+// TODO TEST read in folder
+// TODO write file server on node
 
+// TODO save block without meta in Global array for writing on exit
+// TODO check if .lock already exists for continue scan
 
 function startLock(startBlock: number, chain: string)
 {
@@ -47,7 +55,7 @@ function startLock(startBlock: number, chain: string)
     const data = JSON.stringify(threadData);
 
     try{
-        fs.writeFileSync(path.resolve('./thread.lock.json'), data);
+        fs.writeFileSync(path.resolve(threadLock), data);
     }catch(e){
         console.error(e);
     }
@@ -58,15 +66,15 @@ function startLock(startBlock: number, chain: string)
 
 function checkLock(): boolean
 {
-    return fs.existsSync(path.resolve('./thread.lock.json'));
+    return fs.existsSync(path.resolve(threadLock));
 }
 
 
 function getLastBlock(chain: string): number|undefined
 {
     // read file for get last block
-    if( fs.existsSync(path.resolve(chain+'_lastBlock.json')) ){
-        const lastBlock = fs.readFileSync(path.resolve(chain+'_lastBlock.json'));
+    if( fs.existsSync(path.resolve("src/Files/"+chain+save)) ){
+        const lastBlock = fs.readFileSync(path.resolve("src/Files/"+ chain + save));
         const data = JSON.parse(lastBlock);
 
         return data.lastBlock;
@@ -88,6 +96,17 @@ function exitProcess(blockNumber: number, chain: string)
         console.log('Fail to save block : '+blockNumber);
     }
 
+    const blocksToRescan: string = JSON.stringify(Global.blocksToRescan);
+
+    if(Global.blocksToRescan){
+        try{
+            fs.writeFileSync(path.resolve("Files/toRescan.json"), blocksToRescan);
+            console.log("Rescan saved");
+        }catch(e){
+            console.error(e);
+        }
+    }
+
     process.exit();
 }
 
@@ -103,7 +122,7 @@ function saveLastBlock(lastBlock: number, chain: string): boolean
     const data = JSON.stringify(saveBlock);
 
     try{
-        fs.writeFileSync(path.resolve(chain +'_lastBlock.json'), data);
+        fs.writeFileSync(path.resolve( "src/Files/"+chain + save), data);
         return true;
     }catch(e){
         console.error(e);
@@ -135,7 +154,6 @@ function getBlockchain(chainName: string)
 
 
 export const startScanner = async (opts: Option)=>{
-
     // Launch jetski from yarn
 
     // @ts-ignore
@@ -165,14 +183,14 @@ export const startScanner = async (opts: Option)=>{
 
     }else{
 
-        readline.question("Thread is actually locked, did you want to unlock ? (Y/n)", (answer: string)=>{
+        readline.question("Thread is actually locked, did you want to unlock ? (Y/n) ", (answer: string)=>{
 
             answer = answer.toLowerCase();
 
             if(answer == "y" || answer == "yes"){
 
                 try{
-                    fs.unlinkSync(path.resolve("./thread.lock.json"));
+                    fs.unlinkSync(path.resolve(threadLock));
                 }catch(e){
                     console.error(e);
                     console.log("Something is wrong, please delete manually root/thread.lock.json")
@@ -320,12 +338,16 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
 {
     return new Promise(async (resolve)=>{
 
+
+        let entity: Entity;
+
         for( const rmrk of remarks ){
 
             // loop for checking if meta exists
             if(rmrk instanceof Mint){
 
                 if(rmrk.collection instanceof Collection && !rmrk.collection.metaData){
+                    entity = rmrk.collection;
                     // if meta doesn't exists, call
                      metaDataCaller(rmrk.collection)
                          .then((meta)=>{
@@ -336,9 +358,14 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
                      })
                 }
 
+                if(!rmrk.collection?.metaData){
+                    Global.blocksToRescan.push(rmrk.transaction.blockId);
+                }
+
             }else if (rmrk instanceof MintNft){
 
                 if(rmrk.asset instanceof Asset && !rmrk.asset.metaData){
+
                     // if meta doesn't exists, call
                     metaDataCaller(rmrk.asset)
                         .then((meta)=>{
@@ -349,7 +376,12 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
                     })
                 }
 
+                if(!rmrk.asset?.metaData){
+                    Global.blocksToRescan.push(rmrk.transaction.blockId);
+                }
+
             }
+
         }
         resolve (remarks);
     })
