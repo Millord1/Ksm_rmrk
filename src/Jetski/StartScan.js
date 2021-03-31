@@ -18,7 +18,7 @@ const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
-const threadLock = "Files/thread.lock.json";
+const threadLock = "thread.lock.json";
 function getSavePath(chainName) {
     const save = "_lastBlock.json";
     return __dirname + "/../Files/" + chainName + save;
@@ -72,9 +72,9 @@ function exitProcess(blockNumber, chain, toRescan) {
         console.log('Fail to save block : ' + blockNumber);
     }
     const rescan = JSON.stringify(toRescan);
-    if (!fs.existsSync("Files/toRescan.json")) {
+    if (!fs.existsSync("toRescan.json")) {
         try {
-            fs.writeFileSync(path.resolve("Files/toRescan.json"), rescan);
+            fs.writeFileSync(path.resolve("toRescan.json"), rescan);
             console.log("Rescan saved");
         }
         catch (e) {
@@ -83,11 +83,11 @@ function exitProcess(blockNumber, chain, toRescan) {
     }
     else {
         try {
-            const blocks = fs.readFileSync("Files/toRescan.json");
+            const blocks = fs.readFileSync("toRescan.json");
             const oldBlocks = JSON.parse(blocks);
             const newArray = oldBlocks.concat(oldBlocks, toRescan);
             const toPush = JSON.stringify(newArray);
-            fs.writeFileSync("Files/toRescan.json", toPush);
+            fs.writeFileSync("toRescan.json", toPush);
             console.log("Rescan saved");
         }
         catch (e) {
@@ -168,7 +168,7 @@ const startScanner = async (opts) => {
                 }
                 catch (e) {
                     console.error(e);
-                    console.log("Something is wrong, please delete manually root/thread.lock.json");
+                    console.log("Something is wrong, please delete manually Files/thread.lock.json");
                 }
                 startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
             }
