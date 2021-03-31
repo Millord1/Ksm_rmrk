@@ -150,7 +150,7 @@ export class Jetski
 
                 })
                 .catch(e=>{
-                    console.error(e);
+                    reject(e);
                 })
 
         })
@@ -267,10 +267,16 @@ export class Jetski
     public getObjectFromRemark(remark: string, transaction: Transaction): Promise<Interaction|string>
     {
         // Promise create an object with rmrk
-        return new Promise((resolve)=>{
+        return new Promise((resolve, reject)=>{
 
             const uri = hexToString(remark);
-            const url = decodeURIComponent(uri);
+            let url: string= "";
+
+            try{
+                url = decodeURIComponent(uri)
+            }catch(e){
+                reject(e);
+            }
 
             const reader = new RmrkReader(this.chain, transaction);
             const rmrk = reader.readInteraction(url);
