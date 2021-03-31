@@ -11,7 +11,7 @@ const Collection_1 = require("../Remark/Entities/Collection");
 const Asset_1 = require("../Remark/Entities/Asset");
 const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
-const globals_1 = require("../globals");
+// import {Global} from "../globals";
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline').createInterface({
@@ -67,16 +67,16 @@ function exitProcess(blockNumber, chain) {
     else {
         console.log('Fail to save block : ' + blockNumber);
     }
-    const blocksToRescan = JSON.stringify(globals_1.Global.blocksToRescan);
-    if (globals_1.Global.blocksToRescan) {
-        try {
-            fs.writeFileSync(path.resolve("Files/toRescan.json"), blocksToRescan);
-            console.log("Rescan saved");
-        }
-        catch (e) {
-            console.error(e);
-        }
-    }
+    // const blocksToRescan: string = JSON.stringify(Global.blocksToRescan);
+    //
+    // if(Global.blocksToRescan){
+    //     try{
+    //         fs.writeFileSync(path.resolve("Files/toRescan.json"), blocksToRescan);
+    //         console.log("Rescan saved");
+    //     }catch(e){
+    //         console.error(e);
+    //     }
+    // }
     process.exit();
 }
 function saveLastBlock(lastBlock, chain) {
@@ -255,7 +255,7 @@ async function metaDataVerifier(remarks) {
                     });
                 }
                 if (!((_a = rmrk.collection) === null || _a === void 0 ? void 0 : _a.metaData)) {
-                    globals_1.Global.blocksToRescan.push(rmrk.transaction.blockId);
+                    // Global.blocksToRescan.push(rmrk.transaction.blockId);
                 }
             }
             else if (rmrk instanceof MintNft_1.MintNft) {
@@ -270,7 +270,7 @@ async function metaDataVerifier(remarks) {
                     });
                 }
                 if (!((_b = rmrk.asset) === null || _b === void 0 ? void 0 : _b.metaData)) {
-                    globals_1.Global.blocksToRescan.push(rmrk.transaction.blockId);
+                    // Global.blocksToRescan.push(rmrk.transaction.blockId);
                 }
             }
         }
