@@ -26,7 +26,13 @@ const readline = require('readline').createInterface({
 
 
 const threadLock: string = "Files/thread.lock.json"
-const save: string = "_lastBlock.json";
+
+
+function getSavePath(chainName: string): string
+{
+    const save: string = "_lastBlock.json";
+    return __dirname + "/../Files/" + chainName + save;
+}
 
 // Verify : 6312038
 // 6827717
@@ -73,9 +79,10 @@ function checkLock(): boolean
 
 function getLastBlock(chain: string): number|undefined
 {
+    console.log(path.resolve(getSavePath(chain)));
     // read file for get last block
-    if( fs.existsSync(path.resolve("Files/"+chain+save)) ){
-        const lastBlock = fs.readFileSync(path.resolve("Files/"+ chain + save));
+    if( fs.existsSync( path.resolve(getSavePath(chain)) ) ){
+        const lastBlock = fs.readFileSync( path.resolve(getSavePath(chain)) );
         const data = JSON.parse(lastBlock);
 
         return data.lastBlock;
@@ -140,7 +147,7 @@ function saveLastBlock(lastBlock: number, chain: string): boolean
     const data = JSON.stringify(saveBlock);
 
     try{
-        fs.writeFileSync(path.resolve( "Files/"+chain + save), data);
+        fs.writeFileSync(path.resolve( getSavePath(chain)), data);
         return true;
     }catch(e){
         console.error(e);
