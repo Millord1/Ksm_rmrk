@@ -19,7 +19,10 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 const threadLock = "Files/thread.lock.json";
-const save = "_lastBlock.json";
+function getSavePath(chainName) {
+    const save = "_lastBlock.json";
+    return __dirname + "/../Files/" + chainName + save;
+}
 // Verify : 6312038
 // 6827717
 // WE Start 4887870
@@ -49,9 +52,10 @@ function checkLock() {
     return fs.existsSync(path.resolve(threadLock));
 }
 function getLastBlock(chain) {
+    console.log(path.resolve(getSavePath(chain)));
     // read file for get last block
-    if (fs.existsSync(path.resolve("Files/" + chain + save))) {
-        const lastBlock = fs.readFileSync(path.resolve("Files/" + chain + save));
+    if (fs.existsSync(path.resolve(getSavePath(chain)))) {
+        const lastBlock = fs.readFileSync(path.resolve(getSavePath(chain)));
         const data = JSON.parse(lastBlock);
         return data.lastBlock;
     }
@@ -99,7 +103,7 @@ function saveLastBlock(lastBlock, chain) {
     };
     const data = JSON.stringify(saveBlock);
     try {
-        fs.writeFileSync(path.resolve("Files/" + chain + save), data);
+        fs.writeFileSync(path.resolve(getSavePath(chain)), data);
         return true;
     }
     catch (e) {
