@@ -13,7 +13,7 @@ import {Entity} from "../Remark/Entities/Entity";
 import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
 import { Polkadot } from "../Blockchains/Polkadot";
-import {Global} from "../globals";
+// import {Global} from "../globals";
 
 const fs = require('fs');
 const path = require('path');
@@ -96,16 +96,16 @@ function exitProcess(blockNumber: number, chain: string)
         console.log('Fail to save block : '+blockNumber);
     }
 
-    const blocksToRescan: string = JSON.stringify(Global.blocksToRescan);
-
-    if(Global.blocksToRescan){
-        try{
-            fs.writeFileSync(path.resolve("Files/toRescan.json"), blocksToRescan);
-            console.log("Rescan saved");
-        }catch(e){
-            console.error(e);
-        }
-    }
+    // const blocksToRescan: string = JSON.stringify(Global.blocksToRescan);
+    //
+    // if(Global.blocksToRescan){
+    //     try{
+    //         fs.writeFileSync(path.resolve("Files/toRescan.json"), blocksToRescan);
+    //         console.log("Rescan saved");
+    //     }catch(e){
+    //         console.error(e);
+    //     }
+    // }
 
     process.exit();
 }
@@ -359,7 +359,7 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
                 }
 
                 if(!rmrk.collection?.metaData){
-                    Global.blocksToRescan.push(rmrk.transaction.blockId);
+                    // Global.blocksToRescan.push(rmrk.transaction.blockId);
                 }
 
             }else if (rmrk instanceof MintNft){
@@ -377,7 +377,7 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
                 }
 
                 if(!rmrk.asset?.metaData){
-                    Global.blocksToRescan.push(rmrk.transaction.blockId);
+                    // Global.blocksToRescan.push(rmrk.transaction.blockId);
                 }
 
             }
