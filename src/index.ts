@@ -4,7 +4,7 @@ const {program} = require('commander');
 
 program.command("fetch")
     .option("--chain <chain>", "chain name")
-    .option("--block <block>", "block number")
+    .option("--block <block>", "", 0)
     .action(startScanner);
 
 

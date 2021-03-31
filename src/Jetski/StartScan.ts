@@ -14,9 +14,104 @@ import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
 import { Polkadot } from "../Blockchains/Polkadot";
 
+const fs = require('fs');
+const path = require('path');
+
+
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
 // Verify : 6312038
-// 6802595
+// 6827717
+
+// WE Start 4887870
+// WE last 4990872
+
+
+
+function startLock(startBlock: number, chain: string)
+{
+    // create file for lock one thread
+
+    const dateTimestamp = Date.now() * 1000;
+    const date = new Date(dateTimestamp);
+
+    const threadData = {
+        startBlock: startBlock,
+        chain: chain,
+        start: date
+    }
+
+    const data = JSON.stringify(threadData);
+
+    try{
+        fs.writeFileSync(path.resolve('./thread.lock.json'), data);
+    }catch(e){
+        console.error(e);
+    }
+
+}
+
+
+
+function checkLock(): boolean
+{
+    return fs.existsSync(path.resolve('./thread.lock.json'));
+}
+
+
+function getLastBlock(chain: string): number|undefined
+{
+    // read file for get last block
+    if( fs.existsSync(path.resolve(chain+'_lastBlock.json')) ){
+        const lastBlock = fs.readFileSync(path.resolve(chain+'_lastBlock.json'));
+        const data = JSON.parse(lastBlock);
+
+        return data.lastBlock;
+    }
+
+    return undefined
+}
+
+
+function exitProcess(blockNumber: number, chain: string)
+{
+    // save block and exit process
+    console.log('exit process ...');
+    blockNumber--;
+
+    if(saveLastBlock(blockNumber, chain)){
+        console.log('saved block : '+blockNumber);
+    }else{
+        console.log('Fail to save block : '+blockNumber);
+    }
+
+    process.exit();
+}
+
+
+
+function saveLastBlock(lastBlock: number, chain: string): boolean
+{
+    // write file with last block
+    const saveBlock = {
+        lastBlock: lastBlock
+    }
+
+    const data = JSON.stringify(saveBlock);
+
+    try{
+        fs.writeFileSync(path.resolve(chain +'_lastBlock.json'), data);
+        return true;
+    }catch(e){
+        console.error(e);
+        return false;
+    }
+
+}
+
 
 
 function getBlockchain(chainName: string)
@@ -44,7 +139,8 @@ export const startScanner = async (opts: Option)=>{
     // Launch jetski from yarn
 
     // @ts-ignore
-    let chain: Blockchain = getBlockchain(opts.chain);
+    const chainName = opts.chain;
+    let chain: Blockchain = getBlockchain(chainName);
 
     // @ts-ignore
     let blockNumber = opts.block;
@@ -54,18 +150,71 @@ export const startScanner = async (opts: Option)=>{
 
     let currentBlock: number = 0;
 
-    startJetskiLoop(jetski, api, currentBlock, blockNumber);
+    if(blockNumber == 0){
+        blockNumber = getLastBlock(chainName);
+        if(!blockNumber){
+            console.error('Incorrect block number');
+            process.exit();
+        }
+    }
+
+    if(!checkLock()){
+        // check if lock file exists
+
+        startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
+
+    }else{
+
+        readline.question("Thread is actually locked, did you want to unlock ? (Y/n)", (answer: string)=>{
+
+            answer = answer.toLowerCase();
+
+            if(answer == "y" || answer == "yes"){
+
+                try{
+                    fs.unlinkSync(path.resolve("./thread.lock.json"));
+                }catch(e){
+                    console.error(e);
+                    console.log("Something is wrong, please delete manually root/thread.lock.json")
+                }
+
+                startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
+
+            }else{
+
+                process.exit();
+            }
+
+        })
+
+
+    }
 
 }
 
 
 
-function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number)
+function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, chain: string)
 {
+    // generate file for lock one thread
+    startLock(blockNumber, chain);
+
     // launch the loop on blocks
     let interval: NodeJS.Timeout =  setInterval(async()=>{
 
+        process.on('SIGINT', ()=>{
+            // Save last block on exit Ctrl+C
+            exitProcess(blockNumber, chain);
+        });
+
+        process.on('exit', ()=>{
+            // Save last block when app is closing
+            exitProcess(blockNumber, chain);
+        });
+
+
         if (!api.isConnected) {
+
             // if Api disconnect
             clearInterval(interval);
             console.log('API is disconnected, waiting for reconnect...');
@@ -73,7 +222,7 @@ function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, 
             api = await jetski.getApi();
             console.log('API reconnected, loop will now restart');
 
-            startJetskiLoop(jetski, api, --currentBlock, blockNumber);
+            startJetskiLoop(jetski, api, --currentBlock, blockNumber, chain);
 
         }else{
 
@@ -86,27 +235,39 @@ function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, 
                         // Check if metadata exists
                         const rmrksWithMeta = await metaDataVerifier(remarks);
 
+                        const needDelay: boolean = rmrksWithMeta.length > 5;
+
                         if(rmrksWithMeta.length > 0){
                             // Gossip if array not empty
                             for(const rmrk of rmrksWithMeta){
+
                                 const gossip = new GossiperFactory(rmrk);
                                 const gossiper = await gossip.getGossiper();
                                 gossiper?.gossip();
+
+                                // if array have many rmrks, delay between calls
+                                if(needDelay){
+                                    setTimeout(()=>{
+                                        console.log("Wait for next gossip ...");
+                                    }, 500)
+                                }
+
                             }
                         }
                         blockNumber ++;
                     }).catch(e=>{
+                        console.error(e);
+
                         if(e == Jetski.noBlock){
                             // If block doesn't exists, wait and try again
-                            console.error(e);
                             console.log('Waiting for block ...');
                             setTimeout(()=>{
                                 currentBlock --;
                             }, 5000);
 
-                        }else if(e == Entity.undefinedEntity){
+                        }else{
                             // If Entity doesn't exists in Interaction
-                            // Probably because of non respect of version standards
+                            // Probably because of non respect of version standards or special chars
                             blockNumber++;
                         }
                     });
@@ -134,13 +295,23 @@ export const scan = async (opts: Option)=>{
     jetski.getBlockContent(blockN, api).then(async result=>{
 
         const rmrks = await metaDataVerifier(result);
+
+        const needDelay: boolean = rmrks.length > 5
+
         for(const rmrk of rmrks){
             console.log(rmrk);
             const gossip = new GossiperFactory(rmrk);
             const gossiper = await gossip.getGossiper();
             gossiper?.gossip();
+
+            if(needDelay){
+                setTimeout(()=>{
+                    console.log('Wait ...')
+                }, 500);
+            }
         }
     });
+
 }
 
 
