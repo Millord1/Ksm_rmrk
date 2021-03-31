@@ -212,7 +212,7 @@ export const startScanner = async (opts: Option)=>{
 
 
 
-function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, chain: string)
+export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, chain: string)
 {
     // generate file for lock one thread
     startLock(blockNumber, chain);

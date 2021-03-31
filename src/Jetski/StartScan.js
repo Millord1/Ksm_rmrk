@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.test = exports.scan = exports.startScanner = void 0;
+exports.test = exports.scan = exports.startJetskiLoop = exports.startScanner = void 0;
 const Kusama_1 = require("../Blockchains/Kusama");
 const Jetski_1 = require("./Jetski");
 const GossiperFactory_1 = require("../Gossiper/GossiperFactory");
@@ -210,6 +210,7 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, chain) {
         }
     }, 1000 / 50);
 }
+exports.startJetskiLoop = startJetskiLoop;
 const scan = async (opts) => {
     // scan only one block
     // @ts-ignore
