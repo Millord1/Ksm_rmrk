@@ -50,8 +50,8 @@ function checkLock() {
 }
 function getLastBlock(chain) {
     // read file for get last block
-    if (fs.existsSync(path.resolve("src/Files/" + chain + save))) {
-        const lastBlock = fs.readFileSync(path.resolve("src/Files/" + chain + save));
+    if (fs.existsSync(path.resolve("Files/" + chain + save))) {
+        const lastBlock = fs.readFileSync(path.resolve("Files/" + chain + save));
         const data = JSON.parse(lastBlock);
         return data.lastBlock;
     }
@@ -86,7 +86,7 @@ function saveLastBlock(lastBlock, chain) {
     };
     const data = JSON.stringify(saveBlock);
     try {
-        fs.writeFileSync(path.resolve("src/Files/" + chain + save), data);
+        fs.writeFileSync(path.resolve("Files/" + chain + save), data);
         return true;
     }
     catch (e) {
