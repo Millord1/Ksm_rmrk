@@ -57,7 +57,7 @@ function getLastBlock(chain) {
     }
     return undefined;
 }
-function exitProcess(blockNumber, chain) {
+function exitProcess(blockNumber, chain, toRescan) {
     // save block and exit process
     console.log('exit process ...');
     blockNumber--;
@@ -67,16 +67,29 @@ function exitProcess(blockNumber, chain) {
     else {
         console.log('Fail to save block : ' + blockNumber);
     }
-    // const blocksToRescan: string = JSON.stringify(Global.blocksToRescan);
-    //
-    // if(Global.blocksToRescan){
-    //     try{
-    //         fs.writeFileSync(path.resolve("Files/toRescan.json"), blocksToRescan);
-    //         console.log("Rescan saved");
-    //     }catch(e){
-    //         console.error(e);
-    //     }
-    // }
+    const rescan = JSON.stringify(toRescan);
+    if (!fs.existsSync("Files/toRescan.json")) {
+        try {
+            fs.writeFileSync(path.resolve("Files/toRescan.json"), rescan);
+            console.log("Rescan saved");
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+    else {
+        try {
+            const blocks = fs.readFileSync("Files/toRescan.json");
+            const oldBlocks = JSON.parse(blocks);
+            const newArray = oldBlocks.concat(oldBlocks, toRescan);
+            const toPush = JSON.stringify(newArray);
+            fs.writeFileSync("Files/toRescan.json", toPush);
+            console.log("Rescan saved");
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
     process.exit();
 }
 function saveLastBlock(lastBlock, chain) {
@@ -104,6 +117,22 @@ function getBlockchain(chainName) {
         default:
             return new Kusama_1.Kusama();
     }
+}
+function needRescan(remarks) {
+    let entity;
+    let needRescan = false;
+    remarks.forEach((rmrk) => {
+        if (rmrk instanceof Mint_1.Mint && rmrk.collection) {
+            entity = rmrk.collection;
+        }
+        else if (rmrk instanceof MintNft_1.MintNft && rmrk.asset) {
+            entity = rmrk.asset;
+        }
+        if (entity && !entity.metaData) {
+            needRescan = true;
+        }
+    });
+    return needRescan;
 }
 const startScanner = async (opts) => {
     // Launch jetski from yarn
@@ -149,15 +178,16 @@ exports.startScanner = startScanner;
 function startJetskiLoop(jetski, api, currentBlock, blockNumber, chain) {
     // generate file for lock one thread
     startLock(blockNumber, chain);
+    let toRescan = [];
     // launch the loop on blocks
     let interval = setInterval(async () => {
         process.on('SIGINT', () => {
             // Save last block on exit Ctrl+C
-            exitProcess(blockNumber, chain);
+            exitProcess(blockNumber, chain, toRescan);
         });
         process.on('exit', () => {
             // Save last block when app is closing
-            exitProcess(blockNumber, chain);
+            exitProcess(blockNumber, chain, toRescan);
         });
         if (!api.isConnected) {
             // if Api disconnect
@@ -175,6 +205,9 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, chain) {
                     .then(async (remarks) => {
                     // Check if metadata exists
                     const rmrksWithMeta = await metaDataVerifier(remarks);
+                    if (needRescan(rmrksWithMeta)) {
+                        toRescan.push(blockNumber);
+                    }
                     const needDelay = rmrksWithMeta.length > 5;
                     if (rmrksWithMeta.length > 0) {
                         // Gossip if array not empty
@@ -238,7 +271,6 @@ const scan = async (opts) => {
 exports.scan = scan;
 async function metaDataVerifier(remarks) {
     return new Promise(async (resolve) => {
-        var _a, _b;
         let entity;
         for (const rmrk of remarks) {
             // loop for checking if meta exists
@@ -254,9 +286,6 @@ async function metaDataVerifier(remarks) {
                         console.error(e);
                     });
                 }
-                if (!((_a = rmrk.collection) === null || _a === void 0 ? void 0 : _a.metaData)) {
-                    // Global.blocksToRescan.push(rmrk.transaction.blockId);
-                }
             }
             else if (rmrk instanceof MintNft_1.MintNft) {
                 if (rmrk.asset instanceof Asset_1.Asset && !rmrk.asset.metaData) {
@@ -268,9 +297,6 @@ async function metaDataVerifier(remarks) {
                     }).catch((e) => {
                         console.error(e);
                     });
-                }
-                if (!((_b = rmrk.asset) === null || _b === void 0 ? void 0 : _b.metaData)) {
-                    // Global.blocksToRescan.push(rmrk.transaction.blockId);
                 }
             }
         }

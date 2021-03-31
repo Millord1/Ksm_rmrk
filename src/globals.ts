@@ -1,3 +1,3 @@
-export namespace Global {
-    export let blocksToRescan: Array<number>
+declare namespace Global{
+    let toRescan: Array<number>;
 }
