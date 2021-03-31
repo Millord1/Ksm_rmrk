@@ -9,6 +9,8 @@ Rmrk scan for Kusama Blockchain
 * Polkadot
 * Westend
 
+#### /!\ For the first time, you need to write entirely this command /!\
+
 <pre><code>
 yarn fetch --chain=chainName --block=blockNumber
 </code></pre>
