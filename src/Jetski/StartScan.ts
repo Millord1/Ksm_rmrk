@@ -25,7 +25,7 @@ const readline = require('readline').createInterface({
 });
 
 
-const threadLock: string = "Files/thread.lock.json"
+const threadLock: string = "thread.lock.json"
 
 
 function getSavePath(chainName: string): string
@@ -106,10 +106,10 @@ function exitProcess(blockNumber: number, chain: string, toRescan: Array<number>
 
     const rescan: string = JSON.stringify(toRescan);
 
-    if(!fs.existsSync("Files/toRescan.json")){
+    if(!fs.existsSync("toRescan.json")){
 
         try{
-            fs.writeFileSync(path.resolve("Files/toRescan.json"), rescan);
+            fs.writeFileSync(path.resolve("toRescan.json"), rescan);
             console.log("Rescan saved");
         }catch(e){
             console.error(e);
@@ -118,13 +118,13 @@ function exitProcess(blockNumber: number, chain: string, toRescan: Array<number>
     }else{
 
         try{
-            const blocks = fs.readFileSync("Files/toRescan.json");
+            const blocks = fs.readFileSync("toRescan.json");
             const oldBlocks: Array<number> = JSON.parse(blocks);
 
             const newArray: Array<number> = oldBlocks.concat(oldBlocks, toRescan);
             const toPush = JSON.stringify(newArray);
 
-            fs.writeFileSync("Files/toRescan.json", toPush);
+            fs.writeFileSync("toRescan.json", toPush);
             console.log("Rescan saved");
         }catch(e){
             console.error(e);
@@ -243,7 +243,7 @@ export const startScanner = async (opts: Option)=>{
                     fs.unlinkSync(path.resolve(threadLock));
                 }catch(e){
                     console.error(e);
-                    console.log("Something is wrong, please delete manually root/thread.lock.json")
+                    console.log("Something is wrong, please delete manually Files/thread.lock.json")
                 }
 
                 startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
