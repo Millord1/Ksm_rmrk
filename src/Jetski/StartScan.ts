@@ -13,8 +13,7 @@ import {Entity} from "../Remark/Entities/Entity";
 import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
 import { Polkadot } from "../Blockchains/Polkadot";
-import {Send} from "../Remark/Interactions/Send";
-// import {Global} from "../globals";
+import {FileManager} from "../Files/FileManager";
 
 const fs = require('fs');
 const path = require('path');
@@ -25,137 +24,14 @@ const readline = require('readline').createInterface({
 });
 
 
-const threadLock: string = "thread.lock.json"
-
-
-function getSavePath(chainName: string): string
-{
-    const save: string = "_lastBlock.json";
-    return __dirname + "/../Files/" + chainName + save;
-}
-
 // Verify : 6312038
 // 6827717
 
 // WE Start 4887870
 // WE last 4990872
 
-// TODO TEST read in folder
-// TODO write file server on node
-
 // TODO save block without meta in Global array for writing on exit
 // TODO check if .lock already exists for continue scan
-
-function startLock(startBlock: number, chain: string)
-{
-    // create file for lock one thread
-
-    const dateTimestamp = Date.now() * 1000;
-    const date = new Date(dateTimestamp);
-
-    const threadData = {
-        startBlock: startBlock,
-        chain: chain,
-        start: date
-    }
-
-    const data = JSON.stringify(threadData);
-
-    try{
-        fs.writeFileSync(path.resolve(threadLock), data);
-    }catch(e){
-        console.error(e);
-    }
-
-}
-
-
-
-function checkLock(): boolean
-{
-    return fs.existsSync(path.resolve(threadLock));
-}
-
-
-function getLastBlock(chain: string): number|undefined
-{
-    console.log(path.resolve(getSavePath(chain)));
-    // read file for get last block
-    if( fs.existsSync( path.resolve(getSavePath(chain)) ) ){
-        const lastBlock = fs.readFileSync( path.resolve(getSavePath(chain)) );
-        const data = JSON.parse(lastBlock);
-
-        return data.lastBlock;
-    }
-
-    return undefined
-}
-
-
-function exitProcess(blockNumber: number, chain: string, toRescan: Array<number>)
-{
-    // save block and exit process
-    console.log('exit process ...');
-    blockNumber--;
-
-    if(saveLastBlock(blockNumber, chain)){
-        console.log('saved block : '+blockNumber);
-    }else{
-        console.log('Fail to save block : '+blockNumber);
-    }
-
-    const rescan: string = JSON.stringify(toRescan);
-
-    if(!fs.existsSync("toRescan.json")){
-
-        try{
-            fs.writeFileSync(path.resolve("toRescan.json"), rescan);
-            console.log("Rescan saved");
-        }catch(e){
-            console.error(e);
-        }
-
-    }else{
-
-        try{
-            const blocks = fs.readFileSync("toRescan.json");
-            const oldBlocks: Array<number> = JSON.parse(blocks);
-
-            const newArray: Array<number> = oldBlocks.concat(oldBlocks, toRescan);
-            const toPush = JSON.stringify(newArray);
-
-            fs.writeFileSync("toRescan.json", toPush);
-            console.log("Rescan saved");
-        }catch(e){
-            console.error(e);
-        }
-
-    }
-
-    process.exit();
-}
-
-
-
-function saveLastBlock(lastBlock: number, chain: string): boolean
-{
-    // write file with last block
-    const saveBlock = {
-        lastBlock: lastBlock
-    }
-
-    const data = JSON.stringify(saveBlock);
-
-    try{
-        fs.writeFileSync(path.resolve( getSavePath(chain)), data);
-        return true;
-    }catch(e){
-        console.error(e);
-        return false;
-    }
-
-}
-
 
 
 function getBlockchain(chainName: string)
@@ -219,14 +95,14 @@ export const startScanner = async (opts: Option)=>{
     let currentBlock: number = 0;
 
     if(blockNumber == 0){
-        blockNumber = getLastBlock(chainName);
+        blockNumber = FileManager.getLastBlock(chainName);
         if(!blockNumber){
             console.error('Incorrect block number');
             process.exit();
         }
     }
 
-    if(!checkLock()){
+    if(!FileManager.checkLock()){
         // check if lock file exists
 
         startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
@@ -240,7 +116,7 @@ export const startScanner = async (opts: Option)=>{
             if(answer == "y" || answer == "yes"){
 
                 try{
-                    fs.unlinkSync(path.resolve(threadLock));
+                    fs.unlinkSync( path.resolve(FileManager.getThreadLockPath()) );
                 }catch(e){
                     console.error(e);
                     console.log("Something is wrong, please delete manually Files/thread.lock.json")
@@ -265,7 +141,7 @@ export const startScanner = async (opts: Option)=>{
 export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, chain: string)
 {
     // generate file for lock one thread
-    startLock(blockNumber, chain);
+    FileManager.startLock(blockNumber, chain);
 
     let toRescan: Array<number> = [];
 
@@ -274,12 +150,12 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
 
         process.on('SIGINT', ()=>{
             // Save last block on exit Ctrl+C
-            exitProcess(blockNumber, chain, toRescan);
+            FileManager.exitProcess(blockNumber, chain, toRescan);
         });
 
         process.on('exit', ()=>{
             // Save last block when app is closing
-            exitProcess(blockNumber, chain, toRescan);
+            FileManager.exitProcess(blockNumber, chain, toRescan);
         });
 
 
