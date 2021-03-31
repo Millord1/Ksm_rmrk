@@ -24,7 +24,7 @@ const readline = require('readline').createInterface({
 });
 
 
-const threadLock: string = "src/Files/thread.lock.json"
+const threadLock: string = "Files/thread.lock.json"
 const save: string = "_lastBlock.json";
 
 // Verify : 6312038
