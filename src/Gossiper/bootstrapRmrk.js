@@ -11,19 +11,22 @@ const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager")
 // import {AssetFactory} from "./sandra/src/CSCannon/AssetFactory.js";
 const RmrkContractStandard_1 = require("canonizer/src/canonizer/Interfaces/RmrkContractStandard");
 // import {BlockchainTokenFactory} from "./sandra/src/CSCannon/BlockchainTokenFactory.js";
-// import {WestendBlockchain} from "canonizer/src/canonizer/Kusama/WestendBlockchain";
+const WestendBlockchain_1 = require("canonizer/src/canonizer/Substrate/Westend/WestendBlockchain");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+// Gossip
 let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJnb3NzaXAiLCJmbHVzaCI6dHJ1ZSwiZXhwIjoxMDQ0NDE5MjUyMDQwMDAwfQ.i3MRmP56AEvIvWGdnj1TKuLZNaqLYaqzXaWijtT-Cc8';
+// WestEnd
+// let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJzaGlidXlhIiwiZmx1c2giOmZhbHNlLCJleHAiOjEwNDc0NDY1NzcxNDQwMDB9.VNMArL_m04pSxuOqaNbwGc38z-bfQnHntGJHa2FgAXQ';
 //let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
 let canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: 'http://arkam.everdreamsoft.com/alex/gossip', jwt: jwt } });
 let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain_1.KusamaBlockchain(sandra);
-// let westend = new WestendBlockchain(sandra);
+let westend = new WestendBlockchain_1.WestendBlockchain(sandra);
 bootstrap();
 async function bootstrap() {
     const flush = await flushDatagraph(); // add remove this to erase the full database
-    const createTestCollection = await bootstrapCollection();
-    const createTestEvent = await bootstrapEvents();
+    // const createTestCollection = await bootstrapCollection();
+    // const createTestEvent = await bootstrapEvents();
 }
 async function bootstrapCollection() {
     console.log("Creating Collection");
@@ -58,7 +61,7 @@ async function bootstrapEvents() {
     console.log(JSON.parse(response));
 }
 async function flushDatagraph() {
-    let flushing = await canonizeManager.flushWithBlockchainSupport([kusama]).then(r => {
+    let flushing = await canonizeManager.flushWithBlockchainSupport([kusama, westend]).then(r => {
         console.log("flushed and added blockchain support");
         console.log(JSON.parse(r));
         return r;

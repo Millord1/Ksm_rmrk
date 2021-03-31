@@ -59,7 +59,7 @@ class Jetski {
                         blockRmrk.push(this.getObjectFromRemark(remark, tx));
                     }
                 }
-                if (section === "utility" && method === "batch") {
+                if (section === "utility" && method.includes("batch")) {
                     // If rmrks are in batch
                     const arg = args.toString();
                     const batch = JSON.parse(arg);
@@ -76,7 +76,7 @@ class Jetski {
                         const tx = new Transaction_1.Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);
                         if (rmrkObj.args.hasOwnProperty('_remark')) {
                             // If batch have rmrk
-                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx, i));
+                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
                         }
                         i += 1;
                     }
@@ -102,7 +102,7 @@ class Jetski {
                 }
             })
                 .catch(e => {
-                console.error(e);
+                reject(e);
             });
         });
     }
@@ -179,11 +179,17 @@ class Jetski {
             }
         });
     }
-    getObjectFromRemark(remark, transaction, batchIndex) {
+    getObjectFromRemark(remark, transaction) {
         // Promise create an object with rmrk
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             const uri = util_1.hexToString(remark);
-            const url = decodeURIComponent(uri);
+            let url = "";
+            try {
+                url = decodeURIComponent(uri);
+            }
+            catch (e) {
+                reject(e);
+            }
             const reader = new RmrkReader_1.RmrkReader(this.chain, transaction);
             const rmrk = reader.readInteraction(url);
             if (rmrk instanceof Interaction_1.Interaction) {

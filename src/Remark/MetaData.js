@@ -92,6 +92,7 @@ class MetaData {
                         reject('Bad url : ' + url);
                     }
                     else if (this.readyState == 4 && this.status == 500) {
+                        console.error(url);
                         reject('Something is bad with this request, error ' + this.status);
                     }
                 };
@@ -102,5 +103,5 @@ class MetaData {
 exports.MetaData = MetaData;
 MetaData.ipfsUrl = "https://ipfs.io/ipfs/";
 MetaData.cloudFlareUrl = "https://cloudflare-ipfs.com/ipfs/";
-MetaData.delayForCalls = 1000;
+MetaData.delayForCalls = 500;
 //# sourceMappingURL=MetaData.js.map

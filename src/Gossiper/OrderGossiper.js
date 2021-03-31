@@ -4,6 +4,9 @@ exports.OrderGossiper = void 0;
 const GossiperManager_1 = require("./GossiperManager");
 const Buy_1 = require("../Remark/Interactions/Buy");
 const BlockchainAddress_1 = require("canonizer/src/canonizer/BlockchainAddress");
+const BlockchainOrder_1 = require("canonizer/src/canonizer/BlockchainOrder");
+const BlockchainContract_1 = require("canonizer/src/canonizer/BlockchainContract");
+const RmrkContractStandard_1 = require("canonizer/src/canonizer/Interfaces/RmrkContractStandard");
 class OrderGossiper extends GossiperManager_1.GossiperManager {
     constructor(remark, csCanonizeManager, chain) {
         super(chain, csCanonizeManager);
@@ -28,8 +31,18 @@ class OrderGossiper extends GossiperManager_1.GossiperManager {
     gossip() {
         const canonizeManager = this.canonizeManager;
         const sandra = canonizeManager.getSandra();
-        // TODO ContractStandard
         const source = new BlockchainAddress_1.BlockchainAddress(this.chain.addressFactory, this.signer, sandra);
+        const buyAmount = String(this.amount);
+        const sellPrice = String(this.value);
+        const total = String(this.total);
+        const txId = this.txId;
+        const timestamp = this.timestamp;
+        // TODO when implemented in Canonizer
+        const ksmContractStd = null;
+        // const ksmContractStd = new KsmContractStandard(canonizeManager);
+        const rmrkStd = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+        const contractSell = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
+        return new BlockchainOrder_1.BlockchainOrder(this.chain.eventFactory, source, this.buyContractId, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra);
     }
 }
 exports.OrderGossiper = OrderGossiper;
