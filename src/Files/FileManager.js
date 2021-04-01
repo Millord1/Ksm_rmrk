@@ -9,30 +9,34 @@ class FileManager {
         const save = "_lastBlock.json";
         return this.dir + chainName + save;
     }
-    static getThreadLockPath() {
-        return this.dir + this.threadLock;
+    static getThreadLockPath(chainName) {
+        return this.dir + chainName + this.threadLock;
     }
     static getRescanPath(chainName) {
         return this.dir + chainName + "_toRescan.json";
     }
-    static startLock(startBlock, chain) {
+    static startLock(startBlock, chain, id) {
         // create file for lock one thread
-        const dateTimestamp = Date.now() * 1000;
         const threadData = {
             startBlock: startBlock,
             chain: chain,
-            start: dateTimestamp
+            id: id
         };
         const data = JSON.stringify(threadData);
         try {
-            fs.writeFileSync(path.resolve(this.getThreadLockPath()), data);
+            fs.writeFileSync(path.resolve(this.getThreadLockPath(chain)), data);
         }
         catch (e) {
             console.error(e);
         }
     }
-    static checkLock() {
-        return fs.existsSync(path.resolve(this.getThreadLockPath()));
+    static checkLock(chain, id) {
+        if (fs.existsSync(path.resolve(this.getThreadLockPath(chain)))) {
+            const threadData = fs.readFileSync(path.resolve(this.getThreadLockPath(chain)));
+            const data = JSON.parse(threadData);
+            return data.id == id;
+        }
+        return false;
     }
     static getLastBlock(chain) {
         // read file for get last block
@@ -97,6 +101,6 @@ class FileManager {
     }
 }
 exports.FileManager = FileManager;
-FileManager.threadLock = "thread.lock.json";
+FileManager.threadLock = "_thread.lock.json";
 FileManager.dir = __dirname + "\\";
 //# sourceMappingURL=FileManager.js.map

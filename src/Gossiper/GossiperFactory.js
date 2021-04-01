@@ -14,17 +14,19 @@ const assert_1 = require("assert");
 class GossiperFactory {
     constructor(rmrk) {
         this.rmrk = rmrk;
-        this.csCanonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory.gossipUrl, jwt: GossiperFactory.getJwt() } });
+        const chain = rmrk.chain.constructor.name.toLowerCase();
+        this.csCanonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory.gossipUrl, jwt: GossiperFactory.getJwt(chain) } });
     }
-    static getJwt() {
+    static getJwt(chain) {
+        const jwtName = chain + "_jwt";
         const env = ts_dotenv_1.load({
-            JWT: String
+            jwtName: String
         });
-        assert_1.strict.ok(env.JWT != "jwt_code");
-        assert_1.strict.ok(env.JWT != "");
-        assert_1.strict.ok(env.JWT != null);
-        assert_1.strict.ok(env.JWT != undefined);
-        return env.JWT;
+        assert_1.strict.ok(env.jwtName != "jwt_code");
+        assert_1.strict.ok(env.jwtName != "");
+        assert_1.strict.ok(env.jwtName != null);
+        assert_1.strict.ok(env.jwtName != undefined);
+        return env.jwtName;
     }
     async getGossiper() {
         const chain = this.rmrk.chain.constructor.name;

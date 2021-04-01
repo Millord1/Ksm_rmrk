@@ -5,7 +5,7 @@ const path = require('path');
 export class FileManager
 {
 
-    private static threadLock: string = "thread.lock.json";
+    private static threadLock: string = "_thread.lock.json";
     private static dir: string = __dirname+ "\\";
 
     // Getters for have path of files
@@ -15,9 +15,9 @@ export class FileManager
         return this.dir + chainName + save;
     }
 
-    public static getThreadLockPath()
+    public static getThreadLockPath(chainName: string)
     {
-        return this.dir + this.threadLock;
+        return this.dir + chainName + this.threadLock;
     }
 
     private static getRescanPath(chainName: string)
@@ -26,22 +26,20 @@ export class FileManager
     }
 
 
-    public static startLock(startBlock: number, chain: string)
+    public static startLock(startBlock: number, chain: string, id: number)
     {
         // create file for lock one thread
-
-        const dateTimestamp = Date.now() * 1000;
 
         const threadData = {
             startBlock: startBlock,
             chain: chain,
-            start: dateTimestamp
+            id: id
         }
 
         const data = JSON.stringify(threadData);
 
         try{
-            fs.writeFileSync(path.resolve(this.getThreadLockPath()), data);
+            fs.writeFileSync(path.resolve(this.getThreadLockPath(chain)), data);
         }catch(e){
             console.error(e);
         }
@@ -50,9 +48,14 @@ export class FileManager
 
 
 
-    public static checkLock(): boolean
+    public static checkLock(chain: string, id: number): boolean
     {
-        return fs.existsSync(path.resolve(this.getThreadLockPath()));
+        if( fs.existsSync( path.resolve(this.getThreadLockPath(chain)) ) ){
+            const threadData = fs.readFileSync( path.resolve(this.getThreadLockPath(chain)) );
+            const data = JSON.parse(threadData);
+            return data.id == id;
+        }
+        return false;
     }
 
 
