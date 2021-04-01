@@ -6,7 +6,7 @@ export class FileManager
 {
 
     private static threadLock: string = "thread.lock.json";
-    private static dir: string = __dirname+ "/../Files/";
+    private static dir: string = __dirname+ "\\";
 
     // Getters for have path of files
     private static getSavePath(chainName: string): string
@@ -20,9 +20,9 @@ export class FileManager
         return this.dir + this.threadLock;
     }
 
-    private static getRescanPath()
+    private static getRescanPath(chainName: string)
     {
-        return this.dir + "toRescan.json";
+        return this.dir + chainName + "_toRescan.json";
     }
 
 
@@ -31,12 +31,11 @@ export class FileManager
         // create file for lock one thread
 
         const dateTimestamp = Date.now() * 1000;
-        const date = new Date(dateTimestamp);
 
         const threadData = {
             startBlock: startBlock,
             chain: chain,
-            start: date
+            start: dateTimestamp
         }
 
         const data = JSON.stringify(threadData);
@@ -59,7 +58,6 @@ export class FileManager
 
     public static getLastBlock(chain: string): number|undefined
     {
-        console.log(path.resolve(this.getSavePath(chain)));
         // read file for get last block
         if( fs.existsSync( path.resolve(this.getSavePath(chain)) ) ){
             const lastBlock = fs.readFileSync( path.resolve(this.getSavePath(chain)) );
@@ -86,28 +84,32 @@ export class FileManager
 
         const rescan: string = JSON.stringify(toRescan);
 
-        if(!fs.existsSync(this.getRescanPath())){
+        if(toRescan.length > 0){
 
-            try{
-                fs.writeFileSync(path.resolve(this.getRescanPath()), rescan);
-                console.log("Rescan saved");
-            }catch(e){
-                console.error(e);
-            }
+            if(!fs.existsSync(this.getRescanPath(chain))){
 
-        }else{
+                try{
+                    fs.writeFileSync(path.resolve(this.getRescanPath(chain)), rescan);
+                    console.log("Rescan saved");
+                }catch(e){
+                    console.error(e);
+                }
 
-            try{
-                const blocks = fs.readFileSync(this.getRescanPath());
-                const oldBlocks: Array<number> = JSON.parse(blocks);
+            }else{
 
-                const newArray: Array<number> = oldBlocks.concat(oldBlocks, toRescan);
-                const toPush = JSON.stringify(newArray);
+                try{
+                    const blocks = fs.readFileSync(this.getRescanPath(chain));
+                    const oldBlocks: Array<number> = JSON.parse(blocks);
 
-                fs.writeFileSync(this.getRescanPath(), toPush);
-                console.log("Rescan saved");
-            }catch(e){
-                console.error(e);
+                    const newArray: Array<number> = oldBlocks.concat(oldBlocks, toRescan);
+                    const toPush = JSON.stringify(newArray);
+
+                    fs.writeFileSync(this.getRescanPath(chain), toPush);
+                    console.log("Rescan saved");
+                }catch(e){
+                    console.error(e);
+                }
+
             }
 
         }

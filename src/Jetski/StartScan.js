@@ -22,7 +22,6 @@ const readline = require('readline').createInterface({
 // 6827717
 // WE Start 4887870
 // WE last 4990872
-// TODO save block without meta in Global array for writing on exit
 // TODO check if .lock already exists for continue scan
 function getBlockchain(chainName) {
     switch (chainName.toLowerCase()) {
@@ -37,7 +36,6 @@ function getBlockchain(chainName) {
 }
 function needRescan(remarks) {
     let entity;
-    let needRescan = false;
     remarks.forEach((rmrk) => {
         if (rmrk instanceof Mint_1.Mint && rmrk.collection) {
             entity = rmrk.collection;
@@ -46,21 +44,23 @@ function needRescan(remarks) {
             entity = rmrk.asset;
         }
         if (entity && !entity.metaData) {
-            needRescan = true;
+            return true;
         }
     });
-    return needRescan;
+    return false;
 }
 const startScanner = async (opts) => {
     // Launch jetski from yarn
     // @ts-ignore
     const chainName = opts.chain;
     let chain = getBlockchain(chainName);
+    console.log(chain.constructor.name);
     // @ts-ignore
     let blockNumber = opts.block;
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
     let currentBlock = 0;
+    let lastSave = 0;
     if (blockNumber == 0) {
         blockNumber = FileManager_1.FileManager.getLastBlock(chainName);
         if (!blockNumber) {
@@ -70,7 +70,7 @@ const startScanner = async (opts) => {
     }
     if (!FileManager_1.FileManager.checkLock()) {
         // check if lock file exists
-        startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
+        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName);
     }
     else {
         readline.question("Thread is actually locked, did you want to unlock ? (Y/n) ", (answer) => {
@@ -83,7 +83,7 @@ const startScanner = async (opts) => {
                     console.error(e);
                     console.log("Something is wrong, please delete manually Files/thread.lock.json");
                 }
-                startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
+                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName);
             }
             else {
                 process.exit();
@@ -92,10 +92,12 @@ const startScanner = async (opts) => {
     }
 };
 exports.startScanner = startScanner;
-function startJetskiLoop(jetski, api, currentBlock, blockNumber, chain) {
+function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved, chain) {
     // generate file for lock one thread
     FileManager_1.FileManager.startLock(blockNumber, chain);
+    // Array of block without meta for rescan
     let toRescan = [];
+    let lockExists = FileManager_1.FileManager.checkLock();
     // launch the loop on blocks
     let interval = setInterval(async () => {
         process.on('SIGINT', () => {
@@ -112,50 +114,69 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, chain) {
             console.log('API is disconnected, waiting for reconnect...');
             api = await jetski.getApi();
             console.log('API reconnected, loop will now restart');
-            startJetskiLoop(jetski, api, --currentBlock, blockNumber, chain);
+            startJetskiLoop(jetski, api, --currentBlock, blockNumber, lastBlockSaved, chain);
         }
         else {
             if (currentBlock != blockNumber) {
                 // If block scanned isn't resolved, dont increment
                 currentBlock = blockNumber;
-                jetski.getBlockContent(blockNumber, api)
-                    .then(async (remarks) => {
-                    // Check if metadata exists
-                    const rmrksWithMeta = await metaDataVerifier(remarks);
-                    if (needRescan(rmrksWithMeta)) {
-                        toRescan.push(blockNumber);
-                    }
-                    const needDelay = rmrksWithMeta.length > 5;
-                    if (rmrksWithMeta.length > 0) {
-                        // Gossip if array not empty
-                        for (const rmrk of rmrksWithMeta) {
-                            const gossip = new GossiperFactory_1.GossiperFactory(rmrk);
-                            const gossiper = await gossip.getGossiper();
-                            gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
-                            // if array have many rmrks, delay between calls
-                            if (needDelay) {
-                                setTimeout(() => {
-                                    console.log("Wait for next gossip ...");
-                                }, 500);
-                            }
-                        }
-                    }
-                    blockNumber++;
-                }).catch(e => {
-                    console.error(e);
-                    if (e == Jetski_1.Jetski.noBlock) {
-                        // If block doesn't exists, wait and try again
-                        console.log('Waiting for block ...');
-                        setTimeout(() => {
-                            currentBlock--;
-                        }, 5000);
+                if (lastBlockSaved == 0 || blockNumber - lastBlockSaved > 99) {
+                    // Save block number each 100 blocks
+                    if (FileManager_1.FileManager.saveLastBlock(blockNumber, chain)) {
+                        lastBlockSaved = blockNumber;
+                        // check if lock file already exists
+                        lockExists = FileManager_1.FileManager.checkLock();
                     }
                     else {
-                        // If Entity doesn't exists in Interaction
-                        // Probably because of non respect of version standards or special chars
-                        blockNumber++;
+                        console.error("Fail to save block");
                     }
-                });
+                }
+                if (lockExists) {
+                    // if file lock exists, continue scan
+                    jetski.getBlockContent(blockNumber, api)
+                        .then(async (remarks) => {
+                        // Check if metadata exists
+                        const rmrksWithMeta = await metaDataVerifier(remarks);
+                        if (needRescan(rmrksWithMeta)) {
+                            toRescan.push(blockNumber);
+                        }
+                        const needDelay = rmrksWithMeta.length > 5;
+                        if (rmrksWithMeta.length > 0) {
+                            // Gossip if array not empty
+                            for (const rmrk of rmrksWithMeta) {
+                                const gossip = new GossiperFactory_1.GossiperFactory(rmrk);
+                                const gossiper = await gossip.getGossiper();
+                                gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
+                                // if array have many rmrks, delay between calls
+                                if (needDelay) {
+                                    setTimeout(() => {
+                                        console.log("Wait for next gossip ...");
+                                    }, 500);
+                                }
+                            }
+                        }
+                        blockNumber++;
+                    }).catch(e => {
+                        console.error(e);
+                        if (e == Jetski_1.Jetski.noBlock) {
+                            // If block doesn't exists, wait and try again
+                            console.log('Waiting for block ...');
+                            setTimeout(() => {
+                                currentBlock--;
+                            }, 5000);
+                        }
+                        else {
+                            // If Entity doesn't exists in Interaction
+                            // Probably because of non respect of version standards or special chars
+                            blockNumber++;
+                        }
+                    });
+                }
+                else {
+                    // else stop the scan
+                    console.error("Lock file is apparently deleted, run will stop");
+                    FileManager_1.FileManager.exitProcess(blockNumber, chain, toRescan);
+                }
             }
         }
     }, 1000 / 50);
