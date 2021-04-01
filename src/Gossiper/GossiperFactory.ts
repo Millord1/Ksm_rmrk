@@ -21,22 +21,25 @@ export class GossiperFactory
 
     constructor(rmrk: Interaction) {
         this.rmrk = rmrk;
-        this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt()} });
+        const chain = rmrk.chain.constructor.name.toLowerCase();
+        this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
     }
 
 
-    private static getJwt()
+    private static getJwt(chain: string)
     {
+        const jwtName = chain+"_jwt";
+
         const env = load({
-            JWT: String
+            jwtName: String
         })
 
-        assert.ok(env.JWT != "jwt_code");
-        assert.ok(env.JWT != "");
-        assert.ok(env.JWT != null);
-        assert.ok(env.JWT != undefined);
+        assert.ok(env.jwtName != "jwt_code");
+        assert.ok(env.jwtName != "");
+        assert.ok(env.jwtName != null);
+        assert.ok(env.jwtName != undefined);
 
-        return env.JWT;
+        return env.jwtName;
     }
 
 
