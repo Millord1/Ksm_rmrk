@@ -10,7 +10,7 @@ async function launchScan() {
     const currentBlock = 0;
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
-    StartScan_1.startJetskiLoop(jetski, api, currentBlock, blockNumber, chainName);
+    StartScan_1.startJetskiLoop(jetski, api, currentBlock, blockNumber, 0, chainName);
 }
 launchScan();
 //# sourceMappingURL=test.js.map
