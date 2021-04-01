@@ -23,6 +23,8 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
+// TODO JWT depend of blockchain
+// TODO one thread by blockchain ?
 
 // Verify : 6312038
 // 6827717
@@ -30,8 +32,8 @@ const readline = require('readline').createInterface({
 // WE Start 4887870
 // WE last 4990872
 
-// TODO check if .lock already exists for continue scan
 
+// eggs 6802454 6802508 6802545
 
 function getBlockchain(chainName: string)
 {
@@ -97,15 +99,18 @@ export const startScanner = async (opts: Option)=>{
     if(blockNumber == 0){
         blockNumber = FileManager.getLastBlock(chainName);
         if(!blockNumber){
-            console.error('Incorrect block number');
+            console.error('Incorrect block number, please try with the --block={blockNumber} option');
             process.exit();
         }
     }
 
-    if(!FileManager.checkLock()){
+    const id = Date.now() * 1000;
+
+
+    if(!FileManager.checkLock(chainName, id)){
         // check if lock file exists
 
-        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName);
+        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id);
 
     }else{
 
@@ -116,13 +121,13 @@ export const startScanner = async (opts: Option)=>{
             if(answer == "y" || answer == "yes"){
 
                 try{
-                    fs.unlinkSync( path.resolve(FileManager.getThreadLockPath()) );
+                    fs.unlinkSync( path.resolve(FileManager.getThreadLockPath(chainName)) );
                 }catch(e){
                     console.error(e);
                     console.log("Something is wrong, please delete manually Files/thread.lock.json")
                 }
 
-                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName);
+                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id);
 
             }else{
 
@@ -138,26 +143,27 @@ export const startScanner = async (opts: Option)=>{
 
 
 
-export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string)
+export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number)
 {
+
     // generate file for lock one thread
-    FileManager.startLock(blockNumber, chain);
+    FileManager.startLock(blockNumber, chain, id);
 
     // Array of block without meta for rescan
     let toRescan: Array<number> = [];
 
-    let lockExists: boolean = FileManager.checkLock();
+    let lockExists: boolean = true;
 
     // launch the loop on blocks
     let interval: NodeJS.Timeout =  setInterval(async()=>{
 
-        process.on('SIGINT', ()=>{
-            // Save last block on exit Ctrl+C
+        process.on('exit', ()=>{
+            // Save last block when app is closing
             FileManager.exitProcess(blockNumber, chain, toRescan);
         });
 
-        process.on('exit', ()=>{
-            // Save last block when app is closing
+        process.on('SIGINT', ()=>{
+            // Save last block on exit Ctrl+C
             FileManager.exitProcess(blockNumber, chain, toRescan);
         });
 
@@ -171,7 +177,7 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
             api = await jetski.getApi();
             console.log('API reconnected, loop will now restart');
 
-            startJetskiLoop(jetski, api, --currentBlock, blockNumber, lastBlockSaved, chain);
+            startJetskiLoop(jetski, api, --currentBlock, blockNumber, lastBlockSaved, chain, id);
 
         }else{
 
@@ -185,7 +191,7 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                     if(FileManager.saveLastBlock(blockNumber, chain)){
                         lastBlockSaved = blockNumber;
                         // check if lock file already exists
-                        lockExists = FileManager.checkLock();
+                        lockExists = FileManager.checkLock(chain, id);
                     }else{
                         console.error("Fail to save block")
                     }
@@ -250,6 +256,40 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
     }, 1000 / 50)
 }
 
+
+
+
+export async function eggs(opts: Option)
+{
+    // @ts-ignore
+    const block = opts.block
+    const chain = new Kusama();
+
+    // @ts-ignore
+    const count = opts.count;
+
+    const jetski = new Jetski(chain);
+    const api = await jetski.getApi();
+
+    jetski.getBigBlock(block, api, count)
+        .then( async (result)=>{
+
+            const rmrks = await metaDataVerifier(result);
+
+            for(const rmrk of rmrks){
+                const gossip = new GossiperFactory(rmrk);
+                const gossiper = await gossip.getGossiper();
+                gossiper?.gossip();
+
+                setTimeout(()=>{
+                    console.log('Wait ...')
+                }, 500);
+            }
+        }).catch((e)=>{
+            console.error(e);
+    })
+
+}
 
 
 
