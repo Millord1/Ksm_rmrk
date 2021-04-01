@@ -9,8 +9,6 @@ const Buy_1 = require("../Remark/Interactions/Buy");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
 const List_1 = require("../Remark/Interactions/List");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
-const ts_dotenv_1 = require("ts-dotenv");
-const assert_1 = require("assert");
 class GossiperFactory {
     constructor(rmrk) {
         this.rmrk = rmrk;
@@ -18,15 +16,24 @@ class GossiperFactory {
         this.csCanonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory.gossipUrl, jwt: GossiperFactory.getJwt(chain) } });
     }
     static getJwt(chain) {
-        const jwtName = chain + "_jwt";
-        const env = ts_dotenv_1.load({
-            jwtName: String
-        });
-        assert_1.strict.ok(env.jwtName != "jwt_code");
-        assert_1.strict.ok(env.jwtName != "");
-        assert_1.strict.ok(env.jwtName != null);
-        assert_1.strict.ok(env.jwtName != undefined);
-        return env.jwtName;
+        if (chain === "kusama") {
+            return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJrc21qZXRza2kiLCJmbHVzaCI6ZmFsc2UsImV4cCI6MTA0NDY5NTk0NTQ0ODAwMH0.STcvv0wGBU7SOQKMNhK9I-9YducCl5Wz1a3N7q_cydM";
+        }
+        else if (chain === "westend") {
+            return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJzaGlidXlhIiwiZmx1c2giOmZhbHNlLCJleHAiOjEwNDc0NDY1NzcxNDQwMDB9.VNMArL_m04pSxuOqaNbwGc38z-bfQnHntGJHa2FgAXQ";
+        }
+        else {
+            return "";
+        }
+        //
+        // const env = load({
+        //
+        // })
+        // assert.ok(env.jwtName != "jwt_code");
+        // assert.ok(env.jwtName != "");
+        // assert.ok(env.jwtName != null);
+        // assert.ok(env.jwtName != undefined);
+        // return env.jwtName;
     }
     async getGossiper() {
         const chain = this.rmrk.chain.constructor.name;

@@ -28,18 +28,24 @@ export class GossiperFactory
 
     private static getJwt(chain: string)
     {
-        const jwtName = chain+"_jwt";
+        if(chain === "kusama"){
+            return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJrc21qZXRza2kiLCJmbHVzaCI6ZmFsc2UsImV4cCI6MTA0NDY5NTk0NTQ0ODAwMH0.STcvv0wGBU7SOQKMNhK9I-9YducCl5Wz1a3N7q_cydM";
+        }else if(chain === "westend"){
+            return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJzaGlidXlhIiwiZmx1c2giOmZhbHNlLCJleHAiOjEwNDc0NDY1NzcxNDQwMDB9.VNMArL_m04pSxuOqaNbwGc38z-bfQnHntGJHa2FgAXQ";
+        }else{
+            return "";
+        }
+        //
+        // const env = load({
+        //
+        // })
 
-        const env = load({
-            jwtName: String
-        })
+        // assert.ok(env.jwtName != "jwt_code");
+        // assert.ok(env.jwtName != "");
+        // assert.ok(env.jwtName != null);
+        // assert.ok(env.jwtName != undefined);
 
-        assert.ok(env.jwtName != "jwt_code");
-        assert.ok(env.jwtName != "");
-        assert.ok(env.jwtName != null);
-        assert.ok(env.jwtName != undefined);
-
-        return env.jwtName;
+        // return env.jwtName;
     }
 
 
