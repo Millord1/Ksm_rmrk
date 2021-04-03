@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/api": "^3.3.1",
-    "canonizer": "^0.0.5",
+    "canonizer": "*",
     "commander": "^6.2.1",
     "slugify": "^1.5.0",
     "ts-dotenv": "^0.8.3",
@@ -22,7 +22,8 @@
     "typescript": "^2.4.1",
     "fetch": "node --max_old_space_size=2048 ./src/index.js fetch",
     "scan": "node ./src/index.js scan",
-    "hello": "node ./src/index.js hello"
+    "hello": "node ./src/index.js hello",
+    "eggs": "node --max_old_space_size=2048 ./src/index.js eggs"
   },
   "repository": {
     "type": "git",
