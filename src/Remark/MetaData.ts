@@ -92,6 +92,8 @@ export class MetaData
 
         url = this.getCorrectUrl(url, batchIndex);
 
+        console.log(url);
+
         return new Promise((resolve, reject)=>{
 
             const request = new XMLHttpRequest();

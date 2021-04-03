@@ -302,4 +302,143 @@ export class Jetski
     }
 
 
+
+
+    public async getBigBlock(blockNumber: number, api: ApiPromise, count: number): Promise<Array<Interaction>>
+    {
+
+        return new Promise(async (resolve, reject)=>{
+
+            let blockRmrk: Array<Promise<Interaction|string>> = [];
+            let blockHash: any;
+
+            try{
+                blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+            }catch(e){
+                // console.log(e);
+                reject(Jetski.noBlock);
+            }
+
+            // Get block from API
+            const block = await api.rpc.chain.getBlock(blockHash);
+
+            let blockId = blockNumber;
+            let blockTimestamp: string = "";
+
+            if(block.block == null){
+                reject(Jetski.noBlock);
+            }
+
+            for (const ex of block.block ? block.block.extrinsics : []){
+
+                const { method: {
+                    args, method, section
+                } } = ex;
+
+                if(section === "timestamp" && method === "set"){
+                    blockTimestamp = Jetski.getTimestamp(ex);
+                }
+
+                const dateTimestamp = Number(blockTimestamp) * 1000;
+                const date = new Date(dateTimestamp);
+                // Display block date and number
+                console.log('block ' + blockNumber + ' ' + date);
+
+
+                if(section === "utility" && method.includes("batch")){
+                    // If rmrks are in batch
+
+                    const arg = args.toString();
+                    let batch = JSON.parse(arg);
+
+                    if(!batch){
+                        setTimeout(()=>{
+                            console.log("no more batch");
+                            // process.exit();
+                        },5000);
+                    }
+
+                    const totalLength = batch.length;
+
+                    let start: number;
+
+                    if(count == 0){
+                        start = count;
+                    }else{
+                        start = count * 500;
+                    }
+
+                    console.log("start : "+start);
+
+                    let stop = start + 500;
+
+                    if(start > totalLength){
+                        console.log("This block is finished");
+                        process.exit();
+                    }
+
+                    if(stop > totalLength){
+                        stop = totalLength
+                        setTimeout(()=>{
+                            console.log("LAST");
+                        }, 1000);
+                    }
+
+                    batch = batch.slice(start, stop);
+
+                    const signer = ex.signer.toString();
+                    const hash = ex.hash.toHex();
+
+                    // Transfer object for complement Buy data (payment address and value)
+                    const transfer: Transfer|undefined = Jetski.checkIfTransfer(batch);
+
+                    let i = 1;
+
+                    for (const rmrkObj of batch){
+                        // Increment tx Hash
+                        const txHash = hash + '-' + i;
+
+                        const destination = transfer ? transfer.destination : undefined;
+                        const value = transfer ? transfer.value : undefined;
+
+                        const tx = new Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);
+
+                        if(rmrkObj.args.hasOwnProperty('_remark')){
+                            // If batch have rmrk
+                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
+                        }
+                        i += 1;
+                    }
+                }
+
+            }
+
+            return Promise.all(blockRmrk)
+                .then(async result=>{
+                    let interactions;
+                    try{
+                        interactions = await this.getMetadataContent(result);
+                        resolve (interactions);
+                    }catch(e){
+                        // retry if doesn't work
+                        try{
+                            interactions = await this.getMetadataContent(result);
+                            resolve (interactions);
+                        }catch(e){
+                            console.error(e);
+                            reject (e);
+                        }
+                    }
+
+                })
+                .catch(e=>{
+                    reject(e);
+                })
+
+        })
+
+    }
+
+
+
 }
