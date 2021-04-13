@@ -31,3 +31,10 @@ yarn fetch --chain=same_chainName
 
 Each run write or rewrite a file for lock the thread on the root (thread.lock.json), if you want to start a new scan without manually delete, the console will ask you if you want to delete it automatically.
 The script need this file deleted to run.
+
+
+quick fixes
+yarn eggs --block=6895734
+yarn eggs --block=6897680
+yarn eggs --block=6802545
+
