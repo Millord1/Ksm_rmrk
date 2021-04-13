@@ -30,10 +30,10 @@ const readline = require('readline').createInterface({
 // 6827717
 
 // WE Start 4887870
-// WE last 4990872
+// WE last 5027373
 
+// eggs 6802595 6802639
 
-// eggs 6802454 6802508 6802545
 
 function getBlockchain(chainName: string)
 {
@@ -258,15 +258,24 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
 
 
 
-
-export async function eggs(opts: Option)
+// Hack for scan eggs, to be improved later
+export async function eggs(opts?: Option, counter?: number, blockN?: number)
 {
-    // @ts-ignore
-    const block = opts.block
+    let block: number = 0;
+    let count: number = 0;
+
+    if(opts){
+        // @ts-ignore
+        block = opts.block
+    }else if(blockN && counter){
+        block = blockN;
+        count = counter;
+    }
+
     const chain = new Kusama();
 
     // @ts-ignore
-    const count = opts.count;
+    // const count = opts.count;
 
     const jetski = new Jetski(chain);
     const api = await jetski.getApi();
@@ -276,15 +285,37 @@ export async function eggs(opts: Option)
 
             const rmrks = await metaDataVerifier(result);
 
-            for(const rmrk of rmrks){
-                const gossip = new GossiperFactory(rmrk);
+            let i: number = 0;
+
+            let intervalLoop: NodeJS.Timeout = setInterval(async()=>{
+
+                const gossip = new GossiperFactory(rmrks[i]);
                 const gossiper = await gossip.getGossiper();
                 gossiper?.gossip();
+                i++;
 
-                setTimeout(()=>{
-                    console.log('Wait ...')
-                }, 500);
-            }
+                if(!rmrks[i]){
+                    setTimeout(()=>{
+                        // process.exit();
+                    },5000);
+                }
+
+                if(i == 500){
+                    clearInterval(intervalLoop);
+                    console.log(count);
+                    count ++;
+                    eggs(undefined, count, block);
+                }
+
+            },1000);
+
+            // for(const rmrk of rmrks){
+            //     setTimeout(async ()=>{
+            //         const gossip = new GossiperFactory(rmrk);
+            //         const gossiper = await gossip.getGossiper();
+            //         gossiper?.gossip();
+            //     }, 1000);
+            // }
         }).catch((e)=>{
             console.error(e);
     })

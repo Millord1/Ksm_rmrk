@@ -23,8 +23,8 @@ const readline = require('readline').createInterface({
 // Verify : 6312038
 // 6827717
 // WE Start 4887870
-// WE last 4990872
-// eggs 6802454 6802508 6802545
+// WE last 5027373
+// eggs 6802595 6802639
 function getBlockchain(chainName) {
     switch (chainName.toLowerCase()) {
         case "westend":
@@ -185,25 +185,51 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
     }, 1000 / 50);
 }
 exports.startJetskiLoop = startJetskiLoop;
-async function eggs(opts) {
-    // @ts-ignore
-    const block = opts.block;
+// Hack for scan eggs, to be improved later
+async function eggs(opts, counter, blockN) {
+    let block = 0;
+    let count = 0;
+    if (opts) {
+        // @ts-ignore
+        block = opts.block;
+    }
+    else if (blockN && counter) {
+        block = blockN;
+        count = counter;
+    }
     const chain = new Kusama_1.Kusama();
     // @ts-ignore
-    const count = opts.count;
+    // const count = opts.count;
     const jetski = new Jetski_1.Jetski(chain);
     const api = await jetski.getApi();
     jetski.getBigBlock(block, api, count)
         .then(async (result) => {
         const rmrks = await metaDataVerifier(result);
-        for (const rmrk of rmrks) {
-            const gossip = new GossiperFactory_1.GossiperFactory(rmrk);
+        let i = 0;
+        let intervalLoop = setInterval(async () => {
+            const gossip = new GossiperFactory_1.GossiperFactory(rmrks[i]);
             const gossiper = await gossip.getGossiper();
             gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
-            setTimeout(() => {
-                console.log('Wait ...');
-            }, 500);
-        }
+            i++;
+            if (!rmrks[i]) {
+                setTimeout(() => {
+                    // process.exit();
+                }, 5000);
+            }
+            if (i == 500) {
+                clearInterval(intervalLoop);
+                console.log(count);
+                count++;
+                eggs(undefined, count, block);
+            }
+        }, 1000);
+        // for(const rmrk of rmrks){
+        //     setTimeout(async ()=>{
+        //         const gossip = new GossiperFactory(rmrk);
+        //         const gossiper = await gossip.getGossiper();
+        //         gossiper?.gossip();
+        //     }, 1000);
+        // }
     }).catch((e) => {
         console.error(e);
     });
