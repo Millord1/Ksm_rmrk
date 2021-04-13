@@ -216,6 +216,7 @@ class Jetski {
                 // console.log(e);
                 reject(Jetski.noBlock);
             }
+            console.log("We have counting");
             // Get block from API
             const block = await api.rpc.chain.getBlock(blockHash);
             let blockId = blockNumber;
@@ -243,6 +244,7 @@ class Jetski {
                         }, 5000);
                     }
                     const totalLength = batch.length;
+                    console.log("batch lengh" + batch.length);
                     let start;
                     if (count == 0) {
                         start = count;
@@ -271,6 +273,7 @@ class Jetski {
                     for (const rmrkObj of batch) {
                         // Increment tx Hash
                         const txHash = hash + '-' + i;
+                        console.log("found remark" + txHash);
                         const destination = transfer ? transfer.destination : undefined;
                         const value = transfer ? transfer.value : undefined;
                         const tx = new Transaction_1.Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);

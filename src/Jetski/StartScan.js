@@ -187,6 +187,7 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
 exports.startJetskiLoop = startJetskiLoop;
 // Hack for scan eggs, to be improved later
 async function eggs(opts, counter, blockN) {
+    console.log("wahts is happening X");
     let block = 0;
     let count = 0;
     if (opts) {
@@ -202,15 +203,19 @@ async function eggs(opts, counter, blockN) {
     // const count = opts.count;
     const jetski = new Jetski_1.Jetski(chain);
     const api = await jetski.getApi();
+    console.log("getting big block");
     jetski.getBigBlock(block, api, count)
         .then(async (result) => {
+        console.log("entering block");
         const rmrks = await metaDataVerifier(result);
+        console.log("where is the console");
         let i = 0;
         let intervalLoop = setInterval(async () => {
             const gossip = new GossiperFactory_1.GossiperFactory(rmrks[i]);
             const gossiper = await gossip.getGossiper();
             gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
             i++;
+            console.log("getting gossiper");
             if (!rmrks[i]) {
                 setTimeout(() => {
                     // process.exit();
@@ -283,6 +288,8 @@ async function metaDataVerifier(remarks) {
                     // if meta doesn't exists, call
                     metaDataCaller(rmrk.asset)
                         .then((meta) => {
+                        console.log("loading metadata data for");
+                        console.log(rmrk.asset);
                         // @ts-ignore rmrk.asset is instance of Asset
                         rmrk.asset.metaData = meta;
                     }).catch((e) => {
@@ -297,6 +304,7 @@ async function metaDataVerifier(remarks) {
 async function metaDataCaller(entity, nbOfTry = 0) {
     return new Promise((resolve, reject) => {
         if (entity.url) {
+            console.log("calling metadata");
             // verify url existst
             MetaData_1.MetaData.getMetaData(entity.url)
                 .then(metaData => {

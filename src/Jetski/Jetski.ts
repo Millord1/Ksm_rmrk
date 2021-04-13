@@ -319,6 +319,8 @@ export class Jetski
                 reject(Jetski.noBlock);
             }
 
+            console.log("We have counting");
+
             // Get block from API
             const block = await api.rpc.chain.getBlock(blockHash);
 
@@ -359,6 +361,7 @@ export class Jetski
                     }
 
                     const totalLength = batch.length;
+                    console.log("batch lengh"+batch.length);
 
                     let start: number;
 
@@ -395,8 +398,10 @@ export class Jetski
                     let i = 1;
 
                     for (const rmrkObj of batch){
+
                         // Increment tx Hash
                         const txHash = hash + '-' + i;
+                        console.log("found remark"+txHash);
 
                         const destination = transfer ? transfer.destination : undefined;
                         const value = transfer ? transfer.value : undefined;

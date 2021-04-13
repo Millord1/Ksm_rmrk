@@ -261,6 +261,8 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
 // Hack for scan eggs, to be improved later
 export async function eggs(opts?: Option, counter?: number, blockN?: number)
 {
+    console.log("wahts is happening X");
+
     let block: number = 0;
     let count: number = 0;
 
@@ -280,12 +282,16 @@ export async function eggs(opts?: Option, counter?: number, blockN?: number)
     const jetski = new Jetski(chain);
     const api = await jetski.getApi();
 
+    console.log("getting big block");
     jetski.getBigBlock(block, api, count)
         .then( async (result)=>{
 
+            console.log("entering block");
             const rmrks = await metaDataVerifier(result);
+            console.log("where is the console");
 
             let i: number = 0;
+
 
             let intervalLoop: NodeJS.Timeout = setInterval(async()=>{
 
@@ -293,6 +299,7 @@ export async function eggs(opts?: Option, counter?: number, blockN?: number)
                 const gossiper = await gossip.getGossiper();
                 gossiper?.gossip();
                 i++;
+                console.log("getting gossiper");
 
                 if(!rmrks[i]){
                     setTimeout(()=>{
@@ -391,6 +398,9 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
                     // if meta doesn't exists, call
                     metaDataCaller(rmrk.asset)
                         .then((meta)=>{
+
+                            console.log("loading metadata data for");
+                            console.log( rmrk.asset);
                             // @ts-ignore rmrk.asset is instance of Asset
                             rmrk.asset.metaData = meta;
                         }).catch((e)=>{
@@ -412,6 +422,7 @@ async function metaDataCaller(entity: Entity, nbOfTry: number = 0): Promise<Meta
     return new Promise((resolve, reject)=>{
 
         if(entity.url){
+            console.log("calling metadata");
             // verify url existst
             MetaData.getMetaData(entity.url)
                 .then(metaData=>{
