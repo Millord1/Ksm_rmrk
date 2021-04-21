@@ -6,6 +6,7 @@ import {BlockchainContract} from "canonizer/src/canonizer/BlockchainContract";
 import {RmrkContractStandard} from "canonizer/src/canonizer/Interfaces/RmrkContractStandard";
 import {BlockchainEvent} from "canonizer/src/canonizer/BlockchainEvent";
 import {GossiperManager} from "./GossiperManager";
+import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 
 export class EventGossiper extends GossiperManager
 {
@@ -19,7 +20,7 @@ export class EventGossiper extends GossiperManager
     private readonly txId: string;
 
 
-    constructor(remark: Send|MintNft, csCanonizeManager: CSCanonizeManager, chain: string) {
+    constructor(remark: Send|MintNft, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
 
         super(chain, csCanonizeManager);
 

@@ -9,6 +9,12 @@ import {List} from "../Remark/Interactions/List";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {load} from "ts-dotenv";
 import {strict as assert} from "assert";
+import {SandraManager} from "canonizer/src/SandraManager";
+import {WestEnd} from "../Blockchains/WestEnd";
+import {WestendBlockchain} from "canonizer/src/canonizer/Substrate/Westend/WestendBlockchain";
+import {Kusama} from "../Blockchains/Kusama";
+import {KusamaBlockchain} from "canonizer/src/canonizer/Kusama/KusamaBlockchain";
+import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 
 
 export class GossiperFactory
@@ -18,11 +24,12 @@ export class GossiperFactory
 
     private readonly csCanonizeManager: CSCanonizeManager;
     public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+    private chain: Blockchain;
 
-    constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager) {
-        this.rmrk = rmrk;
-        const chain = rmrk.chain.constructor.name.toLowerCase();
+    constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
+        this.rmrk = rmrk;;
         this.csCanonizeManager = csCanonizeManager;
+        this.chain = chain;
         // this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
     }
 
@@ -52,6 +59,23 @@ export class GossiperFactory
     }
 
 
+    public static getCanonizeChain(chainName: string, sandra: SandraManager)
+    {
+
+        switch(chainName.toLowerCase()){
+
+            case WestEnd.name.toLowerCase():
+                return new WestendBlockchain(sandra);
+
+            case Kusama.name.toLowerCase():
+            default:
+                return new KusamaBlockchain(sandra);
+
+        }
+
+    }
+
+
 
     public async getGossiper()
     {
@@ -63,24 +87,24 @@ export class GossiperFactory
         if(this.rmrk instanceof Mint){
 
             if(this.rmrk.collection){
-                return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, chain);
+                return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
             }
             return undefined;
 
         }else if(this.rmrk instanceof MintNft){
 
             if(this.rmrk.asset){
-                const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, chain);
+                const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
                 await entity.gossip();
 
-                return new EventGossiper(this.rmrk, canonizeManager, chain);
+                return new EventGossiper(this.rmrk, canonizeManager, this.chain);
             }
             return undefined;
 
         }else if(this.rmrk instanceof Send){
 
             if(this.rmrk.asset){
-                return new EventGossiper(this.rmrk, canonizeManager, chain);
+                return new EventGossiper(this.rmrk, canonizeManager, this.chain);
             }
             return undefined;
 

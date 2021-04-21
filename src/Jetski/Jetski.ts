@@ -34,7 +34,7 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
-    public static maxPerBatch: number = 10;
+    public static maxPerBatch: number = 99;
 
     constructor(chain: Blockchain) {
         this.chain = chain;

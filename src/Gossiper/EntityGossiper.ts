@@ -6,6 +6,7 @@ import {RmrkContractStandard} from "canonizer/src/canonizer/Interfaces/RmrkContr
 import {MetaData} from "../Remark/MetaData";
 import {BlockchainAddress} from "canonizer/src/canonizer/BlockchainAddress";
 import {GossiperManager} from "./GossiperManager";
+import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 
 export class EntityGossiper extends GossiperManager
 {
@@ -22,7 +23,7 @@ export class EntityGossiper extends GossiperManager
     private readonly assetId?: string;
     private readonly assetName?: string;
 
-    constructor(entity: Entity, blockId: number, source: string, csCanonizeManager: CSCanonizeManager, chain: string) {
+    constructor(entity: Entity, blockId: number, source: string, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
 
         super(chain, csCanonizeManager);
 
