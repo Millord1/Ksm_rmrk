@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MetaData = void 0;
 const Entity_1 = require("./Entities/Entity");
+const Jetski_1 = require("../Jetski/Jetski");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 class MetaData {
     constructor(url, data) {
@@ -62,7 +63,18 @@ class MetaData {
         return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
             let response;
+            // const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);
+            //
+            // if(metaAlreadyCalled && metaAlreadyCalled.meta){
+            //     resolve (metaAlreadyCalled.meta);
+            // }
             setTimeout(() => {
+                const metaAlreadyCalled = Jetski_1.metaCalled.find(meta => meta.url === url);
+                if (metaAlreadyCalled && metaAlreadyCalled.meta) {
+                    console.log("no call");
+                    resolve(metaAlreadyCalled.meta);
+                }
+                let newMeta = undefined;
                 request.open("GET", url);
                 request.send();
                 request.onreadystatechange = function () {
@@ -84,7 +96,15 @@ class MetaData {
                             };
                             console.error(e.message + "\n for the MetaData url : " + url);
                         }
-                        resolve(new MetaData(url, response));
+                        newMeta = new MetaData(url, response);
+                        const metaUrl = url.split("/").pop();
+                        if (metaUrl) {
+                            Jetski_1.metaCalled.push({
+                                url: metaUrl,
+                                meta: newMeta
+                            });
+                        }
+                        resolve(newMeta);
                     }
                     else if (this.readyState == 4 && this.status == 404) {
                         reject('request : ' + this.status);

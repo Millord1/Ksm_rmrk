@@ -19,15 +19,15 @@ export class GossiperFactory
     private readonly csCanonizeManager: CSCanonizeManager;
     public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
 
-    constructor(rmrk: Interaction) {
-        console.log(rmrk);
+    constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager) {
         this.rmrk = rmrk;
         const chain = rmrk.chain.constructor.name.toLowerCase();
-        this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
+        this.csCanonizeManager = csCanonizeManager;
+        // this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
     }
 
 
-    private static getJwt(chain: string)
+    public static getJwt(chain: string)
     {
         let jwt: string = "";
 

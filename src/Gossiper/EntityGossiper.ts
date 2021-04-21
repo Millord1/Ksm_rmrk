@@ -84,7 +84,7 @@ export class EntityGossiper extends GossiperManager
 
                 myAsset.bindContract(assetContract);
 
-                canonizeManager.gossipOrbsBindings().then(()=>{console.log("asset gossiped " + this.blockId)});
+                // canonizeManager.gossipOrbsBindings().then(()=>{console.log("asset gossiped " + this.blockId)});
 
                 break;
 
@@ -105,7 +105,7 @@ export class EntityGossiper extends GossiperManager
 
                 myContract.bindToCollection(canonizeCollection);
 
-                canonizeManager.gossipCollection().then(()=>{console.log("collection gossiped " + this.blockId)});
+                // canonizeManager.gossipCollection().then(()=>{console.log("collection gossiped " + this.blockId)});
 
                 break;
 

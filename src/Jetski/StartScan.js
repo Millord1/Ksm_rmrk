@@ -12,6 +12,7 @@ const Asset_1 = require("../Remark/Entities/Asset");
 const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
 const FileManager_1 = require("../Files/FileManager");
+const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline').createInterface({
@@ -146,16 +147,31 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                         const needDelay = rmrksWithMeta.length > 5;
                         if (rmrksWithMeta.length > 0) {
                             // Gossip if array not empty
+                            const chainName = chain.constructor.name.toLowerCase();
+                            // get jwt for blockchain
+                            const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
+                            const canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
+                            let gossip;
+                            let gossiper;
+                            let blockchain;
                             for (const rmrk of rmrksWithMeta) {
-                                const gossip = new GossiperFactory_1.GossiperFactory(rmrk);
-                                const gossiper = await gossip.getGossiper();
+                                gossip = new GossiperFactory_1.GossiperFactory(rmrk, canonizeManager);
+                                gossiper = await gossip.getGossiper();
                                 gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
-                                // if array have many rmrks, delay between calls
-                                if (needDelay) {
-                                    setTimeout(() => {
-                                        console.log("Wait for next gossip ...");
-                                    }, 500);
+                                if (gossiper) {
+                                    blockchain = gossiper.getCanonizeChain(chainName);
                                 }
+                                // if array have many rmrks, delay between calls
+                                // if(needDelay){
+                                //     setTimeout(()=>{
+                                //         console.log("Wait for next gossip ...");
+                                //     }, 500)
+                                // }
+                            }
+                            if (blockchain) {
+                                canonizeManager.gossipOrbsBindings().then(() => { console.log("asset gossiped " + blockNumber); });
+                                canonizeManager.gossipCollection().then(() => { console.log("collection gossiped " + blockNumber); });
+                                canonizeManager.gossipBlockchainEvents(blockchain).then(() => { console.log("event gossiped " + blockNumber); });
                             }
                         }
                         blockNumber++;
@@ -186,7 +202,7 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
 }
 exports.startJetskiLoop = startJetskiLoop;
 // Hack for scan eggs, to be improved later
-async function eggs(opts, counter, blockN) {
+async function eggs(opts, counter, blockN, jetski, api) {
     let block = 0;
     let count = 0;
     if (opts) {
@@ -198,43 +214,67 @@ async function eggs(opts, counter, blockN) {
         count = counter;
     }
     const chain = new Kusama_1.Kusama();
-    // @ts-ignore
-    // const count = opts.count;
-    const jetski = new Jetski_1.Jetski(chain);
-    const api = await jetski.getApi();
+    if (!jetski) {
+        jetski = new Jetski_1.Jetski(chain);
+    }
+    if (!api) {
+        api = await jetski.getApi();
+    }
     jetski.getBigBlock(block, api, count)
         .then(async (result) => {
         const rmrks = await metaDataVerifier(result);
         let i = 0;
-        let intervalLoop = setInterval(async () => {
-            const gossip = new GossiperFactory_1.GossiperFactory(rmrks[i]);
-            const gossiper = await gossip.getGossiper();
+        const chainName = chain.constructor.name.toLowerCase();
+        // get jwt for blockchain
+        const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
+        const canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
+        let gossip;
+        let gossiper;
+        let blockchain;
+        let sended = false;
+        for (const interact of rmrks) {
+            gossip = new GossiperFactory_1.GossiperFactory(interact, canonizeManager);
+            gossiper = await gossip.getGossiper();
             gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
+            if (gossiper) {
+                blockchain = gossiper.getCanonizeChain(chainName);
+            }
             i++;
-            if (!rmrks[i]) {
-                setTimeout(() => {
-                    // process.exit();
-                }, 5000);
-            }
-            if (i == 500) {
-                clearInterval(intervalLoop);
-                console.log(count);
+            if (i == Jetski_1.Jetski.maxPerBatch) {
                 count++;
-                eggs(undefined, count, block);
+                send(canonizeManager, block, blockchain);
+                sended = true;
+                eggs(undefined, count, block, jetski, api);
             }
-        }, 1000);
-        // for(const rmrk of rmrks){
-        //     setTimeout(async ()=>{
-        //         const gossip = new GossiperFactory(rmrk);
-        //         const gossiper = await gossip.getGossiper();
-        //         gossiper?.gossip();
-        //     }, 1000);
-        // }
+        }
+        if (!sended) {
+            send(canonizeManager, block, blockchain);
+        }
     }).catch((e) => {
         console.error(e);
     });
 }
 exports.eggs = eggs;
+function send(canonizeManager, block, blockchain) {
+    if (blockchain) {
+        let i = 0;
+        let tryCanonize = setInterval(() => {
+            if (i == 0) {
+                canonizeManager.gossipOrbsBindings().then((r) => { console.log("asset gossiped " + block); }).catch((e) => { console.log(e); });
+            }
+            else if (i == 1) {
+                canonizeManager.gossipCollection().then((r) => { console.log("collection gossiped " + block); }).catch((e) => { console.log(e); });
+            }
+            else if (i == 2) {
+                canonizeManager.gossipBlockchainEvents(blockchain).then(() => { console.log("event gossiped " + block); }).catch((e) => { console.log(e); });
+            }
+            else {
+                clearInterval(tryCanonize);
+            }
+            i++;
+        }, 1000);
+    }
+}
 const scan = async (opts) => {
     // scan only one block
     // @ts-ignore

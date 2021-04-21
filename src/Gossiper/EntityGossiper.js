@@ -51,7 +51,7 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
                 let rmrkToken = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
                 assetContract.setStandard(rmrkToken);
                 myAsset.bindContract(assetContract);
-                canonizeManager.gossipOrbsBindings().then(() => { console.log("asset gossiped " + this.blockId); });
+                // canonizeManager.gossipOrbsBindings().then(()=>{console.log("asset gossiped " + this.blockId)});
                 break;
             case Collection_1.Collection.name.toLowerCase():
                 let collection = "";
@@ -63,7 +63,7 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
                 let canonizeCollection = canonizeManager.createCollection({ id: this.collectionId, imageUrl: this.image, name: collection, description: this.description });
                 canonizeCollection.setOwner(source);
                 myContract.bindToCollection(canonizeCollection);
-                canonizeManager.gossipCollection().then(() => { console.log("collection gossiped " + this.blockId); });
+                // canonizeManager.gossipCollection().then(()=>{console.log("collection gossiped " + this.blockId)});
                 break;
             default:
                 console.error('Something is wrong with Entity Gossip of ' + this.blockId);

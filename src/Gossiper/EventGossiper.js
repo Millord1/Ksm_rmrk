@@ -28,7 +28,7 @@ class EventGossiper extends GossiperManager_1.GossiperManager {
         const contract = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.contractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
         const contractStandard = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager, this.sn);
         let event = new BlockchainEvent_1.BlockchainEvent(this.chain.eventFactory, address, receiver, contract, this.txId, this.timestamp, '1', this.chain, this.blockId, contractStandard, sandra);
-        canonizeManager.gossipBlockchainEvents(this.chain).then(() => { console.log("event gossiped " + this.blockId); });
+        // canonizeManager.gossipBlockchainEvents(this.chain).then(()=>{console.log("event gossiped " + this.blockId)});
     }
 }
 exports.EventGossiper = EventGossiper;

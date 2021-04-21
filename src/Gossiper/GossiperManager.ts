@@ -18,7 +18,7 @@ export abstract class GossiperManager
     }
 
 
-    private getCanonizeChain(chainName: string)
+    public getCanonizeChain(chainName: string)
     {
 
         const sandra: SandraManager = this.canonizeManager.getSandra();

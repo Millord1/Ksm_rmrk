@@ -8,15 +8,14 @@ const EventGossiper_1 = require("./EventGossiper");
 const Buy_1 = require("../Remark/Interactions/Buy");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
 const List_1 = require("../Remark/Interactions/List");
-const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const ts_dotenv_1 = require("ts-dotenv");
 const assert_1 = require("assert");
 class GossiperFactory {
-    constructor(rmrk) {
-        console.log(rmrk);
+    constructor(rmrk, csCanonizeManager) {
         this.rmrk = rmrk;
         const chain = rmrk.chain.constructor.name.toLowerCase();
-        this.csCanonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory.gossipUrl, jwt: GossiperFactory.getJwt(chain) } });
+        this.csCanonizeManager = csCanonizeManager;
+        // this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
     }
     static getJwt(chain) {
         let jwt = "";
