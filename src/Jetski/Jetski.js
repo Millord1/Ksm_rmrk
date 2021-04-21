@@ -22,6 +22,8 @@ class Jetski {
         return api;
     }
     async getBlockContent(blockNumber, api) {
+        // Clear meta storage at each block
+        exports.metaCalled = [];
         return new Promise(async (resolve, reject) => {
             let blockRmrk = [];
             let blockHash;
@@ -29,7 +31,6 @@ class Jetski {
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             }
             catch (e) {
-                // console.log(e);
                 reject(Jetski.noBlock);
             }
             // Get block from APi
@@ -284,13 +285,13 @@ class Jetski {
                 start = count;
             }
             else {
-                start = count * 500;
+                start = count * Jetski.maxPerBatch;
             }
             console.log("start : " + start);
             // 500 remarks by loop
-            let stop = start + 500;
+            let stop = start + Jetski.maxPerBatch;
             // where stop slice
-            stop = stop > batchLength ? batchLength : stop;
+            stop = stop > batchLength ? batchLength + 1 : stop;
             console.log("stop : " + stop);
             batch = batch.slice(start, stop);
             // remarks = await this.pushRemarks(batch, hash, blockId, timestamp, signer, remarks);
@@ -371,19 +372,20 @@ class Jetski {
                         console.log("This block is finished");
                         process.exit();
                     }
-                    if (stop > totalLength) {
-                        stop = totalLength;
+                    if (stop >= totalLength) {
+                        batch = batch.slice(start);
                         console.log("block length achieved");
-                        // setTimeout(()=>{
-                        //     console.log("LAST");
-                        // }, 1000);
+                        console.log(start);
+                        console.log(batch);
                     }
-                    batch = batch.slice(start, stop);
+                    else {
+                        batch = batch.slice(start, stop);
+                    }
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
                     // Transfer object for complement Buy data (payment address and value)
                     const transfer = Jetski.checkIfTransfer(batch);
-                    let i = 1;
+                    let i = start;
                     for (const rmrkObj of batch) {
                         // Increment tx Hash
                         const txHash = hash + '-' + i;
@@ -396,6 +398,7 @@ class Jetski {
                         }
                         i += 1;
                     }
+                    console.log(start + " " + stop + " " + totalLength);
                 }
             }
             return Promise.all(blockRmrk)
@@ -425,5 +428,5 @@ class Jetski {
 }
 exports.Jetski = Jetski;
 Jetski.noBlock = "No Block";
-Jetski.maxPerBatch = 99;
+Jetski.maxPerBatch = 50;
 //# sourceMappingURL=Jetski.js.map

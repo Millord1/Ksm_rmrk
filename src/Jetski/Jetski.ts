@@ -22,7 +22,7 @@ interface metadataCalls
     meta: MetaData|undefined
 }
 
-export const metaCalled: Array<metadataCalls> = [];
+export let metaCalled: Array<metadataCalls> = [];
 
 export let batchLength: number;
 
@@ -34,7 +34,7 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
-    public static maxPerBatch: number = 99;
+    public static maxPerBatch: number = 50;
 
     constructor(chain: Blockchain) {
         this.chain = chain;
@@ -53,6 +53,8 @@ export class Jetski
 
     public async getBlockContent(blockNumber: number, api: ApiPromise): Promise<Array<Interaction>>
     {
+        // Clear meta storage at each block
+        metaCalled = [];
 
         return new Promise(async (resolve, reject)=>{
 
@@ -62,7 +64,6 @@ export class Jetski
             try{
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             }catch(e){
-                // console.log(e);
                 reject(Jetski.noBlock);
             }
 
@@ -410,7 +411,7 @@ export class Jetski
         timestamp: string,
         count: number,
         remarks: Array<Promise<Interaction|string>> = []
-    ): Promise<Array<Promise<Interaction | string>>>
+    ): Promise<Array<Promise<Interaction|string>>>
     {
         // create remarks from big batch (>500)
         return new Promise(async (resolve, reject)=>{
@@ -423,16 +424,16 @@ export class Jetski
             if(count == 0){
                 start = count;
             }else{
-                start = count * 500;
+                start = count * Jetski.maxPerBatch;
             }
 
             console.log("start : "+start);
 
             // 500 remarks by loop
-            let stop = start + 500;
+            let stop = start + Jetski.maxPerBatch;
 
             // where stop slice
-            stop = stop > batchLength ? batchLength : stop;
+            stop = stop > batchLength ? batchLength + 1 : stop;
 
             console.log("stop : "+stop);
 
@@ -548,16 +549,14 @@ export class Jetski
                         process.exit();
                     }
 
-                    if(stop > totalLength){
-                        stop = totalLength;
-
+                    if(stop >= totalLength){
+                        batch = batch.slice(start);
                         console.log("block length achieved");
-                        // setTimeout(()=>{
-                        //     console.log("LAST");
-                        // }, 1000);
+                        console.log(start);
+                        console.log(batch);
+                    }else{
+                        batch = batch.slice(start, stop);
                     }
-
-                    batch = batch.slice(start, stop);
 
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
@@ -565,7 +564,7 @@ export class Jetski
                     // Transfer object for complement Buy data (payment address and value)
                     const transfer: Transfer|undefined = Jetski.checkIfTransfer(batch);
 
-                    let i = 1;
+                    let i = start;
 
                     for (const rmrkObj of batch){
                         // Increment tx Hash
@@ -582,7 +581,7 @@ export class Jetski
                         }
                         i += 1;
                     }
-
+                    console.log(start +" "+ stop +" "+totalLength);
                 }
 
             }
