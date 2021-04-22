@@ -156,6 +156,7 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                             const blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
                             let gossip;
                             let gossiper;
+                            let sent = false;
                             for (const rmrk of rmrksWithMeta) {
                                 // create Event or Entity Gossiper
                                 gossip = new GossiperFactory_1.GossiperFactory(rmrk, canonizeManager, blockchain);
@@ -163,11 +164,17 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                                 gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
                                 if (needDelay) {
                                     // if array have many rmrks, delay between calls
-                                    await sendWithDelay(canonizeManager, blockNumber, blockchain);
+                                    sendWithDelay(canonizeManager, blockNumber, blockchain).then(() => {
+                                        sent = true;
+                                    });
                                 }
                                 else {
                                     send(canonizeManager, blockNumber, blockchain);
+                                    sent = true;
                                 }
+                            }
+                            if (!sent) {
+                                await sendWithDelay(canonizeManager, blockNumber, blockchain);
                             }
                         }
                         blockNumber++;
@@ -295,10 +302,17 @@ const scan = async (opts) => {
     const blockN = opts.block;
     jetski.getBlockContent(blockN, api).then(async (result) => {
         const rmrks = await metaDataVerifier(result);
-        const needDelay = rmrks.length > 5;
+        const needDelay = rmrks.length > Jetski_1.Jetski.maxPerBatch;
+        const chainName = chain.constructor.name.toLowerCase();
+        // get jwt for blockchain
+        const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
+        // create canonize for stock gossips and flush it
+        const canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
+        // blockchain stock gossips too
+        const blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
         for (const rmrk of rmrks) {
             console.log(rmrk);
-            const gossip = new GossiperFactory_1.GossiperFactory(rmrk);
+            const gossip = new GossiperFactory_1.GossiperFactory(rmrk, canonizeManager, blockchain);
             const gossiper = await gossip.getGossiper();
             gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
             if (needDelay) {

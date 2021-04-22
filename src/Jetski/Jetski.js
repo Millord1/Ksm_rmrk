@@ -67,26 +67,13 @@ class Jetski {
                     const batch = JSON.parse(arg);
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
-                    // Transfer object for complement Buy data (payment address and value)
-                    const transfer = Jetski.checkIfTransfer(batch);
                     let i = 1;
                     // if batch bigger than 200 rmrks
                     if (batch.length >= Jetski.maxPerBatch) {
                         blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0);
                     }
                     else {
-                        for (const rmrkObj of batch) {
-                            // Increment tx Hash
-                            const txHash = hash + '-' + i;
-                            const destination = transfer ? transfer.destination : undefined;
-                            const value = transfer ? transfer.value : undefined;
-                            const tx = new Transaction_1.Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);
-                            if (rmrkObj.args.hasOwnProperty('_remark')) {
-                                // If batch have rmrk
-                                blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
-                            }
-                            i += 1;
-                        }
+                        blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, i, blockRmrk);
                     }
                 }
             }
@@ -258,9 +245,9 @@ class Jetski {
         let secondTimestamp = Number(argString) / 1000;
         return secondTimestamp.toString();
     }
-    pushRemarks(batch, hash, blockId, timestamp, signer, remarks = []) {
+    pushRemarks(batch, hash, blockId, timestamp, signer, start, remarks = []) {
         const transfer = Jetski.checkIfTransfer(batch);
-        let i = 1;
+        let i = start;
         for (const rmrkObj of batch) {
             // Increment tx Hash
             const txHash = hash + '-' + i;
@@ -276,42 +263,36 @@ class Jetski {
         return remarks;
     }
     async eggExplorer(batch, signer, hash, blockId, timestamp, count, remarks = []) {
-        // create remarks from big batch (>500)
+        // create remarks from big batch
         return new Promise(async (resolve, reject) => {
-            const batchLength = batch.length;
+            const totalLength = batch.length;
             let start;
-            // start is count for starting slice
             if (count == 0) {
                 start = count;
             }
             else {
                 start = count * Jetski.maxPerBatch;
             }
-            console.log("start : " + start);
-            // 500 remarks by loop
             let stop = start + Jetski.maxPerBatch;
-            // where stop slice
-            stop = stop > batchLength ? batchLength + 1 : stop;
-            console.log("stop : " + stop);
-            batch = batch.slice(start, stop);
-            // remarks = await this.pushRemarks(batch, hash, blockId, timestamp, signer, remarks);
-            // Transfer object for complement Buy data (payment address and value)
-            const transfer = Jetski.checkIfTransfer(batch);
-            let i = 1;
-            for (const rmrkObj of batch) {
-                // Increment tx Hash
-                const txHash = hash + '-' + i;
-                const destination = transfer ? transfer.destination : undefined;
-                const value = transfer ? transfer.value : undefined;
-                const tx = new Transaction_1.Transaction(blockId, txHash, timestamp, this.chain, signer, destination, value);
-                if (rmrkObj.args.hasOwnProperty('_remark')) {
-                    // If batch have rmrk
-                    remarks.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
-                }
-                i += 1;
+            if (start > totalLength) {
+                console.log("This block is finished");
+                resolve(remarks);
             }
+            if (stop > totalLength) {
+                stop = totalLength;
+            }
+            const myBatch = [];
+            for (let i = start; i < stop; i++) {
+                if (batch[i]) {
+                    myBatch.push(batch[i]);
+                }
+            }
+            if (myBatch.length == 0) {
+                resolve(remarks);
+            }
+            remarks = await this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
             // if batch still have remarks to process
-            if (stop != batchLength) {
+            if (stop != totalLength) {
                 this.eggExplorer(batch, signer, hash, blockId, timestamp, ++count, remarks);
             }
             else {
@@ -358,47 +339,28 @@ class Jetski {
                         }, 5000);
                     }
                     const totalLength = batch.length;
-                    exports.batchLength = totalLength;
                     let start;
-                    if (count == 0) {
-                        start = count;
-                    }
-                    else {
-                        start = count * Jetski.maxPerBatch;
-                    }
-                    console.log("start : " + start);
+                    start = count == 0 ? 0 : count * Jetski.maxPerBatch;
                     let stop = start + Jetski.maxPerBatch;
                     if (start > totalLength) {
                         console.log("This block is finished");
                         process.exit();
                     }
-                    if (stop >= totalLength) {
-                        batch = batch.slice(start);
-                        console.log("block length achieved");
-                        console.log(start);
-                        console.log(batch);
+                    if (stop > totalLength) {
+                        stop = totalLength;
                     }
-                    else {
-                        batch = batch.slice(start, stop);
+                    const myBatch = [];
+                    for (let i = start; i < stop; i++) {
+                        if (batch[i]) {
+                            myBatch.push(batch[i]);
+                        }
+                    }
+                    if (myBatch.length == 0) {
+                        // resolve
                     }
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
-                    // Transfer object for complement Buy data (payment address and value)
-                    const transfer = Jetski.checkIfTransfer(batch);
-                    let i = start;
-                    for (const rmrkObj of batch) {
-                        // Increment tx Hash
-                        const txHash = hash + '-' + i;
-                        const destination = transfer ? transfer.destination : undefined;
-                        const value = transfer ? transfer.value : undefined;
-                        const tx = new Transaction_1.Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);
-                        if (rmrkObj.args.hasOwnProperty('_remark')) {
-                            // If batch have rmrk
-                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
-                        }
-                        i += 1;
-                    }
-                    console.log(start + " " + stop + " " + totalLength);
+                    blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, start, blockRmrk);
                 }
             }
             return Promise.all(blockRmrk)
