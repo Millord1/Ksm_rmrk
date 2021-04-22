@@ -165,8 +165,19 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                                 gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
                                 // send every Jetski.maxPerBatch remarks
                                 if (i != 0 && i % Jetski_1.Jetski.maxPerBatch == 0) {
-                                    await sendWithDelay(canonizeManager, blockNumber, blockchain);
-                                    sent = true;
+                                    await sendWithDelay(canonizeManager, blockNumber, blockchain)
+                                        .then(() => {
+                                        sent = true;
+                                    })
+                                        .catch(async () => {
+                                        await sendWithDelay(canonizeManager, blockNumber, blockchain)
+                                            .catch(() => {
+                                            sent = false;
+                                        });
+                                    });
+                                    if (!sent) {
+                                        continue;
+                                    }
                                 }
                                 i++;
                             }
@@ -290,8 +301,13 @@ async function sendWithDelay(canonizeManager, block, blockchain) {
                 console.log("events : " + r);
                 console.log("event gossiped " + block);
                 resolve("send");
-            }).catch((e) => {
+            }).catch(async (e) => {
                 console.log(e);
+                await canonizeManager.gossipBlockchainEvents(blockchain).then(() => {
+                    resolve("send");
+                }).catch((e) => {
+                    reject(e);
+                });
             });
             // setInterval(async ()=>{
             //

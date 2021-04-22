@@ -388,5 +388,5 @@ class Jetski {
 }
 exports.Jetski = Jetski;
 Jetski.noBlock = "No Block";
-Jetski.maxPerBatch = 100;
+Jetski.maxPerBatch = 75;
 //# sourceMappingURL=Jetski.js.map
