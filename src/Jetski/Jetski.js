@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Jetski = exports.batchLength = exports.metaCalled = void 0;
+exports.Jetski = exports.metaCalled = void 0;
 const api_1 = require("@polkadot/api");
 const Interaction_1 = require("../Remark/Interactions/Interaction");
 const Transaction_1 = require("../Remark/Transaction");
@@ -264,7 +264,7 @@ class Jetski {
     }
     async eggExplorer(batch, signer, hash, blockId, timestamp, count, remarks = []) {
         // create remarks from big batch
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             const totalLength = batch.length;
             let start;
             if (count == 0) {
@@ -290,14 +290,12 @@ class Jetski {
             if (myBatch.length == 0) {
                 resolve(remarks);
             }
-            remarks = await this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
+            remarks = this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
             // if batch still have remarks to process
             if (stop != totalLength) {
                 this.eggExplorer(batch, signer, hash, blockId, timestamp, ++count, remarks);
             }
-            else {
-                resolve(remarks);
-            }
+            resolve(remarks);
         });
     }
     // Manual process of big batch (called from yarn)
@@ -390,5 +388,5 @@ class Jetski {
 }
 exports.Jetski = Jetski;
 Jetski.noBlock = "No Block";
-Jetski.maxPerBatch = 50;
+Jetski.maxPerBatch = 100;
 //# sourceMappingURL=Jetski.js.map

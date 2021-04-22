@@ -24,8 +24,6 @@ interface metadataCalls
 
 export let metaCalled: Array<metadataCalls> = [];
 
-export let batchLength: number;
-
 export class Jetski
 {
 
@@ -34,7 +32,7 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
-    public static maxPerBatch: number = 50;
+    public static maxPerBatch: number = 100;
 
     constructor(chain: Blockchain) {
         this.chain = chain;
@@ -122,17 +120,17 @@ export class Jetski
 
                     // if batch bigger than 200 rmrks
                     if(batch.length >= Jetski.maxPerBatch){
-                        blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0)
+                        blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0);
                     }else{
                         blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, i, blockRmrk);
                     }
                 }
-
             }
 
             return Promise.all(blockRmrk)
                 .then(async result=>{
                     let interactions;
+
                     try{
                         interactions = await this.getMetadataContent(result);
                         resolve (interactions);
@@ -393,7 +391,7 @@ export class Jetski
     ): Promise<Array<Promise<Interaction|string>>>
     {
         // create remarks from big batch
-        return new Promise(async (resolve, reject)=>{
+        return new Promise(async (resolve)=>{
 
             const totalLength = batch.length;
 
@@ -428,15 +426,14 @@ export class Jetski
                 resolve (remarks);
             }
 
-            remarks = await this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
+            remarks = this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
 
             // if batch still have remarks to process
             if(stop != totalLength){
                 this.eggExplorer(batch, signer, hash, blockId, timestamp, ++count, remarks);
-            }else{
-                resolve (remarks);
             }
 
+            resolve (remarks);
         })
 
     }
