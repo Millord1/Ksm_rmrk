@@ -165,12 +165,12 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                                 gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
                                 // send every Jetski.maxPerBatch remarks
                                 if (i != 0 && i % Jetski_1.Jetski.maxPerBatch == 0) {
-                                    await sendWithDelay(canonizeManager, blockNumber, blockchain)
+                                    await sendGossip(canonizeManager, blockNumber, blockchain)
                                         .then(() => {
                                         sent = true;
                                     })
                                         .catch(async () => {
-                                        await sendWithDelay(canonizeManager, blockNumber, blockchain)
+                                        await sendGossip(canonizeManager, blockNumber, blockchain)
                                             .catch(() => {
                                             sent = false;
                                         });
@@ -182,12 +182,7 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                                 i++;
                             }
                             if (!sent) {
-                                if (needDelay) {
-                                    await sendWithDelay(canonizeManager, blockNumber, blockchain);
-                                }
-                                else {
-                                    send(canonizeManager, blockNumber, blockchain);
-                                }
+                                await sendGossip(canonizeManager, blockNumber, blockchain);
                             }
                         }
                         blockNumber++;
@@ -258,13 +253,13 @@ async function eggs(opts, counter, blockN, jetski, api) {
             i++;
             if (i == Jetski_1.Jetski.maxPerBatch) {
                 count++;
-                await sendWithDelay(canonizeManager, block, blockchain);
+                await sendGossip(canonizeManager, block, blockchain);
                 sent = true;
                 eggs(undefined, count, block, jetski, api);
             }
         }
         if (!sent) {
-            await sendWithDelay(canonizeManager, block, blockchain);
+            await sendGossip(canonizeManager, block, blockchain);
         }
         console.log(count + " " + count * Jetski_1.Jetski.maxPerBatch);
     }).catch((e) => {
@@ -272,14 +267,7 @@ async function eggs(opts, counter, blockN, jetski, api) {
     });
 }
 exports.eggs = eggs;
-function send(canonizeManager, block, blockchain) {
-    setTimeout(() => {
-        canonizeManager.gossipOrbsBindings().then(() => { console.log("asset gossiped " + block); }).catch((e) => { console.log(e); });
-        canonizeManager.gossipCollection().then(() => { console.log("collection gossiped " + block); }).catch((e) => { console.log(e); });
-        canonizeManager.gossipBlockchainEvents(blockchain).then(() => { console.log("event gossiped " + block); }).catch((e) => { console.log(e); });
-    }, 500);
-}
-async function sendWithDelay(canonizeManager, block, blockchain) {
+async function sendGossip(canonizeManager, block, blockchain) {
     return new Promise(async (resolve, reject) => {
         if (blockchain) {
             await canonizeManager.gossipOrbsBindings()
@@ -288,6 +276,7 @@ async function sendWithDelay(canonizeManager, block, blockchain) {
                 console.log("asset gossiped " + block);
             })
                 .catch((e) => {
+                reject(e);
                 console.log(e);
             });
             await canonizeManager.gossipCollection()
@@ -295,6 +284,7 @@ async function sendWithDelay(canonizeManager, block, blockchain) {
                 console.log("collection : " + r);
                 console.log("collection gossiped " + block);
             }).catch((e) => {
+                reject(e);
                 console.log(e);
             });
             await canonizeManager.gossipBlockchainEvents(blockchain).then((r) => {
@@ -309,22 +299,6 @@ async function sendWithDelay(canonizeManager, block, blockchain) {
                     reject(e);
                 });
             });
-            // setInterval(async ()=>{
-            //
-            //     if(i == 0){
-            //         await canonizeManager.gossipOrbsBindings().then((r)=>{console.log("asset : "+r);console.log("asset gossiped " + block)}).catch((e)=>{console.log(e);});
-            //     }else if(i == 1){
-            //         await canonizeManager.gossipCollection().then((r)=>{console.log("collection : "+r);console.log("collection gossiped " + block)}).catch((e)=>{console.log(e);});
-            //     }else if(i == 2){
-            //         await canonizeManager.gossipBlockchainEvents(blockchain).then((r)=>{console.log("events : "+r);console.log("event gossiped " + block)}).catch((e)=>{console.log(e);});
-            //     }else{
-            //         setTimeout(()=>{
-            //             resolve("sent")
-            //         }, 1000);
-            //     }
-            //
-            //     i++;
-            // }, 1500);
         }
     });
 }
