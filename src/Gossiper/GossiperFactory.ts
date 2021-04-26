@@ -27,7 +27,7 @@ export class GossiperFactory
     private chain: Blockchain;
 
     constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
-        this.rmrk = rmrk;;
+        this.rmrk = rmrk;
         this.csCanonizeManager = csCanonizeManager;
         this.chain = chain;
         // this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
@@ -80,7 +80,6 @@ export class GossiperFactory
     public async getGossiper()
     {
 
-        const chain = this.rmrk.chain.constructor.name;
         const canonizeManager = this.csCanonizeManager;
 
         // Dispatch for gossiper if rmrk is correct

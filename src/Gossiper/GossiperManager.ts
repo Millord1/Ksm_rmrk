@@ -1,6 +1,5 @@
 import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
-import {GossiperFactory} from "./GossiperFactory";
 
 export abstract class GossiperManager
 {

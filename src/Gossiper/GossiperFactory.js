@@ -17,7 +17,6 @@ const KusamaBlockchain_1 = require("canonizer/src/canonizer/Kusama/KusamaBlockch
 class GossiperFactory {
     constructor(rmrk, csCanonizeManager, chain) {
         this.rmrk = rmrk;
-        ;
         this.csCanonizeManager = csCanonizeManager;
         this.chain = chain;
         // this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
@@ -50,7 +49,6 @@ class GossiperFactory {
         }
     }
     async getGossiper() {
-        const chain = this.rmrk.chain.constructor.name;
         const canonizeManager = this.csCanonizeManager;
         // Dispatch for gossiper if rmrk is correct
         if (this.rmrk instanceof Mint_1.Mint) {

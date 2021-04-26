@@ -1,1 +1,1 @@
-{"version":3,"file":"GossiperManager.js","sourceRoot":"","sources":["GossiperManager.ts"],"names":[],"mappings":";;;AAIA,MAAsB,eAAe;IAMjC,YAAsB,KAAiB,EAAE,eAAkC;QACvE,IAAI,CAAC,eAAe,GAAG,eAAe,CAAC;QACvC,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;CAEJ;AAXD,0CAWC"}
+{"version":3,"file":"GossiperManager.js","sourceRoot":"","sources":["GossiperManager.ts"],"names":[],"mappings":";;;AAGA,MAAsB,eAAe;IAMjC,YAAsB,KAAiB,EAAE,eAAkC;QACvE,IAAI,CAAC,eAAe,GAAG,eAAe,CAAC;QACvC,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;CAEJ;AAXD,0CAWC"}
