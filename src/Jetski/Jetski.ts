@@ -32,7 +32,8 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
-    public static maxPerBatch: number = 75;
+    public static maxPerBatch: number = 50;
+    private static minForEggs: number = 10;
 
     constructor(chain: Blockchain) {
         this.chain = chain;
@@ -119,7 +120,7 @@ export class Jetski
                     let i = 1;
 
                     // if batch bigger than 200 rmrks
-                    if(batch.length >= Jetski.maxPerBatch){
+                    if(batch.length >= Jetski.minForEggs){
                         blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0);
                     }else{
                         blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, i, blockRmrk);
@@ -291,7 +292,7 @@ export class Jetski
 
                 const metaAlreadyCalled = metaCalled.find(meta => meta.url === entity?.url);
 
-                // if call on this url already been made (stock in attribute metaCalled)
+                // if call on this url already been made (stocked in array metaCalled)
                 if(metaAlreadyCalled && metaAlreadyCalled.meta){
                     entity.addMetadata(metaAlreadyCalled.meta);
                 }else{
@@ -430,134 +431,13 @@ export class Jetski
 
             // if batch still have remarks to process
             if(stop != totalLength){
-                this.eggExplorer(batch, signer, hash, blockId, timestamp, ++count, remarks);
+                await this.eggExplorer(batch, signer, hash, blockId, timestamp, ++count, remarks);
             }
 
             resolve (remarks);
         })
 
     }
-
-
-    // Manual process of big batch (called from yarn)
-    public async getBigBlock(blockNumber: number, api: ApiPromise, count: number): Promise<Array<Interaction>>
-    {
-
-        return new Promise(async (resolve, reject)=>{
-
-            let blockRmrk: Array<Promise<Interaction|string>> = [];
-            let blockHash: any;
-
-            try{
-                blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-            }catch(e){
-                // console.log(e);
-                reject(Jetski.noBlock);
-            }
-
-            // Get block from API
-            const block = await api.rpc.chain.getBlock(blockHash);
-
-            let blockId = blockNumber;
-            let blockTimestamp: string = "";
-
-            if(block.block == null){
-                reject(Jetski.noBlock);
-            }
-
-            for (const ex of block.block ? block.block.extrinsics : []){
-
-                const { method: {
-                    args, method, section
-                } } = ex;
-
-                if(section === "timestamp" && method === "set"){
-                    blockTimestamp = Jetski.getTimestamp(ex);
-                }
-
-                const dateTimestamp = Number(blockTimestamp) * 1000;
-                const date = new Date(dateTimestamp);
-                // Display block date and number
-                console.log('block ' + blockNumber + ' ' + date);
-
-
-                if(section === "utility" && method.includes("batch")){
-                    // If rmrks are in batch
-
-                    const arg = args.toString();
-                    let batch = JSON.parse(arg);
-
-                    if(!batch){
-                        setTimeout(()=>{
-                            console.log("no more batch");
-                            // process.exit();
-                        },5000);
-                    }
-
-                    const totalLength = batch.length;
-
-                    let start: number;
-
-                    start = count == 0 ? 0 : count * Jetski.maxPerBatch;
-
-                    let stop = start + Jetski.maxPerBatch;
-
-                    if(start > totalLength){
-                        console.log("This block is finished");
-                        process.exit();
-                    }
-
-                    if(stop > totalLength){
-                        stop = totalLength;
-                    }
-
-                    const myBatch: Array<any> = [];
-
-                    for(let i = start; i < stop; i++){
-                        if(batch[i]){
-                            myBatch.push(batch[i]);
-                        }
-                    }
-
-                    if(myBatch.length == 0){
-                        // resolve
-                    }
-
-                    const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
-
-                    blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, start, blockRmrk);
-                }
-
-            }
-
-            return Promise.all(blockRmrk)
-                .then(async result=>{
-                    let interactions;
-
-                    try{
-                        interactions = await this.getMetadataContent(result);
-                        resolve (interactions);
-                    }catch(e){
-                        // retry if doesn't work
-                        try{
-                            interactions = await this.getMetadataContent(result);
-                            resolve (interactions);
-                        }catch(e){
-                            console.error(e);
-                            reject (e);
-                        }
-                    }
-
-                })
-                .catch(e=>{
-                    reject(e);
-                })
-
-        })
-
-    }
-
 
 
 }
