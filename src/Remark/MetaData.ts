@@ -1,4 +1,5 @@
 import {Entity} from "./Entities/Entity";
+import {metaCalled} from "../Jetski/Jetski";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -13,7 +14,6 @@ interface MetadataInputs
     background_color: string;
     animation_url: string;
 }
-
 
 export class MetaData
 {
@@ -83,6 +83,7 @@ export class MetaData
 
     public static async getMetaData(url: string, batchIndex?: number): Promise<MetaData>
     {
+
         let timeToWait: number = 100;
         // Use array index for increment the time out
 
@@ -99,7 +100,22 @@ export class MetaData
             const request = new XMLHttpRequest();
             let response: MetadataInputs;
 
+            // const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);
+            //
+            // if(metaAlreadyCalled && metaAlreadyCalled.meta){
+            //     resolve (metaAlreadyCalled.meta);
+            // }
+
             setTimeout(()=>{
+
+                const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);
+
+                if(metaAlreadyCalled && metaAlreadyCalled.meta){
+                    console.log("no call");
+                    resolve (metaAlreadyCalled.meta);
+                }
+
+                let newMeta: MetaData|undefined = undefined;
 
                 request.open("GET", url);
                 request.send();
@@ -126,7 +142,16 @@ export class MetaData
                             console.error(e.message + "\n for the MetaData url : " + url);
                         }
 
-                        resolve (new MetaData(url, response));
+                        newMeta = new MetaData(url, response);
+                        const metaUrl = url.split("/").pop();
+
+                        if(metaUrl){
+                            metaCalled.push({
+                                url: metaUrl,
+                                meta: newMeta
+                            })
+                        }
+                        resolve (newMeta);
 
                     }else if(this.readyState == 4 && this.status == 404){
                         reject ('request : ' + this.status);

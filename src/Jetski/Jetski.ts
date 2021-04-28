@@ -16,6 +16,13 @@ interface Transfer
     value: string
 }
 
+interface metadataCalls
+{
+    url: string,
+    meta: MetaData|undefined
+}
+
+export let metaCalled: Array<metadataCalls> = [];
 
 export class Jetski
 {
@@ -25,6 +32,8 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
+    public static maxPerBatch: number = 50;
+    private static minForEggs: number = 10;
 
     constructor(chain: Blockchain) {
         this.chain = chain;
@@ -43,6 +52,8 @@ export class Jetski
 
     public async getBlockContent(blockNumber: number, api: ApiPromise): Promise<Array<Interaction>>
     {
+        // Clear meta storage at each block
+        metaCalled = [];
 
         return new Promise(async (resolve, reject)=>{
 
@@ -52,7 +63,6 @@ export class Jetski
             try{
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             }catch(e){
-                // console.log(e);
                 reject(Jetski.noBlock);
             }
 
@@ -107,33 +117,21 @@ export class Jetski
                     const signer = ex.signer.toString();
                     const hash = ex.hash.toHex();
 
-                    // Transfer object for complement Buy data (payment address and value)
-                    const transfer: Transfer|undefined = Jetski.checkIfTransfer(batch);
-
                     let i = 1;
 
-                    for (const rmrkObj of batch){
-                        // Increment tx Hash
-                        const txHash = hash + '-' + i;
-
-                        const destination = transfer ? transfer.destination : undefined;
-                        const value = transfer ? transfer.value : undefined;
-
-                        const tx = new Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);
-
-                        if(rmrkObj.args.hasOwnProperty('_remark')){
-                            // If batch have rmrk
-                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
-                        }
-                        i += 1;
+                    // if batch bigger than 200 rmrks
+                    if(batch.length >= Jetski.minForEggs){
+                        blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0);
+                    }else{
+                        blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, i, blockRmrk);
                     }
                 }
-
             }
 
             return Promise.all(blockRmrk)
                 .then(async result=>{
                     let interactions;
+
                     try{
                         interactions = await this.getMetadataContent(result);
                         resolve (interactions);
@@ -202,23 +200,67 @@ export class Jetski
             let rmrkWithMeta: Array<Promise<Interaction>|Interaction> = [];
             let i: number = 0;
 
+            let myRmrk: Interaction|undefined = undefined;
+
             for(const rmrk of interactions){
 
-                if(rmrk instanceof Mint || rmrk instanceof  MintNft){
-                    rmrkWithMeta.push(this.callMeta(rmrk, i));
+                if(rmrk instanceof Mint || rmrk instanceof MintNft){
+
+                    let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
+                    const metaUrl = entity?.url.split("/").pop();
+
+                    if(metaUrl){
+                        // check if url has already been called
+                        if(!metaCalled.some(meta => meta.url == metaUrl)){
+                            // if not called, call it
+                            myRmrk = await this.callMeta(rmrk, i);
+                            metaCalled.push({
+                                url: metaUrl,
+                                meta: entity?.metaData
+                            });
+                            rmrkWithMeta.push(myRmrk);
+
+                        }
+
+                        const meta = metaCalled.find(meta => meta.url == metaUrl);
+
+                        if(myRmrk){
+                            // if metaData already called on first loop
+                            if(meta && meta.meta){
+                                entity?.addMetadata(meta.meta);
+                                rmrkWithMeta.push(rmrk);
+                            }else{
+                                rmrkWithMeta.push(this.callMeta(rmrk, i));
+                            }
+
+                        }else if(meta){
+                            // if meta exists on second or more loops
+                            if(meta.meta){
+                                entity?.addMetadata(meta.meta);
+                                rmrkWithMeta.push(rmrk);
+                            }
+                        }else{
+                            rmrkWithMeta.push(this.callMeta(rmrk, i));
+                        }
+                    }
+
                 }else if (rmrk instanceof Interaction){
+                    // only Mint and MintNft have meta
                     rmrkWithMeta.push(rmrk);
                 }
                 i++;
             }
 
-            return Promise.all(rmrkWithMeta)
-                .then((remarks)=>{
-                    resolve (remarks);
-                }).catch(e=>{
-                    // console.error(e);
-                    reject(e);
-                })
+            if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactions.length){
+
+                return Promise.all(rmrkWithMeta)
+                    .then((remarks)=>{
+                        resolve (remarks);
+                    }).catch(e=>{
+                        // console.error(e);
+                        reject(e);
+                    })
+            }
 
         })
 
@@ -247,13 +289,22 @@ export class Jetski
         return new Promise((resolve, reject)=>{
 
             if(entity){
-                MetaData.getMetaData(entity.url, index).then(meta=>{
-                    entity?.addMetadata(meta);
-                    resolve(remark);
-                }).catch((e)=>{
-                    // console.error(e);
-                    resolve(remark);
-                })
+
+                const metaAlreadyCalled = metaCalled.find(meta => meta.url === entity?.url);
+
+                // if call on this url already been made (stocked in array metaCalled)
+                if(metaAlreadyCalled && metaAlreadyCalled.meta){
+                    entity.addMetadata(metaAlreadyCalled.meta);
+                }else{
+                    MetaData.getMetaData(entity.url, index).then(meta=>{
+                        entity?.addMetadata(meta);
+                        resolve(remark);
+                    }).catch((e)=>{
+                        // console.error(e);
+                        resolve(remark);
+                    })
+                }
+
             }else{
                 reject(Entity.undefinedEntity);
             }
@@ -303,142 +354,90 @@ export class Jetski
 
 
 
-
-    public async getBigBlock(blockNumber: number, api: ApiPromise, count: number): Promise<Array<Interaction>>
+    private pushRemarks(batch: any, hash: string, blockId: number, timestamp: string, signer: string, start: number, remarks: Array<Promise<Interaction|string>> = []): Array<Promise<Interaction|string>>
     {
+        const transfer: Transfer|undefined = Jetski.checkIfTransfer(batch);
 
-        return new Promise(async (resolve, reject)=>{
+        let i = start;
 
-            let blockRmrk: Array<Promise<Interaction|string>> = [];
-            let blockHash: any;
+        for (const rmrkObj of batch){
+            // Increment tx Hash
+            const txHash = hash + '-' + i;
 
-            try{
-                blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-            }catch(e){
-                // console.log(e);
-                reject(Jetski.noBlock);
+            const destination = transfer ? transfer.destination : undefined;
+            const value = transfer ? transfer.value : undefined;
+
+            const tx = new Transaction(blockId, txHash, timestamp, this.chain, signer, destination, value);
+
+            if(rmrkObj.args.hasOwnProperty('_remark')){
+                // If batch have rmrk
+                remarks.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
+            }
+            i += 1;
+        }
+
+        return remarks;
+    }
+
+
+
+    private async eggExplorer(
+        batch: any,
+        signer: string,
+        hash: string,
+        blockId: number,
+        timestamp: string,
+        count: number,
+        remarks: Array<Promise<Interaction|string>> = []
+    ): Promise<Array<Promise<Interaction|string>>>
+    {
+        // create remarks from big batch
+        return new Promise(async (resolve)=>{
+
+            const totalLength = batch.length;
+
+            let start: number;
+
+            if(count == 0){
+                start = count;
+            }else{
+                start = count * Jetski.maxPerBatch;
             }
 
-            // Get block from API
-            const block = await api.rpc.chain.getBlock(blockHash);
+            let stop = start + Jetski.maxPerBatch;
 
-            let blockId = blockNumber;
-            let blockTimestamp: string = "";
-
-            if(block.block == null){
-                reject(Jetski.noBlock);
+            if(start > totalLength){
+                console.log("This block is finished");
+                resolve (remarks)
             }
 
-            for (const ex of block.block ? block.block.extrinsics : []){
+            if(stop > totalLength){
+                stop = totalLength;
+            }
 
-                const { method: {
-                    args, method, section
-                } } = ex;
+            const myBatch: Array<any> = [];
 
-                if(section === "timestamp" && method === "set"){
-                    blockTimestamp = Jetski.getTimestamp(ex);
+            for(let i = start; i < stop; i++){
+                if(batch[i]){
+                    myBatch.push(batch[i]);
                 }
-
-                const dateTimestamp = Number(blockTimestamp) * 1000;
-                const date = new Date(dateTimestamp);
-                // Display block date and number
-                console.log('block ' + blockNumber + ' ' + date);
-
-
-                if(section === "utility" && method.includes("batch")){
-                    // If rmrks are in batch
-
-                    const arg = args.toString();
-                    let batch = JSON.parse(arg);
-
-                    if(!batch){
-                        setTimeout(()=>{
-                            console.log("no more batch");
-                            // process.exit();
-                        },5000);
-                    }
-
-                    const totalLength = batch.length;
-
-                    let start: number;
-
-                    if(count == 0){
-                        start = count;
-                    }else{
-                        start = count * 500;
-                    }
-
-                    console.log("start : "+start);
-
-                    let stop = start + 500;
-
-                    if(start > totalLength){
-                        console.log("This block is finished");
-                        process.exit();
-                    }
-
-                    if(stop > totalLength){
-                        stop = totalLength
-                        setTimeout(()=>{
-                            console.log("LAST");
-                        }, 1000);
-                    }
-
-                    batch = batch.slice(start, stop);
-
-                    const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
-
-                    // Transfer object for complement Buy data (payment address and value)
-                    const transfer: Transfer|undefined = Jetski.checkIfTransfer(batch);
-
-                    let i = 1;
-
-                    for (const rmrkObj of batch){
-                        // Increment tx Hash
-                        const txHash = hash + '-' + i;
-
-                        const destination = transfer ? transfer.destination : undefined;
-                        const value = transfer ? transfer.value : undefined;
-
-                        const tx = new Transaction(blockId, txHash, blockTimestamp, this.chain, signer, destination, value);
-
-                        if(rmrkObj.args.hasOwnProperty('_remark')){
-                            // If batch have rmrk
-                            blockRmrk.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
-                        }
-                        i += 1;
-                    }
-                }
-
             }
 
-            return Promise.all(blockRmrk)
-                .then(async result=>{
-                    let interactions;
-                    try{
-                        interactions = await this.getMetadataContent(result);
-                        resolve (interactions);
-                    }catch(e){
-                        // retry if doesn't work
-                        try{
-                            interactions = await this.getMetadataContent(result);
-                            resolve (interactions);
-                        }catch(e){
-                            console.error(e);
-                            reject (e);
-                        }
-                    }
+            if(myBatch.length == 0){
+                resolve (remarks);
+            }
 
-                })
-                .catch(e=>{
-                    reject(e);
-                })
+            remarks = this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
 
+            // if batch still have remarks to process
+            if(stop != totalLength){
+                await this.eggExplorer(batch, signer, hash, blockId, timestamp, ++count, remarks);
+            }
+
+            resolve (remarks);
         })
 
     }
-
 
 
 }
