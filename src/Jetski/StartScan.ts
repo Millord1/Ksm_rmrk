@@ -17,7 +17,7 @@ import {FileManager} from "../Files/FileManager";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
-import {GossiperManager} from "../Gossiper/GossiperManager";
+import {InstanceGossiper} from "../Gossiper/InstanceGossiper";
 
 const fs = require('fs');
 const path = require('path');
@@ -26,17 +26,6 @@ const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
-// TODO JWT depend of blockchain
-// TODO one thread by blockchain ?
-
-// Verify : 6312038
-// 6827717
-
-// WE Start 4887870
-// WE last 5027373
-
-// eggs 6802595 6802639
 
 
 function getBlockchain(chainName: string)
@@ -110,7 +99,6 @@ export const startScanner = async (opts: Option)=>{
 
     const id = Date.now() * 1000;
 
-
     if(!FileManager.checkLock(chainName, id)){
         // check if lock file exists
 
@@ -147,15 +135,24 @@ export const startScanner = async (opts: Option)=>{
 
 
 
+
 export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number)
 {
 
     // generate file for lock one thread
     FileManager.startLock(blockNumber, chain, id);
 
+    // get jwt for blockchain
+    const jwt = GossiperFactory.getJwt(chain.toLowerCase());
+
+    // Save block on gossip
+    const canonize = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: jwt} });
+    const blockchain = GossiperFactory.getCanonizeChain(chain, canonize.getSandra());
+    const instanceGossiper = new InstanceGossiper(blockchain, canonize);
+    instanceGossiper.sendLastBlock(blockNumber, id);
+
     // Array of block without meta for rescan
     let toRescan: Array<number> = [];
-
     let lockExists: boolean = true;
 
     // launch the loop on blocks
@@ -204,8 +201,11 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                 if(lockExists){
                     // if file lock exists, continue scan
 
+                    // get remark objects from blockchain
                     jetski.getBlockContent(blockNumber, api)
                         .then(async remarks=>{
+
+                            console.log(remarks);
 
                             // Check if metadata exists
                             const rmrksWithMeta = await metaDataVerifier(remarks);
@@ -217,8 +217,6 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                             if(rmrksWithMeta.length > 0){
                                 // Gossip if array not empty
 
-                                // get jwt for blockchain
-                                const jwt = GossiperFactory.getJwt(chain.toLowerCase());
                                 // create canonize for send gossips
                                 let canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: jwt} });
                                 // blockchain object stock gossips
@@ -230,6 +228,7 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                                 let sent: boolean = false;
 
                                 for(const rmrk of rmrksWithMeta){
+
                                     sent = false;
                                     // create Event or Entity Gossiper
                                     gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
@@ -266,11 +265,20 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                             }
                             blockNumber ++;
                         }).catch(e=>{
-                        console.error(e);
+                        if(e != "no rmrk"){
+                            console.error(e);
+                        }
 
                         if(e == Jetski.noBlock){
                             // If block doesn't exists, wait and try again
                             console.log('Waiting for block ...');
+
+                            // Save last block on gossip
+                            const canonize = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: jwt} });
+                            const blockchain = GossiperFactory.getCanonizeChain(chain, canonize.getSandra());
+                            const instanceGossiper = new InstanceGossiper(blockchain, canonize);
+                            instanceGossiper.sendLastBlock(blockNumber, id);
+
                             setTimeout(()=>{
                                 currentBlock --;
                             }, 5000);
@@ -379,6 +387,7 @@ export const scan = async (opts: Option)=>{
         let i: number = 0;
 
         for(const rmrk of rmrks){
+
             sent = false;
 
             const gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
@@ -402,7 +411,7 @@ export const scan = async (opts: Option)=>{
 
         setTimeout(()=>{
             process.exit();
-        },3000);
+        },2000);
 
     });
 

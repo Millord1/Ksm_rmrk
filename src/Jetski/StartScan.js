@@ -13,19 +13,13 @@ const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
 const FileManager_1 = require("../Files/FileManager");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
+const InstanceGossiper_1 = require("../Gossiper/InstanceGossiper");
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
-// TODO JWT depend of blockchain
-// TODO one thread by blockchain ?
-// Verify : 6312038
-// 6827717
-// WE Start 4887870
-// WE last 5027373
-// eggs 6802595 6802639
 function getBlockchain(chainName) {
     switch (chainName.toLowerCase()) {
         case "westend":
@@ -99,6 +93,13 @@ exports.startScanner = startScanner;
 function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved, chain, id) {
     // generate file for lock one thread
     FileManager_1.FileManager.startLock(blockNumber, chain, id);
+    // get jwt for blockchain
+    const jwt = GossiperFactory_1.GossiperFactory.getJwt(chain.toLowerCase());
+    // Save block on gossip
+    const canonize = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
+    const blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chain, canonize.getSandra());
+    const instanceGossiper = new InstanceGossiper_1.InstanceGossiper(blockchain, canonize);
+    instanceGossiper.sendLastBlock(blockNumber, id);
     // Array of block without meta for rescan
     let toRescan = [];
     let lockExists = true;
@@ -137,8 +138,10 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                 }
                 if (lockExists) {
                     // if file lock exists, continue scan
+                    // get remark objects from blockchain
                     jetski.getBlockContent(blockNumber, api)
                         .then(async (remarks) => {
+                        console.log(remarks);
                         // Check if metadata exists
                         const rmrksWithMeta = await metaDataVerifier(remarks);
                         if (needRescan(rmrksWithMeta)) {
@@ -146,8 +149,6 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                         }
                         if (rmrksWithMeta.length > 0) {
                             // Gossip if array not empty
-                            // get jwt for blockchain
-                            const jwt = GossiperFactory_1.GossiperFactory.getJwt(chain.toLowerCase());
                             // create canonize for send gossips
                             let canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
                             // blockchain object stock gossips
@@ -189,10 +190,17 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                         }
                         blockNumber++;
                     }).catch(e => {
-                        console.error(e);
+                        if (e != "no rmrk") {
+                            console.error(e);
+                        }
                         if (e == Jetski_1.Jetski.noBlock) {
                             // If block doesn't exists, wait and try again
                             console.log('Waiting for block ...');
+                            // Save last block on gossip
+                            const canonize = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
+                            const blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chain, canonize.getSandra());
+                            const instanceGossiper = new InstanceGossiper_1.InstanceGossiper(blockchain, canonize);
+                            instanceGossiper.sendLastBlock(blockNumber, id);
                             setTimeout(() => {
                                 currentBlock--;
                             }, 5000);
@@ -299,7 +307,7 @@ const scan = async (opts) => {
         }
         setTimeout(() => {
             process.exit();
-        }, 3000);
+        }, 2000);
     });
 };
 exports.scan = scan;

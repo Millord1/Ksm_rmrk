@@ -1,4 +1,4 @@
-import {eggs, scan, startScanner, test} from "./Jetski/StartScan";
+import {scan, startScanner, test} from "./Jetski/StartScan";
 
 const {program} = require('commander');
 
@@ -12,11 +12,6 @@ program.command("scan")
     .option("--chain <chain>", "chain name", "kusama")
     .option("--block <block>")
     .action(scan)
-
-
-program.command("eggs")
-    .option("--block <block>")
-    .action(eggs)
 
 program.command("hello").action(test);
 

@@ -32,7 +32,7 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
-    public static maxPerBatch: number = 50;
+    public static maxPerBatch: number = 100;
     private static minForEggs: number = 10;
 
     constructor(chain: Blockchain) {
@@ -45,6 +45,7 @@ export class Jetski
     {
         let api: ApiPromise;
         api = await ApiPromise.create({provider: this.wsProvider});
+
         return api;
     }
 
@@ -130,6 +131,13 @@ export class Jetski
 
             return Promise.all(blockRmrk)
                 .then(async result=>{
+
+                    const isOnlyStrings = (element: string|Interaction) => typeof element == "string";
+
+                    if(result.every(isOnlyStrings)){
+                        reject ("no rmrk");
+                    }
+
                     let interactions;
 
                     try{
@@ -207,7 +215,18 @@ export class Jetski
                 if(rmrk instanceof Mint || rmrk instanceof MintNft){
 
                     let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
-                    const metaUrl = entity?.url.split("/").pop();
+
+                    if(!entity){
+                        reject('undefined');
+                    }
+
+                    let metaUrl: string|undefined;
+
+                    try{
+                        metaUrl = entity?.url.split("/").pop();
+                    }catch(e){
+                        reject(e);
+                    }
 
                     if(metaUrl){
                         // check if url has already been called

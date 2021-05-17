@@ -12,7 +12,7 @@ class VersionChecker {
         return "";
     }
     checkAssetVersion(data) {
-        if (this.version === "1.0.0") {
+        if (this.version == "1.0.0") {
             return VersionChecker.assetVOne(data);
         }
         else {
