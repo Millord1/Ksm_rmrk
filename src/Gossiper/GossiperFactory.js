@@ -14,6 +14,7 @@ const WestEnd_1 = require("../Blockchains/WestEnd");
 const WestendBlockchain_1 = require("canonizer/src/canonizer/Substrate/Westend/WestendBlockchain");
 const Kusama_1 = require("../Blockchains/Kusama");
 const KusamaBlockchain_1 = require("canonizer/src/canonizer/Kusama/KusamaBlockchain");
+const Emote_1 = require("../Remark/Interactions/Emote");
 class GossiperFactory {
     constructor(rmrk, csCanonizeManager, chain) {
         this.rmrk = rmrk;
@@ -23,19 +24,22 @@ class GossiperFactory {
     }
     static getJwt(chain) {
         let jwt = "";
-        if (chain === "westend") {
-            const env = ts_dotenv_1.load({
-                westend_jwt: String
-            });
-            assert_1.strict.ok(env.westend_jwt);
-            jwt = env.westend_jwt;
-        }
-        else if (chain === "kusama") {
-            const env = ts_dotenv_1.load({
-                kusama_jwt: String
-            });
-            assert_1.strict.ok(env.kusama_jwt);
-            jwt = env.kusama_jwt;
+        let env;
+        switch (chain) {
+            case "westend":
+                env = ts_dotenv_1.load({
+                    westend_jwt: String
+                });
+                assert_1.strict.ok(env.westend_jwt);
+                jwt = env.westend_jwt;
+                break;
+            case "kusama":
+                env = ts_dotenv_1.load({
+                    kusama_jwt: String
+                });
+                assert_1.strict.ok(env.kusama_jwt);
+                jwt = env.kusama_jwt;
+                break;
         }
         return jwt;
     }
@@ -50,33 +54,74 @@ class GossiperFactory {
     }
     async getGossiper() {
         const canonizeManager = this.csCanonizeManager;
-        // Dispatch for gossiper if rmrk is correct
-        if (this.rmrk instanceof Mint_1.Mint) {
-            if (this.rmrk.collection) {
-                return new EntityGossiper_1.EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-            }
-            return undefined;
+        switch (this.rmrk.constructor.name.toLowerCase()) {
+            case 'mint':
+                if (this.rmrk instanceof Mint_1.Mint && this.rmrk.collection) {
+                    return new EntityGossiper_1.EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+                }
+                return undefined;
+            case 'mintnft':
+                if (this.rmrk instanceof MintNft_1.MintNft && this.rmrk.asset) {
+                    const entity = new EntityGossiper_1.EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+                    await entity.gossip();
+                    return new EventGossiper_1.EventGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
+            case 'send':
+                if (this.rmrk instanceof Send_1.Send && this.rmrk.asset) {
+                    return new EventGossiper_1.EventGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
+            case 'emote':
+                if (this.rmrk instanceof Emote_1.Emote && this.rmrk.asset) {
+                    return new EntityGossiper_1.EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
+                }
+                return undefined;
+            case 'buy':
+            case 'list':
+                if (this.rmrk instanceof Buy_1.Buy || this.rmrk instanceof List_1.List && this.rmrk.asset) {
+                }
+                return undefined;
+            default:
+                return undefined;
         }
-        else if (this.rmrk instanceof MintNft_1.MintNft) {
-            if (this.rmrk.asset) {
-                const entity = new EntityGossiper_1.EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-                await entity.gossip();
-                return new EventGossiper_1.EventGossiper(this.rmrk, canonizeManager, this.chain);
-            }
-            return undefined;
-        }
-        else if (this.rmrk instanceof Send_1.Send) {
-            if (this.rmrk.asset) {
-                return new EventGossiper_1.EventGossiper(this.rmrk, canonizeManager, this.chain);
-            }
-            return undefined;
-        }
-        else if (this.rmrk instanceof Buy_1.Buy || this.rmrk instanceof List_1.List) {
-            if (this.rmrk.asset) {
-            }
-            return undefined;
-        }
-        return undefined;
+        //
+        //     // Dispatch for gossiper if rmrk is correct
+        //     if(this.rmrk instanceof Mint){
+        //
+        //         if(this.rmrk.collection){
+        //             return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+        //         }
+        //         return undefined;
+        //
+        //     }else if(this.rmrk instanceof MintNft){
+        //
+        //         if(this.rmrk.asset){
+        //             const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+        //             await entity.gossip();
+        //
+        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
+        //         }
+        //         return undefined;
+        //
+        //     }else if(this.rmrk instanceof Send){
+        //
+        //         if(this.rmrk.asset){
+        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
+        //         }
+        //         return undefined;
+        //
+        //     }else if(this.rmrk instanceof Buy || this.rmrk instanceof List){
+        //
+        //         if(this.rmrk.asset){
+        //
+        //         }
+        //         return undefined;
+        //
+        //     }
+        //
+        //     return undefined;
+        // }
     }
 }
 exports.GossiperFactory = GossiperFactory;

@@ -15,6 +15,7 @@ import {WestendBlockchain} from "canonizer/src/canonizer/Substrate/Westend/Weste
 import {Kusama} from "../Blockchains/Kusama";
 import {KusamaBlockchain} from "canonizer/src/canonizer/Kusama/KusamaBlockchain";
 import {Blockchain} from "canonizer/src/canonizer/Blockchain";
+import {Emote} from "../Remark/Interactions/Emote";
 
 
 export class GossiperFactory
@@ -37,23 +38,28 @@ export class GossiperFactory
     public static getJwt(chain: string)
     {
         let jwt: string = "";
+        let env: any;
 
-        if(chain === "westend"){
+        switch(chain){
 
-            const env = load({
-                westend_jwt: String
-            });
-            assert.ok(env.westend_jwt);
-            jwt = env.westend_jwt;
+            case "westend":
+                env = load({
+                    westend_jwt: String
+                });
+                assert.ok(env.westend_jwt);
+                jwt = env.westend_jwt;
+                break;
 
-        }else if(chain === "kusama"){
+            case "kusama":
+                env = load({
+                    kusama_jwt: String
+                });
+                assert.ok(env.kusama_jwt);
+                jwt = env.kusama_jwt;
+                break;
 
-            const env = load({
-                kusama_jwt: String
-            });
-            assert.ok(env.kusama_jwt);
-            jwt = env.kusama_jwt;
         }
+
 
         return jwt;
     }
@@ -77,49 +83,96 @@ export class GossiperFactory
 
 
 
-    public async getGossiper()
-    {
+    public async getGossiper() {
 
         const canonizeManager = this.csCanonizeManager;
 
-        // Dispatch for gossiper if rmrk is correct
-        if(this.rmrk instanceof Mint){
 
-            if(this.rmrk.collection){
-                return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-            }
-            return undefined;
+        switch (this.rmrk.constructor.name.toLowerCase()) {
 
-        }else if(this.rmrk instanceof MintNft){
 
-            if(this.rmrk.asset){
-                const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-                await entity.gossip();
+            case 'mint':
+                if (this.rmrk instanceof Mint && this.rmrk.collection) {
+                    return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+                }
+                return undefined;
 
-                return new EventGossiper(this.rmrk, canonizeManager, this.chain);
-            }
-            return undefined;
 
-        }else if(this.rmrk instanceof Send){
+            case 'mintnft':
+                if (this.rmrk instanceof MintNft && this.rmrk.asset) {
+                    const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+                    await entity.gossip();
 
-            if(this.rmrk.asset){
-                return new EventGossiper(this.rmrk, canonizeManager, this.chain);
-            }
-            return undefined;
+                    return new EventGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
 
-        }else if(this.rmrk instanceof Buy || this.rmrk instanceof List){
 
-            if(this.rmrk.asset){
+            case 'send':
+                if (this.rmrk instanceof Send && this.rmrk.asset) {
+                    return new EventGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
 
-            }
-            return undefined;
+
+            case 'emote':
+                if (this.rmrk instanceof Emote && this.rmrk.asset) {
+                    return new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
+                }
+                return undefined;
+
+
+            case 'buy':
+            case 'list':
+                if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
+
+                }
+                return undefined;
+
+            default:
+                return undefined;
 
         }
 
-        return undefined;
+
+        //
+        //     // Dispatch for gossiper if rmrk is correct
+        //     if(this.rmrk instanceof Mint){
+        //
+        //         if(this.rmrk.collection){
+        //             return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+        //         }
+        //         return undefined;
+        //
+        //     }else if(this.rmrk instanceof MintNft){
+        //
+        //         if(this.rmrk.asset){
+        //             const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
+        //             await entity.gossip();
+        //
+        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
+        //         }
+        //         return undefined;
+        //
+        //     }else if(this.rmrk instanceof Send){
+        //
+        //         if(this.rmrk.asset){
+        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
+        //         }
+        //         return undefined;
+        //
+        //     }else if(this.rmrk instanceof Buy || this.rmrk instanceof List){
+        //
+        //         if(this.rmrk.asset){
+        //
+        //         }
+        //         return undefined;
+        //
+        //     }
+        //
+        //     return undefined;
+        // }
+
     }
-
-
-
 
 }

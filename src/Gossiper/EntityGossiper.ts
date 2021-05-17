@@ -7,6 +7,7 @@ import {MetaData} from "../Remark/MetaData";
 import {BlockchainAddress} from "canonizer/src/canonizer/BlockchainAddress";
 import {GossiperManager} from "./GossiperManager";
 import {Blockchain} from "canonizer/src/canonizer/Blockchain";
+import {RmrkCanonizerWrapper} from "canonizer/src/canonizer/Interfaces/Rmrk/RmrkCanonizerWrapper"
 
 export class EntityGossiper extends GossiperManager
 {
@@ -18,14 +19,21 @@ export class EntityGossiper extends GossiperManager
     private readonly blockId: number;
     private readonly source: string;
     private readonly collectionId: string;
+    private readonly maxSupply: number = 0;
 
     private readonly collection?: string;
     private readonly assetId?: string;
     private readonly assetName?: string;
 
-    constructor(entity: Entity, blockId: number, source: string, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
+    private readonly emote?: string;
+
+    constructor(entity: Entity, blockId: number, source: string, csCanonizeManager: CSCanonizeManager, chain: Blockchain, emote?: string) {
 
         super(chain, csCanonizeManager);
+
+        if(emote){
+            this.emote = emote;
+        }
 
         this.entityName = entity.constructor.name;
 
@@ -40,6 +48,7 @@ export class EntityGossiper extends GossiperManager
 
             this.collectionId = entity.contract.id;
             this.collection = entity.contract.collection;
+            this.maxSupply = entity.contract.max;
 
         }else{
             this.collectionId = "";
@@ -75,6 +84,10 @@ export class EntityGossiper extends GossiperManager
                 let assetContract = this.chain.contractFactory.getOrCreate(assetId);
 
                 let myAsset = canonizeManager.createAsset({assetId: assetId, imageUrl: this.image,description:this.description, name:assetName});
+                // if(this.emote){
+                //     myAsset.setEmote(this.emote);
+                // }
+
                 let myCollection = canonizeManager.createCollection({id: this.collectionId});
 
                 myAsset.bindCollection(myCollection);
@@ -84,8 +97,6 @@ export class EntityGossiper extends GossiperManager
                 assetContract.setStandard(rmrkToken);
 
                 myAsset.bindContract(assetContract);
-
-                // canonizeManager.gossipOrbsBindings().then(()=>{console.log("asset gossiped " + this.blockId)});
 
                 break;
 
@@ -101,12 +112,12 @@ export class EntityGossiper extends GossiperManager
 
                 const source = new BlockchainAddress(this.chain.addressFactory, this.source, sandra);
 
-                let canonizeCollection = canonizeManager.createCollection({id: this.collectionId, imageUrl: this.image, name: collection, description: this.description});
+                const rmrkManager = new RmrkCanonizerWrapper(canonizeManager);
+                let canonizeCollection = rmrkManager.createRmrkCollection({id: this.collectionId, imageUrl: this.image, name: collection, description: this.description}, this.maxSupply, this.blockId);
+
                 canonizeCollection.setOwner(source);
 
                 myContract.bindToCollection(canonizeCollection);
-
-                // canonizeManager.gossipCollection().then(()=>{console.log("collection gossiped " + this.blockId)});
 
                 break;
 
