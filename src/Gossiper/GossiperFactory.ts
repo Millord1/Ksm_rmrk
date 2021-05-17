@@ -52,7 +52,7 @@ export class GossiperFactory
 
             case "kusama":
                 env = load({
-                    kusama_jwt: String
+                    kusama_jwt: String,
                 });
                 assert.ok(env.kusama_jwt);
                 jwt = env.kusama_jwt;

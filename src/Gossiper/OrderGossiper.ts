@@ -6,6 +6,7 @@ import {BlockchainAddress} from "canonizer/src/canonizer/BlockchainAddress";
 import {BlockchainOrder} from "canonizer/src/canonizer/BlockchainOrder";
 import {BlockchainContract} from "canonizer/src/canonizer/BlockchainContract";
 import {RmrkContractStandard} from "canonizer/src/canonizer/Interfaces/RmrkContractStandard";
+import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 
 
 export class OrderGossiper extends GossiperManager
@@ -24,7 +25,7 @@ export class OrderGossiper extends GossiperManager
     private readonly total: number;
 
 
-    constructor(remark: Buy|List, csCanonizeManager: CSCanonizeManager, chain: string) {
+    constructor(remark: Buy|List, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
         super(chain, csCanonizeManager);
 
 

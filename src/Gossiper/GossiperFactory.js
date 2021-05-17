@@ -35,7 +35,7 @@ class GossiperFactory {
                 break;
             case "kusama":
                 env = ts_dotenv_1.load({
-                    kusama_jwt: String
+                    kusama_jwt: String,
                 });
                 assert_1.strict.ok(env.kusama_jwt);
                 jwt = env.kusama_jwt;
