@@ -13,14 +13,11 @@ import {Entity} from "../Remark/Entities/Entity";
 import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
 import { Polkadot } from "../Blockchains/Polkadot";
-import {FileManager} from "../Files/FileManager";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
-import {InstanceGossiper} from "../Gossiper/InstanceGossiper";
+import {InstanceManager} from "../Instances/InstanceManager";
 
-const fs = require('fs');
-const path = require('path');
 
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -75,10 +72,11 @@ export const startScanner = async (opts: Option)=>{
     // Launch jetski from yarn
 
     // @ts-ignore
-    const chainName = opts.chain;
+    let chainName: string = opts.chain;
     let chain: Blockchain = getBlockchain(chainName);
+    chainName = chain.constructor.name;
 
-    console.log(chain.constructor.name);
+    console.log(chainName);
 
     // @ts-ignore
     let blockNumber = opts.block;
@@ -89,45 +87,51 @@ export const startScanner = async (opts: Option)=>{
     let currentBlock: number = 0;
     let lastSave: number = 0;
 
+    // Create instanceManager for saving blocks and check lock
+    const jwt = GossiperFactory.getJwt(chainName);
+    const canonize = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: jwt} });
+    const instanceManager = new InstanceManager(canonize, chainName, jwt);
+
     if(blockNumber == 0){
-        blockNumber = FileManager.getLastBlock(chainName);
-        if(!blockNumber){
+        // get last block saved on server
+        const blockSaved: string|undefined = await instanceManager.getLastBlock();
+
+        if(blockSaved){
+            blockNumber = blockSaved
+        }else{
             console.error('Incorrect block number, please try with the --block={blockNumber} option');
             process.exit();
         }
     }
 
-    const id = Date.now() * 1000;
+    // get new instance ID
+    const id = InstanceManager.getNewInstanceCode();
 
-    if(!FileManager.checkLock(chainName, id)){
-        // check if lock file exists
+    // check if lock exists on server
+    const lockExists: boolean = await instanceManager.checkLockExists(chainName, id);
 
-        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id);
+    if(!lockExists){
+        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id, instanceManager);
 
     }else{
 
-        readline.question("Thread is actually locked, did you want to unlock ? (Y/n) ", (answer: string)=>{
+        readline.question("Thread is actually locked, did you want to clear it ? All data about this instance will be lost (Y/n) ", async (answer: string)=>{
 
             answer = answer.toLowerCase();
-
             if(answer == "y" || answer == "yes"){
 
                 try{
-                    fs.unlinkSync( path.resolve(FileManager.getThreadLockPath(chainName)) );
+                    await instanceManager.resetInstance(chainName, id);
                 }catch(e){
                     console.error(e);
-                    console.log("Something is wrong, please delete manually Files/thread.lock.json")
                 }
 
-                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id);
+                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id, instanceManager);
 
             }else{
-
                 process.exit();
             }
-
         })
-
 
     }
 
@@ -136,36 +140,46 @@ export const startScanner = async (opts: Option)=>{
 
 
 
-export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number)
+export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number, instance: InstanceManager)
 {
 
     // generate file for lock one thread
-    FileManager.startLock(blockNumber, chain, id);
+    // FileManager.startLock(blockNumber, chain, id);
 
     // get jwt for blockchain
-    const jwt = GossiperFactory.getJwt(chain.toLowerCase());
+    // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
+    let instanceManager = instance;
+    const instanceCode = InstanceManager.getNewInstanceCode();
 
-    // Save block on gossip
-    const canonize = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: jwt} });
-    const blockchain = GossiperFactory.getCanonizeChain(chain, canonize.getSandra());
-    const instanceGossiper = new InstanceGossiper(blockchain, canonize);
-    instanceGossiper.sendLastBlock(blockNumber, id);
+    try{
+        instanceManager.startLock(blockNumber, id)
+            .then(instanceSaved=>{
+            if(instanceSaved != id.toString()){
+                console.error("Something is wrong with the instance code");
+                process.exit();
+            }
+        });
+    }catch(e){
+        console.error(e);
+        setTimeout(()=>{}, 2000);
+    }
+
 
     // Array of block without meta for rescan
-    let toRescan: Array<number> = [];
+    // let toRescan: Array<number> = [];
     let lockExists: boolean = true;
 
     // launch the loop on blocks
-    let interval: NodeJS.Timeout =  setInterval(async()=>{
+    let interval: NodeJS.Timeout = setInterval(async()=>{
 
-        process.on('exit', ()=>{
+        process.on('exit', async ()=>{
             // Save last block when app is closing
-            FileManager.exitProcess(blockNumber, chain, toRescan);
+            await instanceManager.exitProcess(blockNumber, id);
         });
 
-        process.on('SIGINT', ()=>{
+        process.on('SIGINT', async ()=>{
             // Save last block on exit Ctrl+C
-            FileManager.exitProcess(blockNumber, chain, toRescan);
+            await instanceManager.exitProcess(blockNumber, id);
         });
 
 
@@ -178,7 +192,7 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
             api = await jetski.getApi();
             console.log('API reconnected, loop will now restart');
 
-            startJetskiLoop(jetski, api, --currentBlock, blockNumber, lastBlockSaved, chain, id);
+            startJetskiLoop(jetski, api, --currentBlock, blockNumber, lastBlockSaved, chain, id, instanceManager);
 
         }else{
 
@@ -189,10 +203,12 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                 if(lastBlockSaved == 0 || blockNumber - lastBlockSaved > 99){
                     // Save block number each 100 blocks
 
-                    if(FileManager.saveLastBlock(blockNumber, chain)){
+                    const saveBlockSuccess: boolean = await instanceManager.saveLastBlock(chain, blockNumber, instanceCode);
+
+                    if(saveBlockSuccess){
                         lastBlockSaved = blockNumber;
                         // check if lock file already exists
-                        lockExists = FileManager.checkLock(chain, id);
+                        lockExists = await instanceManager.checkLockExists(chain, id);
                     }else{
                         console.error("Fail to save block")
                     }
@@ -210,15 +226,15 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                             // Check if metadata exists
                             const rmrksWithMeta = await metaDataVerifier(remarks);
 
-                            if(needRescan(rmrksWithMeta)){
-                                toRescan.push(blockNumber);
-                            }
+                            // if(needRescan(rmrksWithMeta)){
+                            //     toRescan.push(blockNumber);
+                            // }
 
                             if(rmrksWithMeta.length > 0){
                                 // Gossip if array not empty
 
                                 // create canonize for send gossips
-                                let canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: jwt} });
+                                let canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: instanceManager.getJwt()} });
                                 // blockchain object stock gossips
                                 let blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
 
@@ -241,7 +257,7 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                                         await sendGossip(canonizeManager, blockNumber, blockchain)
                                             .then(()=>{
                                                 // Refresh objects
-                                                canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: jwt} });
+                                                canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: instanceManager.getJwt()} });
                                                 blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
                                                 sent = true;
                                             })
@@ -274,10 +290,9 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                             console.log('Waiting for block ...');
 
                             // Save last block on gossip
-                            const canonize = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: jwt} });
-                            const blockchain = GossiperFactory.getCanonizeChain(chain, canonize.getSandra());
-                            const instanceGossiper = new InstanceGossiper(blockchain, canonize);
-                            instanceGossiper.sendLastBlock(blockNumber, id);
+                            const canonize = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: instanceManager.getJwt()} });
+                            instanceManager = new InstanceManager(canonize, chain, instanceManager.getJwt());
+                            instanceManager.saveLastBlock(chain, blockNumber, id);
 
                             setTimeout(()=>{
                                 currentBlock --;
@@ -292,8 +307,7 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
 
                 }else{
                     // else stop the scan
-                    console.error("Lock file is apparently deleted, run will stop");
-                    FileManager.exitProcess(blockNumber, chain, toRescan);
+                    await instanceManager.exitProcess(blockNumber, id);
                 }
             }
         }
@@ -311,37 +325,37 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
             let errorMsg: string = "";
 
             await canonizeManager.gossipOrbsBindings()
-                .then((r)=>{
+                .then((r: string)=>{
                     console.log("asset : "+r);
                     console.log("asset gossiped " + block);
                     sent = true;
                 })
-                .catch((e)=>{
+                .catch((e: string)=>{
                     errorMsg += "\n assets : "+ e;
                     console.log(e + " or no assets");
                 });
 
             await canonizeManager.gossipCollection()
-                .then((r)=>{
+                .then((r: string)=>{
                     console.log("collection : "+r);
                     console.log("collection gossiped " + block)
                     sent = true;
-                }).catch((e)=>{
+                }).catch((e: string)=>{
                     errorMsg += "\n collections : "+ e;
                     console.log(e + " or no collection");
                 });
 
 
-            await canonizeManager.gossipBlockchainEvents(blockchain).then((r)=>{
+            await canonizeManager.gossipBlockchainEvents(blockchain).then((r: string)=>{
                 console.log("events : "+r);
                 console.log("event gossiped " + block);
                 sent = true;
                 resolve ("send");
-            }).catch( async (e)=>{
+            }).catch( async (e: string)=>{
                 console.log(e + " or no events");
                 await canonizeManager.gossipBlockchainEvents(blockchain).then(()=>{
                     resolve ("send");
-                }).catch((e)=>{
+                }).catch((e: string)=>{
                     errorMsg += "\n events : "+ e;
                 });
             });
@@ -365,7 +379,7 @@ export const scan = async (opts: Option)=>{
     let chain : Blockchain = getBlockchain(opts.chain);
     const jetski = new Jetski(chain);
 
-    const api: ApiPromise = await jetski.getApi();
+    let api: ApiPromise = await jetski.getApi();
 
     // @ts-ignore
     const blockN: number = opts.block;
@@ -491,10 +505,4 @@ async function metaDataCaller(entity: Entity, nbOfTry: number = 0): Promise<Meta
         }
 
     })
-}
-
-
-
-export const test = ()=>{
-    console.log("Hello World");
 }

@@ -10,6 +10,5 @@ program.command("scan")
     .option("--chain <chain>", "chain name", "kusama")
     .option("--block <block>")
     .action(StartScan_1.scan);
-program.command("hello").action(StartScan_1.test);
 program.parse(process.argv);
 //# sourceMappingURL=index.js.map

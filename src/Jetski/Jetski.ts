@@ -8,6 +8,9 @@ import {MetaData} from "../Remark/MetaData";
 import {Mint} from "../Remark/Interactions/Mint";
 import {Entity} from "../Remark/Entities/Entity";
 import {MintNft} from "../Remark/Interactions/MintNft";
+import {Observable} from "@polkadot/types/types";
+import {SignedBlock} from "@polkadot/types/interfaces/runtime";
+import {BlockHash} from "@polkadot/types/interfaces/chain";
 
 
 interface Transfer
@@ -45,7 +48,6 @@ export class Jetski
     {
         let api: ApiPromise;
         api = await ApiPromise.create({provider: this.wsProvider});
-
         return api;
     }
 
@@ -68,7 +70,7 @@ export class Jetski
             }
 
             // Get block from APi
-            const block = await api.rpc.chain.getBlock(blockHash);
+            const block: any = await api.rpc.chain.getBlock(blockHash);
 
             let blockId = blockNumber;
             let blockTimestamp: string = "";

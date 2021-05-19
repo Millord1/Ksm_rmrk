@@ -16,25 +16,29 @@ export class InstanceGossiper extends GossiperManager
 
 
 
-    public sendLastBlock(block: number, instanceCode: number)
+    public sendLastBlock(block: number, instanceCode: number): Promise<string>
     {
-        const instance = instanceCode.toString();
+        return new Promise((resolve, reject)=>{
 
-        const sandra: SandraManager = this.canonizeManager.getSandra();
-        const jetskiManager = new CanonizerJetski(this.canonizeManager, instance);
-        const blockObj = new BlockchainBlock(this.chain.blockFactory, block, instance, sandra);
+            const instance = instanceCode.toString();
 
-        const jetskiFactory = jetskiManager.getJetskifacory();
+            const sandra: SandraManager = this.canonizeManager.getSandra();
+            const jetskiManager = new CanonizerJetski(this.canonizeManager, instance);
+            const blockObj = new BlockchainBlock(this.chain.blockFactory, block, instance, sandra);
 
-        const jetskiEntity = jetskiFactory.getOrCreateJetskiInstance(this.chain.getName(), blockObj, instance);
-        jetskiEntity.setLatestBlock(blockObj);
+            const jetskiFactory = jetskiManager.getJetskifacory();
 
-        jetskiManager.gossipLatestBlock()
-            .then(r=>{
-                console.log(r);
-            }).catch(e=>{
-                console.log(e);
-        });
+            const jetskiEntity = jetskiFactory.getOrCreateJetskiInstance(this.chain.getName(), blockObj, instance, sandra);
+            jetskiEntity.setLatestBlock(blockObj);
+
+            jetskiManager.gossipLatestBlock()
+                .then(r=>{
+                    console.log(r);
+                    resolve (r);
+                }).catch(e=>{
+                    reject(e);
+            });
+        })
 
     }
 

@@ -99,12 +99,6 @@ export class MetaData
             const request = new XMLHttpRequest();
             let response: MetadataInputs;
 
-            // const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);
-            //
-            // if(metaAlreadyCalled && metaAlreadyCalled.meta){
-            //     resolve (metaAlreadyCalled.meta);
-            // }
-
             setTimeout(()=>{
 
                 const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);

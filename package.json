@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/api": "^4.10.1",
-    "canonizer": "0.0.8",
+    "canonizer": "^0.0.9",
     "commander": "^6.2.1",
     "slugify": "^1.5.3",
     "ts-dotenv": "^0.8.3",

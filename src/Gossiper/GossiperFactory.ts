@@ -7,7 +7,7 @@ import {Buy} from "../Remark/Interactions/Buy";
 import {MintNft} from "../Remark/Interactions/MintNft";
 import {List} from "../Remark/Interactions/List";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
-import {load} from "ts-dotenv";
+import {EnvSchema, load} from "ts-dotenv";
 import {strict as assert} from "assert";
 import {SandraManager} from "canonizer/src/SandraManager";
 import {WestEnd} from "../Blockchains/WestEnd";
