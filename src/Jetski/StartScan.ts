@@ -85,7 +85,9 @@ export const startScanner = async (opts: Option)=>{
     let api: ApiPromise = await jetski.getApi();
 
     let currentBlock: number = 0;
-    let lastSave: number = 0;
+    // TODO lastSave useless ?
+    let blockSaved: string|undefined = "0";
+    // let lastSave: number = 0;
 
     // Create instanceManager for saving blocks and check lock
     const jwt = GossiperFactory.getJwt(chainName);
@@ -94,7 +96,8 @@ export const startScanner = async (opts: Option)=>{
 
     if(blockNumber == 0){
         // get last block saved on server
-        const blockSaved: string|undefined = await instanceManager.getLastBlock();
+        blockSaved = await instanceManager.getLastBlock();
+
 
         if(blockSaved){
             blockNumber = blockSaved
@@ -111,7 +114,7 @@ export const startScanner = async (opts: Option)=>{
     const lockExists: boolean = await instanceManager.checkLockExists(chainName, id);
 
     if(!lockExists){
-        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id, instanceManager);
+        startJetskiLoop(jetski, api, currentBlock, blockNumber, Number(blockSaved), chainName, id, instanceManager);
 
     }else{
 
@@ -126,7 +129,7 @@ export const startScanner = async (opts: Option)=>{
                     console.error(e);
                 }
 
-                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id, instanceManager);
+                startJetskiLoop(jetski, api, currentBlock, blockNumber, Number(blockSaved), chainName, id, instanceManager);
 
             }else{
                 process.exit();
@@ -149,16 +152,16 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
     // get jwt for blockchain
     // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
     let instanceManager = instance;
-    const instanceCode = InstanceManager.getNewInstanceCode();
 
     try{
         instanceManager.startLock(blockNumber, id)
             .then(instanceSaved=>{
-            if(instanceSaved != id.toString()){
-                console.error("Something is wrong with the instance code");
-                process.exit();
-            }
+                if(instanceSaved != id.toString()){
+                    console.error("Something is wrong with the instance code");
+                    process.exit();
+                }
         });
+
     }catch(e){
         console.error(e);
         setTimeout(()=>{}, 2000);
@@ -202,8 +205,9 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
 
                 if(lastBlockSaved == 0 || blockNumber - lastBlockSaved > 99){
                     // Save block number each 100 blocks
-
-                    const saveBlockSuccess: boolean = await instanceManager.saveLastBlock(chain, blockNumber, instanceCode);
+                    console.log(lastBlockSaved);
+                    process.exit();
+                    const saveBlockSuccess: boolean = await instanceManager.saveLastBlock(chain, blockNumber, id);
 
                     if(saveBlockSuccess){
                         lastBlockSaved = blockNumber;
@@ -213,6 +217,9 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                         console.error("Fail to save block")
                     }
                 }
+
+                console.log("no");
+                process.exit();
 
                 if(lockExists){
                     // if file lock exists, continue scan

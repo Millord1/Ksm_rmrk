@@ -40,7 +40,7 @@ export class GossiperFactory
         let jwt: string = "";
         let env: any;
 
-        switch(chain){
+        switch(chain.toLowerCase()){
 
             case "westend":
                 env = load({

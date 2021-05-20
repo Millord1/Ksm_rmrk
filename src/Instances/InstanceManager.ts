@@ -46,7 +46,8 @@ export class InstanceManager
     private readonly jwt: string;
     private readonly chainName: string;
 
-    private apiUrl: string = "http://arkam.everdreamsoft.com/api/v1/jetski/";
+    // private apiUrl: string = "http://arkam.everdreamsoft.com/api/v1/jetski/";
+    private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
     private lastBlockSaved: string = "";
 
     constructor(canonizeManager: CSCanonizeManager, chain: string, jwt: string) {
@@ -109,7 +110,8 @@ export class InstanceManager
     {
         // return true if instance already exists on the chain
 
-        const url = this.apiUrl +"/instance/"+ blockchainName +"/"+ this.jwt;
+        const url = this.apiUrl +"instance/"+ blockchainName +"/"+ this.jwt;
+
         const response: QueryType|ResponseType = await this.apiCall(url);
 
         const instanceData: QueryType = (response as QueryType);

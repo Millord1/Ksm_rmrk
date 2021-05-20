@@ -55,14 +55,16 @@ const startScanner = async (opts) => {
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
     let currentBlock = 0;
-    let lastSave = 0;
+    // TODO lastSave useless ?
+    let blockSaved = "0";
+    // let lastSave: number = 0;
     // Create instanceManager for saving blocks and check lock
     const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
     const canonize = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
     const instanceManager = new InstanceManager_1.InstanceManager(canonize, chainName, jwt);
     if (blockNumber == 0) {
         // get last block saved on server
-        const blockSaved = await instanceManager.getLastBlock();
+        blockSaved = await instanceManager.getLastBlock();
         if (blockSaved) {
             blockNumber = blockSaved;
         }
@@ -76,7 +78,7 @@ const startScanner = async (opts) => {
     // check if lock exists on server
     const lockExists = await instanceManager.checkLockExists(chainName, id);
     if (!lockExists) {
-        startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id, instanceManager);
+        startJetskiLoop(jetski, api, currentBlock, blockNumber, Number(blockSaved), chainName, id, instanceManager);
     }
     else {
         readline.question("Thread is actually locked, did you want to clear it ? All data about this instance will be lost (Y/n) ", async (answer) => {
@@ -88,7 +90,7 @@ const startScanner = async (opts) => {
                 catch (e) {
                     console.error(e);
                 }
-                startJetskiLoop(jetski, api, currentBlock, blockNumber, lastSave, chainName, id, instanceManager);
+                startJetskiLoop(jetski, api, currentBlock, blockNumber, Number(blockSaved), chainName, id, instanceManager);
             }
             else {
                 process.exit();
@@ -103,7 +105,6 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
     // get jwt for blockchain
     // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
     let instanceManager = instance;
-    const instanceCode = InstanceManager_1.InstanceManager.getNewInstanceCode();
     try {
         instanceManager.startLock(blockNumber, id)
             .then(instanceSaved => {
@@ -144,7 +145,9 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                 currentBlock = blockNumber;
                 if (lastBlockSaved == 0 || blockNumber - lastBlockSaved > 99) {
                     // Save block number each 100 blocks
-                    const saveBlockSuccess = await instanceManager.saveLastBlock(chain, blockNumber, instanceCode);
+                    console.log(lastBlockSaved);
+                    process.exit();
+                    const saveBlockSuccess = await instanceManager.saveLastBlock(chain, blockNumber, id);
                     if (saveBlockSuccess) {
                         lastBlockSaved = blockNumber;
                         // check if lock file already exists
@@ -154,6 +157,8 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
                         console.error("Fail to save block");
                     }
                 }
+                console.log("no");
+                process.exit();
                 if (lockExists) {
                     // if file lock exists, continue scan
                     // get remark objects from blockchain

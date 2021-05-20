@@ -25,7 +25,7 @@ class GossiperFactory {
     static getJwt(chain) {
         let jwt = "";
         let env;
-        switch (chain) {
+        switch (chain.toLowerCase()) {
             case "westend":
                 env = ts_dotenv_1.load({
                     westend_jwt: String
