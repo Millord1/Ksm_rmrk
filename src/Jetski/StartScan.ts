@@ -85,9 +85,7 @@ export const startScanner = async (opts: Option)=>{
     let api: ApiPromise = await jetski.getApi();
 
     let currentBlock: number = 0;
-    // TODO lastSave useless ?
-    let blockSaved: string|undefined = "0";
-    // let lastSave: number = 0;
+    let blockSaved: string|void = "0";
 
     // Create instanceManager for saving blocks and check lock
     const jwt = GossiperFactory.getJwt(chainName);
@@ -96,15 +94,18 @@ export const startScanner = async (opts: Option)=>{
 
     if(blockNumber == 0){
         // get last block saved on server
-        blockSaved = await instanceManager.getLastBlock();
-
+        blockSaved = await instanceManager.getLastBlock().catch(e=>{
+            console.error(e);
+        });
 
         if(blockSaved){
-            blockNumber = blockSaved
+            blockNumber = Number(blockSaved);
         }else{
             console.error('Incorrect block number, please try with the --block={blockNumber} option');
             process.exit();
         }
+    }else{
+        blockSaved = instanceManager.getBlock();
     }
 
     // get new instance ID
@@ -143,7 +144,7 @@ export const startScanner = async (opts: Option)=>{
 
 
 
-export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number, instance: InstanceManager)
+export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number, instance: InstanceManager)
 {
 
     // generate file for lock one thread
@@ -153,19 +154,16 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
     // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
     let instanceManager = instance;
 
-    try{
-        instanceManager.startLock(blockNumber, id)
-            .then(instanceSaved=>{
-                if(instanceSaved != id.toString()){
-                    console.error("Something is wrong with the instance code");
-                    process.exit();
-                }
+    await instanceManager.startLock(blockNumber, id)
+        .then(instanceSaved=>{
+            if(instanceSaved != id.toString()){
+                console.error("Something is wrong with the instance code");
+                process.exit();
+            }
+        }).catch(e=>{
+            console.error(e);
+            setTimeout(()=>{}, 2000);
         });
-
-    }catch(e){
-        console.error(e);
-        setTimeout(()=>{}, 2000);
-    }
 
 
     // Array of block without meta for rescan
@@ -177,12 +175,16 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
 
         process.on('exit', async ()=>{
             // Save last block when app is closing
-            await instanceManager.exitProcess(blockNumber, id);
+            if(!InstanceManager.processExit){
+                await instanceManager.exitProcess(blockNumber, id);
+            }
         });
 
         process.on('SIGINT', async ()=>{
             // Save last block on exit Ctrl+C
-            await instanceManager.exitProcess(blockNumber, id);
+            if(!InstanceManager.processExit){
+                await instanceManager.exitProcess(blockNumber, id);
+            }
         });
 
 
@@ -203,23 +205,19 @@ export function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: n
                 // If block scanned isn't resolved, dont increment
                 currentBlock = blockNumber;
 
-                if(lastBlockSaved == 0 || blockNumber - lastBlockSaved > 99){
+                if(blockNumber - lastBlockSaved > 99){
                     // Save block number each 100 blocks
-                    console.log(lastBlockSaved);
-                    process.exit();
-                    const saveBlockSuccess: boolean = await instanceManager.saveLastBlock(chain, blockNumber, id);
-
-                    if(saveBlockSuccess){
+                    try{
+                        await instanceManager.saveLastBlock(chain, blockNumber, id);
                         lastBlockSaved = blockNumber;
                         // check if lock file already exists
                         lockExists = await instanceManager.checkLockExists(chain, id);
-                    }else{
+                    }catch(e){
+                        console.error(e);
                         console.error("Fail to save block")
                     }
-                }
 
-                console.log("no");
-                process.exit();
+                }
 
                 if(lockExists){
                     // if file lock exists, continue scan

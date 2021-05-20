@@ -48,7 +48,9 @@ export class InstanceManager
 
     // private apiUrl: string = "http://arkam.everdreamsoft.com/api/v1/jetski/";
     private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
-    private lastBlockSaved: string = "";
+    private lastBlockSaved: string = "0";
+
+    public static processExit: boolean = false;
 
     constructor(canonizeManager: CSCanonizeManager, chain: string, jwt: string) {
         this.canonizeManager = canonizeManager;
@@ -76,28 +78,12 @@ export class InstanceManager
         const chainName = this.canonizeChain.getName().toLowerCase();
 
         return new Promise(async (resolve, reject)=>{
-
             this.saveLastBlock(chainName, block, instanceCode)
                 .then(()=>{
                     resolve (instanceCode.toString());
                 }).catch((e)=>{
                     reject(e);
             })
-
-            // const instancExists: boolean = await this.checkLockExists(chainName, instanceCode);
-            //
-            // if(!instancExists){
-            //     // create new instance
-            //     this.saveLastBlock(chainName, block, instanceCode)
-            //         .then(()=>{
-            //             resolve (instanceCode.toString());
-            //         }).catch((e)=>{
-            //             reject(e);
-            //     })
-            //
-            // }else{
-            //     reject("Instance already exists");
-            // }
 
         });
 
@@ -130,7 +116,7 @@ export class InstanceManager
         return new Promise(async (resolve, reject)=>{
 
             const instanceGossiper = new InstanceGossiper(this.canonizeChain, this.canonizeManager);
-            instanceGossiper.sendLastBlock(block, instanceCode)
+            await instanceGossiper.sendLastBlock(block, instanceCode)
                 .then(()=>{
                     this.lastBlockSaved = block.toString();
                     resolve (true)
@@ -146,17 +132,20 @@ export class InstanceManager
     {
         const url: string = this.apiUrl + "instance/" + this.chainName + "/" + this.jwt;
 
-        await this.apiCall(url)
-            .then((r)=>{
-                const blockData = r as QueryType;
-                if(blockData.data.last_block){
-                    return blockData.data.last_block;
-                }
-                return undefined;
-            }).catch(e=>{
-                console.error(e);
-            });
-        return undefined;
+        return new Promise(async (resolve, reject)=>{
+            await this.apiCall(url)
+                .then((r)=>{
+                    const blockData = r as QueryType;
+                    try{
+                        this.lastBlockSaved = blockData.data.last_block;
+                    }catch(e){
+                        reject(e);
+                    }
+                    resolve (this.getBlock()) ;
+                }).catch(e=>{
+                    reject (e);
+                });
+        })
     }
 
 
@@ -166,7 +155,7 @@ export class InstanceManager
         const url = this.apiUrl + "reset/" + blockchainName + "/" + instanceCode + "/" + this.jwt;
 
         return new Promise(async (resolve, reject)=>{
-            await this.apiCall(url)
+            this.apiCall(url)
                 .then(()=>{
                     resolve (true);
                 }).catch(e=>{
@@ -209,22 +198,30 @@ export class InstanceManager
 
     public async exitProcess(block: number, instanceCode: number)
     {
-        const save = await this.saveLastBlock(this.chainName, block, instanceCode);
+        InstanceManager.processExit = true;
 
-        if(save){
-            process.exit();
-        }
-
-        console.error("Block save failed, last block saved is "+this.lastBlockSaved);
-        readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
-
-            answer = answer.toLowerCase();
-            if(answer == "y" || answer == "yes"){
-                await this.exitProcess(block, instanceCode);
-            }else{
+        // exit process with save block before
+        this.saveLastBlock(this.chainName, --block, instanceCode)
+            .then(()=>{
+                // time out for correct display of request result
                 process.exit();
-            }
-        })
+
+            }).catch(e=>{
+            InstanceManager.processExit = false;
+
+            console.error(e);
+            console.error("Block save failed, last block saved is "+this.lastBlockSaved);
+            readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
+
+                answer = answer.toLowerCase();
+                if(answer == "y" || answer == "yes"){
+                    await this.exitProcess(block, instanceCode);
+                }else{
+                    process.exit();
+                }
+            })
+
+        });
 
     }
 

@@ -55,23 +55,26 @@ const startScanner = async (opts) => {
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
     let currentBlock = 0;
-    // TODO lastSave useless ?
     let blockSaved = "0";
-    // let lastSave: number = 0;
     // Create instanceManager for saving blocks and check lock
     const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
     const canonize = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
     const instanceManager = new InstanceManager_1.InstanceManager(canonize, chainName, jwt);
     if (blockNumber == 0) {
         // get last block saved on server
-        blockSaved = await instanceManager.getLastBlock();
+        blockSaved = await instanceManager.getLastBlock().catch(e => {
+            console.error(e);
+        });
         if (blockSaved) {
-            blockNumber = blockSaved;
+            blockNumber = Number(blockSaved);
         }
         else {
             console.error('Incorrect block number, please try with the --block={blockNumber} option');
             process.exit();
         }
+    }
+    else {
+        blockSaved = instanceManager.getBlock();
     }
     // get new instance ID
     const id = InstanceManager_1.InstanceManager.getNewInstanceCode();
@@ -99,25 +102,22 @@ const startScanner = async (opts) => {
     }
 };
 exports.startScanner = startScanner;
-function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved, chain, id, instance) {
+async function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved, chain, id, instance) {
     // generate file for lock one thread
     // FileManager.startLock(blockNumber, chain, id);
     // get jwt for blockchain
     // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
     let instanceManager = instance;
-    try {
-        instanceManager.startLock(blockNumber, id)
-            .then(instanceSaved => {
-            if (instanceSaved != id.toString()) {
-                console.error("Something is wrong with the instance code");
-                process.exit();
-            }
-        });
-    }
-    catch (e) {
+    await instanceManager.startLock(blockNumber, id)
+        .then(instanceSaved => {
+        if (instanceSaved != id.toString()) {
+            console.error("Something is wrong with the instance code");
+            process.exit();
+        }
+    }).catch(e => {
         console.error(e);
         setTimeout(() => { }, 2000);
-    }
+    });
     // Array of block without meta for rescan
     // let toRescan: Array<number> = [];
     let lockExists = true;
@@ -125,11 +125,15 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
     let interval = setInterval(async () => {
         process.on('exit', async () => {
             // Save last block when app is closing
-            await instanceManager.exitProcess(blockNumber, id);
+            if (!InstanceManager_1.InstanceManager.processExit) {
+                await instanceManager.exitProcess(blockNumber, id);
+            }
         });
         process.on('SIGINT', async () => {
             // Save last block on exit Ctrl+C
-            await instanceManager.exitProcess(blockNumber, id);
+            if (!InstanceManager_1.InstanceManager.processExit) {
+                await instanceManager.exitProcess(blockNumber, id);
+            }
         });
         if (!api.isConnected) {
             // if Api disconnect
@@ -143,22 +147,19 @@ function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved,
             if (currentBlock != blockNumber) {
                 // If block scanned isn't resolved, dont increment
                 currentBlock = blockNumber;
-                if (lastBlockSaved == 0 || blockNumber - lastBlockSaved > 99) {
+                if (blockNumber - lastBlockSaved > 99) {
                     // Save block number each 100 blocks
-                    console.log(lastBlockSaved);
-                    process.exit();
-                    const saveBlockSuccess = await instanceManager.saveLastBlock(chain, blockNumber, id);
-                    if (saveBlockSuccess) {
+                    try {
+                        await instanceManager.saveLastBlock(chain, blockNumber, id);
                         lastBlockSaved = blockNumber;
                         // check if lock file already exists
                         lockExists = await instanceManager.checkLockExists(chain, id);
                     }
-                    else {
+                    catch (e) {
+                        console.error(e);
                         console.error("Fail to save block");
                     }
                 }
-                console.log("no");
-                process.exit();
                 if (lockExists) {
                     // if file lock exists, continue scan
                     // get remark objects from blockchain
