@@ -1,4 +1,3 @@
-import {Blockchain} from "../Blockchains/Blockchain";
 import {Blockchain as CanonizeChain} from "canonizer/src/canonizer/Blockchain";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {InstanceGossiper} from "../Gossiper/InstanceGossiper";
@@ -46,8 +45,8 @@ export class InstanceManager
     private readonly jwt: string;
     private readonly chainName: string;
 
-    // private apiUrl: string = "http://arkam.everdreamsoft.com/api/v1/jetski/";
-    private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
+    private apiUrl: string = "http://arkam.everdreamsoft.com/api/v1/jetski/";
+    // private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
     private lastBlockSaved: string = "0";
 
     public static processExit: boolean = false;
