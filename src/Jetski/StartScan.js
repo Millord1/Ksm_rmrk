@@ -103,8 +103,6 @@ const startScanner = async (opts) => {
 };
 exports.startScanner = startScanner;
 async function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlockSaved, chain, id, instance) {
-    // generate file for lock one thread
-    // FileManager.startLock(blockNumber, chain, id);
     // get jwt for blockchain
     // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
     let instanceManager = instance;
@@ -168,6 +166,7 @@ async function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlock
                         console.log(remarks);
                         // Check if metadata exists
                         const rmrksWithMeta = await metaDataVerifier(remarks);
+                        // if meta call fail, possible push for rescan later
                         // if(needRescan(rmrksWithMeta)){
                         //     toRescan.push(blockNumber);
                         // }

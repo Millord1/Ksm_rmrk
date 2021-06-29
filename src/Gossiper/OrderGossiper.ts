@@ -66,15 +66,29 @@ export class OrderGossiper extends GossiperManager
         const txId = this.txId;
         const timestamp = this.timestamp;
 
-        // TODO when implemented in Canonizer
-        const ksmContractStd = null;
-        // const ksmContractStd = new KsmContractStandard(canonizeManager);
+        const ksmContractStd = new RmrkContractStandard(canonizeManager);
+        ksmContractStd.setSn(this.sn);
 
         const rmrkStd = new RmrkContractStandard(canonizeManager);
 
-        const contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
+        let contractSell: BlockchainContract;
+        let contractBuy: BlockchainContract;
 
-        return new BlockchainOrder(this.chain.eventFactory, source, this.buyContractId, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
+        if(this.sellContractId == "KSM"){
+            // TODO after push canonizer
+            // contractSell = new MainChainToken()
+        }else{
+            contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
+        }
+
+        if(this.buyContractId == "KSM"){
+            // TODO after push canonizer
+            // contractBuy = new MainChainToken()
+        }else{
+            contractBuy = new BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard(canonizeManager));
+        }
+
+        // return new BlockchainOrder(this.chain.eventFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
 
     }
 

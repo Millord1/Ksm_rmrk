@@ -17,6 +17,7 @@ import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
 import {InstanceManager} from "../Instances/InstanceManager";
+import {OrderGossiper} from "../Gossiper/OrderGossiper";
 
 
 const readline = require('readline').createInterface({
@@ -147,9 +148,6 @@ export const startScanner = async (opts: Option)=>{
 export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBlock: number, blockNumber: number, lastBlockSaved: number, chain: string, id: number, instance: InstanceManager)
 {
 
-    // generate file for lock one thread
-    // FileManager.startLock(blockNumber, chain, id);
-
     // get jwt for blockchain
     // const jwt = GossiperFactory.getJwt(chain.toLowerCase());
     let instanceManager = instance;
@@ -231,6 +229,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                             // Check if metadata exists
                             const rmrksWithMeta = await metaDataVerifier(remarks);
 
+                            // if meta call fail, possible push for rescan later
                             // if(needRescan(rmrksWithMeta)){
                             //     toRescan.push(blockNumber);
                             // }
@@ -244,7 +243,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                                 let blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
 
                                 let gossip: GossiperFactory;
-                                let gossiper: EntityGossiper|EventGossiper|undefined;
+                                let gossiper: EntityGossiper|EventGossiper|OrderGossiper|undefined;
                                 let i: number = 0;
                                 let sent: boolean = false;
 
@@ -262,7 +261,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                                         await sendGossip(canonizeManager, blockNumber, blockchain)
                                             .then(()=>{
                                                 // Refresh objects
-                                                canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: instanceManager.getJwt()} });
+                                                canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: instanceManager.getJwt()} });
                                                 blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
                                                 sent = true;
                                             })

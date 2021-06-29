@@ -16,6 +16,7 @@ import {Kusama} from "../Blockchains/Kusama";
 import {KusamaBlockchain} from "canonizer/src/canonizer/Kusama/KusamaBlockchain";
 import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 import {Emote} from "../Remark/Interactions/Emote";
+import {OrderGossiper} from "./OrderGossiper";
 
 
 export class GossiperFactory
@@ -124,54 +125,15 @@ export class GossiperFactory
 
             case 'buy':
             case 'list':
-                if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
-
-                }
-                return undefined;
+                // if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
+                //     return new OrderGossiper(this.rmrk, canonizeManager, this.chain);
+                // }
+                // return undefined;
 
             default:
                 return undefined;
 
         }
-
-
-        //
-        //     // Dispatch for gossiper if rmrk is correct
-        //     if(this.rmrk instanceof Mint){
-        //
-        //         if(this.rmrk.collection){
-        //             return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-        //         }
-        //         return undefined;
-        //
-        //     }else if(this.rmrk instanceof MintNft){
-        //
-        //         if(this.rmrk.asset){
-        //             const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-        //             await entity.gossip();
-        //
-        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
-        //         }
-        //         return undefined;
-        //
-        //     }else if(this.rmrk instanceof Send){
-        //
-        //         if(this.rmrk.asset){
-        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
-        //         }
-        //         return undefined;
-        //
-        //     }else if(this.rmrk instanceof Buy || this.rmrk instanceof List){
-        //
-        //         if(this.rmrk.asset){
-        //
-        //         }
-        //         return undefined;
-        //
-        //     }
-        //
-        //     return undefined;
-        // }
 
     }
 

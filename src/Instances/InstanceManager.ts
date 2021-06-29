@@ -45,7 +45,7 @@ export class InstanceManager
     private readonly jwt: string;
     private readonly chainName: string;
 
-    private apiUrl: string = "http://arkam.everdreamsoft.com/api/v1/jetski/";
+    private apiUrl: string = "https://arkam.everdreamsoft.com/api/v1/jetski/";
     // private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
     private lastBlockSaved: string = "0";
 
@@ -98,7 +98,6 @@ export class InstanceManager
         const url = this.apiUrl +"instance/"+ blockchainName +"/"+ this.jwt;
 
         const response: QueryType|ResponseType = await this.apiCall(url);
-
         const instanceData: QueryType = (response as QueryType);
 
         if(instanceData.data.last_block){
@@ -190,7 +189,7 @@ export class InstanceManager
                 }
             }
 
-        })
+        });
 
     }
 
@@ -202,23 +201,21 @@ export class InstanceManager
         // exit process with save block before
         this.saveLastBlock(this.chainName, --block, instanceCode)
             .then(()=>{
-                // time out for correct display of request result
                 process.exit();
-
             }).catch(e=>{
-            InstanceManager.processExit = false;
+                InstanceManager.processExit = false;
 
-            console.error(e);
-            console.error("Block save failed, last block saved is "+this.lastBlockSaved);
-            readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
+                console.error(e);
+                console.error("Block save failed, last block saved is "+this.lastBlockSaved);
+                readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
 
-                answer = answer.toLowerCase();
-                if(answer == "y" || answer == "yes"){
-                    await this.exitProcess(block, instanceCode);
-                }else{
-                    process.exit();
-                }
-            })
+                    answer = answer.toLowerCase();
+                    if(answer == "y" || answer == "yes"){
+                        await this.exitProcess(block, instanceCode);
+                    }else{
+                        process.exit();
+                    }
+                })
 
         });
 

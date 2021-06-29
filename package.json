@@ -4,7 +4,7 @@
   "description": "<pre>\r     <code>\r         npm install --save @polkadot/api\r     </code>\r </pre>",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "^4.10.1",
+    "@polkadot/api": "^4.16.2",
     "canonizer": "^0.0.9",
     "commander": "^6.2.1",
     "slugify": "^1.5.3",

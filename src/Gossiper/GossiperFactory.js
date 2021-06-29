@@ -5,9 +5,7 @@ const EntityGossiper_1 = require("./EntityGossiper");
 const Mint_1 = require("../Remark/Interactions/Mint");
 const Send_1 = require("../Remark/Interactions/Send");
 const EventGossiper_1 = require("./EventGossiper");
-const Buy_1 = require("../Remark/Interactions/Buy");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
-const List_1 = require("../Remark/Interactions/List");
 const ts_dotenv_1 = require("ts-dotenv");
 const assert_1 = require("assert");
 const WestEnd_1 = require("../Blockchains/WestEnd");
@@ -79,49 +77,13 @@ class GossiperFactory {
                 return undefined;
             case 'buy':
             case 'list':
-                if (this.rmrk instanceof Buy_1.Buy || this.rmrk instanceof List_1.List && this.rmrk.asset) {
-                }
-                return undefined;
+            // if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
+            //     return new OrderGossiper(this.rmrk, canonizeManager, this.chain);
+            // }
+            // return undefined;
             default:
                 return undefined;
         }
-        //
-        //     // Dispatch for gossiper if rmrk is correct
-        //     if(this.rmrk instanceof Mint){
-        //
-        //         if(this.rmrk.collection){
-        //             return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-        //         }
-        //         return undefined;
-        //
-        //     }else if(this.rmrk instanceof MintNft){
-        //
-        //         if(this.rmrk.asset){
-        //             const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-        //             await entity.gossip();
-        //
-        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
-        //         }
-        //         return undefined;
-        //
-        //     }else if(this.rmrk instanceof Send){
-        //
-        //         if(this.rmrk.asset){
-        //             return new EventGossiper(this.rmrk, canonizeManager, this.chain);
-        //         }
-        //         return undefined;
-        //
-        //     }else if(this.rmrk instanceof Buy || this.rmrk instanceof List){
-        //
-        //         if(this.rmrk.asset){
-        //
-        //         }
-        //         return undefined;
-        //
-        //     }
-        //
-        //     return undefined;
-        // }
     }
 }
 exports.GossiperFactory = GossiperFactory;

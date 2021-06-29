@@ -20,7 +20,7 @@ export class EventGossiper extends GossiperManager
     private readonly txId: string;
 
 
-    constructor(remark: Send|MintNft, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
+    constructor(remark: Send|MintNft, csCanonizeManager: CSCanonizeManager, chain: Blockchain){
 
         super(chain, csCanonizeManager);
 
