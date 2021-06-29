@@ -11,12 +11,12 @@ export class BlockchainContract
     collection: string;
 
 
-    constructor(chain: Blockchain, ccollectionData: CollectionInterface) {
-        this.max = ccollectionData.max;
-        this.symbol = ccollectionData.symbol;
-        this.id = ccollectionData.id;
+    constructor(chain: Blockchain, collectionData: CollectionInterface) {
+        this.max = collectionData.max;
+        this.symbol = collectionData.symbol;
+        this.id = collectionData.id;
         this.chain = chain;
-        this.collection = ccollectionData.name;
+        this.collection = collectionData.name;
     }
 
 

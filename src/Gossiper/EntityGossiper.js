@@ -7,10 +7,15 @@ const RmrkContractStandard_1 = require("canonizer/src/canonizer/Interfaces/RmrkC
 const MetaData_1 = require("../Remark/MetaData");
 const BlockchainAddress_1 = require("canonizer/src/canonizer/BlockchainAddress");
 const GossiperManager_1 = require("./GossiperManager");
+const RmrkCanonizerWrapper_1 = require("canonizer/src/canonizer/Interfaces/Rmrk/RmrkCanonizerWrapper");
 class EntityGossiper extends GossiperManager_1.GossiperManager {
-    constructor(entity, blockId, source, csCanonizeManager, chain) {
+    constructor(entity, blockId, source, csCanonizeManager, chain, emote) {
         var _a, _b, _c;
         super(chain, csCanonizeManager);
+        this.maxSupply = 0;
+        if (emote) {
+            this.emote = emote;
+        }
         this.entityName = entity.constructor.name;
         // use instanceof for typescript typing
         if (entity instanceof Asset_1.Asset) {
@@ -21,6 +26,7 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
         else if (entity instanceof Collection_1.Collection) {
             this.collectionId = entity.contract.id;
             this.collection = entity.contract.collection;
+            this.maxSupply = entity.contract.max;
         }
         else {
             this.collectionId = "";
@@ -45,13 +51,15 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
                 }
                 let assetContract = this.chain.contractFactory.getOrCreate(assetId);
                 let myAsset = canonizeManager.createAsset({ assetId: assetId, imageUrl: this.image, description: this.description, name: assetName });
+                // if(this.emote){
+                //     myAsset.setEmote(this.emote);
+                // }
                 let myCollection = canonizeManager.createCollection({ id: this.collectionId });
                 myAsset.bindCollection(myCollection);
                 assetContract.bindToCollection(myCollection);
                 let rmrkToken = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
                 assetContract.setStandard(rmrkToken);
                 myAsset.bindContract(assetContract);
-                // canonizeManager.gossipOrbsBindings().then(()=>{console.log("asset gossiped " + this.blockId)});
                 break;
             case Collection_1.Collection.name.toLowerCase():
                 let collection = "";
@@ -60,10 +68,10 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
                 }
                 let myContract = this.chain.contractFactory.getOrCreate(this.collectionId);
                 const source = new BlockchainAddress_1.BlockchainAddress(this.chain.addressFactory, this.source, sandra);
-                let canonizeCollection = canonizeManager.createCollection({ id: this.collectionId, imageUrl: this.image, name: collection, description: this.description });
+                const rmrkManager = new RmrkCanonizerWrapper_1.RmrkCanonizerWrapper(canonizeManager);
+                let canonizeCollection = rmrkManager.createRmrkCollection({ id: this.collectionId, imageUrl: this.image, name: collection, description: this.description }, this.maxSupply, this.blockId);
                 canonizeCollection.setOwner(source);
                 myContract.bindToCollection(canonizeCollection);
-                // canonizeManager.gossipCollection().then(()=>{console.log("collection gossiped " + this.blockId)});
                 break;
             default:
                 console.error('Something is wrong with Entity Gossip of ' + this.blockId);

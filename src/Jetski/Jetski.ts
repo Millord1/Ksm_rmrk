@@ -8,6 +8,9 @@ import {MetaData} from "../Remark/MetaData";
 import {Mint} from "../Remark/Interactions/Mint";
 import {Entity} from "../Remark/Entities/Entity";
 import {MintNft} from "../Remark/Interactions/MintNft";
+import {Observable} from "@polkadot/types/types";
+import {SignedBlock} from "@polkadot/types/interfaces/runtime";
+import {BlockHash} from "@polkadot/types/interfaces/chain";
 
 
 interface Transfer
@@ -32,7 +35,7 @@ export class Jetski
     public chain: Blockchain;
     private readonly wsProvider: WsProvider;
 
-    public static maxPerBatch: number = 50;
+    public static maxPerBatch: number = 100;
     private static minForEggs: number = 10;
 
     constructor(chain: Blockchain) {
@@ -67,7 +70,7 @@ export class Jetski
             }
 
             // Get block from APi
-            const block = await api.rpc.chain.getBlock(blockHash);
+            const block: any = await api.rpc.chain.getBlock(blockHash);
 
             let blockId = blockNumber;
             let blockTimestamp: string = "";
@@ -130,6 +133,13 @@ export class Jetski
 
             return Promise.all(blockRmrk)
                 .then(async result=>{
+
+                    const isOnlyStrings = (element: string|Interaction) => typeof element == "string";
+
+                    if(result.every(isOnlyStrings)){
+                        reject ("no rmrk");
+                    }
+
                     let interactions;
 
                     try{
@@ -207,7 +217,18 @@ export class Jetski
                 if(rmrk instanceof Mint || rmrk instanceof MintNft){
 
                     let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
-                    const metaUrl = entity?.url.split("/").pop();
+
+                    if(!entity){
+                        reject('undefined');
+                    }
+
+                    let metaUrl: string|undefined;
+
+                    try{
+                        metaUrl = entity?.url.split("/").pop();
+                    }catch(e){
+                        reject(e);
+                    }
 
                     if(metaUrl){
                         // check if url has already been called

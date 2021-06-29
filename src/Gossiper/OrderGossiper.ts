@@ -6,6 +6,7 @@ import {BlockchainAddress} from "canonizer/src/canonizer/BlockchainAddress";
 import {BlockchainOrder} from "canonizer/src/canonizer/BlockchainOrder";
 import {BlockchainContract} from "canonizer/src/canonizer/BlockchainContract";
 import {RmrkContractStandard} from "canonizer/src/canonizer/Interfaces/RmrkContractStandard";
+import {Blockchain} from "canonizer/src/canonizer/Blockchain";
 
 
 export class OrderGossiper extends GossiperManager
@@ -24,7 +25,7 @@ export class OrderGossiper extends GossiperManager
     private readonly total: number;
 
 
-    constructor(remark: Buy|List, csCanonizeManager: CSCanonizeManager, chain: string) {
+    constructor(remark: Buy|List, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
         super(chain, csCanonizeManager);
 
 
@@ -65,15 +66,29 @@ export class OrderGossiper extends GossiperManager
         const txId = this.txId;
         const timestamp = this.timestamp;
 
-        // TODO when implemented in Canonizer
-        const ksmContractStd = null;
-        // const ksmContractStd = new KsmContractStandard(canonizeManager);
+        const ksmContractStd = new RmrkContractStandard(canonizeManager);
+        ksmContractStd.setSn(this.sn);
 
         const rmrkStd = new RmrkContractStandard(canonizeManager);
 
-        const contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
+        let contractSell: BlockchainContract;
+        let contractBuy: BlockchainContract;
 
-        return new BlockchainOrder(this.chain.eventFactory, source, this.buyContractId, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
+        if(this.sellContractId == "KSM"){
+            // TODO after push canonizer
+            // contractSell = new MainChainToken()
+        }else{
+            contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
+        }
+
+        if(this.buyContractId == "KSM"){
+            // TODO after push canonizer
+            // contractBuy = new MainChainToken()
+        }else{
+            contractBuy = new BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard(canonizeManager));
+        }
+
+        // return new BlockchainOrder(this.chain.eventFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
 
     }
 
