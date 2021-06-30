@@ -279,6 +279,9 @@ export class Jetski
                 i++;
             }
 
+            console.log(interactArray.length);
+            console.log(rmrkWithMeta.length);
+
             if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
 
                 return Promise.all(rmrkWithMeta)
@@ -328,7 +331,7 @@ export class Jetski
                 }else{
                     MetaData.getMetaData(entity.url, index).then(meta=>{
                         entity?.addMetadata(meta);
-                        resolve(remark);
+                        resolve(remark);0
                     }).catch((e)=>{
                         // console.error(e);
                         resolve(remark);

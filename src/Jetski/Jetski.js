@@ -132,6 +132,7 @@ class Jetski {
         // Resolve all promises with metadata
         return new Promise(async (resolve, reject) => {
             let rmrkWithMeta = [];
+            let interactArray = [];
             let i = 0;
             let myRmrk = undefined;
             for (const rmrk of interactions) {
@@ -157,6 +158,7 @@ class Jetski {
                                 meta: entity === null || entity === void 0 ? void 0 : entity.metaData
                             });
                             rmrkWithMeta.push(myRmrk);
+                            interactArray.push(rmrk);
                         }
                         const meta = exports.metaCalled.find(meta => meta.url == metaUrl);
                         if (myRmrk) {
@@ -164,9 +166,11 @@ class Jetski {
                             if (meta && meta.meta) {
                                 entity === null || entity === void 0 ? void 0 : entity.addMetadata(meta.meta);
                                 rmrkWithMeta.push(rmrk);
+                                interactArray.push(rmrk);
                             }
                             else {
                                 rmrkWithMeta.push(this.callMeta(rmrk, i));
+                                interactArray.push(rmrk);
                             }
                         }
                         else if (meta) {
@@ -174,6 +178,7 @@ class Jetski {
                             if (meta.meta) {
                                 entity === null || entity === void 0 ? void 0 : entity.addMetadata(meta.meta);
                                 rmrkWithMeta.push(rmrk);
+                                interactArray.push(rmrk);
                             }
                         }
                         else {
@@ -184,10 +189,13 @@ class Jetski {
                 else if (rmrk instanceof Interaction_1.Interaction) {
                     // only Mint and MintNft have meta
                     rmrkWithMeta.push(rmrk);
+                    interactArray.push(rmrk);
                 }
                 i++;
             }
-            if (rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactions.length) {
+            console.log(interactArray.length);
+            console.log(rmrkWithMeta.length);
+            if (rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length) {
                 return Promise.all(rmrkWithMeta)
                     .then((remarks) => {
                     resolve(remarks);
@@ -195,6 +203,9 @@ class Jetski {
                     // console.error(e);
                     reject(e);
                 });
+            }
+            else {
+                reject('interraction array of getMetadataContent in Jetski is smaller');
             }
         });
     }
@@ -221,6 +232,7 @@ class Jetski {
                     MetaData_1.MetaData.getMetaData(entity.url, index).then(meta => {
                         entity === null || entity === void 0 ? void 0 : entity.addMetadata(meta);
                         resolve(remark);
+                        0;
                     }).catch((e) => {
                         // console.error(e);
                         resolve(remark);
