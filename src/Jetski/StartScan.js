@@ -363,4 +363,22 @@ const test = () => {
     console.log("Hello World");
 };
 exports.test = test;
+if (entity.url) {
+    // verify url existst
+    MetaData_1.MetaData.getMetaData(entity.url)
+        .then(metaData => {
+        resolve(metaData);
+    }).catch(e => {
+        if (nbOfTry < 2) {
+            // try a second call meta if the first fail
+            setTimeout(() => {
+                metaDataCaller(entity, nbOfTry++);
+            }, 500);
+        }
+        else {
+            // if 2 calls meta are failed, reject
+            reject(e);
+        }
+    });
+}
 //# sourceMappingURL=StartScan.js.map
