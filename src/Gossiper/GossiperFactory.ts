@@ -117,10 +117,10 @@ export class GossiperFactory
 
 
             case 'emote':
-                if (this.rmrk instanceof Emote && this.rmrk.asset) {
-                    return new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
-                }
-                return undefined;
+                // if (this.rmrk instanceof Emote && this.rmrk.asset) {
+                //     return new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
+                // }
+                // return undefined;
 
 
             case 'buy':

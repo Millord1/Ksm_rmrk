@@ -321,7 +321,6 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
 
 async function sendGossip(canonizeManager: CSCanonizeManager,block: number, blockchain: any): Promise<string>
 {
-
     return new Promise(async (resolve, reject)=>{
         if(blockchain){
 

@@ -56,6 +56,7 @@ export class Jetski
         // Clear meta storage at each block
         metaCalled = [];
 
+
         return new Promise(async (resolve, reject)=>{
 
             let blockRmrk: Array<Promise<Interaction|string>> = [];
@@ -105,7 +106,9 @@ export class Jetski
 
                     if(remark.indexOf("") === 0){
                         // Create object from rmrk
+
                         blockRmrk.push(this.getObjectFromRemark(remark, tx));
+
                     }
                 }
 
@@ -206,6 +209,7 @@ export class Jetski
         return new Promise(async (resolve, reject)=>{
 
             let rmrkWithMeta: Array<Promise<Interaction>|Interaction> = [];
+            let interactArray: Array<Interaction> = [];
             let i: number = 0;
 
             let myRmrk: Interaction|undefined = undefined;
@@ -238,6 +242,7 @@ export class Jetski
                                 meta: entity?.metaData
                             });
                             rmrkWithMeta.push(myRmrk);
+                            interactArray.push(rmrk);
 
                         }
 
@@ -250,6 +255,7 @@ export class Jetski
                                 rmrkWithMeta.push(rmrk);
                             }else{
                                 rmrkWithMeta.push(this.callMeta(rmrk, i));
+                                interactArray.push(rmrk);
                             }
 
                         }else if(meta){
@@ -257,6 +263,7 @@ export class Jetski
                             if(meta.meta){
                                 entity?.addMetadata(meta.meta);
                                 rmrkWithMeta.push(rmrk);
+                                interactArray.push(rmrk);
                             }
                         }else{
                             rmrkWithMeta.push(this.callMeta(rmrk, i));
@@ -266,11 +273,12 @@ export class Jetski
                 }else if (rmrk instanceof Interaction){
                     // only Mint and MintNft have meta
                     rmrkWithMeta.push(rmrk);
+                    interactArray.push(rmrk);
                 }
                 i++;
             }
 
-            if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactions.length){
+            if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
 
                 return Promise.all(rmrkWithMeta)
                     .then((remarks)=>{
@@ -279,6 +287,8 @@ export class Jetski
                         // console.error(e);
                         reject(e);
                     })
+            }else{
+                reject('interraction array of getMetadataContent in Jetski is smaller');
             }
 
         })
