@@ -253,6 +253,7 @@ export class Jetski
                             if(meta && meta.meta){
                                 entity?.addMetadata(meta.meta);
                                 rmrkWithMeta.push(rmrk);
+                                interactArray.push(rmrk);
                             }else{
                                 rmrkWithMeta.push(this.callMeta(rmrk, i));
                                 interactArray.push(rmrk);
