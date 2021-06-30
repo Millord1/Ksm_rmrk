@@ -80,7 +80,4 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
     }
 }
 exports.EntityGossiper = EntityGossiper;
-break;
-console.error('Something is wrong with Entity Gossip of ' + this.blockId);
-break;
 //# sourceMappingURL=EntityGossiper.js.map
