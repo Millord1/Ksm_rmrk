@@ -92,19 +92,12 @@ export class MetaData
         }
 
         url = this.getCorrectUrl(url, batchIndex);
-
         console.log(url);
 
         return new Promise((resolve, reject)=>{
 
             const request = new XMLHttpRequest();
             let response: MetadataInputs;
-
-            // const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);
-            //
-            // if(metaAlreadyCalled && metaAlreadyCalled.meta){
-            //     resolve (metaAlreadyCalled.meta);
-            // }
 
             setTimeout(()=>{
 

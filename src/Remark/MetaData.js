@@ -63,11 +63,6 @@ class MetaData {
         return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
             let response;
-            // const metaAlreadyCalled = metaCalled.find(meta => meta.url === url);
-            //
-            // if(metaAlreadyCalled && metaAlreadyCalled.meta){
-            //     resolve (metaAlreadyCalled.meta);
-            // }
             setTimeout(() => {
                 const metaAlreadyCalled = Jetski_1.metaCalled.find(meta => meta.url === url);
                 if (metaAlreadyCalled && metaAlreadyCalled.meta) {

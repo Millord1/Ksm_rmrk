@@ -79,6 +79,10 @@ class Jetski {
             }
             return Promise.all(blockRmrk)
                 .then(async (result) => {
+                const isOnlyStrings = (element) => typeof element == "string";
+                if (result.every(isOnlyStrings)) {
+                    reject("no rmrk");
+                }
                 let interactions;
                 try {
                     interactions = await this.getMetadataContent(result);
@@ -133,7 +137,16 @@ class Jetski {
             for (const rmrk of interactions) {
                 if (rmrk instanceof Mint_1.Mint || rmrk instanceof MintNft_1.MintNft) {
                     let entity = rmrk instanceof Mint_1.Mint ? rmrk.collection : rmrk.asset;
-                    const metaUrl = entity === null || entity === void 0 ? void 0 : entity.url.split("/").pop();
+                    if (!entity) {
+                        reject('undefined');
+                    }
+                    let metaUrl;
+                    try {
+                        metaUrl = entity === null || entity === void 0 ? void 0 : entity.url.split("/").pop();
+                    }
+                    catch (e) {
+                        reject(e);
+                    }
                     if (metaUrl) {
                         // check if url has already been called
                         if (!exports.metaCalled.some(meta => meta.url == metaUrl)) {
@@ -301,6 +314,6 @@ class Jetski {
 }
 exports.Jetski = Jetski;
 Jetski.noBlock = "No Block";
-Jetski.maxPerBatch = 50;
+Jetski.maxPerBatch = 100;
 Jetski.minForEggs = 10;
 //# sourceMappingURL=Jetski.js.map

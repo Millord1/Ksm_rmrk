@@ -21,7 +21,7 @@ export class VersionChecker
 
     public checkAssetVersion(data: NftInterface): boolean
     {
-        if(this.version === "1.0.0"){
+        if(this.version == "1.0.0"){
             return VersionChecker.assetVOne(data);
         }else{
             return false;
