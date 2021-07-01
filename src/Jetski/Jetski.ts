@@ -8,6 +8,7 @@ import {MetaData} from "../Remark/MetaData";
 import {Mint} from "../Remark/Interactions/Mint";
 import {Entity} from "../Remark/Entities/Entity";
 import {MintNft} from "../Remark/Interactions/MintNft";
+import axios from "axios";
 
 
 interface Transfer
@@ -208,92 +209,37 @@ export class Jetski
         // Resolve all promises with metadata
         return new Promise(async (resolve, reject)=>{
 
-            let rmrkWithMeta: Array<Promise<Interaction>|Interaction> = [];
             let interactArray: Array<Interaction> = [];
-            let i: number = 0;
-
-            let myRmrk: Interaction|undefined = undefined;
+            let toCall: Array<Mint|MintNft> = [];
 
             for(const rmrk of interactions){
 
                 if(rmrk instanceof Mint || rmrk instanceof MintNft){
-
-                    let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
-
-                    if(!entity){
-                        reject('undefined');
-                    }
-
-                    let metaUrl: string|undefined;
-
-                    try{
-                        metaUrl = entity?.url.split("/").pop();
-                    }catch(e){
-                        reject(e);
-                    }
-
-                    if(metaUrl){
-                        // check if url has already been called
-                        if(!metaCalled.some(meta => meta.url == metaUrl)){
-                            // if not called, call it
-                            myRmrk = await this.callMeta(rmrk, i);
-                            metaCalled.push({
-                                url: metaUrl,
-                                meta: entity?.metaData
-                            });
-                            rmrkWithMeta.push(myRmrk);
-                            interactArray.push(rmrk);
-
-                        }
-
-                        const meta = metaCalled.find(meta => meta.url == metaUrl);
-
-                        if(myRmrk){
-                            // if metaData already called on first loop
-                            if(meta && meta.meta){
-                                entity?.addMetadata(meta.meta);
-                                rmrkWithMeta.push(rmrk);
-                                interactArray.push(rmrk);
-                            }else{
-                                rmrkWithMeta.push(this.callMeta(rmrk, i));
-                                interactArray.push(rmrk);
-                            }
-
-                        }else if(meta){
-                            // if meta exists on second or more loops
-                            if(meta.meta){
-                                entity?.addMetadata(meta.meta);
-                                rmrkWithMeta.push(rmrk);
-                                interactArray.push(rmrk);
-                            }
-                        }else{
-                            rmrkWithMeta.push(this.callMeta(rmrk, i));
-                        }
-                    }
+                    toCall.push(rmrk);
 
                 }else if (rmrk instanceof Interaction){
-                    // only Mint and MintNft have meta
-                    rmrkWithMeta.push(rmrk);
                     interactArray.push(rmrk);
                 }
-                i++;
             }
 
-            console.log(interactArray.length);
-            console.log(rmrkWithMeta.length);
+            const rmrkWithMeta: Array<Interaction> = await MetaData.getMetaOnArray(toCall);
+            const allRemarks: Array<Interaction> = interactArray.concat(rmrkWithMeta);
 
-            if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
+            resolve(allRemarks);
 
-                return Promise.all(rmrkWithMeta)
-                    .then((remarks)=>{
-                        resolve (remarks);
-                    }).catch(e=>{
-                        // console.error(e);
-                        reject(e);
-                    })
-            }else{
-                reject('interraction array of getMetadataContent in Jetski is smaller');
-            }
+            // if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
+            //
+            //     return Promise.all(rmrkWithMeta)
+            //         .then((remarks)=>{
+            //             resolve (remarks);
+            //         }).catch(e=>{
+            //             // console.error(e);
+            //             reject(e);
+            //         })
+            //
+            // }else{
+            //     reject('interraction array of getMetadataContent in Jetski is smaller');
+            // }
 
         })
 

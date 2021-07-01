@@ -440,72 +440,36 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
 {
     return new Promise(async (resolve)=>{
 
-        let entity: Entity;
+        let rmrkToRecall: Array<Mint|MintNft> = [];
+        let allRemarks : Array<Interaction> = [];
+
+        let needRecall: boolean = false;
 
         for( const rmrk of remarks ){
 
-            // loop for checking if meta exists
-            if(rmrk instanceof Mint){
+            if(rmrk instanceof Mint || rmrk instanceof MintNft){
+                let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
 
-                if(rmrk.collection instanceof Collection && !rmrk.collection.metaData){
-
-                    entity = rmrk.collection;
-                    // if meta doesn't exists, call
-                     metaDataCaller(rmrk.collection)
-                         .then((meta)=>{
-                             // @ts-ignore rmrk.collection is instance of Collection
-                             rmrk.collection.metaData = meta;
-                         }).catch(e=>{
-                             console.error(e);
-                     })
+                if(!entity?.metaData){
+                    needRecall = true;
+                    rmrkToRecall.push(rmrk);
                 }
-
-            }else if (rmrk instanceof MintNft){
-
-                if(rmrk.asset instanceof Asset && !rmrk.asset.metaData){
-
-                    // if meta doesn't exists, call
-                    metaDataCaller(rmrk.asset)
-                        .then((meta)=>{
-                            // @ts-ignore rmrk.asset is instance of Asset
-                            rmrk.asset.metaData = meta;
-                        }).catch((e)=>{
-                            console.error(e);
-                    })
-                }
-
+            }else{
+                allRemarks.push(rmrk);
             }
-
         }
+
+        if(needRecall){
+            let rmrkRecalled: Array<Interaction> = [];
+
+            if(rmrkToRecall.length > 0){
+                rmrkRecalled = await MetaData.getMetaOnArray(rmrkToRecall);
+            }
+            remarks = allRemarks.concat(rmrkRecalled);
+        }
+
         resolve (remarks);
     })
 }
 
 
-
-async function metaDataCaller(entity: Entity, nbOfTry: number = 0): Promise<MetaData>
-{
-    return new Promise((resolve, reject)=>{
-
-        if(entity.url){
-            // verify url existst
-            MetaData.getMetaData(entity.url)
-                .then(metaData=>{
-                    resolve (metaData);
-                }).catch(e=>{
-
-                    if(nbOfTry < 2){
-                        // try a second call meta if the first fail
-                        setTimeout(()=>{
-                            metaDataCaller(entity, nbOfTry++);
-                        }, 500);
-                    }else{
-                        // if 2 calls meta are failed, reject
-                        reject(e);
-                    }
-
-                })
-        }
-
-    })
-}

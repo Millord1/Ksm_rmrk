@@ -131,82 +131,32 @@ class Jetski {
     async getMetadataContent(interactions) {
         // Resolve all promises with metadata
         return new Promise(async (resolve, reject) => {
-            let rmrkWithMeta = [];
             let interactArray = [];
-            let i = 0;
-            let myRmrk = undefined;
+            let toCall = [];
             for (const rmrk of interactions) {
                 if (rmrk instanceof Mint_1.Mint || rmrk instanceof MintNft_1.MintNft) {
-                    let entity = rmrk instanceof Mint_1.Mint ? rmrk.collection : rmrk.asset;
-                    if (!entity) {
-                        reject('undefined');
-                    }
-                    let metaUrl;
-                    try {
-                        metaUrl = entity === null || entity === void 0 ? void 0 : entity.url.split("/").pop();
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                    if (metaUrl) {
-                        // check if url has already been called
-                        if (!exports.metaCalled.some(meta => meta.url == metaUrl)) {
-                            // if not called, call it
-                            myRmrk = await this.callMeta(rmrk, i);
-                            exports.metaCalled.push({
-                                url: metaUrl,
-                                meta: entity === null || entity === void 0 ? void 0 : entity.metaData
-                            });
-                            rmrkWithMeta.push(myRmrk);
-                            interactArray.push(rmrk);
-                        }
-                        const meta = exports.metaCalled.find(meta => meta.url == metaUrl);
-                        if (myRmrk) {
-                            // if metaData already called on first loop
-                            if (meta && meta.meta) {
-                                entity === null || entity === void 0 ? void 0 : entity.addMetadata(meta.meta);
-                                rmrkWithMeta.push(rmrk);
-                                interactArray.push(rmrk);
-                            }
-                            else {
-                                rmrkWithMeta.push(this.callMeta(rmrk, i));
-                                interactArray.push(rmrk);
-                            }
-                        }
-                        else if (meta) {
-                            // if meta exists on second or more loops
-                            if (meta.meta) {
-                                entity === null || entity === void 0 ? void 0 : entity.addMetadata(meta.meta);
-                                rmrkWithMeta.push(rmrk);
-                                interactArray.push(rmrk);
-                            }
-                        }
-                        else {
-                            rmrkWithMeta.push(this.callMeta(rmrk, i));
-                        }
-                    }
+                    toCall.push(rmrk);
                 }
                 else if (rmrk instanceof Interaction_1.Interaction) {
-                    // only Mint and MintNft have meta
-                    rmrkWithMeta.push(rmrk);
                     interactArray.push(rmrk);
                 }
-                i++;
             }
-            console.log(interactArray.length);
-            console.log(rmrkWithMeta.length);
-            if (rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length) {
-                return Promise.all(rmrkWithMeta)
-                    .then((remarks) => {
-                    resolve(remarks);
-                }).catch(e => {
-                    // console.error(e);
-                    reject(e);
-                });
-            }
-            else {
-                reject('interraction array of getMetadataContent in Jetski is smaller');
-            }
+            const rmrkWithMeta = await MetaData_1.MetaData.getMetaOnArray(toCall);
+            const allRemarks = interactArray.concat(rmrkWithMeta);
+            resolve(allRemarks);
+            // if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
+            //
+            //     return Promise.all(rmrkWithMeta)
+            //         .then((remarks)=>{
+            //             resolve (remarks);
+            //         }).catch(e=>{
+            //             // console.error(e);
+            //             reject(e);
+            //         })
+            //
+            // }else{
+            //     reject('interraction array of getMetadataContent in Jetski is smaller');
+            // }
         });
     }
     async callMeta(remark, index) {
