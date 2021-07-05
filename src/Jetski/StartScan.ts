@@ -8,9 +8,7 @@ import {MetaData} from "../Remark/MetaData";
 import {MintNft} from "../Remark/Interactions/MintNft";
 import {Mint} from "../Remark/Interactions/Mint";
 import {Interaction} from "../Remark/Interactions/Interaction";
-import {Collection} from "../Remark/Entities/Collection";
 import {Entity} from "../Remark/Entities/Entity";
-import {Asset} from "../Remark/Entities/Asset";
 import {WestEnd} from "../Blockchains/WestEnd";
 import { Polkadot } from "../Blockchains/Polkadot";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
@@ -18,6 +16,7 @@ import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
 import {InstanceManager} from "../Instances/InstanceManager";
 import {OrderGossiper} from "../Gossiper/OrderGossiper";
+import {Emote} from "../Remark/Interactions/Emote";
 
 
 const readline = require('readline').createInterface({
@@ -48,15 +47,11 @@ function getBlockchain(chainName: string)
 function needRescan(remarks: Array<Interaction>)
 {
 
-    let entity: Entity;
+    let entity: Entity|undefined;
 
     remarks.forEach((rmrk)=>{
 
-        if(rmrk instanceof Mint && rmrk.collection){
-            entity = rmrk.collection;
-        }else if(rmrk instanceof MintNft && rmrk.asset){
-            entity = rmrk.asset;
-        }
+        entity = rmrk.getEntity();
 
         if(entity && !entity.metaData){
             return true;
@@ -250,6 +245,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                                 for(const rmrk of rmrksWithMeta){
 
                                     sent = false;
+
                                     // create Event or Entity Gossiper
                                     gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
                                     gossiper = await gossip.getGossiper();
@@ -448,7 +444,7 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
         for( const rmrk of remarks ){
 
             if(rmrk instanceof Mint || rmrk instanceof MintNft){
-                let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
+                let entity: Entity|undefined = rmrk.getEntity();
 
                 if(!entity?.metaData){
                     needRecall = true;

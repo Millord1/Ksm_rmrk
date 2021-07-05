@@ -3,7 +3,6 @@ import {metaCalled} from "../Jetski/Jetski";
 import {Interaction} from "./Interactions/Interaction";
 import {Mint} from "./Interactions/Mint";
 import {MintNft} from "./Interactions/MintNft";
-import axios from "axios";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const fetch = require('node-fetch');
@@ -54,15 +53,13 @@ export class MetaData
     private static getCorrectUrl(url: string, index?: number): string
     {
         // Modify the url for ipfs calls
-        const urls: Array<string> = url.split('/');
-        const shortUrl = urls.pop();
+        const shortUrl = this.getShortUrl(url);
 
         // Hack for only cloudflare url because Node.fetch don't like ipfs.io
         return MetaData.cloudFlareUrl + shortUrl;
 
         // if(urls.includes('ipfs')){
         //     if(index){
-        //         // Hack for avoid server saturation
         //         return index % 2 === 0 ? this.ipfsUrl + shortUrl : this.cloudFlareUrl + shortUrl;
         //     }else{
         //         return this.ipfsUrl + shortUrl
@@ -71,6 +68,12 @@ export class MetaData
         //     return url;
         // }
 
+    }
+
+
+    private static getShortUrl(longUrl: string)
+    {
+        return longUrl.split('/').pop();
     }
 
 
@@ -93,26 +96,36 @@ export class MetaData
         return new Promise(async (resolve, reject)=>{
 
             let urls: Array<string> = [];
-            let i = 0;
-
             let otherRemarks: Array<Interaction> = [];
 
             for(const rmrk of interactions){
-                let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
+                const entity: Entity|undefined = rmrk.getEntity();
                 if(entity?.url){
-                    urls.push(this.getCorrectUrl(entity.url, i));
+
+                    // Find if the meta's url has already been called
+                    const shortUrl = this.getShortUrl(entity.url);
+                    const found = metaCalled.find(el => el.url == shortUrl);
+
+                    if(found && found.meta){
+                        entity.addMetadata(found.meta);
+                        otherRemarks.push(rmrk);
+                    }else{
+                        urls.push(this.getCorrectUrl(entity.url));
+                    }
+
                 }else{
                     otherRemarks.push(rmrk);
                 }
-                i++;
             }
 
+            // fetch on URLs
             const responses: Array<Response> = await this.callAllMeta(urls);
 
             let rmrksWithMeta: Array<Promise<Mint|MintNft>> = [];
 
             for(const response of responses){
                 if(response.ok){
+                    // attribute metadata to the good entity
                     rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
                 }
             }
@@ -137,7 +150,7 @@ export class MetaData
 
             response.json().then(r=>{
                 try{
-                    // Try to create a MetadataInputs with parsing;
+                    // Try to create a MetadataInputs
                     data = r;
                 }catch(e){
                     // return empty object
@@ -153,15 +166,49 @@ export class MetaData
                     };
                 }
 
-                for(const rmrk of interactions){
-                    let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
+                const responseUrl = this.getShortUrl(response.url);
 
-                    if(entity && entity?.url.split('/').pop() == response.url.split('/').pop()){
+                if(responseUrl){
+                    const interractionFound = interactions.find( rmrk =>{
+                        const entity: Entity|undefined = rmrk.getEntity();
+                        if(entity){
+                            const entityUrl = this.getShortUrl(entity.url);
+                            if(entityUrl) return entityUrl == responseUrl;
+                        }
+                        return false;
+                    })
+
+                    if(interractionFound){
+                        const entity: Entity|undefined = interractionFound.getEntity();
                         const meta = new MetaData(response.url, data);
-                        entity.addMetadata(meta);
+                        metaCalled.push({url: responseUrl, meta: meta});
+                        if(entity){
+                            entity.addMetadata(meta);
+                            resolve (interractionFound);
+                        }
                     }
-                    resolve (rmrk);
                 }
+
+
+                // for(const rmrk of interactions){
+                //
+                //     let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
+                //
+                //     if(entity){
+                //         const shortUrl = response.url.split('/').pop();
+                //         const entityUrl = entity?.url.split('/').pop();
+                //
+                //         if(entityUrl && shortUrl){
+                //             if(entityUrl == shortUrl){
+                //                 const meta = new MetaData(response.url, data);
+                //                 metaCalled.push({url: shortUrl, meta: meta});
+                //                 entity.addMetadata(meta);
+                //             }
+                //             resolve (rmrk);
+                //         }
+                //     }
+                //
+                // }
             })
 
         })

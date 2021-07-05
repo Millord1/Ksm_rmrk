@@ -2,6 +2,7 @@ import {Interaction} from "./Interaction";
 import {Asset} from "../Entities/Asset";
 import {Blockchain} from "../../Blockchains/Blockchain";
 import {Transaction} from "../Transaction";
+import {Entity} from "../Entities/Entity";
 
 
 export class Buy extends Interaction
@@ -26,6 +27,11 @@ export class Buy extends Interaction
         }
 
         return undefined;
+    }
+
+    public getEntity(): Entity|undefined
+    {
+        return this.asset;
     }
 
 

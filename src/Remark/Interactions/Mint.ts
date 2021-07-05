@@ -21,6 +21,11 @@ export class Mint extends Interaction
         }
     }
 
+    public getEntity(): Entity|undefined
+    {
+        return this.collection;
+    }
+
 
     private collectionFromRmrk(): Collection|undefined
     {

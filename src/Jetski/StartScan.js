@@ -29,12 +29,7 @@ function getBlockchain(chainName) {
 function needRescan(remarks) {
     let entity;
     remarks.forEach((rmrk) => {
-        if (rmrk instanceof Mint_1.Mint && rmrk.collection) {
-            entity = rmrk.collection;
-        }
-        else if (rmrk instanceof MintNft_1.MintNft && rmrk.asset) {
-            entity = rmrk.asset;
-        }
+        entity = rmrk.getEntity();
         if (entity && !entity.metaData) {
             return true;
         }
@@ -337,7 +332,7 @@ async function metaDataVerifier(remarks) {
         let needRecall = false;
         for (const rmrk of remarks) {
             if (rmrk instanceof Mint_1.Mint || rmrk instanceof MintNft_1.MintNft) {
-                let entity = rmrk instanceof Mint_1.Mint ? rmrk.collection : rmrk.asset;
+                let entity = rmrk.getEntity();
                 if (!(entity === null || entity === void 0 ? void 0 : entity.metaData)) {
                     needRecall = true;
                     rmrkToRecall.push(rmrk);
