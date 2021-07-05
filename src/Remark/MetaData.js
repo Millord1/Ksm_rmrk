@@ -135,25 +135,6 @@ class MetaData {
                         }
                     }
                 }
-                // for(const rmrk of interactions){
-                //
-                //     let entity: Entity|undefined = rmrk instanceof Mint ? rmrk.collection : rmrk.asset;
-                //
-                //     if(entity){
-                //         const shortUrl = response.url.split('/').pop();
-                //         const entityUrl = entity?.url.split('/').pop();
-                //
-                //         if(entityUrl && shortUrl){
-                //             if(entityUrl == shortUrl){
-                //                 const meta = new MetaData(response.url, data);
-                //                 metaCalled.push({url: shortUrl, meta: meta});
-                //                 entity.addMetadata(meta);
-                //             }
-                //             resolve (rmrk);
-                //         }
-                //     }
-                //
-                // }
             });
         });
     }
