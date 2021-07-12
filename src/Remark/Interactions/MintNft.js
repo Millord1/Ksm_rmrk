@@ -16,6 +16,9 @@ class MintNft extends Interaction_1.Interaction {
             this.asset = asset;
         }
     }
+    getEntity() {
+        return this.asset;
+    }
     nftFromMintNft() {
         const rmrkData = this.splitRmrk();
         const version = rmrkData[2];

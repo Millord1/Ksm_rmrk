@@ -7,8 +7,6 @@ const GossiperFactory_1 = require("../Gossiper/GossiperFactory");
 const MetaData_1 = require("../Remark/MetaData");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
 const Mint_1 = require("../Remark/Interactions/Mint");
-const Collection_1 = require("../Remark/Entities/Collection");
-const Asset_1 = require("../Remark/Entities/Asset");
 const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
@@ -31,12 +29,7 @@ function getBlockchain(chainName) {
 function needRescan(remarks) {
     let entity;
     remarks.forEach((rmrk) => {
-        if (rmrk instanceof Mint_1.Mint && rmrk.collection) {
-            entity = rmrk.collection;
-        }
-        else if (rmrk instanceof MintNft_1.MintNft && rmrk.asset) {
-            entity = rmrk.asset;
-        }
+        entity = rmrk.getEntity();
         if (entity && !entity.metaData) {
             return true;
         }
@@ -335,58 +328,29 @@ const scan = async (opts) => {
 exports.scan = scan;
 async function metaDataVerifier(remarks) {
     return new Promise(async (resolve) => {
-        let entity;
+        let rmrkToRecall = [];
+        let allRemarks = [];
+        let needRecall = false;
         for (const rmrk of remarks) {
-            // loop for checking if meta exists
-            if (rmrk instanceof Mint_1.Mint) {
-                if (rmrk.collection instanceof Collection_1.Collection && !rmrk.collection.metaData) {
-                    entity = rmrk.collection;
-                    // if meta doesn't exists, call
-                    metaDataCaller(rmrk.collection)
-                        .then((meta) => {
-                        // @ts-ignore rmrk.collection is instance of Collection
-                        rmrk.collection.metaData = meta;
-                    }).catch(e => {
-                        console.error(e);
-                    });
+            if (rmrk instanceof Mint_1.Mint || rmrk instanceof MintNft_1.MintNft) {
+                let entity = rmrk.getEntity();
+                if (!(entity === null || entity === void 0 ? void 0 : entity.metaData)) {
+                    needRecall = true;
+                    rmrkToRecall.push(rmrk);
                 }
             }
-            else if (rmrk instanceof MintNft_1.MintNft) {
-                if (rmrk.asset instanceof Asset_1.Asset && !rmrk.asset.metaData) {
-                    // if meta doesn't exists, call
-                    metaDataCaller(rmrk.asset)
-                        .then((meta) => {
-                        // @ts-ignore rmrk.asset is instance of Asset
-                        rmrk.asset.metaData = meta;
-                    }).catch((e) => {
-                        console.error(e);
-                    });
-                }
+            else {
+                allRemarks.push(rmrk);
             }
+        }
+        if (needRecall) {
+            let rmrkRecalled = [];
+            if (rmrkToRecall.length > 0) {
+                rmrkRecalled = await MetaData_1.MetaData.getMetaOnArray(rmrkToRecall);
+            }
+            remarks = allRemarks.concat(rmrkRecalled);
         }
         resolve(remarks);
-    });
-}
-async function metaDataCaller(entity, nbOfTry = 0) {
-    return new Promise((resolve, reject) => {
-        if (entity.url) {
-            // verify url existst
-            MetaData_1.MetaData.getMetaData(entity.url)
-                .then(metaData => {
-                resolve(metaData);
-            }).catch(e => {
-                if (nbOfTry < 2) {
-                    // try a second call meta if the first fail
-                    setTimeout(() => {
-                        metaDataCaller(entity, nbOfTry++);
-                    }, 500);
-                }
-                else {
-                    // if 2 calls meta are failed, reject
-                    reject(e);
-                }
-            });
-        }
     });
 }
 //# sourceMappingURL=StartScan.js.map

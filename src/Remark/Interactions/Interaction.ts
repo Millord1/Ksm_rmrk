@@ -42,6 +42,8 @@ export abstract class Interaction extends Remark
     }
 
 
+    abstract getEntity(): Entity|undefined;
+
 
     public addComputedForMintNft(nftData: NftInterface): NftInterface
     {

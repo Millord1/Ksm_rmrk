@@ -2,6 +2,7 @@ import {Interaction} from "./Interaction";
 import {Asset} from "../Entities/Asset";
 import {Blockchain} from "../../Blockchains/Blockchain";
 import {Transaction} from "../Transaction";
+import {Entity} from "../Entities/Entity";
 
 
 export class Emote extends Interaction
@@ -25,6 +26,11 @@ export class Emote extends Interaction
         if(nft){
             this.asset =  new Asset(this.rmrk, this.chain, nft);
         }
+    }
+
+    public getEntity(): Entity|undefined
+    {
+        return this.asset;
     }
 
 }

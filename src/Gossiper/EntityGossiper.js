@@ -75,7 +75,6 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
                 break;
             default:
                 console.error('Something is wrong with Entity Gossip of ' + this.blockId);
-                break;
         }
     }
 }

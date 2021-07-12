@@ -1,7 +1,11 @@
 import {Entity} from "./Entities/Entity";
 import {metaCalled} from "../Jetski/Jetski";
+import {Interaction} from "./Interactions/Interaction";
+import {Mint} from "./Interactions/Mint";
+import {MintNft} from "./Interactions/MintNft";
 
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const fetch = require('node-fetch');
 
 
 interface MetadataInputs
@@ -28,7 +32,7 @@ export class MetaData
 
     private static ipfsUrl: string = "https://ipfs.io/ipfs/";
     private static cloudFlareUrl: string = "https://cloudflare-ipfs.com/ipfs/";
-    private static delayForCalls: number = 500;
+    private static delayForCalls: number = 200;
 
     constructor(url: string, data: MetadataInputs) {
         this.url = url;
@@ -49,21 +53,27 @@ export class MetaData
     private static getCorrectUrl(url: string, index?: number): string
     {
         // Modify the url for ipfs calls
+        const shortUrl = this.getShortUrl(url);
 
-        const urls: Array<string> = url.split('/');
-        const shortUrl = urls.pop();
+        // Hack for only cloudflare url because Node.fetch don't like ipfs.io
+        return MetaData.cloudFlareUrl + shortUrl;
 
-        if(urls.includes('ipfs')){
-            if(index){
-                // Hack for avoid server saturation
-                return index % 2 === 0 ? this.ipfsUrl + shortUrl : this.cloudFlareUrl + shortUrl;
-            }else{
-                return this.ipfsUrl + shortUrl
-            }
-        }else{
-            return url;
-        }
+        // if(urls.includes('ipfs')){
+        //     if(index){
+        //         return index % 2 === 0 ? this.ipfsUrl + shortUrl : this.cloudFlareUrl + shortUrl;
+        //     }else{
+        //         return this.ipfsUrl + shortUrl
+        //     }
+        // }else{
+        //     return url;
+        // }
 
+    }
+
+
+    private static getShortUrl(longUrl: string)
+    {
+        return longUrl.split('/').pop();
     }
 
 
@@ -81,6 +91,129 @@ export class MetaData
     }
 
 
+    public static async getMetaOnArray(interactions: Array<Mint|MintNft>): Promise<Array<Interaction>>
+    {
+        return new Promise(async (resolve, reject)=>{
+
+            let urls: Array<string> = [];
+            let otherRemarks: Array<Interaction> = [];
+
+            for(const rmrk of interactions){
+                const entity: Entity|undefined = rmrk.getEntity();
+                if(entity?.url){
+
+                    // Find if the meta's url has already been called
+                    const shortUrl = this.getShortUrl(entity.url);
+                    const found = metaCalled.find(el => el.url == shortUrl);
+
+                    if(found && found.meta){
+                        entity.addMetadata(found.meta);
+                        otherRemarks.push(rmrk);
+                    }else{
+                        urls.push(this.getCorrectUrl(entity.url));
+                    }
+
+                }else{
+                    otherRemarks.push(rmrk);
+                }
+            }
+
+            // fetch on URLs
+            const responses: Array<Response> = await this.callAllMeta(urls);
+
+            let rmrksWithMeta: Array<Promise<Mint|MintNft>> = [];
+
+            for(const response of responses){
+                if(response.ok){
+                    // attribute metadata to the good entity
+                    rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
+                }
+            }
+
+            return Promise.all(rmrksWithMeta).then(remarks=>{
+                let allRemarks : Array<Interaction> = otherRemarks.concat(remarks)
+                resolve(allRemarks);
+            }).catch(e=>{
+                reject(e);
+            })
+        })
+
+    }
+
+
+    public static async refoundMetaObject(response: Response, interactions: Array<MintNft|Mint>): Promise<Mint|MintNft>
+    {
+
+        return new Promise(async (resolve, reject)=>{
+
+            let data: MetadataInputs;
+
+            response.json().then(r=>{
+                try{
+                    // Try to create a MetadataInputs
+                    data = r;
+                }catch(e){
+                    // return empty object
+                    console.error(e);
+                    data = {
+                        external_url : "",
+                        image : "",
+                        description : "",
+                        name : "",
+                        attributes : [],
+                        background_color : "",
+                        animation_url : ""
+                    };
+                }
+
+                const responseUrl = this.getShortUrl(response.url);
+
+                if(responseUrl){
+                    const interractionFound = interactions.find( rmrk =>{
+                        const entity: Entity|undefined = rmrk.getEntity();
+                        if(entity){
+                            const entityUrl = this.getShortUrl(entity.url);
+                            if(entityUrl) return entityUrl == responseUrl;
+                        }
+                        return false;
+                    })
+
+                    if(interractionFound){
+                        const entity: Entity|undefined = interractionFound.getEntity();
+                        const meta = new MetaData(response.url, data);
+                        metaCalled.push({url: responseUrl, meta: meta});
+                        if(entity){
+                            entity.addMetadata(meta);
+                            resolve (interractionFound);
+                        }
+                    }
+                }
+
+            })
+
+        })
+
+    }
+
+
+    public static async callAllMeta(urls: Array<string>): Promise<Array<Response>>
+    {
+        return new Promise(async (resolve, reject)=>{
+            let metaPromises: Array<Promise<Response>> = [];
+
+            for(const url of urls){
+                metaPromises.push(fetch(url));
+            }
+
+            return Promise.all(metaPromises).then(result=>{
+                resolve(result);
+            }).catch(e=>{
+                reject(e);
+            })
+        })
+    }
+
+
     public static async getMetaData(url: string, batchIndex?: number): Promise<MetaData>
     {
 
@@ -92,6 +225,7 @@ export class MetaData
         }
 
         url = this.getCorrectUrl(url, batchIndex);
+
         console.log(url);
 
         return new Promise((resolve, reject)=>{

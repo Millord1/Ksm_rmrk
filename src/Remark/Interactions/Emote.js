@@ -16,6 +16,9 @@ class Emote extends Interaction_1.Interaction {
             this.asset = new Asset_1.Asset(this.rmrk, this.chain, nft);
         }
     }
+    getEntity() {
+        return this.asset;
+    }
 }
 exports.Emote = Emote;
 //# sourceMappingURL=Emote.js.map

@@ -4,6 +4,7 @@ exports.MetaData = void 0;
 const Entity_1 = require("./Entities/Entity");
 const Jetski_1 = require("../Jetski/Jetski");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const fetch = require('node-fetch');
 class MetaData {
     constructor(url, data) {
         this.external_url = "";
@@ -27,20 +28,21 @@ class MetaData {
     }
     static getCorrectUrl(url, index) {
         // Modify the url for ipfs calls
-        const urls = url.split('/');
-        const shortUrl = urls.pop();
-        if (urls.includes('ipfs')) {
-            if (index) {
-                // Hack for avoid server saturation
-                return index % 2 === 0 ? this.ipfsUrl + shortUrl : this.cloudFlareUrl + shortUrl;
-            }
-            else {
-                return this.ipfsUrl + shortUrl;
-            }
-        }
-        else {
-            return url;
-        }
+        const shortUrl = this.getShortUrl(url);
+        // Hack for only cloudflare url because Node.fetch don't like ipfs.io
+        return MetaData.cloudFlareUrl + shortUrl;
+        // if(urls.includes('ipfs')){
+        //     if(index){
+        //         return index % 2 === 0 ? this.ipfsUrl + shortUrl : this.cloudFlareUrl + shortUrl;
+        //     }else{
+        //         return this.ipfsUrl + shortUrl
+        //     }
+        // }else{
+        //     return url;
+        // }
+    }
+    static getShortUrl(longUrl) {
+        return longUrl.split('/').pop();
     }
     static getCloudFlareUrl(url) {
         const urls = url.split('/');
@@ -51,6 +53,103 @@ class MetaData {
         else {
             return url;
         }
+    }
+    static async getMetaOnArray(interactions) {
+        return new Promise(async (resolve, reject) => {
+            let urls = [];
+            let otherRemarks = [];
+            for (const rmrk of interactions) {
+                const entity = rmrk.getEntity();
+                if (entity === null || entity === void 0 ? void 0 : entity.url) {
+                    // Find if the meta's url has already been called
+                    const shortUrl = this.getShortUrl(entity.url);
+                    const found = Jetski_1.metaCalled.find(el => el.url == shortUrl);
+                    if (found && found.meta) {
+                        entity.addMetadata(found.meta);
+                        otherRemarks.push(rmrk);
+                    }
+                    else {
+                        urls.push(this.getCorrectUrl(entity.url));
+                    }
+                }
+                else {
+                    otherRemarks.push(rmrk);
+                }
+            }
+            // fetch on URLs
+            const responses = await this.callAllMeta(urls);
+            let rmrksWithMeta = [];
+            for (const response of responses) {
+                if (response.ok) {
+                    // attribute metadata to the good entity
+                    rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
+                }
+            }
+            return Promise.all(rmrksWithMeta).then(remarks => {
+                let allRemarks = otherRemarks.concat(remarks);
+                resolve(allRemarks);
+            }).catch(e => {
+                reject(e);
+            });
+        });
+    }
+    static async refoundMetaObject(response, interactions) {
+        return new Promise(async (resolve, reject) => {
+            let data;
+            response.json().then(r => {
+                try {
+                    // Try to create a MetadataInputs
+                    data = r;
+                }
+                catch (e) {
+                    // return empty object
+                    console.error(e);
+                    data = {
+                        external_url: "",
+                        image: "",
+                        description: "",
+                        name: "",
+                        attributes: [],
+                        background_color: "",
+                        animation_url: ""
+                    };
+                }
+                const responseUrl = this.getShortUrl(response.url);
+                if (responseUrl) {
+                    const interractionFound = interactions.find(rmrk => {
+                        const entity = rmrk.getEntity();
+                        if (entity) {
+                            const entityUrl = this.getShortUrl(entity.url);
+                            if (entityUrl)
+                                return entityUrl == responseUrl;
+                        }
+                        return false;
+                    });
+                    if (interractionFound) {
+                        const entity = interractionFound.getEntity();
+                        const meta = new MetaData(response.url, data);
+                        Jetski_1.metaCalled.push({ url: responseUrl, meta: meta });
+                        if (entity) {
+                            entity.addMetadata(meta);
+                            resolve(interractionFound);
+                        }
+                    }
+                }
+            });
+        });
+    }
+    static async callAllMeta(urls) {
+        return new Promise(async (resolve, reject) => {
+            let metaPromises = [];
+            for (const url of urls) {
+                metaPromises.push(fetch(url));
+            }
+            return Promise.all(metaPromises).then(result => {
+                resolve(result);
+            }).catch(e => {
+                reject(e);
+            });
+        });
     }
     static async getMetaData(url, batchIndex) {
         let timeToWait = 100;
@@ -119,5 +218,5 @@ class MetaData {
 exports.MetaData = MetaData;
 MetaData.ipfsUrl = "https://ipfs.io/ipfs/";
 MetaData.cloudFlareUrl = "https://cloudflare-ipfs.com/ipfs/";
-MetaData.delayForCalls = 500;
+MetaData.delayForCalls = 200;
 //# sourceMappingURL=MetaData.js.map

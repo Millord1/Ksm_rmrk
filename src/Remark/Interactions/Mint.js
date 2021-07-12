@@ -12,6 +12,9 @@ class Mint extends Interaction_1.Interaction {
             this.collection = collection;
         }
     }
+    getEntity() {
+        return this.collection;
+    }
     collectionFromRmrk() {
         const rmrk = this.splitRmrk();
         let mintData;

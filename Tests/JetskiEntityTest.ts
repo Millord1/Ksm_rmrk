@@ -17,7 +17,7 @@ const sandra = canonize.getSandra();
 const blockchain = new KusamaBlockchain(sandra);
 
 const instance = 123456;
-const block = 654321;
+const block = 7471596;
 
 const instanceGossiper = new InstanceGossiper(blockchain, canonize);
 instanceGossiper.sendLastBlock(block, instance);
