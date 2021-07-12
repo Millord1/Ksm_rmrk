@@ -203,7 +203,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                     try{
                         await instanceManager.saveLastBlock(chain, blockNumber, id);
                         lastBlockSaved = blockNumber;
-                        // check if lock file already exists
+                        // check if lock already exists
                         lockExists = await instanceManager.checkLockExists(chain, id);
                     }catch(e){
                         console.error(e);
@@ -212,15 +212,12 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
 
                 }
 
-                if(lockExists){
+                // if(lockExists){
                     // if file lock exists, continue scan
 
                     // get remark objects from blockchain
                     jetski.getBlockContent(blockNumber, api)
                         .then(async remarks=>{
-
-                            console.log(remarks);
-
                             // Check if metadata exists
                             const rmrksWithMeta = await metaDataVerifier(remarks);
 
@@ -305,10 +302,10 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                         }
                     });
 
-                }else{
-                    // else stop the scan
-                    await instanceManager.exitProcess(blockNumber, id);
-                }
+                // }else{
+                //     // else stop the scan
+                //     await instanceManager.exitProcess(blockNumber, id);
+                // }
             }
         }
     }, 1000/50)
@@ -323,43 +320,46 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
             let sent: boolean = false;
             let errorMsg: string = "";
 
-            await canonizeManager.gossipOrbsBindings()
-                .then((r: string)=>{
-                    console.log("asset : "+r);
-                    console.log("asset gossiped " + block);
+            if(canonizeManager.getTokenFactory().entityArray.length > 0){
+                await canonizeManager.gossipOrbsBindings()
+                    .then((r: string)=>{
+                        console.log(block+" asset : "+r);
+                        sent = true;
+                    })
+                    .catch((e: string)=>{
+                        errorMsg += "\n assets : "+ e;
+                        console.error(e);
+                    });
+            }
+
+            if(canonizeManager.getAssetCollectionFactory().entityArray.length > 0){
+                await canonizeManager.gossipCollection()
+                    .then((r: string)=>{
+                        console.log(block+" collection : "+r);
+                        sent = true;
+                    }).catch((e: string)=>{
+                        errorMsg += "\n collections : "+ e;
+                        console.error(e);
+                    });
+            }
+
+
+            if(blockchain.eventFactory.entityArray.length > 0){
+                await canonizeManager.gossipBlockchainEvents(blockchain).then((r: string)=>{
+                    console.log(block+" event gossiped "+r);
                     sent = true;
-                })
-                .catch((e: string)=>{
-                    errorMsg += "\n assets : "+ e;
-                    console.log(e + " or no assets");
-                });
-
-            await canonizeManager.gossipCollection()
-                .then((r: string)=>{
-                    console.log("collection : "+r);
-                    console.log("collection gossiped " + block)
-                    sent = true;
-                }).catch((e: string)=>{
-                    errorMsg += "\n collections : "+ e;
-                    console.log(e + " or no collection");
-                });
-
-
-            await canonizeManager.gossipBlockchainEvents(blockchain).then((r: string)=>{
-                console.log("events : "+r);
-                console.log("event gossiped " + block);
-                sent = true;
-                resolve ("send");
-            }).catch( async (e: string)=>{
-                console.log(e + " or no events");
-                await canonizeManager.gossipBlockchainEvents(blockchain).then(()=>{
                     resolve ("send");
-                }).catch((e: string)=>{
-                    errorMsg += "\n events : "+ e;
+                }).catch( async (e: string)=>{
+                    console.error(e);
+                    await canonizeManager.gossipBlockchainEvents(blockchain).then(()=>{
+                        resolve ("send");
+                    }).catch((e: string)=>{
+                        errorMsg += "\n events : "+ e;
+                    });
                 });
-            });
+            }
 
-            if(!sent){
+            if(!sent && errorMsg != ""){
                 reject (errorMsg);
             }else{
                 resolve ("send");
