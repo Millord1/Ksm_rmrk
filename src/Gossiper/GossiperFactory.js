@@ -12,7 +12,6 @@ const WestEnd_1 = require("../Blockchains/WestEnd");
 const WestendBlockchain_1 = require("canonizer/src/canonizer/Substrate/Westend/WestendBlockchain");
 const Kusama_1 = require("../Blockchains/Kusama");
 const KusamaBlockchain_1 = require("canonizer/src/canonizer/Kusama/KusamaBlockchain");
-const Emote_1 = require("../Remark/Interactions/Emote");
 class GossiperFactory {
     constructor(rmrk, csCanonizeManager, chain) {
         this.rmrk = rmrk;
@@ -71,10 +70,10 @@ class GossiperFactory {
                 }
                 return undefined;
             case 'emote':
-                if (this.rmrk instanceof Emote_1.Emote && this.rmrk.asset) {
-                    return new EntityGossiper_1.EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
-                }
-                return undefined;
+            // if (this.rmrk instanceof Emote && this.rmrk.asset) {
+            //     return new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
+            // }
+            // return undefined;
             case 'buy':
             case 'list':
             // if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
