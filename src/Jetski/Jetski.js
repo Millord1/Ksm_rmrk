@@ -187,15 +187,23 @@ class Jetski {
                 }
                 i++;
             }
-            if (rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactions.length) {
-                return Promise.all(rmrkWithMeta)
-                    .then((remarks) => {
-                    resolve(remarks);
-                }).catch(e => {
-                    // console.error(e);
-                    reject(e);
-                });
-            }
+            return Promise.all(rmrkWithMeta)
+                .then((remarks) => {
+                resolve(remarks);
+            }).catch(e => {
+                // console.error(e);
+                reject(e);
+            });
+            // if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactions.length){
+            //
+            //     return Promise.all(rmrkWithMeta)
+            //         .then((remarks)=>{
+            //             resolve (remarks);
+            //         }).catch(e=>{
+            //             // console.error(e);
+            //             reject(e);
+            //         })
+            // }
         });
     }
     async callMeta(remark, index) {

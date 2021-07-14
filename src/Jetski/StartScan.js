@@ -13,6 +13,7 @@ const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const InstanceManager_1 = require("../Instances/InstanceManager");
+// 7984200
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
@@ -246,6 +247,8 @@ async function sendGossip(canonizeManager, block, blockchain) {
         if (blockchain) {
             let sent = false;
             let errorMsg = "";
+            console.log(canonizeManager.getTokenFactory().entityArray.length);
+            // Send if canonizer not empty
             if (canonizeManager.getTokenFactory().entityArray.length > 0) {
                 await canonizeManager.gossipOrbsBindings()
                     .then((r) => {
@@ -257,6 +260,8 @@ async function sendGossip(canonizeManager, block, blockchain) {
                     console.error(e);
                 });
             }
+            console.log(canonizeManager.getAssetCollectionFactory().entityArray.length);
+            // Send if canonizer not empty
             if (canonizeManager.getAssetCollectionFactory().entityArray.length > 0) {
                 await canonizeManager.gossipCollection()
                     .then((r) => {
@@ -267,6 +272,8 @@ async function sendGossip(canonizeManager, block, blockchain) {
                     console.error(e);
                 });
             }
+            console.log(blockchain.eventFactory.entityArray.length);
+            // Send if canonizer not empty
             if (blockchain.eventFactory.entityArray.length > 0) {
                 await canonizeManager.gossipBlockchainEvents(blockchain).then((r) => {
                     console.log(block + " event gossiped " + r);

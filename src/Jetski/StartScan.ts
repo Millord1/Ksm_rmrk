@@ -19,6 +19,7 @@ import {EventGossiper} from "../Gossiper/EventGossiper";
 import {InstanceManager} from "../Instances/InstanceManager";
 import {OrderGossiper} from "../Gossiper/OrderGossiper";
 
+// 7984200
 
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -223,6 +224,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                     // get remark objects from blockchain
                     jetski.getBlockContent(blockNumber, api)
                         .then(async remarks=>{
+
                             // Check if metadata exists
                             const rmrksWithMeta = await metaDataVerifier(remarks);
 
@@ -316,7 +318,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
 }
 
 
-async function sendGossip(canonizeManager: CSCanonizeManager,block: number, blockchain: any): Promise<string>
+async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blockchain: any): Promise<string>
 {
     return new Promise(async (resolve, reject)=>{
         if(blockchain){
@@ -324,6 +326,8 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
             let sent: boolean = false;
             let errorMsg: string = "";
 
+            console.log(canonizeManager.getTokenFactory().entityArray.length);
+            // Send if canonizer not empty
             if(canonizeManager.getTokenFactory().entityArray.length > 0){
                 await canonizeManager.gossipOrbsBindings()
                     .then((r: string)=>{
@@ -336,6 +340,8 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
                     });
             }
 
+            console.log(canonizeManager.getAssetCollectionFactory().entityArray.length);
+            // Send if canonizer not empty
             if(canonizeManager.getAssetCollectionFactory().entityArray.length > 0){
                 await canonizeManager.gossipCollection()
                     .then((r: string)=>{
@@ -347,7 +353,9 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
                     });
             }
 
+            console.log(blockchain.eventFactory.entityArray.length);
 
+            // Send if canonizer not empty
             if(blockchain.eventFactory.entityArray.length > 0){
                 await canonizeManager.gossipBlockchainEvents(blockchain).then((r: string)=>{
                     console.log(block+" event gossiped "+r);
