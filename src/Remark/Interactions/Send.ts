@@ -2,6 +2,7 @@ import {Interaction, NftInterface} from "./Interaction";
 import {Asset} from "../Entities/Asset";
 import {Blockchain} from "../../Blockchains/Blockchain";
 import {Transaction} from "../Transaction";
+import {Entity} from "../Entities/Entity";
 
 
 export class Send extends Interaction
@@ -15,6 +16,10 @@ export class Send extends Interaction
         this.asset = this.assetToSend();
     }
 
+    public getEntity(): Entity|undefined
+    {
+        return this.asset;
+    }
 
     private assetToSend(): Asset|undefined
     {

@@ -4,6 +4,7 @@ import {Blockchain} from "../../Blockchains/Blockchain";
 import {Transaction} from "../Transaction";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {VersionChecker} from "../VersionChecker";
+import {Entity} from "../Entities/Entity";
 
 
 export class MintNft extends Interaction
@@ -24,6 +25,10 @@ export class MintNft extends Interaction
         }
     }
 
+    public getEntity(): Entity|undefined
+    {
+        return this.asset;
+    }
 
     private nftFromMintNft(): Asset|undefined
     {

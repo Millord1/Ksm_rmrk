@@ -8,6 +8,9 @@ class Send extends Interaction_1.Interaction {
         super(rmrk, chain, transaction);
         this.asset = this.assetToSend();
     }
+    getEntity() {
+        return this.asset;
+    }
     assetToSend() {
         const rmrkArray = this.splitRmrk();
         const isReceiver = rmrkArray.pop();

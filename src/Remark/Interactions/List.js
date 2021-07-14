@@ -16,6 +16,9 @@ class List extends Interaction_1.Interaction {
             this.asset = new Asset_1.Asset(this.rmrk, this.chain, nft);
         }
     }
+    getEntity() {
+        return this.asset;
+    }
 }
 exports.List = List;
 //# sourceMappingURL=List.js.map

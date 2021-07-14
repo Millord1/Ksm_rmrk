@@ -16,6 +16,9 @@ class Buy extends Interaction_1.Interaction {
         }
         return undefined;
     }
+    getEntity() {
+        return this.asset;
+    }
 }
 exports.Buy = Buy;
 //# sourceMappingURL=Buy.js.map

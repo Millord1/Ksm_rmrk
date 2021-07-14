@@ -5,8 +5,10 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/api": "^4.16.2",
-    "canonizer": "^0.0.9",
+    "axios": "^0.21.1",
+    "canonizer": "^0.0.14",
     "commander": "^6.2.1",
+    "node-fetch": "^2.6.1",
     "slugify": "^1.5.3",
     "ts-dotenv": "^0.8.3",
     "xmlhttprequest": "^1.8.0",

@@ -124,7 +124,6 @@ export class EntityGossiper extends GossiperManager
 
             default:
                 console.error('Something is wrong with Entity Gossip of ' + this.blockId);
-                break;
         }
 
     }
