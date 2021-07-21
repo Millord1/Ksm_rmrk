@@ -16,7 +16,9 @@ import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
 import {InstanceManager} from "../Instances/InstanceManager";
 import {OrderGossiper} from "../Gossiper/OrderGossiper";
-import {Emote} from "../Remark/Interactions/Emote";
+import {AssetFactory} from "canonizer/src/canonizer/AssetFactory";
+import {BlockchainContractFactory} from "canonizer/src/canonizer/BlockchainContractFactory";
+import {Asset} from "../Remark/Entities/Asset";
 
 // 7984200
 
@@ -322,23 +324,11 @@ async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blo
             let sent: boolean = false;
             let errorMsg: string = "";
 
-            console.log(canonizeManager.getTokenFactory().entityArray.length);
-            // Send if canonizer not empty
-            if(canonizeManager.getTokenFactory().entityArray.length > 0){
-                await canonizeManager.gossipOrbsBindings()
-                    .then((r: string)=>{
-                        console.log(block+" asset : "+r);
-                        sent = true;
-                    })
-                    .catch((e: string)=>{
-                        errorMsg += "\n assets : "+ e;
-                        console.error(e);
-                    });
-            }
+            const collectionEntities = canonizeManager.getAssetCollectionFactory().entityArray;
+            const assetEntities = canonizeManager.getAssetFactory().entityArray;
 
-            console.log(canonizeManager.getAssetCollectionFactory().entityArray.length);
             // Send if canonizer not empty
-            if(canonizeManager.getAssetCollectionFactory().entityArray.length > 0){
+            if(collectionEntities.length > 0){
                 await canonizeManager.gossipCollection()
                     .then((r: string)=>{
                         console.log(block+" collection : "+r);
@@ -349,7 +339,18 @@ async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blo
                     });
             }
 
-            console.log(blockchain.eventFactory.entityArray.length);
+
+            if(assetEntities.length > 0){
+                await canonizeManager.gossipOrbsBindings()
+                    .then((r: string)=>{
+                        console.log(block+" asset : "+r);
+                        sent = true;
+                    })
+                    .catch((e: string)=>{
+                        errorMsg += "\n assets : "+ e;
+                        console.error(e);
+                    });
+            }
 
             // Send if canonizer not empty
             if(blockchain.eventFactory.entityArray.length > 0){

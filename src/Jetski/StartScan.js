@@ -240,9 +240,20 @@ async function sendGossip(canonizeManager, block, blockchain) {
         if (blockchain) {
             let sent = false;
             let errorMsg = "";
-            console.log(canonizeManager.getTokenFactory().entityArray.length);
+            const collectionEntities = canonizeManager.getAssetCollectionFactory().entityArray;
+            const assetEntities = canonizeManager.getAssetFactory().entityArray;
             // Send if canonizer not empty
-            if (canonizeManager.getTokenFactory().entityArray.length > 0) {
+            if (collectionEntities.length > 0) {
+                await canonizeManager.gossipCollection()
+                    .then((r) => {
+                    console.log(block + " collection : " + r);
+                    sent = true;
+                }).catch((e) => {
+                    errorMsg += "\n collections : " + e;
+                    console.error(e);
+                });
+            }
+            if (assetEntities.length > 0) {
                 await canonizeManager.gossipOrbsBindings()
                     .then((r) => {
                     console.log(block + " asset : " + r);
@@ -253,19 +264,6 @@ async function sendGossip(canonizeManager, block, blockchain) {
                     console.error(e);
                 });
             }
-            console.log(canonizeManager.getAssetCollectionFactory().entityArray.length);
-            // Send if canonizer not empty
-            if (canonizeManager.getAssetCollectionFactory().entityArray.length > 0) {
-                await canonizeManager.gossipCollection()
-                    .then((r) => {
-                    console.log(block + " collection : " + r);
-                    sent = true;
-                }).catch((e) => {
-                    errorMsg += "\n collections : " + e;
-                    console.error(e);
-                });
-            }
-            console.log(blockchain.eventFactory.entityArray.length);
             // Send if canonizer not empty
             if (blockchain.eventFactory.entityArray.length > 0) {
                 await canonizeManager.gossipBlockchainEvents(blockchain).then((r) => {

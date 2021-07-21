@@ -91,7 +91,6 @@ export class GossiperFactory
 
         switch (this.rmrk.constructor.name.toLowerCase()) {
 
-
             case 'mint':
                 if (this.rmrk instanceof Mint && this.rmrk.collection) {
                     return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);

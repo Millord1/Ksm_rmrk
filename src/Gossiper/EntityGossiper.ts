@@ -21,6 +21,8 @@ export class EntityGossiper extends GossiperManager
     private readonly collectionId: string;
     private readonly maxSupply: number = 0;
 
+    private readonly sn?: string;
+
     private readonly collection?: string;
     private readonly assetId?: string;
     private readonly assetName?: string;
@@ -44,6 +46,8 @@ export class EntityGossiper extends GossiperManager
             this.assetId = entity.contractId;
             this.assetName = entity.name;
 
+            this.sn = entity.token.sn;
+
         }else if (entity instanceof Collection){
 
             this.collectionId = entity.contract.id;
@@ -55,7 +59,19 @@ export class EntityGossiper extends GossiperManager
         }
 
         this.source = source;
-        this.image = entity.metaData?.image ? MetaData.getCloudFlareUrl(entity.metaData?.image) : "";
+
+        let image = "";
+        if(entity.metaData?.image){
+            if(entity.metaData.image.includes('ipfs')){
+                image = MetaData.getCloudFlareUrl(entity.metaData.image);
+            }else{
+                image = entity.metaData.image;
+            }
+        }
+
+        this.image = image;
+
+        // this.image = entity.metaData?.image ? MetaData.getCloudFlareUrl(entity.metaData?.image) : "";
         this.description = entity.metaData?.description ? entity.metaData.description : "No description";
         this.blockId = blockId;
     }
@@ -84,6 +100,7 @@ export class EntityGossiper extends GossiperManager
                 let assetContract = this.chain.contractFactory.getOrCreate(assetId);
 
                 let myAsset = canonizeManager.createAsset({assetId: assetId, imageUrl: this.image,description:this.description, name:assetName});
+
                 // if(this.emote){
                 //     myAsset.setEmote(this.emote);
                 // }
@@ -94,6 +111,7 @@ export class EntityGossiper extends GossiperManager
                 assetContract.bindToCollection(myCollection);
 
                 let rmrkToken = new RmrkContractStandard(canonizeManager);
+
                 assetContract.setStandard(rmrkToken);
 
                 myAsset.bindContract(assetContract);

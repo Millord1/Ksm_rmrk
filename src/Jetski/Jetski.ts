@@ -4,7 +4,7 @@ import {Interaction} from "../Remark/Interactions/Interaction";
 import {Transaction} from "../Remark/Transaction";
 import {hexToString} from "@polkadot/util";
 import {RmrkReader} from "./RmrkReader";
-import {MetaData} from "../Remark/MetaData";
+import {MetaData, MetadataInputs} from "../Remark/MetaData";
 import {Mint} from "../Remark/Interactions/Mint";
 import {Entity} from "../Remark/Entities/Entity";
 import {MintNft} from "../Remark/Interactions/MintNft";
@@ -16,13 +16,14 @@ interface Transfer
     value: string
 }
 
-interface metadataCalls
+export interface MetadataCalls
 {
     url: string,
-    meta: MetaData|undefined
+    meta: MetaData
 }
 
-export let metaCalled: Array<metadataCalls> = [];
+export let metaCalled: Array<MetadataCalls> = [];
+export let entityFound: Array<Entity> = [];
 
 export class Jetski
 {
@@ -55,6 +56,7 @@ export class Jetski
     {
         // Clear meta storage at each block
         metaCalled = [];
+        entityFound = [];
 
 
         return new Promise(async (resolve, reject)=>{
