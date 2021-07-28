@@ -297,6 +297,20 @@ async function sendGossip(canonizeManager, block, blockchain) {
                     });
                 });
             }
+            if (blockchain.orderFactory.entityArray.length > 0) {
+                await canonizeManager.gossipBlockchainOrder(blockchain).then((r) => {
+                    console.log(block + " order gossiped " + r);
+                    sent = true;
+                    resolve("send");
+                }).catch(async (e) => {
+                    console.error(e);
+                    await canonizeManager.gossipBlockchainOrder(blockchain).then(() => {
+                        resolve("send");
+                    }).catch((e) => {
+                        errorMsg += "\n events : " + e;
+                    });
+                });
+            }
             if (!sent && errorMsg != "") {
                 reject(errorMsg);
             }

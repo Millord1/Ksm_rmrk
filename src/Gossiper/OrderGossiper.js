@@ -44,7 +44,7 @@ class OrderGossiper extends GossiperManager_1.GossiperManager {
         let contractBuy;
         contractSell = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
         contractBuy = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
-        let order = new BlockchainOrder_1.BlockchainOrder(this.chain.eventFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra);
+        let order = new BlockchainOrder_1.BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra);
     }
 }
 exports.OrderGossiper = OrderGossiper;

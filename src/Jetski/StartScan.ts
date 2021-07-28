@@ -388,6 +388,22 @@ async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blo
                 });
             }
 
+            if(blockchain.orderFactory.entityArray.length > 0){
+                await canonizeManager.gossipBlockchainOrder(blockchain).then((r: string)=>{
+                    console.log(block+" order gossiped "+r);
+                    sent = true;
+                    resolve ("send");
+                }).catch( async (e: string)=>{
+                    console.error(e);
+                    await canonizeManager.gossipBlockchainOrder(blockchain).then(()=>{
+                        resolve ("send");
+                    }).catch((e: string)=>{
+                        errorMsg += "\n events : "+ e;
+                    });
+                });
+            }
+
+
             if(!sent && errorMsg != ""){
                 reject (errorMsg);
             }else{
