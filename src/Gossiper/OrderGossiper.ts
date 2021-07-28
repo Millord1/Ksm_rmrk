@@ -19,8 +19,9 @@ export class OrderGossiper extends GossiperManager
     private readonly blockId: number;
     private readonly timestamp: string;
     private readonly txId: string;
+    private buyDestination : string = "";
 
-    private readonly value: number;
+    private readonly value: number = 1;
     private readonly amount: number = 1;
     private readonly total: number;
 
@@ -30,11 +31,19 @@ export class OrderGossiper extends GossiperManager
 
 
         if(remark instanceof Buy){
+
             this.buyContractId = remark.asset ? remark.asset.contractId : "";
             this.sellContractId = "KSM";
+            this.buyDestination = remark.transaction.destination ? remark.transaction.destination : "";
+            const amount = Number(remark.transaction.value);
+            this.amount = remark.chain.plancksToCrypto(amount);
+
         }else{
+
             this.sellContractId = remark.asset ? remark.asset.contractId : "";
             this.buyContractId = "KSM";
+            const value = Number(remark.value);
+            this.value = remark.chain.plancksToCrypto(value);
         }
 
         this.sn = remark.asset ? remark.asset.token.sn : "";
@@ -43,10 +52,7 @@ export class OrderGossiper extends GossiperManager
         this.timestamp = remark.transaction.timestamp;
         this.txId = remark.transaction.txHash;
 
-        const value = Number(remark.transaction.value);
-        this.value = remark.chain.plancksToCrypto(value)
-
-        this.total = this.value * this.amount;
+        this.total = this.amount;
 
     }
 
@@ -65,10 +71,13 @@ export class OrderGossiper extends GossiperManager
         const txId = this.txId;
         const timestamp = this.timestamp;
 
+
+
         const ksmContractStd = new RmrkContractStandard(canonizeManager);
-        ksmContractStd.setSn(this.sn);
 
         const rmrkStd = new RmrkContractStandard(canonizeManager);
+        rmrkStd.setSn(this.sn);
+        rmrkStd.generateTokenPathEntity(canonizeManager);
 
         let contractSell: BlockchainContract;
         let contractBuy: BlockchainContract;
@@ -76,7 +85,7 @@ export class OrderGossiper extends GossiperManager
         contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
         contractBuy = new BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard(canonizeManager));
 
-        let order =  new BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
+        let order =  new BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra, this.buyDestination)
     }
 
 }
