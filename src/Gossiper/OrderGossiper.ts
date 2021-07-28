@@ -53,7 +53,6 @@ export class OrderGossiper extends GossiperManager
 
     public gossip()
     {
-
         const canonizeManager = this.canonizeManager;
         const sandra = canonizeManager.getSandra();
 
@@ -74,22 +73,10 @@ export class OrderGossiper extends GossiperManager
         let contractSell: BlockchainContract;
         let contractBuy: BlockchainContract;
 
-        if(this.sellContractId == "KSM"){
-            // TODO after push canonizer
-            // contractSell = new MainChainToken()
-        }else{
-            contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
-        }
+        contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
+        contractBuy = new BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard(canonizeManager));
 
-        if(this.buyContractId == "KSM"){
-            // TODO after push canonizer
-            // contractBuy = new MainChainToken()
-        }else{
-            contractBuy = new BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard(canonizeManager));
-        }
-
-        // return new BlockchainOrder(this.chain.eventFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
-
+        let order =  new BlockchainOrder(this.chain.eventFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
     }
 
 }

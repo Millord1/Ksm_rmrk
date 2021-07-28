@@ -174,29 +174,47 @@ async function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlock
                         let i = 0;
                         let sent = false;
                         for (const rmrk of rmrksWithMeta) {
+                            const rmrkLength = rmrksWithMeta.length;
+                            const lastRmrk = i === rmrkLength - 1;
                             sent = false;
-                            // create Event or Entity Gossiper
+                            // create Event, Order or Entity Gossiper
                             gossip = new GossiperFactory_1.GossiperFactory(rmrk, canonizeManager, blockchain);
                             gossiper = await gossip.getGossiper();
                             gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
-                            // send every Jetski.maxPerBatch remarks
-                            if (i != 0 && i % Jetski_1.Jetski.maxPerBatch == 0) {
-                                await sendGossip(canonizeManager, blockNumber, blockchain)
-                                    .then(() => {
-                                    // Refresh objects
-                                    canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: instanceManager.getJwt() } });
-                                    blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
-                                    sent = true;
-                                })
-                                    .catch(async () => {
+                            if (rmrkLength > Jetski_1.Jetski.maxPerBatch) {
+                                // send every Jetski.maxPerBatch remarks
+                                if (i != 0 && i % Jetski_1.Jetski.maxPerBatch == 0 || lastRmrk) {
                                     await sendGossip(canonizeManager, blockNumber, blockchain)
-                                        .catch(() => {
-                                        sent = false;
+                                        .then(() => {
+                                        // Refresh objects
+                                        canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: instanceManager.getJwt() } });
+                                        blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
+                                        sent = true;
+                                    })
+                                        .catch(async () => {
+                                        await sendGossip(canonizeManager, blockNumber, blockchain)
+                                            .catch(() => {
+                                            sent = false;
+                                        });
                                     });
-                                });
-                                if (!sent) {
-                                    continue;
+                                    if (!sent) {
+                                        continue;
+                                    }
                                 }
+                            }
+                            else if (rmrkLength > Jetski_1.Jetski.minForEggs || lastRmrk) {
+                                if (i > 0 && i % Jetski_1.Jetski.minForEggs == 0) {
+                                    await sendGossip(canonizeManager, blockNumber, blockchain).then(() => {
+                                        blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
+                                        sent = true;
+                                    });
+                                }
+                            }
+                            else {
+                                // If there is less remarks than Jetski.maxPerBatch
+                                await sendGossip(canonizeManager, blockNumber, blockchain).then(() => {
+                                    sent = true;
+                                });
                             }
                             i++;
                         }

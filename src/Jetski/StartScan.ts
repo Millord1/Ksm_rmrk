@@ -245,40 +245,60 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
 
                                 for(const rmrk of rmrksWithMeta){
 
+                                    const rmrkLength: number = rmrksWithMeta.length;
+                                    const lastRmrk = i === rmrkLength - 1;
+
                                     sent = false;
 
-                                    // create Event or Entity Gossiper
+                                    // create Event, Order or Entity Gossiper
                                     gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
                                     gossiper = await gossip.getGossiper();
                                     gossiper?.gossip();
 
-                                    // send every Jetski.maxPerBatch remarks
-                                    if(i != 0 && i % Jetski.maxPerBatch == 0){
+                                    if(rmrkLength > Jetski.maxPerBatch){
+                                        // send every Jetski.maxPerBatch remarks
+                                        if(i != 0 && i % Jetski.maxPerBatch == 0 || lastRmrk){
 
-                                        await sendGossip(canonizeManager, blockNumber, blockchain)
-                                            .then(()=>{
-                                                // Refresh objects
-                                                canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: instanceManager.getJwt()} });
+                                            await sendGossip(canonizeManager, blockNumber, blockchain)
+                                                .then(()=>{
+                                                    // Refresh objects
+                                                    canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: instanceManager.getJwt()} });
+                                                    blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
+                                                    sent = true;
+                                                })
+                                                .catch(async ()=>{
+                                                    await sendGossip(canonizeManager, blockNumber, blockchain)
+                                                        .catch(()=>{
+                                                            sent = false;
+                                                        })
+                                                });
+                                            if(!sent){
+                                                continue;
+                                            }
+                                        }
+
+                                    }else if(rmrkLength > Jetski.minForEggs || lastRmrk){
+
+                                        if(i > 0 && i % Jetski.minForEggs == 0){
+                                            await sendGossip(canonizeManager, blockNumber, blockchain).then(()=>{
                                                 blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
                                                 sent = true;
                                             })
-                                            .catch(async ()=>{
-                                                await sendGossip(canonizeManager, blockNumber, blockchain)
-                                                    .catch(()=>{
-                                                        sent = false;
-                                                    })
-                                            });
-                                        if(!sent){
-                                            continue;
                                         }
+
+                                    }else{
+                                        // If there is less remarks than Jetski.maxPerBatch
+                                        await sendGossip(canonizeManager, blockNumber, blockchain).then(()=>{
+                                            sent = true;
+                                        });
                                     }
+
                                     i++;
                                 }
 
                                 if(!sent){
                                     await sendGossip(canonizeManager, blockNumber, blockchain);
                                 }
-
                             }
                             blockNumber ++;
                         }).catch(e=>{
