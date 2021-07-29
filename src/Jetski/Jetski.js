@@ -32,6 +32,10 @@ class Jetski {
             let block;
             try {
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+                if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
+                    reject(Jetski.noBlock);
+                    return;
+                }
             }
             catch (e) {
                 reject(Jetski.noBlock);
