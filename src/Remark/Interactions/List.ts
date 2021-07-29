@@ -9,16 +9,16 @@ export class List extends Interaction
 {
 
     public asset?: Asset;
-    public value?: string;
+    public value?: number;
 
     constructor(rmrk: string, chain: Blockchain, transaction: Transaction) {
         super(rmrk, chain, transaction);
 
         const rmrkArray = this.splitRmrk();
-        const value = rmrkArray.pop();
+        let value = rmrkArray.pop();
 
-        if(typeof value === "string"){
-            this.value = value;
+        if(value){
+            this.value = Number(value);
         }
 
         const nft = this.assetFromComputedId(rmrkArray);

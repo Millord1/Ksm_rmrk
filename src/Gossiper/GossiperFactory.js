@@ -5,13 +5,16 @@ const EntityGossiper_1 = require("./EntityGossiper");
 const Mint_1 = require("../Remark/Interactions/Mint");
 const Send_1 = require("../Remark/Interactions/Send");
 const EventGossiper_1 = require("./EventGossiper");
+const Buy_1 = require("../Remark/Interactions/Buy");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
+const List_1 = require("../Remark/Interactions/List");
 const ts_dotenv_1 = require("ts-dotenv");
 const assert_1 = require("assert");
 const WestEnd_1 = require("../Blockchains/WestEnd");
 const WestendBlockchain_1 = require("canonizer/src/canonizer/Substrate/Westend/WestendBlockchain");
 const Kusama_1 = require("../Blockchains/Kusama");
 const KusamaBlockchain_1 = require("canonizer/src/canonizer/Kusama/KusamaBlockchain");
+const OrderGossiper_1 = require("./OrderGossiper");
 class GossiperFactory {
     constructor(rmrk, csCanonizeManager, chain) {
         this.rmrk = rmrk;
@@ -76,15 +79,16 @@ class GossiperFactory {
             // return undefined;
             case 'buy':
             case 'list':
-            // if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
-            //     return new OrderGossiper(this.rmrk, canonizeManager, this.chain);
-            // }
-            // return undefined;
+                if (this.rmrk instanceof Buy_1.Buy || this.rmrk instanceof List_1.List && this.rmrk.asset) {
+                    return new OrderGossiper_1.OrderGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
             default:
                 return undefined;
         }
     }
 }
 exports.GossiperFactory = GossiperFactory;
-GossiperFactory.gossipUrl = "http://arkam.everdreamsoft.com/alex/gossip";
+// public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+GossiperFactory.gossipUrl = "http://localhost:8000/alex/gossip";
 //# sourceMappingURL=GossiperFactory.js.map

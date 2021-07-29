@@ -16,8 +16,13 @@ import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
 import {InstanceManager} from "../Instances/InstanceManager";
 import {OrderGossiper} from "../Gossiper/OrderGossiper";
-import {Emote} from "../Remark/Interactions/Emote";
+import {Gossiper} from "canonizer/src/Gossiper";
+import * as path from "path";
 
+const fs = require('fs');
+
+
+// 7984200
 
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -218,6 +223,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                     // get remark objects from blockchain
                     jetski.getBlockContent(blockNumber, api)
                         .then(async remarks=>{
+
                             // Check if metadata exists
                             const rmrksWithMeta = await metaDataVerifier(remarks);
 
@@ -241,40 +247,60 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
 
                                 for(const rmrk of rmrksWithMeta){
 
+                                    const rmrkLength: number = rmrksWithMeta.length;
+                                    const lastRmrk = i === rmrkLength - 1;
+
                                     sent = false;
 
-                                    // create Event or Entity Gossiper
+                                    // create Event, Order or Entity Gossiper
                                     gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
                                     gossiper = await gossip.getGossiper();
                                     gossiper?.gossip();
 
-                                    // send every Jetski.maxPerBatch remarks
-                                    if(i != 0 && i % Jetski.maxPerBatch == 0){
+                                    if(rmrkLength > Jetski.maxPerBatch){
+                                        // send every Jetski.maxPerBatch remarks
+                                        if(i != 0 && i % Jetski.maxPerBatch == 0 || lastRmrk){
 
-                                        await sendGossip(canonizeManager, blockNumber, blockchain)
-                                            .then(()=>{
-                                                // Refresh objects
-                                                canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: instanceManager.getJwt()} });
+                                            await sendGossip(canonizeManager, blockNumber, blockchain)
+                                                .then(()=>{
+                                                    // Refresh objects
+                                                    canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl, jwt: instanceManager.getJwt()} });
+                                                    blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
+                                                    sent = true;
+                                                })
+                                                .catch(async ()=>{
+                                                    await sendGossip(canonizeManager, blockNumber, blockchain)
+                                                        .catch(()=>{
+                                                            sent = false;
+                                                        })
+                                                });
+                                            if(!sent){
+                                                continue;
+                                            }
+                                        }
+
+                                    }else if(rmrkLength > Jetski.minForEggs || lastRmrk){
+
+                                        if(i > 0 && i % Jetski.minForEggs == 0){
+                                            await sendGossip(canonizeManager, blockNumber, blockchain).then(()=>{
                                                 blockchain = GossiperFactory.getCanonizeChain(chain, canonizeManager.getSandra());
                                                 sent = true;
                                             })
-                                            .catch(async ()=>{
-                                                await sendGossip(canonizeManager, blockNumber, blockchain)
-                                                    .catch(()=>{
-                                                        sent = false;
-                                                    })
-                                            });
-                                        if(!sent){
-                                            continue;
                                         }
+
+                                    }else{
+                                        // If there is less remarks than Jetski.maxPerBatch
+                                        await sendGossip(canonizeManager, blockNumber, blockchain).then(()=>{
+                                            sent = true;
+                                        });
                                     }
+
                                     i++;
                                 }
 
                                 if(!sent){
                                     await sendGossip(canonizeManager, blockNumber, blockchain);
                                 }
-
                             }
                             blockNumber ++;
                         }).catch(e=>{
@@ -312,7 +338,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
 }
 
 
-async function sendGossip(canonizeManager: CSCanonizeManager,block: number, blockchain: any): Promise<string>
+async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blockchain: any): Promise<string>
 {
     return new Promise(async (resolve, reject)=>{
         if(blockchain){
@@ -320,19 +346,11 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
             let sent: boolean = false;
             let errorMsg: string = "";
 
-            if(canonizeManager.getTokenFactory().entityArray.length > 0){
-                await canonizeManager.gossipOrbsBindings()
-                    .then((r: string)=>{
-                        console.log(block+" asset : "+r);
-                        sent = true;
-                    })
-                    .catch((e: string)=>{
-                        errorMsg += "\n assets : "+ e;
-                        console.error(e);
-                    });
-            }
+            const collectionEntities = canonizeManager.getAssetCollectionFactory().entityArray;
+            const assetEntities = canonizeManager.getAssetFactory().entityArray;
 
-            if(canonizeManager.getAssetCollectionFactory().entityArray.length > 0){
+            // Send if canonizer not empty
+            if(collectionEntities.length > 0){
                 await canonizeManager.gossipCollection()
                     .then((r: string)=>{
                         console.log(block+" collection : "+r);
@@ -344,7 +362,21 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
             }
 
 
+            if(assetEntities.length > 0){
+                await canonizeManager.gossipOrbsBindings()
+                    .then((r: string)=>{
+                        console.log(block+" asset : "+r);
+                        sent = true;
+                    })
+                    .catch((e: string)=>{
+                        errorMsg += "\n assets : "+ e;
+                        console.error(e);
+                    });
+            }
+
+            // Send if canonizer not empty
             if(blockchain.eventFactory.entityArray.length > 0){
+
                 await canonizeManager.gossipBlockchainEvents(blockchain).then((r: string)=>{
                     console.log(block+" event gossiped "+r);
                     sent = true;
@@ -358,6 +390,25 @@ async function sendGossip(canonizeManager: CSCanonizeManager,block: number, bloc
                     });
                 });
             }
+
+            if(blockchain.orderFactory.entityArray.length > 0){
+                const gossiper = new Gossiper(blockchain.orderFactory);
+                const json = gossiper.exposeGossip();
+
+                await canonizeManager.gossipBlockchainOrder(blockchain).then((r: string)=>{
+                    console.log(block+" order gossiped "+r);
+                    sent = true;
+                    resolve ("send");
+                }).catch( async (e: string)=>{
+                    console.error(e);
+                    await canonizeManager.gossipBlockchainOrder(blockchain).then(()=>{
+                        resolve ("send");
+                    }).catch((e: string)=>{
+                        errorMsg += "\n events : "+ e;
+                    });
+                });
+            }
+
 
             if(!sent && errorMsg != ""){
                 reject (errorMsg);
@@ -405,6 +456,7 @@ export const scan = async (opts: Option)=>{
 
             const gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
             const gossiper = await gossip.getGossiper();
+
             gossiper?.gossip();
             i ++;
 

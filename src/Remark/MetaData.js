@@ -23,7 +23,7 @@ class MetaData {
             this.image = data.animation_url;
         }
         else {
-            this.image = data.image;
+            this.image = MetaData.getCorrectUrl(data.image);
         }
     }
     static getCorrectUrl(url, index) {
@@ -62,15 +62,17 @@ class MetaData {
                 const entity = rmrk.getEntity();
                 if (entity === null || entity === void 0 ? void 0 : entity.url) {
                     // Find if the meta's url has already been called
-                    const shortUrl = this.getShortUrl(entity.url);
-                    const found = Jetski_1.metaCalled.find(el => el.url == shortUrl);
-                    if (found && found.meta) {
-                        entity.addMetadata(found.meta);
-                        otherRemarks.push(rmrk);
-                    }
-                    else {
-                        urls.push(this.getCorrectUrl(entity.url));
-                    }
+                    // const shortUrl = this.getShortUrl(entity.url);
+                    // const found = metaCalled.find(el => el.url == shortUrl);
+                    //
+                    // if(found && found.meta){
+                    //     entity.addMetadata(found.meta);
+                    //     otherRemarks.push(rmrk);
+                    // }else{
+                    //     urls.push(this.getCorrectUrl(entity.url));
+                    // }
+                    // urls.push(this.getCorrectUrl(entity.url));
+                    urls.push(this.getCorrectUrl(entity.url));
                 }
                 else {
                     otherRemarks.push(rmrk);
@@ -78,77 +80,119 @@ class MetaData {
             }
             // fetch on URLs
             const responses = await this.callAllMeta(urls);
-            let rmrksWithMeta = [];
             for (const response of responses) {
-                if (response.ok) {
-                    // attribute metadata to the good entity
-                    rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
-                }
-            }
-            return Promise.all(rmrksWithMeta).then(remarks => {
-                let allRemarks = otherRemarks.concat(remarks);
-                resolve(allRemarks);
-            }).catch(e => {
-                reject(e);
-            });
-        });
-    }
-    static async refoundMetaObject(response, interactions) {
-        return new Promise(async (resolve, reject) => {
-            let data;
-            response.json().then(r => {
-                try {
-                    // Try to create a MetadataInputs
-                    data = r;
-                }
-                catch (e) {
-                    // return empty object
-                    console.error(e);
-                    data = {
-                        external_url: "",
-                        image: "",
-                        description: "",
-                        name: "",
-                        attributes: [],
-                        background_color: "",
-                        animation_url: ""
-                    };
-                }
                 const responseUrl = this.getShortUrl(response.url);
-                if (responseUrl) {
-                    const interractionFound = interactions.find(rmrk => {
-                        const entity = rmrk.getEntity();
-                        if (entity) {
-                            const entityUrl = this.getShortUrl(entity.url);
-                            if (entityUrl)
-                                return entityUrl == responseUrl;
-                        }
-                        return false;
-                    });
-                    if (interractionFound) {
-                        const entity = interractionFound.getEntity();
-                        const meta = new MetaData(response.url, data);
-                        Jetski_1.metaCalled.push({ url: responseUrl, meta: meta });
-                        if (entity) {
-                            entity.addMetadata(meta);
-                            resolve(interractionFound);
+                for (const interaction of interactions) {
+                    const entity = interaction.getEntity();
+                    if (entity === null || entity === void 0 ? void 0 : entity.url) {
+                        const shortUrl = this.getShortUrl(entity === null || entity === void 0 ? void 0 : entity.url);
+                        if (shortUrl == responseUrl) {
+                            entity.addMetadata(response.meta);
                         }
                     }
                 }
-            });
+            }
+            let allRemarks = otherRemarks.concat(interactions);
+            resolve(allRemarks);
+            // let rmrksWithMeta: Array<Promise<Mint|MintNft>> = [];
+            // for(const response of responses){
+            //     if(response.meta.ok){
+            //         // attribute metadata to the good entity
+            //         rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
+            //     }
+            // }
+            // const rmrkWithMeta: Array<Mint|MintNft> = await this.refoundMetaObject(responses, interactions);
+            // return Promise.all(rmrksWithMeta).then(remarks=>{
+            //     let allRemarks : Array<Interaction> = otherRemarks.concat(remarks)
+            //     resolve(allRemarks);
+            // }).catch(e=>{
+            //     reject(e);
+            // })
         });
+    }
+    static async refoundMetaObject(responses, interactions) {
+        // return new Promise(async (resolve, reject)=>{
+        const interactionsWithMeta = [];
+        for (const response of responses) {
+            for (const interaction of interactions) {
+                const entity = interaction.getEntity();
+                if ((entity === null || entity === void 0 ? void 0 : entity.url) && entity.url == response.url) {
+                    entity.addMetadata(response.meta);
+                }
+            }
+        }
+        return interactionsWithMeta;
+        // if(interactionsWithMeta.length == interactions.length){
+        //     console.log(interactionsWithMeta);
+        //     // resolve(interactionsWithMeta);
+        //     return interactionsWithMeta;
+        // }
+        // let data: MetadataInputs;
+        // response.meta.json().then((r: MetadataInputs)=>{
+        //     try{
+        //         // Try to create a MetadataInputs
+        //         data = r;
+        //     }catch(e){
+        //         // return empty object
+        //         console.error(e);
+        //         data = {
+        //             external_url : "",
+        //             image : "",
+        //             description : "",
+        //             name : "",
+        //             attributes : [],
+        //             background_color : "",
+        //             animation_url : ""
+        //         };
+        //     }
+        // const responseUrl = this.getShortUrl(response.url);
+        // if(responseUrl){
+        //     const interactionFound = interactions.find( rmrk =>{
+        //         const entity: Entity|undefined = rmrk.getEntity();
+        //
+        //         if(entity && !entityFound.includes(entity)){
+        //             const entityUrl = this.getShortUrl(entity.url);
+        //             if(entityUrl) return entityUrl == responseUrl;
+        //         }
+        //         return false;
+        //     })
+        //
+        //     if(interactionFound){
+        //         const entity: Entity|undefined = interactionFound.getEntity();
+        //         const meta = new MetaData(response.meta.url, data);
+        //         // metaCalled.push({url: responseUrl, meta: meta});
+        //
+        //         if(entity){
+        //             entityFound.push(entity);
+        //             entity.addMetadata(meta);
+        //             resolve (interactionFound);
+        //         }
+        //     }
+        // }
+        // })
+        // })
     }
     static async callAllMeta(urls) {
         return new Promise(async (resolve, reject) => {
-            let metaPromises = [];
+            // let metaPromises: Array<Promise<Response>> = [];
             for (const url of urls) {
-                metaPromises.push(fetch(url));
+                const found = Jetski_1.metaCalled.find(el => el.url == url);
+                if (!found) {
+                    // metaPromises.push(fetch(url));
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const jsonResponse = await response.json();
+                        const meta = new MetaData(url, jsonResponse);
+                        Jetski_1.metaCalled.push({ url: url, meta: meta });
+                    }
+                }
             }
-            return Promise.all(metaPromises).then(result => {
-                resolve(result);
-            }).catch(e => {
-                reject(e);
-            });
+            resolve(Jetski_1.metaCalled);
+            // return Promise.all(metaPromises).then(result=>{
+            //     resolve(result);
+            // }).catch(e=>{
+            //     reject(e);
+            // })
         });
     }
     static async getMetaData(url, batchIndex) {

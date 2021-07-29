@@ -10,7 +10,7 @@ const GossiperManager_1 = require("./GossiperManager");
 const RmrkCanonizerWrapper_1 = require("canonizer/src/canonizer/Interfaces/Rmrk/RmrkCanonizerWrapper");
 class EntityGossiper extends GossiperManager_1.GossiperManager {
     constructor(entity, blockId, source, csCanonizeManager, chain, emote) {
-        var _a, _b, _c;
+        var _a, _b;
         super(chain, csCanonizeManager);
         this.maxSupply = 0;
         if (emote) {
@@ -22,6 +22,7 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
             this.collectionId = entity.token.collectionId;
             this.assetId = entity.contractId;
             this.assetName = entity.name;
+            this.sn = entity.token.sn;
         }
         else if (entity instanceof Collection_1.Collection) {
             this.collectionId = entity.contract.id;
@@ -32,8 +33,18 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
             this.collectionId = "";
         }
         this.source = source;
-        this.image = ((_a = entity.metaData) === null || _a === void 0 ? void 0 : _a.image) ? MetaData_1.MetaData.getCloudFlareUrl((_b = entity.metaData) === null || _b === void 0 ? void 0 : _b.image) : "";
-        this.description = ((_c = entity.metaData) === null || _c === void 0 ? void 0 : _c.description) ? entity.metaData.description : "No description";
+        let image = "";
+        if ((_a = entity.metaData) === null || _a === void 0 ? void 0 : _a.image) {
+            if (entity.metaData.image.includes('ipfs')) {
+                image = MetaData_1.MetaData.getCloudFlareUrl(entity.metaData.image);
+            }
+            else {
+                image = entity.metaData.image;
+            }
+        }
+        this.image = image;
+        // this.image = entity.metaData?.image ? MetaData.getCloudFlareUrl(entity.metaData?.image) : "";
+        this.description = ((_b = entity.metaData) === null || _b === void 0 ? void 0 : _b.description) ? entity.metaData.description : "No description";
         this.blockId = blockId;
     }
     async gossip() {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Jetski = exports.metaCalled = void 0;
+exports.Jetski = exports.entityFound = exports.metaCalled = void 0;
 const api_1 = require("@polkadot/api");
 const Interaction_1 = require("../Remark/Interactions/Interaction");
 const Transaction_1 = require("../Remark/Transaction");
@@ -11,6 +11,7 @@ const Mint_1 = require("../Remark/Interactions/Mint");
 const Entity_1 = require("../Remark/Entities/Entity");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
 exports.metaCalled = [];
+exports.entityFound = [];
 class Jetski {
     constructor(chain) {
         this.chain = chain;
@@ -24,9 +25,11 @@ class Jetski {
     async getBlockContent(blockNumber, api) {
         // Clear meta storage at each block
         exports.metaCalled = [];
+        exports.entityFound = [];
         return new Promise(async (resolve, reject) => {
             let blockRmrk = [];
             let blockHash;
+            let block;
             try {
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
             }
@@ -34,7 +37,12 @@ class Jetski {
                 reject(Jetski.noBlock);
             }
             // Get block from APi
-            const block = await api.rpc.chain.getBlock(blockHash);
+            try {
+                block = await api.rpc.chain.getBlock(blockHash);
+            }
+            catch (e) {
+                reject(Jetski.noBlock);
+            }
             let blockId = blockNumber;
             let blockTimestamp = "";
             if (block.block == null) {
@@ -118,9 +126,9 @@ class Jetski {
             if (args.hasOwnProperty('_remark')) {
                 isRemark = true;
             }
-            if (isRemark) {
+            if (isRemark && !isTransfert) {
                 if (args.hasOwnProperty('dest') && args.hasOwnProperty('value')) {
-                    transfert.destination = args.dest.Id;
+                    transfert.destination = args.dest.id;
                     transfert.value = args.value;
                     isTransfert = true;
                 }

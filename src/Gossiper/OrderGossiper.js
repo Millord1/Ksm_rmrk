@@ -4,28 +4,34 @@ exports.OrderGossiper = void 0;
 const GossiperManager_1 = require("./GossiperManager");
 const Buy_1 = require("../Remark/Interactions/Buy");
 const BlockchainAddress_1 = require("canonizer/src/canonizer/BlockchainAddress");
+const BlockchainOrder_1 = require("canonizer/src/canonizer/BlockchainOrder");
 const BlockchainContract_1 = require("canonizer/src/canonizer/BlockchainContract");
 const RmrkContractStandard_1 = require("canonizer/src/canonizer/Interfaces/RmrkContractStandard");
 class OrderGossiper extends GossiperManager_1.GossiperManager {
     constructor(remark, csCanonizeManager, chain) {
         super(chain, csCanonizeManager);
+        this.buyDestination = "";
+        this.value = 1;
         this.amount = 1;
         if (remark instanceof Buy_1.Buy) {
             this.buyContractId = remark.asset ? remark.asset.contractId : "";
             this.sellContractId = "KSM";
+            this.buyDestination = remark.transaction.destination ? remark.transaction.destination : "";
+            const amount = Number(remark.transaction.value);
+            this.amount = remark.chain.plancksToCrypto(amount);
         }
         else {
             this.sellContractId = remark.asset ? remark.asset.contractId : "";
             this.buyContractId = "KSM";
+            const value = Number(remark.value);
+            this.value = remark.chain.plancksToCrypto(value);
         }
         this.sn = remark.asset ? remark.asset.token.sn : "";
         this.signer = remark.transaction.source;
         this.blockId = remark.transaction.blockId;
         this.timestamp = remark.transaction.timestamp;
         this.txId = remark.transaction.txHash;
-        const value = Number(remark.transaction.value);
-        this.value = remark.chain.plancksToCrypto(value);
-        this.total = this.value * this.amount;
+        this.total = this.amount;
     }
     gossip() {
         const canonizeManager = this.canonizeManager;
@@ -36,26 +42,27 @@ class OrderGossiper extends GossiperManager_1.GossiperManager {
         const total = String(this.total);
         const txId = this.txId;
         const timestamp = this.timestamp;
-        const ksmContractStd = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
-        ksmContractStd.setSn(this.sn);
-        const rmrkStd = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+        let tokenToBuy;
+        let tokenToSell;
+        if (this.buyDestination != "") {
+            // BUY
+            tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToSell.setSn(this.sn);
+            tokenToSell.generateTokenPathEntity(canonizeManager);
+        }
+        else {
+            // LIST
+            tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToBuy.setSn(this.sn);
+            tokenToBuy.generateTokenPathEntity(canonizeManager);
+        }
         let contractSell;
         let contractBuy;
-        if (this.sellContractId == "KSM") {
-            // TODO after push canonizer
-            // contractSell = new MainChainToken()
-        }
-        else {
-            contractSell = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
-        }
-        if (this.buyContractId == "KSM") {
-            // TODO after push canonizer
-            // contractBuy = new MainChainToken()
-        }
-        else {
-            contractBuy = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
-        }
-        // return new BlockchainOrder(this.chain.eventFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra)
+        contractSell = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
+        contractBuy = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
+        let order = new BlockchainOrder_1.BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, tokenToBuy, tokenToSell, sandra, this.buyDestination);
     }
 }
 exports.OrderGossiper = OrderGossiper;

@@ -25,7 +25,8 @@ export class GossiperFactory
     private readonly rmrk: Interaction;
 
     private readonly csCanonizeManager: CSCanonizeManager;
-    public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+    // public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+    public static gossipUrl: string = "http://localhost:8000/alex/gossip";
     private chain: Blockchain;
 
     constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
@@ -91,7 +92,6 @@ export class GossiperFactory
 
         switch (this.rmrk.constructor.name.toLowerCase()) {
 
-
             case 'mint':
                 if (this.rmrk instanceof Mint && this.rmrk.collection) {
                     return new EntityGossiper(this.rmrk.collection, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
@@ -125,10 +125,10 @@ export class GossiperFactory
 
             case 'buy':
             case 'list':
-                // if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
-                //     return new OrderGossiper(this.rmrk, canonizeManager, this.chain);
-                // }
-                // return undefined;
+                if (this.rmrk instanceof Buy || this.rmrk instanceof List && this.rmrk.asset) {
+                    return new OrderGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
 
             default:
                 return undefined;
