@@ -63,6 +63,7 @@ export class Jetski
 
             let blockRmrk: Array<Promise<Interaction|string>> = [];
             let blockHash: any;
+            let block: any;
 
             try{
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
@@ -71,7 +72,11 @@ export class Jetski
             }
 
             // Get block from APi
-            const block: any = await api.rpc.chain.getBlock(blockHash);
+            try{
+                block = await api.rpc.chain.getBlock(blockHash);
+            }catch(e){
+                reject(Jetski.noBlock);
+            }
 
             let blockId = blockNumber;
             let blockTimestamp: string = "";
@@ -191,9 +196,9 @@ export class Jetski
                 isRemark = true;
             }
 
-            if(isRemark){
+            if(isRemark && !isTransfert){
                 if(args.hasOwnProperty('dest') && args.hasOwnProperty('value')){
-                    transfert.destination = args.dest.Id;
+                    transfert.destination = args.dest.id;
                     transfert.value = args.value;
                     isTransfert = true;
                 }

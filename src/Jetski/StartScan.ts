@@ -16,9 +16,11 @@ import {EntityGossiper} from "../Gossiper/EntityGossiper";
 import {EventGossiper} from "../Gossiper/EventGossiper";
 import {InstanceManager} from "../Instances/InstanceManager";
 import {OrderGossiper} from "../Gossiper/OrderGossiper";
-import {AssetFactory} from "canonizer/src/canonizer/AssetFactory";
-import {BlockchainContractFactory} from "canonizer/src/canonizer/BlockchainContractFactory";
-import {Asset} from "../Remark/Entities/Asset";
+import {Gossiper} from "canonizer/src/Gossiper";
+import * as path from "path";
+
+const fs = require('fs');
+
 
 // 7984200
 
@@ -374,6 +376,7 @@ async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blo
 
             // Send if canonizer not empty
             if(blockchain.eventFactory.entityArray.length > 0){
+
                 await canonizeManager.gossipBlockchainEvents(blockchain).then((r: string)=>{
                     console.log(block+" event gossiped "+r);
                     sent = true;
@@ -389,6 +392,9 @@ async function sendGossip(canonizeManager: CSCanonizeManager, block: number, blo
             }
 
             if(blockchain.orderFactory.entityArray.length > 0){
+                const gossiper = new Gossiper(blockchain.orderFactory);
+                const json = gossiper.exposeGossip();
+
                 await canonizeManager.gossipBlockchainOrder(blockchain).then((r: string)=>{
                     console.log(block+" order gossiped "+r);
                     sent = true;
@@ -450,6 +456,7 @@ export const scan = async (opts: Option)=>{
 
             const gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
             const gossiper = await gossip.getGossiper();
+
             gossiper?.gossip();
             i ++;
 

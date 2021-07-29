@@ -42,15 +42,27 @@ class OrderGossiper extends GossiperManager_1.GossiperManager {
         const total = String(this.total);
         const txId = this.txId;
         const timestamp = this.timestamp;
-        const ksmContractStd = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
-        const rmrkStd = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
-        rmrkStd.setSn(this.sn);
-        rmrkStd.generateTokenPathEntity(canonizeManager);
+        let tokenToBuy;
+        let tokenToSell;
+        if (this.buyDestination != "") {
+            // BUY
+            tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToSell.setSn(this.sn);
+            tokenToSell.generateTokenPathEntity(canonizeManager);
+        }
+        else {
+            // LIST
+            tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToBuy.setSn(this.sn);
+            tokenToBuy.generateTokenPathEntity(canonizeManager);
+        }
         let contractSell;
         let contractBuy;
         contractSell = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
         contractBuy = new BlockchainContract_1.BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard_1.RmrkContractStandard(canonizeManager));
-        let order = new BlockchainOrder_1.BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, ksmContractStd, rmrkStd, sandra, this.buyDestination);
+        let order = new BlockchainOrder_1.BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, tokenToBuy, tokenToSell, sandra, this.buyDestination);
     }
 }
 exports.OrderGossiper = OrderGossiper;

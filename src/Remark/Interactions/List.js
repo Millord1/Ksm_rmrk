@@ -7,9 +7,9 @@ class List extends Interaction_1.Interaction {
     constructor(rmrk, chain, transaction) {
         super(rmrk, chain, transaction);
         const rmrkArray = this.splitRmrk();
-        const value = rmrkArray.pop();
-        if (typeof value === "string") {
-            this.value = value;
+        let value = rmrkArray.pop();
+        if (value) {
+            this.value = Number(value);
         }
         const nft = this.assetFromComputedId(rmrkArray);
         if (nft) {

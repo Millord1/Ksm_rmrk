@@ -11,6 +11,8 @@ const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const InstanceManager_1 = require("../Instances/InstanceManager");
+const Gossiper_1 = require("canonizer/src/Gossiper");
+const fs = require('fs');
 // 7984200
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -298,6 +300,8 @@ async function sendGossip(canonizeManager, block, blockchain) {
                 });
             }
             if (blockchain.orderFactory.entityArray.length > 0) {
+                const gossiper = new Gossiper_1.Gossiper(blockchain.orderFactory);
+                const json = gossiper.exposeGossip();
                 await canonizeManager.gossipBlockchainOrder(blockchain).then((r) => {
                     console.log(block + " order gossiped " + r);
                     sent = true;
