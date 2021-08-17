@@ -12,7 +12,19 @@ export abstract class Remark
     {
         this.rmrk = rmrk;
         this.chain = chain;
-        this.version = version === undefined || version === "undefined" ? Remark.actualVersion : version;
+
+        const splittedRmrk = rmrk.split('::');
+        let rmrkVersion = "";
+
+        if(!version && splittedRmrk[2].includes(".")){
+            rmrkVersion = splittedRmrk[2];
+        }else if(version){
+            rmrkVersion = version;
+        }
+
+        this.version = rmrkVersion;
+
+        // this.version = version === undefined || version === "undefined" ? Remark.actualVersion : version;
     }
 
 }
