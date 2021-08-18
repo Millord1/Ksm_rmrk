@@ -30,32 +30,5 @@ export class MintNft extends Interaction
         return this.asset;
     }
 
-    private nftFromMintNft(): Asset|undefined
-    {
-        const rmrkData = this.splitRmrk();
-
-        const version: string = rmrkData[2];
-
-        let nftData : NftInterface;
-
-        try{
-            nftData = JSON.parse(rmrkData[rmrkData.length-1]);
-
-        }catch(e){
-            console.error(e);
-            return undefined
-        }
-
-        nftData = this.addComputedForMintNft(nftData);
-        nftData = this.slugifyNftObj(nftData);
-
-        const versionChecker = new VersionChecker(this.version);
-
-        if(versionChecker.checkAssetVersion(nftData)){
-            return new Asset(this.rmrk, this.chain, nftData, version);
-        }
-
-        return undefined;
-    }
 
 }

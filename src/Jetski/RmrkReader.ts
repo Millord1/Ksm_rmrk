@@ -7,6 +7,8 @@ import {Send} from "../Remark/Interactions/Send";
 import {Buy} from "../Remark/Interactions/Buy";
 import {Emote} from "../Remark/Interactions/Emote";
 import {List} from "../Remark/Interactions/List";
+import {ChangeIssuer} from "../Remark/Interactions/ChangeIssuer";
+import {Consume} from "../Remark/Interactions/Consume";
 
 
 export class RmrkReader
@@ -51,6 +53,12 @@ export class RmrkReader
 
                     case 'list':
                         return new List(rmrk, this.chain, this.transaction);
+
+                    case 'changeissuer':
+                        return new ChangeIssuer(rmrk, this.chain, this.transaction);
+
+                    case 'consume':
+                        return new Consume(rmrk, this.chain, this.transaction);
 
                     default:
                         return null;

@@ -4,6 +4,7 @@ exports.Interaction = void 0;
 const Remark_1 = require("../Remark");
 const Entity_1 = require("../Entities/Entity");
 const VersionChecker_1 = require("../VersionChecker");
+const Asset_1 = require("../Entities/Asset");
 class Interaction extends Remark_1.Remark {
     constructor(rmrk, chain, transaction, version) {
         super(rmrk, chain, version);
@@ -82,6 +83,25 @@ class Interaction extends Remark_1.Remark {
         const versionChecker = new VersionChecker_1.VersionChecker(this.version);
         if (versionChecker.checkAssetVersion(nft)) {
             return nft;
+        }
+        return undefined;
+    }
+    nftFromMintNft() {
+        const rmrkData = this.splitRmrk();
+        const version = rmrkData[2];
+        let nftData;
+        try {
+            nftData = JSON.parse(rmrkData[rmrkData.length - 1]);
+        }
+        catch (e) {
+            console.error(e);
+            return undefined;
+        }
+        nftData = this.addComputedForMintNft(nftData);
+        nftData = this.slugifyNftObj(nftData);
+        const versionChecker = new VersionChecker_1.VersionChecker(this.version);
+        if (versionChecker.checkAssetVersion(nftData)) {
+            return new Asset_1.Asset(this.rmrk, this.chain, nftData, version);
         }
         return undefined;
     }

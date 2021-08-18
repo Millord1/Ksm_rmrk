@@ -24,7 +24,7 @@ export class Emote extends Interaction
         const nft = this.assetFromComputedId(rmrkArray);
 
         if(nft){
-            this.asset =  new Asset(this.rmrk, this.chain, nft);
+            this.asset = new Asset(this.rmrk, this.chain, nft);
         }
     }
 

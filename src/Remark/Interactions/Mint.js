@@ -22,7 +22,7 @@ class Mint extends Interaction_1.Interaction {
             mintData = JSON.parse(rmrk[rmrk.length - 1]);
         }
         catch (e) {
-            console.log(e);
+            console.error(e);
             return undefined;
         }
         mintData = this.slugifyCollectionObj(mintData);

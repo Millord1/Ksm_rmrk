@@ -8,6 +8,8 @@ import {MetaData, MetadataInputs} from "../Remark/MetaData";
 import {Mint} from "../Remark/Interactions/Mint";
 import {Entity} from "../Remark/Entities/Entity";
 import {MintNft} from "../Remark/Interactions/MintNft";
+import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
+import {ChangeIssuer} from "../Remark/Interactions/ChangeIssuer";
 
 
 interface Transfer
@@ -67,7 +69,8 @@ export class Jetski
 
             try{
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-                if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
+                // if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
+                if (blockHash.includes(CSCanonizeManager.mintIssuerAddressString)) {
                   reject(Jetski.noBlock);
                   return;
                 }
@@ -236,71 +239,56 @@ export class Jetski
             const allRemarks: Array<Interaction> = interactArray.concat(rmrkWithMeta);
 
             resolve(allRemarks);
-
-            // if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
-            //
-            //     return Promise.all(rmrkWithMeta)
-            //         .then((remarks)=>{
-            //             resolve (remarks);
-            //         }).catch(e=>{
-            //             // console.error(e);
-            //             reject(e);
-            //         })
-            //
-            // }else{
-            //     reject('interraction array of getMetadataContent in Jetski is smaller');
-            // }
-
         })
 
     }
 
 
 
-    private async callMeta(remark: Interaction, index?: number): Promise<Interaction>
-    {
-
-        let entity: Entity|undefined;
-
-        if(remark instanceof Mint){
-
-            if(remark.collection){
-                entity = remark.collection;
-            }
-
-        }else if(remark instanceof MintNft){
-
-            if(remark.asset){
-                entity = remark.asset;
-            }
-        }
-
-        return new Promise((resolve, reject)=>{
-
-            if(entity){
-
-                const metaAlreadyCalled = metaCalled.find(meta => meta.url === entity?.url);
-
-                // if call on this url already been made (stocked in array metaCalled)
-                if(metaAlreadyCalled && metaAlreadyCalled.meta){
-                    entity.addMetadata(metaAlreadyCalled.meta);
-                }else{
-                    MetaData.getMetaData(entity.url, index).then(meta=>{
-                        entity?.addMetadata(meta);
-                        resolve(remark);0
-                    }).catch((e)=>{
-                        // console.error(e);
-                        resolve(remark);
-                    })
-                }
-
-            }else{
-                reject(Entity.undefinedEntity);
-            }
-
-        })
-
-    }
+    // private async callMeta(remark: Interaction, index?: number): Promise<Interaction>
+    // {
+    //
+    //     let entity: Entity|undefined;
+    //
+    //     if(remark instanceof Mint){
+    //
+    //         if(remark.collection){
+    //             entity = remark.collection;
+    //         }
+    //
+    //     }else if(remark instanceof MintNft){
+    //
+    //         if(remark.asset){
+    //             entity = remark.asset;
+    //         }
+    //     }
+    //
+    //     return new Promise((resolve, reject)=>{
+    //
+    //         if(entity){
+    //
+    //             const metaAlreadyCalled = metaCalled.find(meta => meta.url === entity?.url);
+    //
+    //             // if call on this url already been made (stocked in array metaCalled)
+    //             if(metaAlreadyCalled && metaAlreadyCalled.meta){
+    //                 entity.addMetadata(metaAlreadyCalled.meta);
+    //             }else{
+    //                 MetaData.getMetaData(entity.url, index).then(meta=>{
+    //                     entity?.addMetadata(meta);
+    //                     resolve(remark);0
+    //                 }).catch((e)=>{
+    //                     // console.error(e);
+    //                     resolve(remark);
+    //                 })
+    //             }
+    //
+    //         }else{
+    //             reject(Entity.undefinedEntity);
+    //         }
+    //
+    //     })
+    //
+    // }
 
 
 
@@ -320,6 +308,12 @@ export class Jetski
 
             const reader = new RmrkReader(this.chain, transaction);
             const rmrk = reader.readInteraction(url);
+
+            if(!(rmrk instanceof ChangeIssuer)){
+                if(!(rmrk?.getEntity())){
+                    resolve("no rmrk");
+                }
+            }
 
             if(rmrk instanceof Interaction){
                 resolve (rmrk);

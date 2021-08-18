@@ -42,7 +42,8 @@ class MetaData {
         // }
     }
     static getShortUrl(longUrl) {
-        return longUrl.split('/').pop();
+        // const splittedUrl = longUrl.split("/");
+        return longUrl.split('//').pop();
     }
     static getCloudFlareUrl(url) {
         const urls = url.split('/');
@@ -61,17 +62,6 @@ class MetaData {
             for (const rmrk of interactions) {
                 const entity = rmrk.getEntity();
                 if (entity === null || entity === void 0 ? void 0 : entity.url) {
-                    // Find if the meta's url has already been called
-                    // const shortUrl = this.getShortUrl(entity.url);
-                    // const found = metaCalled.find(el => el.url == shortUrl);
-                    //
-                    // if(found && found.meta){
-                    //     entity.addMetadata(found.meta);
-                    //     otherRemarks.push(rmrk);
-                    // }else{
-                    //     urls.push(this.getCorrectUrl(entity.url));
-                    // }
-                    // urls.push(this.getCorrectUrl(entity.url));
                     urls.push(this.getCorrectUrl(entity.url));
                 }
                 else {
@@ -94,20 +84,6 @@ class MetaData {
             }
             let allRemarks = otherRemarks.concat(interactions);
             resolve(allRemarks);
-            // let rmrksWithMeta: Array<Promise<Mint|MintNft>> = [];
-            // for(const response of responses){
-            //     if(response.meta.ok){
-            //         // attribute metadata to the good entity
-            //         rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
-            //     }
-            // }
-            // const rmrkWithMeta: Array<Mint|MintNft> = await this.refoundMetaObject(responses, interactions);
-            // return Promise.all(rmrksWithMeta).then(remarks=>{
-            //     let allRemarks : Array<Interaction> = otherRemarks.concat(remarks)
-            //     resolve(allRemarks);
-            // }).catch(e=>{
-            //     reject(e);
-            // })
         });
     }
     static async refoundMetaObject(responses, interactions) {
@@ -179,11 +155,16 @@ class MetaData {
                 const found = Jetski_1.metaCalled.find(el => el.url == url);
                 if (!found) {
                     // metaPromises.push(fetch(url));
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        const jsonResponse = await response.json();
-                        const meta = new MetaData(url, jsonResponse);
-                        Jetski_1.metaCalled.push({ url: url, meta: meta });
+                    try {
+                        const response = await fetch(url);
+                        if (response.ok) {
+                            const jsonResponse = await response.json();
+                            const meta = new MetaData(url, jsonResponse);
+                            Jetski_1.metaCalled.push({ url: url, meta: meta });
+                        }
+                    }
+                    catch (err) {
+                        console.error(err.name + " : " + err.url);
                     }
                 }
             }
@@ -260,7 +241,7 @@ class MetaData {
     }
 }
 exports.MetaData = MetaData;
-MetaData.ipfsUrl = "https://ipfs.io/ipfs/";
-MetaData.cloudFlareUrl = "https://cloudflare-ipfs.com/ipfs/";
+MetaData.ipfsUrl = "https://ipfs.io/";
+MetaData.cloudFlareUrl = "https://cloudflare-ipfs.com/";
 MetaData.delayForCalls = 200;
 //# sourceMappingURL=MetaData.js.map

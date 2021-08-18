@@ -8,40 +8,32 @@ const EventGossiper_1 = require("./EventGossiper");
 const Buy_1 = require("../Remark/Interactions/Buy");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
 const List_1 = require("../Remark/Interactions/List");
-const ts_dotenv_1 = require("ts-dotenv");
-const assert_1 = require("assert");
 const WestEnd_1 = require("../Blockchains/WestEnd");
 const WestendBlockchain_1 = require("canonizer/src/canonizer/Substrate/Westend/WestendBlockchain");
 const Kusama_1 = require("../Blockchains/Kusama");
 const KusamaBlockchain_1 = require("canonizer/src/canonizer/Kusama/KusamaBlockchain");
+const Emote_1 = require("../Remark/Interactions/Emote");
 const OrderGossiper_1 = require("./OrderGossiper");
+const Consume_1 = require("../Remark/Interactions/Consume");
+const ChangeIssuer_1 = require("../Remark/Interactions/ChangeIssuer");
+const EmoteGossiper_1 = require("./EmoteGossiper");
+const ChangeIssuerGossiper_1 = require("./ChangeIssuerGossiper");
+const fs = require('fs');
 class GossiperFactory {
     constructor(rmrk, csCanonizeManager, chain) {
         this.rmrk = rmrk;
         this.csCanonizeManager = csCanonizeManager;
         this.chain = chain;
-        // this.csCanonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: GossiperFactory.getJwt(chain)} });
     }
-    static getJwt(chain) {
-        let jwt = "";
-        let env;
-        switch (chain.toLowerCase()) {
-            case "westend":
-                env = ts_dotenv_1.load({
-                    westend_jwt: String
-                });
-                assert_1.strict.ok(env.westend_jwt);
-                jwt = env.westend_jwt;
-                break;
-            case "kusama":
-                env = ts_dotenv_1.load({
-                    kusama_jwt: String,
-                });
-                assert_1.strict.ok(env.kusama_jwt);
-                jwt = env.kusama_jwt;
-                break;
+    static getJwt(chain, sandraEnv) {
+        try {
+            const content = JSON.parse(fs.readFileSync(".env"));
+            return content[sandraEnv] ? content[sandraEnv] : "";
         }
-        return jwt;
+        catch (e) {
+            console.error(e);
+            process.exit();
+        }
     }
     static getCanonizeChain(chainName, sandra) {
         switch (chainName.toLowerCase()) {
@@ -73,10 +65,20 @@ class GossiperFactory {
                 }
                 return undefined;
             case 'emote':
-            // if (this.rmrk instanceof Emote && this.rmrk.asset) {
-            //     return new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain, this.rmrk.unicode);
-            // }
-            // return undefined;
+                if (this.rmrk instanceof Emote_1.Emote && this.rmrk.asset) {
+                    return new EmoteGossiper_1.EmoteGossiper(this.rmrk, canonizeManager, this.chain);
+                }
+                return undefined;
+            case 'consume':
+                if (this.rmrk instanceof Consume_1.Consume && this.rmrk.asset) {
+                    return new EventGossiper_1.EventGossiper(this.rmrk, this.csCanonizeManager, this.chain);
+                }
+                return undefined;
+            case 'changeissuer':
+                if (this.rmrk instanceof ChangeIssuer_1.ChangeIssuer && this.rmrk.collectionId) {
+                    return new ChangeIssuerGossiper_1.ChangeIssuerGossiper(this.rmrk, this.csCanonizeManager, this.chain);
+                }
+                return undefined;
             case 'buy':
             case 'list':
                 if (this.rmrk instanceof Buy_1.Buy || this.rmrk instanceof List_1.List && this.rmrk.asset) {

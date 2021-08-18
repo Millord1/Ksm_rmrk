@@ -37,7 +37,7 @@ export class Mint extends Interaction
         try{
             mintData = JSON.parse(rmrk[rmrk.length-1]);
         }catch(e){
-            console.log(e);
+            console.error(e);
             return undefined;
         }
 

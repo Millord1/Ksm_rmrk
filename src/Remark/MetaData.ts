@@ -31,8 +31,8 @@ export class MetaData
     public attributes: Array<Object> = [];
     public background_color: string = "";
 
-    private static ipfsUrl: string = "https://ipfs.io/ipfs/";
-    private static cloudFlareUrl: string = "https://cloudflare-ipfs.com/ipfs/";
+    private static ipfsUrl: string = "https://ipfs.io/";
+    private static cloudFlareUrl: string = "https://cloudflare-ipfs.com/";
     private static delayForCalls: number = 200;
 
     constructor(url: string, data: MetadataInputs) {
@@ -74,7 +74,8 @@ export class MetaData
 
     private static getShortUrl(longUrl: string)
     {
-        return longUrl.split('/').pop();
+        // const splittedUrl = longUrl.split("/");
+        return longUrl.split('//').pop();
     }
 
 
@@ -101,21 +102,9 @@ export class MetaData
 
             for(const rmrk of interactions){
                 const entity: Entity|undefined = rmrk.getEntity();
+
                 if(entity?.url){
-                    // Find if the meta's url has already been called
-                    // const shortUrl = this.getShortUrl(entity.url);
-                    // const found = metaCalled.find(el => el.url == shortUrl);
-                    //
-                    // if(found && found.meta){
-                    //     entity.addMetadata(found.meta);
-                    //     otherRemarks.push(rmrk);
-                    // }else{
-                    //     urls.push(this.getCorrectUrl(entity.url));
-                    // }
-                    // urls.push(this.getCorrectUrl(entity.url));
-
                     urls.push(this.getCorrectUrl(entity.url));
-
                 }else{
                     otherRemarks.push(rmrk);
                 }
@@ -144,23 +133,6 @@ export class MetaData
             let allRemarks: Array<Interaction> = otherRemarks.concat(interactions);
             resolve (allRemarks);
 
-            // let rmrksWithMeta: Array<Promise<Mint|MintNft>> = [];
-
-            // for(const response of responses){
-            //     if(response.meta.ok){
-            //         // attribute metadata to the good entity
-            //         rmrksWithMeta.push(this.refoundMetaObject(response, interactions));
-            //     }
-            // }
-
-            // const rmrkWithMeta: Array<Mint|MintNft> = await this.refoundMetaObject(responses, interactions);
-
-            // return Promise.all(rmrksWithMeta).then(remarks=>{
-            //     let allRemarks : Array<Interaction> = otherRemarks.concat(remarks)
-            //     resolve(allRemarks);
-            // }).catch(e=>{
-            //     reject(e);
-            // })
         })
 
     }
@@ -251,11 +223,15 @@ export class MetaData
                 const found = metaCalled.find(el => el.url == url);
                 if(!found){
                     // metaPromises.push(fetch(url));
-                    const response = await fetch(url);
-                    if(response.ok){
-                        const jsonResponse: MetadataInputs = await response.json();
-                        const meta = new MetaData(url, jsonResponse)
-                        metaCalled.push({url: url, meta: meta});
+                    try{
+                        const response = await fetch(url);
+                        if(response.ok){
+                            const jsonResponse: MetadataInputs = await response.json();
+                            const meta = new MetaData(url, jsonResponse)
+                            metaCalled.push({url: url, meta: meta});
+                        }
+                    }catch(err){
+                        console.error(err.name+" : "+err.url);
                     }
                 }
             }

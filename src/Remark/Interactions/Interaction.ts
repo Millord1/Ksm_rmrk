@@ -3,6 +3,8 @@ import {Blockchain} from "../../Blockchains/Blockchain";
 import {Transaction} from "../Transaction";
 import {Entity} from "../Entities/Entity";
 import {VersionChecker} from "../VersionChecker";
+import {Collection} from "../Entities/Collection";
+import {Asset} from "../Entities/Asset";
 
 
 export interface NftInterface
@@ -33,7 +35,6 @@ export abstract class Interaction extends Remark
 {
 
     public transaction: Transaction;
-
 
     protected constructor(rmrk: string, chain: Blockchain, transaction: Transaction, version?: string)
     {
@@ -154,6 +155,35 @@ export abstract class Interaction extends Remark
         if(versionChecker.checkAssetVersion(nft)){
             return nft;
         }
+        return undefined;
+    }
+
+
+    protected nftFromMintNft(): Asset|undefined
+    {
+        const rmrkData = this.splitRmrk();
+
+        const version: string = rmrkData[2];
+
+        let nftData : NftInterface;
+
+        try{
+            nftData = JSON.parse(rmrkData[rmrkData.length-1]);
+
+        }catch(e){
+            console.error(e);
+            return undefined
+        }
+
+        nftData = this.addComputedForMintNft(nftData);
+        nftData = this.slugifyNftObj(nftData);
+
+        const versionChecker = new VersionChecker(this.version);
+
+        if(versionChecker.checkAssetVersion(nftData)){
+            return new Asset(this.rmrk, this.chain, nftData, version);
+        }
+
         return undefined;
     }
 

@@ -8,8 +8,9 @@ const util_1 = require("@polkadot/util");
 const RmrkReader_1 = require("./RmrkReader");
 const MetaData_1 = require("../Remark/MetaData");
 const Mint_1 = require("../Remark/Interactions/Mint");
-const Entity_1 = require("../Remark/Entities/Entity");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
+const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
+const ChangeIssuer_1 = require("../Remark/Interactions/ChangeIssuer");
 exports.metaCalled = [];
 exports.entityFound = [];
 class Jetski {
@@ -32,7 +33,8 @@ class Jetski {
             let block;
             try {
                 blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-                if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
+                // if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
+                if (blockHash.includes(CSCanonizeManager_1.CSCanonizeManager.mintIssuerAddressString)) {
                     reject(Jetski.noBlock);
                     return;
                 }
@@ -156,56 +158,52 @@ class Jetski {
             const rmrkWithMeta = await MetaData_1.MetaData.getMetaOnArray(toCall);
             const allRemarks = interactArray.concat(rmrkWithMeta);
             resolve(allRemarks);
-            // if(rmrkWithMeta.length >= Jetski.maxPerBatch || rmrkWithMeta.length >= interactArray.length){
-            //
-            //     return Promise.all(rmrkWithMeta)
-            //         .then((remarks)=>{
-            //             resolve (remarks);
-            //         }).catch(e=>{
-            //             // console.error(e);
-            //             reject(e);
-            //         })
-            //
-            // }else{
-            //     reject('interraction array of getMetadataContent in Jetski is smaller');
-            // }
         });
     }
-    async callMeta(remark, index) {
-        let entity;
-        if (remark instanceof Mint_1.Mint) {
-            if (remark.collection) {
-                entity = remark.collection;
-            }
-        }
-        else if (remark instanceof MintNft_1.MintNft) {
-            if (remark.asset) {
-                entity = remark.asset;
-            }
-        }
-        return new Promise((resolve, reject) => {
-            if (entity) {
-                const metaAlreadyCalled = exports.metaCalled.find(meta => meta.url === (entity === null || entity === void 0 ? void 0 : entity.url));
-                // if call on this url already been made (stocked in array metaCalled)
-                if (metaAlreadyCalled && metaAlreadyCalled.meta) {
-                    entity.addMetadata(metaAlreadyCalled.meta);
-                }
-                else {
-                    MetaData_1.MetaData.getMetaData(entity.url, index).then(meta => {
-                        entity === null || entity === void 0 ? void 0 : entity.addMetadata(meta);
-                        resolve(remark);
-                        0;
-                    }).catch((e) => {
-                        // console.error(e);
-                        resolve(remark);
-                    });
-                }
-            }
-            else {
-                reject(Entity_1.Entity.undefinedEntity);
-            }
-        });
-    }
+    // private async callMeta(remark: Interaction, index?: number): Promise<Interaction>
+    // {
+    //
+    //     let entity: Entity|undefined;
+    //
+    //     if(remark instanceof Mint){
+    //
+    //         if(remark.collection){
+    //             entity = remark.collection;
+    //         }
+    //
+    //     }else if(remark instanceof MintNft){
+    //
+    //         if(remark.asset){
+    //             entity = remark.asset;
+    //         }
+    //     }
+    //
+    //     return new Promise((resolve, reject)=>{
+    //
+    //         if(entity){
+    //
+    //             const metaAlreadyCalled = metaCalled.find(meta => meta.url === entity?.url);
+    //
+    //             // if call on this url already been made (stocked in array metaCalled)
+    //             if(metaAlreadyCalled && metaAlreadyCalled.meta){
+    //                 entity.addMetadata(metaAlreadyCalled.meta);
+    //             }else{
+    //                 MetaData.getMetaData(entity.url, index).then(meta=>{
+    //                     entity?.addMetadata(meta);
+    //                     resolve(remark);0
+    //                 }).catch((e)=>{
+    //                     // console.error(e);
+    //                     resolve(remark);
+    //                 })
+    //             }
+    //
+    //         }else{
+    //             reject(Entity.undefinedEntity);
+    //         }
+    //
+    //     })
+    //
+    // }
     getObjectFromRemark(remark, transaction) {
         // Promise create an object with rmrk
         return new Promise((resolve, reject) => {
@@ -219,6 +217,11 @@ class Jetski {
             }
             const reader = new RmrkReader_1.RmrkReader(this.chain, transaction);
             const rmrk = reader.readInteraction(url);
+            if (!(rmrk instanceof ChangeIssuer_1.ChangeIssuer)) {
+                if (!(rmrk === null || rmrk === void 0 ? void 0 : rmrk.getEntity())) {
+                    resolve("no rmrk");
+                }
+            }
             if (rmrk instanceof Interaction_1.Interaction) {
                 resolve(rmrk);
             }

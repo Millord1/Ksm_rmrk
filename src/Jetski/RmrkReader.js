@@ -7,6 +7,8 @@ const Send_1 = require("../Remark/Interactions/Send");
 const Buy_1 = require("../Remark/Interactions/Buy");
 const Emote_1 = require("../Remark/Interactions/Emote");
 const List_1 = require("../Remark/Interactions/List");
+const ChangeIssuer_1 = require("../Remark/Interactions/ChangeIssuer");
+const Consume_1 = require("../Remark/Interactions/Consume");
 class RmrkReader {
     constructor(chain, transaction) {
         this.chain = chain;
@@ -31,6 +33,10 @@ class RmrkReader {
                         return new Emote_1.Emote(rmrk, this.chain, this.transaction);
                     case 'list':
                         return new List_1.List(rmrk, this.chain, this.transaction);
+                    case 'changeissuer':
+                        return new ChangeIssuer_1.ChangeIssuer(rmrk, this.chain, this.transaction);
+                    case 'consume':
+                        return new Consume_1.Consume(rmrk, this.chain, this.transaction);
                     default:
                         return null;
                 }

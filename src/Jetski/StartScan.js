@@ -11,9 +11,7 @@ const WestEnd_1 = require("../Blockchains/WestEnd");
 const Polkadot_1 = require("../Blockchains/Polkadot");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const InstanceManager_1 = require("../Instances/InstanceManager");
-const Gossiper_1 = require("canonizer/src/Gossiper");
 const fs = require('fs');
-// 7984200
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
@@ -47,13 +45,16 @@ const startScanner = async (opts) => {
     chainName = chain.constructor.name;
     console.log(chainName);
     // @ts-ignore
+    let env = opts.env;
+    // @ts-ignore
     let blockNumber = opts.block;
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
     let currentBlock = 0;
     let blockSaved = "0";
     // Create instanceManager for saving blocks and check lock
-    const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
+    const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName, env);
+    console.log(jwt);
     const canonize = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
     const instanceManager = new InstanceManager_1.InstanceManager(canonize, chainName, jwt);
     if (blockNumber == 0) {
@@ -262,6 +263,7 @@ async function sendGossip(canonizeManager, block, blockchain) {
             let errorMsg = "";
             const collectionEntities = canonizeManager.getAssetCollectionFactory().entityArray;
             const assetEntities = canonizeManager.getAssetFactory().entityArray;
+            // const changeIssuerEntities = canonizeManager.getChangeIssuerFactory().entityArray;
             // Send if canonizer not empty
             if (collectionEntities.length > 0) {
                 await canonizeManager.gossipCollection()
@@ -300,8 +302,6 @@ async function sendGossip(canonizeManager, block, blockchain) {
                 });
             }
             if (blockchain.orderFactory.entityArray.length > 0) {
-                const gossiper = new Gossiper_1.Gossiper(blockchain.orderFactory);
-                const json = gossiper.exposeGossip();
                 await canonizeManager.gossipBlockchainOrder(blockchain).then((r) => {
                     console.log(block + " order gossiped " + r);
                     sent = true;
@@ -312,6 +312,34 @@ async function sendGossip(canonizeManager, block, blockchain) {
                         resolve("send");
                     }).catch((e) => {
                         errorMsg += "\n events : " + e;
+                    });
+                });
+            }
+            if (blockchain.emoteFactory.entityArray.length > 0) {
+                await canonizeManager.gossipBlockchainEmote(blockchain).then((r) => {
+                    console.log(block + " emote gossiped " + r);
+                    sent = true;
+                    resolve("send");
+                }).catch(async (e) => {
+                    console.error(e);
+                    await canonizeManager.gossipBlockchainEmote(blockchain).then(() => {
+                        resolve("send");
+                    }).catch((e) => {
+                        errorMsg += "\n emotes : " + e;
+                    });
+                });
+            }
+            if (blockchain.changeIssuerFactory.entityArray.length > 0) {
+                await canonizeManager.gossipChangeIssuer(blockchain.changeIssuerFactory).then((r) => {
+                    console.log(block + " changeIssuer gossiped " + r);
+                    sent = true;
+                    resolve("send");
+                }).catch(async (e) => {
+                    console.error(e);
+                    await canonizeManager.gossipChangeIssuer(blockchain.changeIssuerFactory).then(() => {
+                        resolve("send");
+                    }).catch((e) => {
+                        errorMsg += "\n changeIssuer : " + e;
                     });
                 });
             }
@@ -331,23 +359,32 @@ const scan = async (opts) => {
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
     // @ts-ignore
+    let env = opts.env;
+    // @ts-ignore
     const blockN = opts.block;
     jetski.getBlockContent(blockN, api).then(async (result) => {
         const rmrks = await metaDataVerifier(result);
         const chainName = chain.constructor.name.toLowerCase();
         // get jwt for blockchain
-        const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName);
+        const jwt = GossiperFactory_1.GossiperFactory.getJwt(chainName, env);
         // create canonize for stock gossips and flush it
         let canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
         // blockchain stock gossips too
-        let blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
+        // let blockchain = GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
+        let blockchain = canonizeManager.getOrInitBlockchain(CSCanonizeManager_1.CompatibleBlockchains.kusama);
         let sent = false;
         let i = 0;
         for (const rmrk of rmrks) {
             sent = false;
             const gossip = new GossiperFactory_1.GossiperFactory(rmrk, canonizeManager, blockchain);
             const gossiper = await gossip.getGossiper();
-            gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
+            // await gossiper?.gossip();
+            //
+            // const myGossiper = new Gossiper(blockchain.changeIssuerFactory);
+            // const json = myGossiper.exposeGossip();
+            // fs.writeFileSync("changeIssuer.json", JSON.stringify(json));
+            // process.exit();
+            await (gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip());
             i++;
             if (i != 0 && i % Jetski_1.Jetski.maxPerBatch == 0) {
                 await sendGossip(canonizeManager, blockN, blockchain).then(() => {
