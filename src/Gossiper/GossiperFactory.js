@@ -91,6 +91,5 @@ class GossiperFactory {
     }
 }
 exports.GossiperFactory = GossiperFactory;
-// public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
-GossiperFactory.gossipUrl = "http://localhost:8000/alex/gossip";
+GossiperFactory.gossipUrl = "http://arkam.everdreamsoft.com/alex/gossip";
 //# sourceMappingURL=GossiperFactory.js.map

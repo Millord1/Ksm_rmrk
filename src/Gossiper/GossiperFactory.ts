@@ -29,8 +29,8 @@ export class GossiperFactory
     private readonly rmrk: Interaction;
 
     private readonly csCanonizeManager: CSCanonizeManager;
-    // public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
-    public static gossipUrl: string = "http://localhost:8000/alex/gossip";
+    public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+    // public static gossipUrl: string = "http://localhost:8000/alex/gossip";
     private readonly chain: Blockchain;
 
     constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
