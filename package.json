@@ -6,7 +6,7 @@
   "dependencies": {
     "@polkadot/api": "^4.17.1",
     "axios": "^0.21.1",
-    "canonizer": "^0.0.20",
+    "canonizer": "^0.0.22",
     "commander": "^6.2.1",
     "node-fetch": "^2.6.1",
     "rmrk-tools": "^2.0.0-rc.24",
