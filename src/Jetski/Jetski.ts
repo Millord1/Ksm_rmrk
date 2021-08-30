@@ -76,6 +76,7 @@ export class Jetski
                 }
             }catch(e){
                 reject(Jetski.noBlock);
+                return;
             }
 
             // Get block from APi
@@ -83,6 +84,7 @@ export class Jetski
                 block = await api.rpc.chain.getBlock(blockHash);
             }catch(e){
                 reject(Jetski.noBlock);
+                return;
             }
 
             let blockId = blockNumber;
@@ -90,6 +92,7 @@ export class Jetski
 
             if(block.block == null){
                 reject(Jetski.noBlock);
+                return;
             }
 
             for (const ex of block.block ? block.block.extrinsics : []){
@@ -304,6 +307,7 @@ export class Jetski
                 url = decodeURIComponent(uri)
             }catch(e){
                 reject(e);
+                return;
             }
 
             const reader = new RmrkReader(this.chain, transaction);

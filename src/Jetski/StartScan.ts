@@ -169,23 +169,22 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
     // let toRescan: Array<number> = [];
     let lockExists: boolean = true;
 
+    process.on('exit', async ()=>{
+        // Save last block when app is closing
+        if(!InstanceManager.processExit){
+            await instanceManager.exitProcess(blockNumber, id);
+        }
+    });
+
+    process.on('SIGINT', async ()=>{
+        // Save last block on exit Ctrl+C
+        if(!InstanceManager.processExit){
+            await instanceManager.exitProcess(blockNumber, id);
+        }
+    });
+
     // launch the loop on blocks
     let interval: NodeJS.Timeout = setInterval(async()=>{
-
-        process.on('exit', async ()=>{
-            // Save last block when app is closing
-            if(!InstanceManager.processExit){
-                await instanceManager.exitProcess(blockNumber, id);
-            }
-        });
-
-        process.on('SIGINT', async ()=>{
-            // Save last block on exit Ctrl+C
-            if(!InstanceManager.processExit){
-                await instanceManager.exitProcess(blockNumber, id);
-            }
-        });
-
 
         if (!api.isConnected) {
 
@@ -557,5 +556,3 @@ async function metaDataVerifier(remarks: Array<Interaction>): Promise<Array<Inte
         resolve (remarks);
     })
 }
-
-

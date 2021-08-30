@@ -41,6 +41,7 @@ class Jetski {
             }
             catch (e) {
                 reject(Jetski.noBlock);
+                return;
             }
             // Get block from APi
             try {
@@ -48,11 +49,13 @@ class Jetski {
             }
             catch (e) {
                 reject(Jetski.noBlock);
+                return;
             }
             let blockId = blockNumber;
             let blockTimestamp = "";
             if (block.block == null) {
                 reject(Jetski.noBlock);
+                return;
             }
             for (const ex of block.block ? block.block.extrinsics : []) {
                 const { method: { args, method, section } } = ex;
@@ -207,13 +210,14 @@ class Jetski {
     getObjectFromRemark(remark, transaction) {
         // Promise create an object with rmrk
         return new Promise((resolve, reject) => {
-            const uri = util_1.hexToString(remark);
+            const uri = (0, util_1.hexToString)(remark);
             let url = "";
             try {
                 url = decodeURIComponent(uri);
             }
             catch (e) {
                 reject(e);
+                return;
             }
             const reader = new RmrkReader_1.RmrkReader(this.chain, transaction);
             const rmrk = reader.readInteraction(url);

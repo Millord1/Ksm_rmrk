@@ -116,20 +116,20 @@ async function startJetskiLoop(jetski, api, currentBlock, blockNumber, lastBlock
     // Array of block without meta for rescan
     // let toRescan: Array<number> = [];
     let lockExists = true;
+    process.on('exit', async () => {
+        // Save last block when app is closing
+        if (!InstanceManager_1.InstanceManager.processExit) {
+            await instanceManager.exitProcess(blockNumber, id);
+        }
+    });
+    process.on('SIGINT', async () => {
+        // Save last block on exit Ctrl+C
+        if (!InstanceManager_1.InstanceManager.processExit) {
+            await instanceManager.exitProcess(blockNumber, id);
+        }
+    });
     // launch the loop on blocks
     let interval = setInterval(async () => {
-        process.on('exit', async () => {
-            // Save last block when app is closing
-            if (!InstanceManager_1.InstanceManager.processExit) {
-                await instanceManager.exitProcess(blockNumber, id);
-            }
-        });
-        process.on('SIGINT', async () => {
-            // Save last block on exit Ctrl+C
-            if (!InstanceManager_1.InstanceManager.processExit) {
-                await instanceManager.exitProcess(blockNumber, id);
-            }
-        });
         if (!api.isConnected) {
             // if Api disconnect
             clearInterval(interval);
