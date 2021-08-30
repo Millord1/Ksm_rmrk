@@ -156,7 +156,12 @@ class MetaData {
                 if (!found) {
                     // metaPromises.push(fetch(url));
                     try {
+                        // IPFS request stalling: wait for 100ms before fetching URL
+                        // TODO: change IPFS provider or use a queue
+                        console.log("Waiting 100ms to fetch: " + url);
+                        await new Promise(resolve => setTimeout(resolve, 100));
                         const response = await fetch(url);
+                        console.log("Fetched: " + url);
                         if (response.ok) {
                             const jsonResponse = await response.json();
                             const meta = new MetaData(url, jsonResponse);
