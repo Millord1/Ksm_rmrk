@@ -10,7 +10,7 @@ const readline = require('readline').createInterface({
 });
 class InstanceManager {
     constructor(canonizeManager, chain, jwt) {
-        this.apiUrl = "https://arkam.everdreamsoft.com/api/v1/jetski/";
+        this.apiUrl = "https://helvetia.everdreamsoft.com/api/v1/jetski/";
         // private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
         this.lastBlockSaved = "0";
         this.canonizeManager = canonizeManager;
