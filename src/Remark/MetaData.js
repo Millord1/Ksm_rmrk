@@ -76,7 +76,7 @@ class MetaData {
                     const entity = interaction.getEntity();
                     if (entity === null || entity === void 0 ? void 0 : entity.url) {
                         const shortUrl = this.getShortUrl(entity === null || entity === void 0 ? void 0 : entity.url);
-                        if (shortUrl == responseUrl) {
+                        if (shortUrl && (responseUrl === null || responseUrl === void 0 ? void 0 : responseUrl.includes(shortUrl)) || responseUrl == shortUrl) {
                             entity.addMetadata(response.meta);
                         }
                     }
@@ -156,8 +156,6 @@ class MetaData {
                 if (!found) {
                     // metaPromises.push(fetch(url));
                     try {
-                        // IPFS request stalling: wait for 100ms before fetching URL
-                        // TODO: change IPFS provider or use a queue
                         console.log("Waiting 100ms to fetch: " + url);
                         await new Promise(resolve => setTimeout(resolve, 100));
                         const response = await fetch(url);
@@ -169,6 +167,7 @@ class MetaData {
                         }
                     }
                     catch (err) {
+                        // @ts-ignore
                         console.error(err.name + " : " + err.url);
                     }
                 }
@@ -218,6 +217,7 @@ class MetaData {
                                 background_color: "",
                                 animation_url: ""
                             };
+                            // @ts-ignore
                             console.error(e.message + "\n for the MetaData url : " + url);
                         }
                         newMeta = new MetaData(url, response);
