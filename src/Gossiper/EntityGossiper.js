@@ -4,7 +4,6 @@ exports.EntityGossiper = void 0;
 const Asset_1 = require("../Remark/Entities/Asset");
 const Collection_1 = require("../Remark/Entities/Collection");
 const RmrkContractStandard_1 = require("canonizer/src/canonizer/Interfaces/RmrkContractStandard");
-const MetaData_1 = require("../Remark/MetaData");
 const BlockchainAddress_1 = require("canonizer/src/canonizer/BlockchainAddress");
 const GossiperManager_1 = require("./GossiperManager");
 const RmrkCanonizerWrapper_1 = require("canonizer/src/canonizer/Interfaces/Rmrk/RmrkCanonizerWrapper");
@@ -33,16 +32,15 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
             this.collectionId = "";
         }
         this.source = source;
-        let image = "";
-        if ((_a = entity.metaData) === null || _a === void 0 ? void 0 : _a.image) {
-            if (entity.metaData.image.includes('ipfs')) {
-                image = MetaData_1.MetaData.getCloudFlareUrl(entity.metaData.image);
-            }
-            else {
-                image = entity.metaData.image;
-            }
-        }
-        this.image = image;
+        // let image: string = "";
+        // if(entity.metaData?.image){
+        //     if(entity.metaData.image.includes('ipfs')){
+        //         image = MetaData.getCloudFlareUrl(entity.metaData.image);
+        //     }else{
+        //         image = entity.metaData.image;
+        //     }
+        // }
+        this.image = ((_a = entity.metaData) === null || _a === void 0 ? void 0 : _a.image) ? entity.metaData.image : "";
         // this.image = entity.metaData?.image ? MetaData.getCloudFlareUrl(entity.metaData?.image) : "";
         this.description = ((_b = entity.metaData) === null || _b === void 0 ? void 0 : _b.description) ? entity.metaData.description : "No description";
         this.blockId = blockId;

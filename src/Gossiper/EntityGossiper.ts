@@ -60,16 +60,16 @@ export class EntityGossiper extends GossiperManager
 
         this.source = source;
 
-        let image = "";
-        if(entity.metaData?.image){
-            if(entity.metaData.image.includes('ipfs')){
-                image = MetaData.getCloudFlareUrl(entity.metaData.image);
-            }else{
-                image = entity.metaData.image;
-            }
-        }
+        // let image: string = "";
+        // if(entity.metaData?.image){
+        //     if(entity.metaData.image.includes('ipfs')){
+        //         image = MetaData.getCloudFlareUrl(entity.metaData.image);
+        //     }else{
+        //         image = entity.metaData.image;
+        //     }
+        // }
 
-        this.image = image;
+        this.image = entity.metaData?.image ? entity.metaData.image : "";
 
         // this.image = entity.metaData?.image ? MetaData.getCloudFlareUrl(entity.metaData?.image) : "";
         this.description = entity.metaData?.description ? entity.metaData.description : "No description";
