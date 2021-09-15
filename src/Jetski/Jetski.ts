@@ -95,7 +95,6 @@ export class Jetski
                 return;
             }
 
-            let extrinsicCount = 0;
             for (const ex of block.block ? block.block.extrinsics : []){
 
                 const { method: {
@@ -109,7 +108,7 @@ export class Jetski
                 const dateTimestamp = Number(blockTimestamp) * 1000;
                 const date = new Date(dateTimestamp);
                 // Display block date and number
-                console.log('block ' + blockNumber + '-' + extrinsicCount++ + ' ' + date);
+                console.log('block ' + blockNumber + ' ' + date);
 
 
                 if(section === "system" && method === "remark"){
@@ -332,7 +331,7 @@ export class Jetski
 
 
 
-    private static getTimestamp(ex:any): string  {
+    static getTimestamp(ex:any): string  {
 
         let argString = ex.args.toString();
         let secondTimestamp = Number(argString)/1000
@@ -342,7 +341,7 @@ export class Jetski
 
 
 
-    private async pushRemarks(batch: any, hash: string, blockId: number, timestamp: string, signer: string, start: number, remarks: Array<Promise<Interaction|string>> = []): Promise<Array<Promise<Interaction|string>>>
+    pushRemarks(batch: any, hash: string, blockId: number, timestamp: string, signer: string, start: number, remarks: Array<Promise<Interaction|string>> = []): Array<Promise<Interaction|string>>
     {
         const transfer: Transfer|undefined = Jetski.checkIfTransfer(batch);
 
@@ -369,7 +368,7 @@ export class Jetski
 
 
 
-    private async eggExplorer(
+    async eggExplorer(
         batch: any,
         signer: string,
         hash: string,
@@ -415,7 +414,7 @@ export class Jetski
                 resolve (remarks);
             }
 
-            remarks = await this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
+            remarks = this.pushRemarks(myBatch, hash, blockId, timestamp, signer, start, remarks);
 
             // if batch still have remarks to process
             if(stop != totalLength){
