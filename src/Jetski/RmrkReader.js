@@ -5,6 +5,7 @@ const Mint_1 = require("../Remark/Interactions/Mint");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
 const Send_1 = require("../Remark/Interactions/Send");
 const Buy_1 = require("../Remark/Interactions/Buy");
+const Emote_1 = require("../Remark/Interactions/Emote");
 const List_1 = require("../Remark/Interactions/List");
 const ChangeIssuer_1 = require("../Remark/Interactions/ChangeIssuer");
 const Consume_1 = require("../Remark/Interactions/Consume");
@@ -29,8 +30,8 @@ class RmrkReader {
                     case 'buy':
                         return new Buy_1.Buy(rmrk, this.chain, this.transaction);
                     // TODO: fix emote treatment speed (oedo/serenity) - disabled for now
-                    // case 'emote':
-                    //     return new Emote(rmrk, this.chain, this.transaction);
+                    case 'emote':
+                        return new Emote_1.Emote(rmrk, this.chain, this.transaction);
                     case 'list':
                         return new List_1.List(rmrk, this.chain, this.transaction);
                     case 'changeissuer':
