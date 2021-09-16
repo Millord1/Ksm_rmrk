@@ -11,8 +11,8 @@ test('Test for Mint', async ()=>{
     const jetski = new Jetski(blockchain);
     const api: ApiPromise = await jetski.getApi();
 
-    jetski.getBlockContent(block, api).then((r)=>{
-        const interaction = r.pop();
+    jetski.getBlockContent(block, api).then((inter)=>{
+        const interaction = inter.pop();
         expect(interaction).toBeInstanceOf(Mint);
     })
 
