@@ -75,6 +75,7 @@ describe('basic interactions', ()=>{
             mintNft.asset?.addMetadata(metaData);
             expect(mintNft.getEntity()).toBeDefined();
             expect(mintNft.getEntity()).toBeInstanceOf(Asset);
+            expect(mintNft.transaction.source).toBe(CSCanonizeManager.mintIssuerAddressString);
             expect(mintNft.asset?.metaData).toBeInstanceOf(MetaData);
             expect(mintNft.asset?.metaData?.url).toBe(metaUrl);
         }

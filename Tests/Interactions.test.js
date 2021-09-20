@@ -65,6 +65,7 @@ describe('basic interactions', () => {
             (_a = mintNft.asset) === null || _a === void 0 ? void 0 : _a.addMetadata(exports.metaData);
             expect(mintNft.getEntity()).toBeDefined();
             expect(mintNft.getEntity()).toBeInstanceOf(Asset_1.Asset);
+            expect(mintNft.transaction.source).toBe(CSCanonizeManager_1.CSCanonizeManager.mintIssuerAddressString);
             expect((_b = mintNft.asset) === null || _b === void 0 ? void 0 : _b.metaData).toBeInstanceOf(MetaData_1.MetaData);
             expect((_d = (_c = mintNft.asset) === null || _c === void 0 ? void 0 : _c.metaData) === null || _d === void 0 ? void 0 : _d.url).toBe(exports.metaUrl);
         }
