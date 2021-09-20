@@ -15,13 +15,13 @@ import {List} from "../src/Remark/Interactions/List";
 import {Buy} from "../src/Remark/Interactions/Buy";
 
 
-const txHash: string = "0x0b59dc959afc440ee937251d0344e74941a4ed43dc7e75246865299d5187b3f6";
-const timestamp: string = "1631780394";
-const source: string = "DPbm8NTR117yZ7s1XoXy2BcecE4ZkdnPwhkjf4ci233vkQu";
-const block: number = 8920434;
+export const txHash: string = "0x0b59dc959afc440ee937251d0344e74941a4ed43dc7e75246865299d5187b3f6";
+export const timestamp: string = "1631780394";
+export const source: string = "DPbm8NTR117yZ7s1XoXy2BcecE4ZkdnPwhkjf4ci233vkQu";
+export const block: number = 8920434;
 
-const metaUrl: string = "https://cloudflare-ipfs.com/ipfs/bafkreibe6nd2u7mviltfaukvyowlov2wlwygn67fu7vcpfxxjlzmjcav3i";
-const meta: MetadataInputs = {
+export const metaUrl: string = "https://cloudflare-ipfs.com/ipfs/bafkreibe6nd2u7mviltfaukvyowlov2wlwygn67fu7vcpfxxjlzmjcav3i";
+export const meta: MetadataInputs = {
     external_url : "https://singular.rmrk.app",
     image : "ipfs://ipfs/bafybeia3lxpjgh6grt2vxs37ufydgb3bkb6gwumxtofmx3rbrf3g6os5tm",
     description : "",
@@ -30,9 +30,9 @@ const meta: MetadataInputs = {
     background_color : "",
     animation_url : ""
 }
-const metaData = new MetaData(metaUrl, meta);
+export const metaData = new MetaData(metaUrl, meta);
 
-const blockchain = new Kusama();
+export const blockchain = new Kusama();
 
 describe('basic interactions', ()=>{
 

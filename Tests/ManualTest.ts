@@ -1,9 +1,4 @@
 import {Kusama} from "../src/Blockchains/Kusama";
-import {Jetski} from "../src/Jetski/Jetski";
-import {ApiPromise} from "@polkadot/api";
-import {Asset} from "../src/Remark/Entities/Asset";
-import {Mint} from "../src/Remark/Interactions/Mint";
-import {MintNft} from "../src/Remark/Interactions/MintNft";
 import {Transaction} from "../src/Remark/Transaction";
 import {RmrkReader} from "../src/Jetski/RmrkReader";
 
