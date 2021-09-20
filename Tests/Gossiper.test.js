@@ -44,7 +44,6 @@ describe('gossiper test', () => {
         gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip();
         const collectionEntities = canonizeManager.getAssetCollectionFactory().entityArray;
         expect(collectionEntities.length).toBeGreaterThan(0);
-        //@ts-ignore
         expect(collectionEntities[0].getRefValue(AssetCollectionFactory_1.AssetCollectionFactory.MAIN_NAME)).toBe("\"Kulupu NOT dead\"");
     });
     test("gossip asset", () => {

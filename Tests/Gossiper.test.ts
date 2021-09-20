@@ -57,7 +57,6 @@ describe('gossiper test', ()=>{
         const collectionEntities = canonizeManager.getAssetCollectionFactory().entityArray
 
         expect(collectionEntities.length).toBeGreaterThan(0);
-        //@ts-ignore
         expect(collectionEntities[0].getRefValue(AssetCollectionFactory.MAIN_NAME)).toBe("\"Kulupu NOT dead\"");
     });
 
@@ -147,7 +146,7 @@ describe('gossiper test', ()=>{
         expect(emoteEntities[0].getJoinedEntitiesOnVerb(BlockchainEmoteFactory.EMOTE_SOURCE_ADDRESS)[0].getAddress()).toBe(source);
     });
 
-    
+
     test("gossip changeIssuer", ()=>{
 
         const changeIssuerRmrk: string = "rmrk::CHANGEISSUER::1.0.0::0aff6865bed3a66b-DLEP::HviHUSkM5SknXzYuPCSfst3CXK4Yg6SWeroP6TdTZBZJbVT";
