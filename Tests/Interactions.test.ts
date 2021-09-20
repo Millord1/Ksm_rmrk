@@ -14,7 +14,6 @@ import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {List} from "../src/Remark/Interactions/List";
 import {Buy} from "../src/Remark/Interactions/Buy";
 
-
 export const txHash: string = "0x0b59dc959afc440ee937251d0344e74941a4ed43dc7e75246865299d5187b3f6";
 export const timestamp: string = "1631780394";
 export const source: string = "DPbm8NTR117yZ7s1XoXy2BcecE4ZkdnPwhkjf4ci233vkQu";
@@ -79,7 +78,7 @@ describe('basic interactions', ()=>{
             expect(mintNft.asset?.metaData).toBeInstanceOf(MetaData);
             expect(mintNft.asset?.metaData?.url).toBe(metaUrl);
         }
-    })
+    });
 
     test("Send", ()=>{
         const sendRmrk = "rmrk::SEND::1.0.0::5105000-0aff6865bed3a66b-DLEP-DL15-0000000000000001::H9eSvWe34vQDJAWckeTHWSqSChRat8bgKHG39GC1fjvEm7y";
@@ -104,7 +103,7 @@ describe('basic interactions', ()=>{
             expect(send.transaction.destination).toBe(destination);
             expect(send.transaction.value).toBe(value);
         }
-    })
+    });
 
     test("ChangeIssuer", ()=>{
 
@@ -122,7 +121,7 @@ describe('basic interactions', ()=>{
             expect(changeIssuer.collectionId).toBe("0aff6865bed3a66b-DLEP")
         }
 
-    })
+    });
 
     test("Emote", ()=>{
         const emoteRmrk: string = "rmrk::EMOTE::1.0.0::5105000-0aff6865bed3a66b-DLEP-DL15-0000000000000001::1F389";
@@ -139,7 +138,7 @@ describe('basic interactions', ()=>{
             expect(emote.unicode).toBe(emoteRmrk.split('::').pop());
             expect(emote.asset?.contractId).toBe("5105000-0aff6865bed3a66b-DLEP-DL15");
         }
-    })
+    });
 
     test("Consume", ()=>{
         const consumeRmrk: string = "rmrk::CONSUME::1.0.0::5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL-0000000000000001";
@@ -156,7 +155,7 @@ describe('basic interactions', ()=>{
             expect(consume.getEntity()).toBeInstanceOf(Asset);
             expect(consume.asset?.contractId).toBe("5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL");
         }
-    })
+    });
 
     test("List", ()=>{
         const listRmrk: string = "rmrk::LIST::1.0.0::5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL-0000000000000001::1";
@@ -174,7 +173,7 @@ describe('basic interactions', ()=>{
             expect(list.value).toBe(Number(value));
             expect(list.asset?.token.transferable).toBeTruthy();
         }
-    })
+    });
 
     test("Buy", ()=>{
         const buyRmrk: string = "rmrk::BUY::1.0.0::5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL-0000000000000001";
@@ -190,6 +189,6 @@ describe('basic interactions', ()=>{
             expect(buy.getEntity()).toBeInstanceOf(Asset)
             expect(buy.asset?.contractId).toBe("5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL");
         }
-    })
+    });
 
-})
+});
