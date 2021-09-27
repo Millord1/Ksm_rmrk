@@ -24,7 +24,7 @@ let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJnb3NzaXAiLCJmbHVzaCI6
 // let jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbnYiOiJzaGlidXlhIiwiZmx1c2giOmZhbHNlLCJleHAiOjEwNDc0NDY1NzcxNDQwMDB9.VNMArL_m04pSxuOqaNbwGc38z-bfQnHntGJHa2FgAXQ';
 
 // let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:GossiperFactory.gossipUrl,jwt:jwt}});
-let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'http://arkam.everdreamsoft.com/alex/gossip',jwt:jwt}});
+let canonizeManager = new CSCanonizeManager({connector:{gossipUrl:'https://helvetia.everdreamsoft.com/alex/gossip',jwt:jwt}});
 
 let sandra = canonizeManager.getSandra();
 let kusama = new KusamaBlockchain(sandra);
@@ -112,7 +112,3 @@ async function flushDatagraph (){
         err=>{console.log(err)}
     )
 }
-
-
-
-

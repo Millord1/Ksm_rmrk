@@ -45,7 +45,7 @@ export class InstanceManager
     private readonly jwt: string;
     private readonly chainName: string;
 
-    private apiUrl: string = "https://arkam.everdreamsoft.com/api/v1/jetski/";
+    private apiUrl: string = "https://helvetia.everdreamsoft.com/api/v1/jetski/";
     // private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
     private lastBlockSaved: string = "0";
 
