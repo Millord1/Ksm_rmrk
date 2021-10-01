@@ -468,6 +468,7 @@ export const scan = async (opts: Option)=>{
 
         const rmrks = await metaDataVerifier(result);
 
+
         const chainName: string = chain.constructor.name.toLowerCase();
 
         // get jwt for blockchain
