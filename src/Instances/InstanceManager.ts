@@ -45,8 +45,8 @@ export class InstanceManager
     private readonly jwt: string;
     private readonly chainName: string;
 
-    private apiUrl: string = "https://arkam.everdreamsoft.com/api/v1/jetski/";
-    // private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
+    // private apiUrl: string = "https://arkam.everdreamsoft.com/api/v1/jetski/";
+    private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
     private lastBlockSaved: string = "0";
 
     public static processExit: boolean = false;
@@ -199,25 +199,25 @@ export class InstanceManager
         InstanceManager.processExit = true;
 
         // exit process with save block before
-        this.saveLastBlock(this.chainName, --block, instanceCode)
-            .then(()=>{
-                process.exit();
-            }).catch(e=>{
-                InstanceManager.processExit = false;
-
-                console.error(e);
-                console.error("Block save failed, last block saved is "+this.lastBlockSaved);
-                readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
-
-                    answer = answer.toLowerCase();
-                    if(answer == "y" || answer == "yes"){
-                        await this.exitProcess(block, instanceCode);
-                    }else{
-                        process.exit();
-                    }
-                })
-
-        });
+        // this.saveLastBlock(this.chainName, --block, instanceCode)
+        //     .then(()=>{
+        //         process.exit();
+        //     }).catch(e=>{
+        //         InstanceManager.processExit = false;
+        //
+        //         console.error(e);
+        //         console.error("Block save failed, last block saved is "+this.lastBlockSaved);
+        //         readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
+        //
+        //             answer = answer.toLowerCase();
+        //             if(answer == "y" || answer == "yes"){
+        //                 await this.exitProcess(block, instanceCode);
+        //             }else{
+        //                 process.exit();
+        //             }
+        //         })
+        //
+        // });
 
     }
 

@@ -78,7 +78,7 @@ export class EntityGossiper extends GossiperManager
 
 
 
-    public async gossip()
+    public gossip()
     {
         const canonizeManager = this.canonizeManager;
         const sandra = canonizeManager.getSandra();

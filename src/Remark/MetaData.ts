@@ -51,7 +51,7 @@ export class MetaData
     }
 
 
-    private static getCorrectUrl(url: string, index?: number): string
+    public static getCorrectUrl(url: string, index?: number): string
     {
         // Modify the url for ipfs calls
         const shortUrl = this.getShortUrl(url);
@@ -242,12 +242,6 @@ export class MetaData
             }
 
             resolve(metaCalled);
-
-            // return Promise.all(metaPromises).then(result=>{
-            //     resolve(result);
-            // }).catch(e=>{
-            //     reject(e);
-            // })
         })
     }
 

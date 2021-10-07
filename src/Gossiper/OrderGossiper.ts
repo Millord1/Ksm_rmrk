@@ -76,17 +76,17 @@ export class OrderGossiper extends GossiperManager
 
         if(this.buyDestination != ""){
             // BUY
-            tokenToBuy = new RmrkContractStandard(canonizeManager);
-            tokenToSell = new RmrkContractStandard(canonizeManager);
-            tokenToSell.setSn(this.sn);
-            tokenToSell.generateTokenPathEntity(canonizeManager);
-
-        }else{
-            // LIST
             tokenToSell = new RmrkContractStandard(canonizeManager);
             tokenToBuy = new RmrkContractStandard(canonizeManager);
             tokenToBuy.setSn(this.sn);
             tokenToBuy.generateTokenPathEntity(canonizeManager);
+
+        }else{
+            // LIST
+            tokenToBuy = new RmrkContractStandard(canonizeManager);
+            tokenToSell = new RmrkContractStandard(canonizeManager);
+            tokenToSell.setSn(this.sn);
+            tokenToSell.generateTokenPathEntity(canonizeManager);
         }
 
         let contractSell: BlockchainContract;

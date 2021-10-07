@@ -173,11 +173,6 @@ class MetaData {
                 }
             }
             resolve(Jetski_1.metaCalled);
-            // return Promise.all(metaPromises).then(result=>{
-            //     resolve(result);
-            // }).catch(e=>{
-            //     reject(e);
-            // })
         });
     }
     static async getMetaData(url, batchIndex) {

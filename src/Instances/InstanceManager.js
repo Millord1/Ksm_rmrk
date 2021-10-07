@@ -10,8 +10,8 @@ const readline = require('readline').createInterface({
 });
 class InstanceManager {
     constructor(canonizeManager, chain, jwt) {
-        this.apiUrl = "https://arkam.everdreamsoft.com/api/v1/jetski/";
-        // private apiUrl: string = "http://localhost:8000/api/v1/jetski/";
+        // private apiUrl: string = "https://arkam.everdreamsoft.com/api/v1/jetski/";
+        this.apiUrl = "http://localhost:8000/api/v1/jetski/";
         this.lastBlockSaved = "0";
         this.canonizeManager = canonizeManager;
         this.chainName = chain;
@@ -113,23 +113,25 @@ class InstanceManager {
     async exitProcess(block, instanceCode) {
         InstanceManager.processExit = true;
         // exit process with save block before
-        this.saveLastBlock(this.chainName, --block, instanceCode)
-            .then(() => {
-            process.exit();
-        }).catch(e => {
-            InstanceManager.processExit = false;
-            console.error(e);
-            console.error("Block save failed, last block saved is " + this.lastBlockSaved);
-            readline.question("Do you want to retry the save ? Y/n", async (answer) => {
-                answer = answer.toLowerCase();
-                if (answer == "y" || answer == "yes") {
-                    await this.exitProcess(block, instanceCode);
-                }
-                else {
-                    process.exit();
-                }
-            });
-        });
+        // this.saveLastBlock(this.chainName, --block, instanceCode)
+        //     .then(()=>{
+        //         process.exit();
+        //     }).catch(e=>{
+        //         InstanceManager.processExit = false;
+        //
+        //         console.error(e);
+        //         console.error("Block save failed, last block saved is "+this.lastBlockSaved);
+        //         readline.question("Do you want to retry the save ? Y/n", async (answer: string)=>{
+        //
+        //             answer = answer.toLowerCase();
+        //             if(answer == "y" || answer == "yes"){
+        //                 await this.exitProcess(block, instanceCode);
+        //             }else{
+        //                 process.exit();
+        //             }
+        //         })
+        //
+        // });
     }
     static getNewInstanceCode() {
         return (Date.now() / 1000);

@@ -44,7 +44,7 @@ class GossiperFactory {
                 return new KusamaBlockchain_1.KusamaBlockchain(sandra);
         }
     }
-    async getGossiper() {
+    getGossiper() {
         const canonizeManager = this.csCanonizeManager;
         switch (this.rmrk.constructor.name.toLowerCase()) {
             case 'mint':
@@ -55,7 +55,7 @@ class GossiperFactory {
             case 'mintnft':
                 if (this.rmrk instanceof MintNft_1.MintNft && this.rmrk.asset) {
                     const entity = new EntityGossiper_1.EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-                    await entity.gossip();
+                    entity.gossip();
                     return new EventGossiper_1.EventGossiper(this.rmrk, canonizeManager, this.chain);
                 }
                 return undefined;
@@ -91,5 +91,6 @@ class GossiperFactory {
     }
 }
 exports.GossiperFactory = GossiperFactory;
-GossiperFactory.gossipUrl = "http://arkam.everdreamsoft.com/alex/gossip";
+// public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+GossiperFactory.gossipUrl = "http://localhost:8000/alex/gossip";
 //# sourceMappingURL=GossiperFactory.js.map

@@ -29,8 +29,8 @@ export class GossiperFactory
     private readonly rmrk: Interaction;
 
     private readonly csCanonizeManager: CSCanonizeManager;
-    public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
-    // public static gossipUrl: string = "http://localhost:8000/alex/gossip";
+    // public static gossipUrl: string = "http://arkam.everdreamsoft.com/alex/gossip";
+    public static gossipUrl: string = "http://localhost:8000/alex/gossip";
     private readonly chain: Blockchain;
 
     constructor(rmrk: Interaction, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
@@ -70,7 +70,7 @@ export class GossiperFactory
 
 
 
-    public async getGossiper() {
+    public getGossiper() {
 
         const canonizeManager = this.csCanonizeManager;
 
@@ -87,7 +87,7 @@ export class GossiperFactory
             case 'mintnft':
                 if (this.rmrk instanceof MintNft && this.rmrk.asset) {
                     const entity = new EntityGossiper(this.rmrk.asset, this.rmrk.transaction.blockId, this.rmrk.transaction.source, canonizeManager, this.chain);
-                    await entity.gossip();
+                    entity.gossip();
 
                     return new EventGossiper(this.rmrk, canonizeManager, this.chain);
                 }

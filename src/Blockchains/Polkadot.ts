@@ -1,7 +1,8 @@
 import {Blockchain} from "./Blockchain";
+import {RmrkBlockchain} from "./RmrkBlockchain";
 
 
-export class Polkadot extends Blockchain
+export class Polkadot extends RmrkBlockchain
 {
 
     public constructor() {

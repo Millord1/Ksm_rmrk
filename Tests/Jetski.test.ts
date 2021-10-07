@@ -10,6 +10,11 @@ import {block, blockchain, metaData, metaUrl, source} from "./Interactions.test"
 const blockTest: number = 8920434;
 const eggTest: number = 6802595;
 
+function getRandomNumber(max: number, min: number = 1){
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+
 describe("jetski tests", ()=>{
 
     test('polkadot API', async ()=>{
@@ -38,7 +43,6 @@ describe("jetski tests", ()=>{
         const jetski = new Jetski(blockchain);
         const api = await jetski.getApi();
 
-        // Increase timeout before jest stop testing without result
         const content = await jetski.getBlockContent(8920434, api);
         const expectedMint = content.pop();
 
@@ -87,18 +91,21 @@ describe("jetski tests", ()=>{
         const jetski = new Jetski(blockchain);
         const api = await jetski.getApi();
 
+        const expectedMetaName: string = "Kanaria Limited Edition Egg";
+        const expectedMetaImage: string = "https://cloudflare-ipfs.com/ipfs/bafkreibow7tnhebndr4vqkb7hdnxxmo4ie7bjgb6nsyhb53jxcnpgyz4i4";
+        const expectedLength: number = 3000;
+
         // batch with 3000 entries
         const interactions: Array<MintNft> = await jetski.getBlockContent(eggTest, api);
 
-        expect(interactions.length).toBe(3000);
+        expect(interactions.length).toBe(expectedLength);
 
         // all entries are MintNft
         interactions.forEach(mintNft=>{
             expect(mintNft).toBeInstanceOf(MintNft);
         })
 
-        const random = getRandomNumber(1, interactions.length);
-        const randInteract = interactions[random];
+        const randInteract = interactions[getRandomNumber(interactions.length)];
 
         // check metadata on random entry
         expect(randInteract).toBeInstanceOf(MintNft);
@@ -109,13 +116,12 @@ describe("jetski tests", ()=>{
         expect(randInteract.getEntity()).toBeInstanceOf(Asset);
         expect(randInteract.asset?.metaData).toBeDefined();
 
-        expect(randMeta?.name).toBe("Kanaria Limited Edition Egg");
-        expect(randMeta?.image).toBe("https://cloudflare-ipfs.com/ipfs/bafkreibow7tnhebndr4vqkb7hdnxxmo4ie7bjgb6nsyhb53jxcnpgyz4i4");
+        expect(randMeta?.name).toBe(expectedMetaName);
+        expect(randMeta?.image).toBe(expectedMetaImage);
         expect(randMeta?.description.length).toBeGreaterThan(1);
 
         // check metadata are the same on another random entry
-        const secondRandom = getRandomNumber(1, interactions.length);
-        const secondRandInteract = interactions[secondRandom];
+        const secondRandInteract = interactions[getRandomNumber(interactions.length)];
 
         expect(secondRandInteract.asset?.metaData).toBeDefined();
         const secondRandMeta = secondRandInteract.asset?.metaData;
@@ -128,11 +134,3 @@ describe("jetski tests", ()=>{
 
 
 })
-
-
-
-
-
-function getRandomNumber(min: number, max: number){
-    return Math.floor(Math.random() * (max - min) + min);
-}

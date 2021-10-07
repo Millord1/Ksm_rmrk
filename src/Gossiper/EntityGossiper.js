@@ -45,7 +45,7 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
         this.description = ((_b = entity.metaData) === null || _b === void 0 ? void 0 : _b.description) ? entity.metaData.description : "No description";
         this.blockId = blockId;
     }
-    async gossip() {
+    gossip() {
         const canonizeManager = this.canonizeManager;
         const sandra = canonizeManager.getSandra();
         switch (this.entityName.toLowerCase()) {

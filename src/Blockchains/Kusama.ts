@@ -1,6 +1,7 @@
 import {Blockchain} from "./Blockchain";
+import {RmrkBlockchain} from "./RmrkBlockchain";
 
-export class Kusama extends Blockchain
+export class Kusama extends RmrkBlockchain
 {
 
     public constructor() {

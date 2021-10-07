@@ -46,17 +46,17 @@ class OrderGossiper extends GossiperManager_1.GossiperManager {
         let tokenToSell;
         if (this.buyDestination != "") {
             // BUY
-            tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
-            tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
-            tokenToSell.setSn(this.sn);
-            tokenToSell.generateTokenPathEntity(canonizeManager);
-        }
-        else {
-            // LIST
             tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
             tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
             tokenToBuy.setSn(this.sn);
             tokenToBuy.generateTokenPathEntity(canonizeManager);
+        }
+        else {
+            // LIST
+            tokenToBuy = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToSell = new RmrkContractStandard_1.RmrkContractStandard(canonizeManager);
+            tokenToSell.setSn(this.sn);
+            tokenToSell.generateTokenPathEntity(canonizeManager);
         }
         let contractSell;
         let contractBuy;

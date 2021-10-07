@@ -17,7 +17,7 @@ class EventGossiper extends GossiperManager_1.GossiperManager {
         this.timestamp = remark.transaction.timestamp;
         this.txId = remark.transaction.txHash;
     }
-    async gossip() {
+    gossip() {
         if (this.sn == "") {
             return undefined;
         }

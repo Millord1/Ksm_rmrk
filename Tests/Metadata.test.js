@@ -6,7 +6,7 @@ const Mint_1 = require("../src/Remark/Interactions/Mint");
 const Interactions_test_1 = require("./Interactions.test");
 const MetaData_1 = require("../src/Remark/MetaData");
 describe("metadata and external call", () => {
-    test("call meta on Mint", async () => {
+    test("call meta on Object", async () => {
         // High level test, meta must be called and add to Mint
         var _a, _b, _c, _d;
         const metaToCall = [];
@@ -29,11 +29,12 @@ describe("metadata and external call", () => {
             }
         }
     });
-    test("external call", async () => {
+    test("low level call", async () => {
         // Low level test, Metadata.callAllMeta() must call array of URLs argument and return MetadataCalls[]
         const shortUrl = 'ipfs://ipfs/bafkreibe6nd2u7mviltfaukvyowlov2wlwygn67fu7vcpfxxjlzmjcav3i';
         const expectedUrl = "https://cloudflare-ipfs.com/ipfs/bafkreibe6nd2u7mviltfaukvyowlov2wlwygn67fu7vcpfxxjlzmjcav3i";
         const expectedImgUrl = "https://cloudflare-ipfs.com/ipfs/bafybeia3lxpjgh6grt2vxs37ufydgb3bkb6gwumxtofmx3rbrf3g6os5tm";
+        const expectedExternalUrl = "https://singular.rmrk.app";
         const url = MetaData_1.MetaData.getCorrectUrl(shortUrl);
         expect(url).toBe(expectedUrl);
         const allCalled = await MetaData_1.MetaData.callAllMeta([url]);
@@ -43,7 +44,7 @@ describe("metadata and external call", () => {
         expect(called.url).toBe(expectedUrl);
         expect(called.meta).toBeInstanceOf(MetaData_1.MetaData);
         expect(called.meta.image).toBe(expectedImgUrl);
-        expect(called.meta.external_url).toBe("https://singular.rmrk.app");
+        expect(called.meta.external_url).toBe(expectedExternalUrl);
     });
 });
 //# sourceMappingURL=Metadata.test.js.map

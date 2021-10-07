@@ -33,7 +33,7 @@ export class EventGossiper extends GossiperManager
         this.txId = remark.transaction.txHash;
     }
 
-    public async gossip()
+    public gossip()
     {
         if(this.sn == ""){
             return undefined;
