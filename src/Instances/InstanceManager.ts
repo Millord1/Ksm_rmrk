@@ -120,6 +120,7 @@ export class InstanceManager
                     resolve (true)
                 }).catch(e=>{
                     reject(e);
+                    return;
              });
 
         })
@@ -142,6 +143,7 @@ export class InstanceManager
                     resolve (this.getBlock()) ;
                 }).catch(e=>{
                     reject (e);
+                    return;
                 });
         })
     }
@@ -159,6 +161,7 @@ export class InstanceManager
                 }).catch(e=>{
                     console.error(e);
                     reject (e);
+                    return;
                 });
         });
     }
@@ -186,6 +189,7 @@ export class InstanceManager
                     }
                 }else if(this.readyState == 4){
                     reject ("Bad request, error : "+this.status);
+                    return;
                 }
             }
 
