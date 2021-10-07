@@ -55,6 +55,7 @@ class InstanceManager {
                 resolve(true);
             }).catch(e => {
                 reject(e);
+                return;
             });
         });
     }
@@ -73,6 +74,7 @@ class InstanceManager {
                 resolve(this.getBlock());
             }).catch(e => {
                 reject(e);
+                return;
             });
         });
     }
@@ -85,6 +87,7 @@ class InstanceManager {
             }).catch(e => {
                 console.error(e);
                 reject(e);
+                return;
             });
         });
     }
@@ -106,6 +109,7 @@ class InstanceManager {
                 }
                 else if (this.readyState == 4) {
                     reject("Bad request, error : " + this.status);
+                    return;
                 }
             };
         });
