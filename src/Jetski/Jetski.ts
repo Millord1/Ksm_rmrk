@@ -357,10 +357,13 @@ export class Jetski
 
             const tx = new Transaction(blockId, txHash, timestamp, this.chain, signer, destination, value);
 
-            if(rmrkObj.args.hasOwnProperty('_remark')){
-                // If batch have rmrk
-                remarks.push(this.getObjectFromRemark(rmrkObj.args._remark, tx));
-            }
+            const properties = Object.getOwnPropertyNames(rmrkObj.args);
+
+            properties.forEach((prop)=>{
+                if(prop.includes("remark")){
+                    remarks.push(this.getObjectFromRemark(rmrkObj.args[prop], tx));
+                }
+            })
             i += 1;
         }
 
