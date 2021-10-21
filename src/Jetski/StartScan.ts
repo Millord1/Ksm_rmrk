@@ -19,6 +19,7 @@ import {Emote} from "../Remark/Interactions/Emote";
 import {Consume} from "../Remark/Interactions/Consume";
 import {Gossiper} from "canonizer/src/Gossiper";
 import {Unique} from "../Blockchains/Unique";
+import {GossiperManager} from "../Gossiper/GossiperManager";
 
 const fs = require('fs');
 
@@ -265,6 +266,7 @@ export async function startJetskiLoop(jetski: Jetski, api: ApiPromise, currentBl
                                     // create Event, Order or Entity Gossiper
                                     gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
                                     gossiper = await gossip.getGossiper();
+
                                     gossiper?.gossip();
 
                                     if(rmrkLength > Jetski.maxPerBatch){
@@ -465,6 +467,7 @@ export const scan = async (opts: Option)=>{
 
     // @ts-ignore
     let chain : Blockchain = getBlockchain(opts.chain);
+    console.log(chain.constructor.name);
     const jetski = new Jetski(chain);
 
     let api: ApiPromise = await jetski.getApi();
@@ -490,7 +493,7 @@ export const scan = async (opts: Option)=>{
         let canonizeManager = new CSCanonizeManager({connector: {gossipUrl: GossiperFactory.gossipUrl,jwt: jwt} });
         // blockchain stock gossips too
         // let blockchain = GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
-        let blockchain = canonizeManager.getOrInitBlockchain(CompatibleBlockchains.kusama);
+        let blockchain = GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
 
         let sent: boolean = false;
         let i: number = 0;
@@ -501,11 +504,12 @@ export const scan = async (opts: Option)=>{
             const gossip = new GossiperFactory(rmrk, canonizeManager, blockchain);
             const gossiper = await gossip.getGossiper();
 
-            // await gossiper?.gossip();
-            //
             // const myGossiper = new Gossiper(blockchain.changeIssuerFactory);
             // const json = myGossiper.exposeGossip();
             // fs.writeFileSync("changeIssuer.json", JSON.stringify(json));
+            // process.exit();
+
+            // console.log(gossiper);
             // process.exit();
 
             await gossiper?.gossip();

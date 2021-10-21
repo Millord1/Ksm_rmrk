@@ -375,6 +375,7 @@ const scan = async (opts) => {
     // scan only one block
     // @ts-ignore
     let chain = getBlockchain(opts.chain);
+    console.log(chain.constructor.name);
     const jetski = new Jetski_1.Jetski(chain);
     let api = await jetski.getApi();
     // @ts-ignore
@@ -392,18 +393,18 @@ const scan = async (opts) => {
         let canonizeManager = new CSCanonizeManager_1.CSCanonizeManager({ connector: { gossipUrl: GossiperFactory_1.GossiperFactory.gossipUrl, jwt: jwt } });
         // blockchain stock gossips too
         // let blockchain = GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
-        let blockchain = canonizeManager.getOrInitBlockchain(CSCanonizeManager_1.CompatibleBlockchains.kusama);
+        let blockchain = GossiperFactory_1.GossiperFactory.getCanonizeChain(chainName, canonizeManager.getSandra());
         let sent = false;
         let i = 0;
         for (const rmrk of rmrks) {
             sent = false;
             const gossip = new GossiperFactory_1.GossiperFactory(rmrk, canonizeManager, blockchain);
             const gossiper = await gossip.getGossiper();
-            // await gossiper?.gossip();
-            //
             // const myGossiper = new Gossiper(blockchain.changeIssuerFactory);
             // const json = myGossiper.exposeGossip();
             // fs.writeFileSync("changeIssuer.json", JSON.stringify(json));
+            // process.exit();
+            // console.log(gossiper);
             // process.exit();
             await (gossiper === null || gossiper === void 0 ? void 0 : gossiper.gossip());
             i++;

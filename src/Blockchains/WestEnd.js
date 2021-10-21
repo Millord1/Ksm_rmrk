@@ -4,7 +4,7 @@ exports.WestEnd = void 0;
 const RmrkBlockchain_1 = require("./RmrkBlockchain");
 class WestEnd extends RmrkBlockchain_1.RmrkBlockchain {
     constructor() {
-        super("WND", "", true, "wss://westend-rpc.polkadot.io/", 10);
+        super("WND", "", true, "wss://westend-rpc.polkadot.io/", 12);
     }
 }
 exports.WestEnd = WestEnd;

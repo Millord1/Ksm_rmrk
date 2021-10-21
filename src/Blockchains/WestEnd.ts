@@ -6,7 +6,7 @@ export class WestEnd extends RmrkBlockchain
 {
 
     public constructor() {
-        super("WND", "", true, "wss://westend-rpc.polkadot.io/", 10);
+        super("WND", "", true, "wss://westend-rpc.polkadot.io/", 12);
     }
 
 }
