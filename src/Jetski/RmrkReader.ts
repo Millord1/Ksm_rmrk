@@ -48,9 +48,8 @@ export class RmrkReader
                     case 'buy':
                         return new Buy(rmrk, this.chain, this.transaction);
 
-                    // TODO: fix emote treatment speed (oedo/serenity) - disabled for now
-                    case 'emote':
-                        return new Emote(rmrk, this.chain, this.transaction);
+                    // case 'emote':
+                    //     return new Emote(rmrk, this.chain, this.transaction);
 
                     case 'list':
                         return new List(rmrk, this.chain, this.transaction);
