@@ -7,6 +7,7 @@ import {BlockchainOrder} from "canonizer/src/canonizer/BlockchainOrder";
 import {BlockchainContract} from "canonizer/src/canonizer/BlockchainContract";
 import {RmrkContractStandard} from "canonizer/src/canonizer/Interfaces/RmrkContractStandard";
 import {Blockchain} from "canonizer/src/canonizer/Blockchain";
+import {BlockchainOrderFactory} from "canonizer/src/canonizer/BlockchainOrderFactory";
 
 
 export class OrderGossiper extends GossiperManager
@@ -23,7 +24,7 @@ export class OrderGossiper extends GossiperManager
 
     private readonly value: number = 1;
     private readonly amount: number = 1;
-    private readonly total: number;
+    private readonly total: number = 1;
 
 
     constructor(remark: Buy|List, csCanonizeManager: CSCanonizeManager, chain: Blockchain) {
@@ -95,7 +96,7 @@ export class OrderGossiper extends GossiperManager
         contractSell = new BlockchainContract(this.chain.contractFactory, this.sellContractId, sandra, new RmrkContractStandard(canonizeManager));
         contractBuy = new BlockchainContract(this.chain.contractFactory, this.buyContractId, sandra, new RmrkContractStandard(canonizeManager));
 
-        let order =  new BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, buyAmount, sellPrice, total, txId, timestamp, this.chain, this.blockId, tokenToBuy, tokenToSell, sandra, this.buyDestination)
+        let order =  new BlockchainOrder(this.chain.orderFactory, source, contractBuy, contractSell, sellPrice, buyAmount, total, txId, timestamp, this.chain, this.blockId, tokenToBuy, tokenToSell, sandra, this.buyDestination);
     }
 
 }
