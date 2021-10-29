@@ -133,9 +133,12 @@ class Jetski {
         };
         for (let i = 0; i < batch.length; i++) {
             const args = batch[i].args;
-            if (args.hasOwnProperty('_remark')) {
-                isRemark = true;
-            }
+            const properties = Object.getOwnPropertyNames(args);
+            properties.forEach((prop) => {
+                if (prop.includes("remark")) {
+                    isRemark = true;
+                }
+            });
             if (isRemark && !isTransfert) {
                 if (args.hasOwnProperty('dest') && args.hasOwnProperty('value')) {
                     transfert.destination = args.dest.id;
