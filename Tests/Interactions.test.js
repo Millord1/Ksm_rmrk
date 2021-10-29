@@ -16,6 +16,7 @@ const Consume_1 = require("../src/Remark/Interactions/Consume");
 const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const List_1 = require("../src/Remark/Interactions/List");
 const Buy_1 = require("../src/Remark/Interactions/Buy");
+const Jetski_1 = require("../src/Jetski/Jetski");
 exports.txHash = "0x0b59dc959afc440ee937251d0344e74941a4ed43dc7e75246865299d5187b3f6";
 exports.timestamp = "1631780394";
 exports.source = "DPbm8NTR117yZ7s1XoXy2BcecE4ZkdnPwhkjf4ci233vkQu";
@@ -158,5 +159,19 @@ describe('basic interactions', () => {
             expect((_a = buy.asset) === null || _a === void 0 ? void 0 : _a.contractId).toBe("5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL");
         }
     });
+    test("Buy with crypto sent", async () => {
+        const blockchain = new Kusama_1.Kusama();
+        const jetski = new Jetski_1.Jetski(blockchain);
+        let api = await jetski.getApi();
+        const rmrks = await jetski.getBlockContent(9752553, api);
+        expect(rmrks.length).toBe(1);
+        rmrks.forEach((rmrk) => {
+            if (rmrk instanceof Buy_1.Buy) {
+                expect(rmrk.transaction.destination).toBe('DTEzX9Njj4GTSmTMfg2oc32bE5g7U8eNrecK3BffBk9yu6X');
+                expect(rmrk.transaction.value).toBe(9800000000);
+                expect(rmrk.getEntity()).toBeInstanceOf(Asset_1.Asset);
+            }
+        });
+    }, 15000);
 });
 //# sourceMappingURL=Interactions.test.js.map

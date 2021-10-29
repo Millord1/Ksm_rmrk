@@ -13,6 +13,8 @@ import {Consume} from "../src/Remark/Interactions/Consume";
 import {CSCanonizeManager} from "canonizer/src/canonizer/CSCanonizeManager";
 import {List} from "../src/Remark/Interactions/List";
 import {Buy} from "../src/Remark/Interactions/Buy";
+import {Jetski} from "../src/Jetski/Jetski";
+import {ApiPromise} from "@polkadot/api";
 
 export const txHash: string = "0x0b59dc959afc440ee937251d0344e74941a4ed43dc7e75246865299d5187b3f6";
 export const timestamp: string = "1631780394";
@@ -190,5 +192,27 @@ describe('basic interactions', ()=>{
             expect(buy.asset?.contractId).toBe("5105000-0aff6865bed3a66b-VALHELLO-POTION_HEAL");
         }
     });
+
+
+    test("Buy with crypto sent", async ()=>{
+
+        const blockchain = new Kusama();
+        const jetski = new Jetski(blockchain);
+
+        let api: ApiPromise = await jetski.getApi();
+
+        const rmrks = await jetski.getBlockContent(9752553, api);
+
+        expect(rmrks.length).toBe(1);
+
+        rmrks.forEach((rmrk)=>{
+            if(rmrk instanceof Buy){
+                expect(rmrk.transaction.destination).toBe('DTEzX9Njj4GTSmTMfg2oc32bE5g7U8eNrecK3BffBk9yu6X');
+                expect(rmrk.transaction.value).toBe(9800000000);
+                expect(rmrk.getEntity()).toBeInstanceOf(Asset);
+            }
+        })
+
+    }, 15000);
 
 });
