@@ -9,7 +9,6 @@ const RmrkReader_1 = require("./RmrkReader");
 const MetaData_1 = require("../Remark/MetaData");
 const Mint_1 = require("../Remark/Interactions/Mint");
 const MintNft_1 = require("../Remark/Interactions/MintNft");
-const CSCanonizeManager_1 = require("canonizer/src/canonizer/CSCanonizeManager");
 const ChangeIssuer_1 = require("../Remark/Interactions/ChangeIssuer");
 exports.metaCalled = [];
 exports.entityFound = [];
@@ -31,95 +30,159 @@ class Jetski {
             let blockRmrk = [];
             let blockHash;
             let block;
-            try {
-                blockHash = await api.rpc.chain.getBlockHash(blockNumber);
-                // if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
-                if (blockHash.includes(CSCanonizeManager_1.CSCanonizeManager.mintIssuerAddressString)) {
-                    reject(Jetski.noBlock);
-                    return;
-                }
-            }
-            catch (e) {
-                reject(Jetski.noBlock);
+            api.rpc.chain.getBlockHash(blockNumber).then((r) => {
+                blockHash = r;
+            }).catch(e => {
+                reject("don't worry, be happy");
                 return;
-            }
-            // Get block from APi
-            try {
-                block = await api.rpc.chain.getBlock(blockHash);
-            }
-            catch (e) {
-                reject(Jetski.noBlock);
-                return;
-            }
-            let blockId = blockNumber;
-            let blockTimestamp = "";
-            if (block.block == null) {
-                reject(Jetski.noBlock);
-                return;
-            }
-            for (const ex of block.block ? block.block.extrinsics : []) {
-                const { method: { args, method, section } } = ex;
-                if (section === "timestamp" && method === "set") {
-                    blockTimestamp = Jetski.getTimestamp(ex);
-                }
-                const dateTimestamp = Number(blockTimestamp) * 1000;
-                const date = new Date(dateTimestamp);
-                // Display block date and number
-                console.log('block ' + blockNumber + ' ' + date);
-                if (section === "system" && method === "remark") {
-                    // If block have simple remark
-                    const remark = args.toString();
-                    const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
-                    // Create transaction with block's info
-                    const tx = new Transaction_1.Transaction(blockId, hash, blockTimestamp, this.chain, signer);
-                    if (remark.indexOf("") === 0) {
-                        // Create object from rmrk
-                        blockRmrk.push(this.getObjectFromRemark(remark, tx));
+            });
+            // try{
+            //     blockHash = await api.rpc.chain.getBlockHash(blockNumber);
+            //     // if (blockHash == "0x0000000000000000000000000000000000000000000000000000000000000000") {
+            //     if (blockHash.includes(CSCanonizeManager.mintIssuerAddressString)) {
+            //       reject(Jetski.noBlock);
+            //       return;
+            //     }
+            // }catch(e){
+            //     // reject(Jetski.noBlock);
+            //     reject("don't worry, be happy");
+            //     return;
+            // }
+            block = await api.rpc.chain.getBlock(blockHash).then(block => {
+                this.chain.getBlockData(block, blockNumber, blockTimestamp, this.chain, this)
+                    .then(async (result) => {
+                    const isOnlyStrings = (element) => typeof element == "string";
+                    if (result.every(isOnlyStrings)) {
+                        reject("no rmrk");
                     }
-                }
-                if (section === "utility" && method.includes("batch")) {
-                    // If rmrks are in batch
-                    const arg = args.toString();
-                    const batch = JSON.parse(arg);
-                    const signer = ex.signer.toString();
-                    const hash = ex.hash.toHex();
-                    let i = 1;
-                    // if batch bigger than 200 rmrks
-                    if (batch.length >= Jetski.minForEggs) {
-                        blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0);
-                    }
-                    else {
-                        blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, i, blockRmrk);
-                    }
-                }
-            }
-            return Promise.all(blockRmrk)
-                .then(async (result) => {
-                const isOnlyStrings = (element) => typeof element == "string";
-                if (result.every(isOnlyStrings)) {
-                    reject("no rmrk");
-                }
-                let interactions;
-                try {
-                    interactions = await this.getMetadataContent(result);
-                    resolve(interactions);
-                }
-                catch (e) {
-                    // retry if doesn't work
+                    let interactions;
                     try {
                         interactions = await this.getMetadataContent(result);
                         resolve(interactions);
                     }
                     catch (e) {
-                        console.error(e);
-                        reject(e);
+                        // retry if doesn't work
+                        try {
+                            interactions = await this.getMetadataContent(result);
+                            resolve(interactions);
+                        }
+                        catch (e) {
+                            console.error(e);
+                            reject(e);
+                        }
                     }
-                }
-            })
-                .catch(e => {
+                }).catch((e) => {
+                    reject(e);
+                    return;
+                });
+            }).catch(e => {
+                console.log("Here");
                 reject(e);
             });
+            // Get block from APi
+            // try{
+            //     block = await api.rpc.chain.getBlock(blockHash);
+            // }catch(e){
+            //     // reject(Jetski.noBlock);
+            //     reject("don't worry, be happy");
+            //     return;
+            // }
+            // let blockId = blockNumber;
+            let blockTimestamp = "";
+            if (block.block == null) {
+                // console.log("NULL");
+                // process.exit();
+                // reject(Jetski.noBlock);
+                reject("don't worry, just no block");
+                return;
+            }
+            // else{
+            //     console.log(block.block.extrinsics);
+            //     console.log(blockNumber);
+            //     process.exit();
+            // }
+            // for (const ex of block.block ? block.block.extrinsics : []){
+            //
+            //     const { method: {
+            //         args, method, section
+            //     } } = ex;
+            //
+            //     if(section === "timestamp" && method === "set"){
+            //         blockTimestamp = Jetski.getTimestamp(ex);
+            //     }
+            //
+            //     const dateTimestamp = Number(blockTimestamp) * 1000;
+            //     const date = new Date(dateTimestamp);
+            //     // Display block date and number
+            //     console.log('block ' + blockNumber + ' ' + date);
+            //
+            //
+            //     if(section === "system" && method === "remark"){
+            //         // If block have simple remark
+            //
+            //         const remark = args.toString();
+            //         const signer = ex.signer.toString();
+            //         const hash = ex.hash.toHex();
+            //
+            //         // Create transaction with block's info
+            //         const tx = new Transaction(blockId, hash, blockTimestamp, this.chain, signer);
+            //
+            //         if(remark.indexOf("") === 0){
+            //             // Create object from rmrk
+            //
+            //             blockRmrk.push(this.getObjectFromRemark(remark, tx));
+            //
+            //         }
+            //     }
+            //
+            //     if(section === "utility" && method.includes("batch")){
+            //         // If rmrks are in batch
+            //
+            //         const arg = args.toString();
+            //         const batch = JSON.parse(arg);
+            //
+            //         const signer = ex.signer.toString();
+            //         const hash = ex.hash.toHex();
+            //
+            //         let i = 1;
+            //
+            //         // if batch bigger than 200 rmrks
+            //         if(batch.length >= Jetski.minForEggs){
+            //             blockRmrk = await this.eggExplorer(batch, signer, hash, blockId, blockTimestamp, 0);
+            //         }else{
+            //             blockRmrk = await this.pushRemarks(batch, hash, blockId, blockTimestamp, signer, i, blockRmrk);
+            //         }
+            //     }
+            // }
+            // return Promise.all(blockRmrk)
+            //     .then(async result=>{
+            //
+            //         const isOnlyStrings = (element: string|Interaction) => typeof element == "string";
+            //
+            //         if(result.every(isOnlyStrings)){
+            //             reject ("no rmrk");
+            //         }
+            //
+            //         let interactions;
+            //
+            //         try{
+            //             interactions = await this.getMetadataContent(result);
+            //             resolve (interactions);
+            //         }catch(e){
+            //             // retry if doesn't work
+            //             try{
+            //                 interactions = await this.getMetadataContent(result);
+            //                 resolve (interactions);
+            //             }catch(e){
+            //                 console.error(e);
+            //                 reject (e);
+            //             }
+            //         }
+            //
+            //     })
+            //     .catch(e=>{
+            //         reject(e);
+            //     })
         });
     }
     static checkIfTransfer(batch) {

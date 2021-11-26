@@ -13,7 +13,6 @@ export abstract class GenericBlockchain extends Blockchain
 
     public async getBlockData(block: any, blockId: number, blockTimestamp: string, chain: Blockchain, jetski: Jetski): Promise<Array<any>>
     {
-
         return new Promise( async (resolve, reject)=>{
 
             let dataArray: Array<Promise<Interaction|string>> = [];
@@ -36,10 +35,12 @@ export abstract class GenericBlockchain extends Blockchain
                 if(section === "nft"){
                     if(args){
                         console.log(args.toString());
+                        console.log("args");
                     }else{
                         console.log(block.block.extrinsics);
+                        console.log("extrinsics");
                     }
-                    console.log(method);
+                    // console.log(method);
                     console.log(blockId);
                     process.exit();
                 }else{
