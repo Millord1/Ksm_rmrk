@@ -30,8 +30,45 @@ class Jetski {
             let blockRmrk = [];
             let blockHash;
             let block;
-            api.rpc.chain.getBlockHash(blockNumber).then((r) => {
-                blockHash = r;
+            api.rpc.chain.getBlockHash(blockNumber).then((blockHash) => {
+                api.rpc.chain.getBlock(blockHash).then(block => {
+                    let blockTimestamp = "";
+                    if (block.isEmpty) {
+                        // console.log("NULL");
+                        // process.exit();
+                        // reject(Jetski.noBlock);
+                        reject("don't worry, just no block");
+                        return;
+                    }
+                    this.chain.getBlockData(block, blockNumber, blockTimestamp, this.chain, this)
+                        .then(async (result) => {
+                        const isOnlyStrings = (element) => typeof element == "string";
+                        if (result.every(isOnlyStrings)) {
+                            reject("no rmrk");
+                        }
+                        let interactions;
+                        try {
+                            interactions = await this.getMetadataContent(result);
+                            resolve(interactions);
+                        }
+                        catch (e) {
+                            // retry if doesn't work
+                            try {
+                                interactions = await this.getMetadataContent(result);
+                                resolve(interactions);
+                            }
+                            catch (e) {
+                                console.error(e);
+                                reject(e);
+                            }
+                        }
+                    }).catch((e) => {
+                        reject(e);
+                        return;
+                    });
+                }).catch(e => {
+                    reject(e);
+                });
             }).catch(e => {
                 reject("don't worry, be happy");
                 return;
@@ -48,37 +85,6 @@ class Jetski {
             //     reject("don't worry, be happy");
             //     return;
             // }
-            block = await api.rpc.chain.getBlock(blockHash).then(block => {
-                this.chain.getBlockData(block, blockNumber, blockTimestamp, this.chain, this)
-                    .then(async (result) => {
-                    const isOnlyStrings = (element) => typeof element == "string";
-                    if (result.every(isOnlyStrings)) {
-                        reject("no rmrk");
-                    }
-                    let interactions;
-                    try {
-                        interactions = await this.getMetadataContent(result);
-                        resolve(interactions);
-                    }
-                    catch (e) {
-                        // retry if doesn't work
-                        try {
-                            interactions = await this.getMetadataContent(result);
-                            resolve(interactions);
-                        }
-                        catch (e) {
-                            console.error(e);
-                            reject(e);
-                        }
-                    }
-                }).catch((e) => {
-                    reject(e);
-                    return;
-                });
-            }).catch(e => {
-                console.log("Here");
-                reject(e);
-            });
             // Get block from APi
             // try{
             //     block = await api.rpc.chain.getBlock(blockHash);
@@ -88,14 +94,6 @@ class Jetski {
             //     return;
             // }
             // let blockId = blockNumber;
-            let blockTimestamp = "";
-            if (block.block == null) {
-                // console.log("NULL");
-                // process.exit();
-                // reject(Jetski.noBlock);
-                reject("don't worry, just no block");
-                return;
-            }
             // else{
             //     console.log(block.block.extrinsics);
             //     console.log(blockNumber);

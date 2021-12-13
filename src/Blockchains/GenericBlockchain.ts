@@ -15,39 +15,80 @@ export abstract class GenericBlockchain extends Blockchain
     {
         return new Promise( async (resolve, reject)=>{
 
+            console.log(blockId);
+
             let dataArray: Array<Promise<Interaction|string>> = [];
 
-            for(const ex of block.block ? block.block.extrinsics : []){
+            const sections: Array<string> = [];
 
-                const { method: {
-                  args, method, section
-                } } = ex;
+            block.block.extrinsics.forEach((ex: any, index: any) => {
+                // the extrinsics are decoded by the API, human-like view
 
-                if(section === "timestamp" && method === "set"){
-                    blockTimestamp = Jetski.getTimestamp(ex);
+                console.log(index, ex.toHuman());
+
+                const { isSigned, meta, method: { args, method, section } } = ex;
+
+                // console.log(ex.method.section);
+                // process.exit();
+
+                // explicit display of name, args & documentation
+                console.log(`${section}.${method}(${args.map((a: any) => a.toString()).join(', ')})`);
+                // console.log(meta.documentation.map((d: any) => d.toString()).join('\n'));
+
+                // signer/nonce info
+                if (isSigned) {
+                    console.log(`signer=${ex.signer.toString()}, nonce=${ex.nonce.toString()}`);
                 }
 
-                const dateTimestamp = Number(blockTimestamp) * 1000;
-                const date = new Date(dateTimestamp);
-                // Display block date and number
-                console.log('block ' + blockId + ' ' + date);
-
-                if(section === "nft"){
-                    if(args){
-                        console.log(args.toString());
-                        console.log("args");
-                    }else{
-                        console.log(block.block.extrinsics);
-                        console.log("extrinsics");
-                    }
-                    // console.log(method);
-                    console.log(blockId);
+                if(section != "timestamp"){
                     process.exit();
-                }else{
-                    resolve([]);
                 }
+            });
 
-            }
+            reject ("no rmrk");
+
+            // process.exit();
+
+            // for(const ex of block.block ? block.block.extrinsics : []){
+            //
+            //     const { method: {
+            //       args, method, section
+            //     } } = ex;
+            //
+            //     console.log(ex);
+            //
+            //     sections.push(args);
+            //
+            //     if(section === "timestamp" && method === "set"){
+            //         blockTimestamp = Jetski.getTimestamp(ex);
+            //     }
+            //
+            //     const dateTimestamp = Number(blockTimestamp) * 1000;
+            //     const date = new Date(dateTimestamp);
+            //     // Display block date and number
+            //     console.log('block ' + blockId + ' ' + date);
+            //
+            //     if(section === "nft"){
+            //         if(args){
+            //             console.log(args.toString());
+            //             console.log("args");
+            //         }else{
+            //             console.log(block.block.extrinsics);
+            //             console.log("extrinsics");
+            //         }
+            //         // console.log(method);
+            //         console.log(blockId);
+            //         // process.exit();
+            //     }else{
+            //         // console.log("nothing");
+            //         // process.exit();
+            //         // resolve([]);
+            //     }
+            //
+            // }
+            //
+            // console.log(sections);
+            // process.exit();
 
         })
 
