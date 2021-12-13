@@ -126,6 +126,10 @@ export class EntityGossiper extends GossiperManager
                     collection = this.collection;
                 }
 
+                if(!this.collectionId || !this.maxSupply){
+                    break;
+                }
+
                 let myContract = this.chain.contractFactory.getOrCreate(this.collectionId);
 
                 const source = new BlockchainAddress(this.chain.addressFactory, this.source, sandra);
