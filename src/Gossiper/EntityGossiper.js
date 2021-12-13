@@ -75,6 +75,9 @@ class EntityGossiper extends GossiperManager_1.GossiperManager {
                 if (this.collection) {
                     collection = this.collection;
                 }
+                if (!this.collectionId || !this.maxSupply) {
+                    break;
+                }
                 let myContract = this.chain.contractFactory.getOrCreate(this.collectionId);
                 const source = new BlockchainAddress_1.BlockchainAddress(this.chain.addressFactory, this.source, sandra);
                 const rmrkManager = new RmrkCanonizerWrapper_1.RmrkCanonizerWrapper(canonizeManager);
