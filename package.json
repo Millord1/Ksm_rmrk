@@ -4,10 +4,11 @@
   "description": "<pre>\r     <code>\r         npm install --save @polkadot/api\r     </code>\r </pre>",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "^6.3.1",
+    "@polkadot/api": "^8.12.1",
     "axios": "^0.21.1",
     "canonizer": "^0.0.22",
     "commander": "^6.2.1",
+    "dotenv": "^16.0.1",
     "node-fetch": "^2.6.1",
     "rmrk-tools": "^2.0.0-rc.24",
     "slugify": "^1.6.0",
