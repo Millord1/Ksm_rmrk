@@ -29,8 +29,7 @@ class MetaData {
     static getCorrectUrl(url, index) {
         // Modify the url for ipfs calls
         const shortUrl = this.getShortUrl(url);
-        // Hack for only cloudflare url because Node.fetch don't like ipfs.io
-        return MetaData.cloudFlareUrl + shortUrl;
+        return MetaData.edsIpfs + shortUrl;
         // if(urls.includes('ipfs')){
         //     if(index){
         //         return index % 2 === 0 ? this.ipfsUrl + shortUrl : this.cloudFlareUrl + shortUrl;
@@ -49,7 +48,7 @@ class MetaData {
         const urls = url.split('/');
         const shortUrl = urls.pop();
         if (urls.includes('ipfs')) {
-            return MetaData.cloudFlareUrl + shortUrl;
+            return MetaData.edsIpfs + shortUrl;
         }
         else {
             return url;
@@ -248,5 +247,6 @@ class MetaData {
 exports.MetaData = MetaData;
 MetaData.ipfsUrl = "https://ipfs.io/";
 MetaData.cloudFlareUrl = "https://cloudflare-ipfs.com/";
+MetaData.edsIpfs = "https://everdreamsoft.mypinata.cloud/";
 MetaData.delayForCalls = 200;
 //# sourceMappingURL=MetaData.js.map

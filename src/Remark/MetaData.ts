@@ -33,6 +33,7 @@ export class MetaData
 
     private static ipfsUrl: string = "https://ipfs.io/";
     private static cloudFlareUrl: string = "https://cloudflare-ipfs.com/";
+    private static edsIpfs: string = "https://everdreamsoft.mypinata.cloud/";
     private static delayForCalls: number = 200;
 
     constructor(url: string, data: MetadataInputs) {
@@ -56,8 +57,7 @@ export class MetaData
         // Modify the url for ipfs calls
         const shortUrl = this.getShortUrl(url);
 
-        // Hack for only cloudflare url because Node.fetch don't like ipfs.io
-        return MetaData.cloudFlareUrl + shortUrl;
+        return MetaData.edsIpfs + shortUrl;
 
         // if(urls.includes('ipfs')){
         //     if(index){
@@ -86,7 +86,7 @@ export class MetaData
         const shortUrl = urls.pop();
 
         if(urls.includes('ipfs')){
-            return MetaData.cloudFlareUrl + shortUrl;
+            return MetaData.edsIpfs + shortUrl;
         }else{
             return url;
         }
