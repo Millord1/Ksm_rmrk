@@ -155,8 +155,8 @@ class MetaData {
                 if (!found) {
                     // metaPromises.push(fetch(url));
                     try {
-                        console.log("Waiting 100ms to fetch: " + url);
-                        await new Promise(resolve => setTimeout(resolve, 100));
+                        // console.log("Waiting 100ms to fetch: " + url);
+                        // await new Promise(resolve => setTimeout(resolve, 100));
                         const response = await fetch(url);
                         console.log("Fetched: " + url);
                         if (response.ok) {
